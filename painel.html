@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel interno · Sessões Estratégicas</title>
+<meta name="theme-color" content="#14110D">
+<!-- uso interno: fora de busca e sem seguir links -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23231b12'/><text y='23' x='16' text-anchor='middle' font-size='20' font-family='sans-serif' font-weight='bold' fill='%23d9b681'>A</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="painel.html">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 4h13l3 3v3h-4V8H8v3h9l3 3v6l-3 3H4l-3-3v-3h4v3h9v-3H5l-3-3V7l2-3z" fill="#C9A876"/>
+      </svg>
+      Painel interno
+    </a>
+    <a class="nav" href="index.html">Ver o funil do lead</a>
+  </div>
+  <nav class="abas" id="abas">
+    <button class="aba on" data-aba="respostas">Respostas</button>
+    <button class="aba" data-aba="links">Links e UTMs</button>
+    <button class="aba" data-aba="agenda">Agenda do time</button>
+    <button class="aba" data-aba="criterios">Critérios</button>
+  </nav>
+</header>
+
+<main class="doc">
+  <div class="wrap wrap-larga" id="palco"></div>
+</main>
+
+<script type="module" src="painel.js"></script>
+</body>
+</html>

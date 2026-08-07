@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agende sua Sessão Estratégica | Advocacia de Impacto</title>
+<meta name="description" content="Suas respostas foram recebidas. Escolha o horário da sua Sessão Estratégica de 30 minutos e acesse agora os materiais de gestão liberados.">
+<meta name="theme-color" content="#14110D">
+<!-- meio de funil: não deve ser indexada nem alcançada por busca -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Advocacia de Impacto">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Agende sua Sessão Estratégica">
+<meta property="og:description" content="Trinta minutos com um especialista para diagnosticar o gargalo do seu escritório e definir o próximo passo.">
+<meta property="og:image" content="https://lead-scoring-adv-impacto.vercel.app/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23231b12'/><text y='23' x='16' text-anchor='middle' font-size='20' font-family='sans-serif' font-weight='bold' fill='%23d9b681'>A</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 4h13l3 3v3h-4V8H8v3h9l3 3v6l-3 3H4l-3-3v-3h4v3h9v-3H5l-3-3V7l2-3z" fill="#C9A876"/>
+      </svg>
+      Advocacia de Impacto
+    </a>
+  </div>
+  <div class="progress"><span style="width:100%"></span></div>
+</header>
+
+<main>
+<div class="wrap">
+  <div class="step">
+
+    <div class="selo chanfro" aria-hidden="true">
+      <svg width="26" height="20" viewBox="0 0 26 20" fill="none">
+        <path d="M2 10.5l7.5 7L24 2.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <span class="eyebrow">Respostas recebidas</span>
+    <h1 class="obrigado-titulo">Agora falta a parte que muda o jogo</h1>
+    <p class="obrigado-lede">O que você respondeu já nos diz o tamanho e o momento do seu escritório. O que ele não diz é onde exatamente está o gargalo, e isso não se descobre por formulário.</p>
+
+    <section class="oferta chanfro">
+      <span class="eyebrow">Sessão Estratégica · 30 minutos · online</span>
+      <h2>Uma conversa com um especialista do nosso time</h2>
+      <p>O objetivo não é te vender nada em 30 minutos. É entender como seu escritório funciona hoje e sair com um caminho claro do que atacar primeiro.</p>
+
+      <ol class="passos">
+        <li><span>1</span> Diagnóstico de como o escritório opera hoje: captação, entrega, equipe e números.</li>
+        <li><span>2</span> Identificação do gargalo real, que quase nunca é o que parece à primeira vista.</li>
+        <li><span>3</span> O plano dos próximos passos, na ordem certa, com ou sem a gente.</li>
+      </ol>
+
+      <a class="btn chanfro" href="agendar.html" id="cta">Escolher meu horário
+        <svg width="15" height="11" viewBox="0 0 15 11" fill="none" aria-hidden="true">
+          <path d="M1 5.5h12M9 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <p class="obs">As vagas de cada semana são limitadas pela agenda do time.</p>
+    </section>
+
+    <!-- MATERIAIS: troque os href="#" pelos links reais (Drive, área de membros
+         ou landing de download). Os três temas abaixo saem da metodologia da
+         apostila, então já conversam com o que o lead vai ouvir na sessão. -->
+    <section class="materiais">
+      <span class="eyebrow">Liberado agora, sem custo</span>
+      <h2>Comece por aqui enquanto sua sessão não chega</h2>
+      <div class="mat-lista">
+        <a class="mat chanfro" href="#">
+          <strong>Os 7 pecados capitais do CEO</strong>
+          <span>Os comportamentos que travam o dono do escritório antes de qualquer problema de processo.</span>
+          <em>Ver material</em>
+        </a>
+        <a class="mat chanfro" href="#">
+          <strong>Organograma de referência</strong>
+          <span>Como setorizar um escritório que hoje depende de você para tudo funcionar.</span>
+          <em>Ver material</em>
+        </a>
+        <a class="mat chanfro" href="#">
+          <strong>Pipeline comercial em 6 etapas</strong>
+          <span>Do primeiro contato ao fechamento, com o critério de avanço de cada etapa.</span>
+          <em>Ver material</em>
+        </a>
+      </div>
+    </section>
+
+    <p class="disclaimer">Se preferir, responda a mensagem que enviamos no WhatsApp e agendamos junto com você.</p>
+
+  </div>
+</div>
+</main>
+
+<script type="module">
+  // Mantém a origem viva também nesta etapa: se o lead chegar direto aqui
+  // por um link com UTM, ela é capturada do mesmo jeito.
+  import { capturarOrigem } from './origem.js';
+  capturarOrigem();
+</script>
+
+</body>
+</html>
