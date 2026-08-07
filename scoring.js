@@ -3,6 +3,8 @@
    Usado pelo quiz público e pelo painel interno, para os dois nunca
    divergirem sobre como a nota é calculada. */
 
+import { esc } from './util.js';
+
 export const CRITERIOS = {
   faturamento: { nome: 'Faturamento', max: 25 },
   pessoas:     { nome: 'Quantidade de pessoas', max: 25 },
@@ -127,11 +129,51 @@ export const CLASSES = {
 
 export const letra = s => s >= 85 ? 'A' : s >= 65 ? 'B' : s >= 45 ? 'C' : 'D';
 
+const QUALIDADE_TXT = {
+  Alta:  'Tem pressa e histórico de investir em acompanhamento. Ataque agora, mesmo que o porte seja menor.',
+  Média: 'Existe intenção, mas o prazo ou o histórico ainda não sustentam pressa total.',
+  Baixa: 'Sem prazo claro nem histórico de acompanhamento. Amadurecer antes de investir hora de closer.'
+};
+
+/* Exportado para o painel montar a mesma leitura ao reabrir uma resposta
+   salva, sem duplicar os três textos. */
+export const textoQualidade = nivel => QUALIDADE_TXT[nivel];
+
 function qualidade(pontos) {
   const q = pontos.urgencia + pontos.mentoria;
-  if (q >= 40) return { nivel: 'Alta', valor: q, txt: 'Tem pressa e histórico de investir em acompanhamento. Ataque agora, mesmo que o porte seja menor.' };
-  if (q >= 25) return { nivel: 'Média', valor: q, txt: 'Existe intenção, mas o prazo ou o histórico ainda não sustentam pressa total.' };
-  return { nivel: 'Baixa', valor: q, txt: 'Sem prazo claro nem histórico de acompanhamento. Amadurecer antes de investir hora de closer.' };
+  const nivel = q >= 40 ? 'Alta' : q >= 25 ? 'Média' : 'Baixa';
+  return { nivel, valor: q, txt: QUALIDADE_TXT[nivel] };
+}
+
+/* A leitura comercial ("a favor" / "atenção na conversa") a partir do
+   diagnóstico já calculado. Fica separada de calcular() porque o painel
+   também precisa dela ao reabrir uma resposta salva — sem duplicar as
+   regras, os dois lugares usam exatamente esta função. */
+export function analisar(pontos, tags, area, perfil, divergencia) {
+  const ad = ADERENCIA[area];
+  const pos = [], neg = [];
+
+  if (pontos.faturamento >= 20) pos.push('Faturamento no topo da régua: comporta os produtos mais altos da escada.');
+  if (pontos.pessoas >= 20) pos.push('Equipe montada: a dor de gestão é concreta e a estrutura absorve o programa.');
+  if (tags.urgencia === 'agora') pos.push('Quer resolver ainda este mês. Existe janela real de fechamento.');
+  if (tags.urgencia === 'trimestre') pos.push('Prazo de até 3 meses: urgência declarada e compatível com o ciclo.');
+  if (tags.mentoria === 'implementou') pos.push('Já participou de acompanhamento e implementou. Perfil executor, com referência de valor.');
+  if (tags.mentoria === 'parcial') pos.push('Tem histórico de acompanhamento e implementou parte: já entende o formato.');
+  if (perfil === 'empresario') pos.push('Perfil empresário: entende delegação e a lógica de investir no negócio.');
+  if (perfil === 'digital') pos.push('Perfil digital, que é o coração histórico da base: consciência de gestão vinda da escala.');
+  if (area === 'massa') pos.push('Atua em ações em massa, onde o método tem o melhor histórico de resultado.');
+
+  if (tags.urgencia === 'sem_prazo') neg.push('Sem prazo definido. Não force fechamento: use a call para dimensionar o custo de continuar como está.');
+  if (tags.urgencia === 'ano') neg.push('Prazo de até 12 meses. A intenção existe, mas a pressa não. Ciclo longo.');
+  if (tags.mentoria === 'nao_aplicou') neg.push('Já participou de um programa e não conseguiu aplicar. Validar comprometimento antes de avançar.');
+  if (tags.mentoria === 'nunca') neg.push('Nunca participou de acompanhamento. Sem referência de valor, a objeção costuma ser "será que funciona".');
+  if (pontos.faturamento === 5) neg.push('Faturamento até R$ 10 mil. Oferecer os degraus altos aqui gera objeção de preço quase certa.');
+  if (pontos.pessoas === 5) neg.push('Trabalha sozinho. Boa parte do conteúdo de gestão de equipe não se aplica ainda.');
+  if (ad.ajuste < 0) neg.push(ad.nota);
+  if (perfil === 'tradicional') neg.push('Perfil tradicional, com resistência a digital e tecnologia. Exige mais construção de consciência.');
+  if (divergencia) neg.push('Faturamento e estrutura apontam degraus distantes na escada. Confirme na call qual dos dois reflete a realidade.');
+
+  return { pos, neg };
 }
 
 /* Recebe as respostas escolhidas e devolve o diagnóstico completo.
@@ -158,27 +200,7 @@ export function calcular(respostas) {
   const classe = letra(total);
   const qual = qualidade(pontos);
   const divergencia = Math.abs(degrauFat - degrauPes) >= 2;
-
-  const pos = [], neg = [];
-  if (pontos.faturamento >= 20) pos.push('Faturamento no topo da régua: comporta os produtos mais altos da escada.');
-  if (pontos.pessoas >= 20) pos.push('Equipe montada: a dor de gestão é concreta e a estrutura absorve o programa.');
-  if (tags.urgencia === 'agora') pos.push('Quer resolver ainda este mês. Existe janela real de fechamento.');
-  if (tags.urgencia === 'trimestre') pos.push('Prazo de até 3 meses: urgência declarada e compatível com o ciclo.');
-  if (tags.mentoria === 'implementou') pos.push('Já participou de acompanhamento e implementou. Perfil executor, com referência de valor.');
-  if (tags.mentoria === 'parcial') pos.push('Tem histórico de acompanhamento e implementou parte: já entende o formato.');
-  if (perfil === 'empresario') pos.push('Perfil empresário: entende delegação e a lógica de investir no negócio.');
-  if (perfil === 'digital') pos.push('Perfil digital, que é o coração histórico da base: consciência de gestão vinda da escala.');
-  if (area === 'massa') pos.push('Atua em ações em massa, onde o método tem o melhor histórico de resultado.');
-
-  if (tags.urgencia === 'sem_prazo') neg.push('Sem prazo definido. Não force fechamento: use a call para dimensionar o custo de continuar como está.');
-  if (tags.urgencia === 'ano') neg.push('Prazo de até 12 meses. A intenção existe, mas a pressa não. Ciclo longo.');
-  if (tags.mentoria === 'nao_aplicou') neg.push('Já participou de um programa e não conseguiu aplicar. Validar comprometimento antes de avançar.');
-  if (tags.mentoria === 'nunca') neg.push('Nunca participou de acompanhamento. Sem referência de valor, a objeção costuma ser "será que funciona".');
-  if (pontos.faturamento === 5) neg.push('Faturamento até R$ 10 mil. Oferecer os degraus altos aqui gera objeção de preço quase certa.');
-  if (pontos.pessoas === 5) neg.push('Trabalha sozinho. Boa parte do conteúdo de gestão de equipe não se aplica ainda.');
-  if (ad.ajuste < 0) neg.push(ad.nota);
-  if (perfil === 'tradicional') neg.push('Perfil tradicional, com resistência a digital e tecnologia. Exige mais construção de consciência.');
-  if (divergencia) neg.push('Faturamento e estrutura apontam degraus distantes na escada. Confirme na call qual dos dois reflete a realidade.');
+  const { pos, neg } = analisar(pontos, tags, area, perfil, divergencia);
 
   return {
     pontos, tags, area, perfil, base, ajuste: ad.ajuste, aderencia: ad, total, classe,
@@ -196,9 +218,6 @@ export function calcular(respostas) {
 export function abordagem(res) {
   return PERFIS[res.perfil].abordagem;
 }
-
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
-  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 /* Visão do comercial. Interna: nunca deve ser mostrada ao lead. */
 export function htmlResultado(res, { titulo = null } = {}) {
