@@ -198,17 +198,19 @@ export async function dispararWebhook(evento, payload) {
   gravar(CHAVES.webhooks, log);
 
   try {
-    const resposta = await fetch(WEBHOOK_URL, {
+    // 'no-cors' + Content-Type: text/plain evita o preflight (OPTIONS) que
+    // o navegador manda antes de um POST com JSON. Sem isso, se o endpoint
+    // não devolver os headers de CORS, o navegador bloqueia o POST inteiro
+    // ANTES de ele sair — o payload nunca chega no servidor. Com 'no-cors',
+    // o POST sempre sai, não importa a configuração de CORS do outro lado.
+    // A troca: a resposta vem "opaca" (não dá pra ler status nem corpo),
+    // então não há como confirmar sucesso por aqui — só que o POST saiu.
+    await fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(envelope)
     });
-    // fetch só cai no catch por erro de rede/CORS: uma resposta de erro do
-    // endpoint (404, 500...) chega até aqui normalmente, então sem isso o
-    // disparo parece ter dado certo mesmo quando o n8n recusou.
-    if (!resposta.ok) {
-      console.error('[webhook] endpoint respondeu erro', evento, resposta.status, await resposta.text().catch(() => ''));
-    }
   } catch (e) {
     console.error('[webhook] falha ao enviar', evento, e);
   }
