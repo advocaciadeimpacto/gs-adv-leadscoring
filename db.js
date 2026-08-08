@@ -181,7 +181,7 @@ export const db = {
   }
 };
 
-const WEBHOOK_URL = 'https://n8n.nuvantperformance.com.br/webhook/3fc7166b-894f-46bd-aa73-a0dea7fcf60e';
+const WEBHOOK_URL = 'https://infraestrutura-n8n.binhus.easypanel.host/webhook/065e87bb-9866-4d9c-9573-5c87fc791c98';
 
 /* Webhook. O registro local fica como fallback de auditoria mesmo com o
    POST real: se o endpoint cair, o payload não se perde, só não chega
