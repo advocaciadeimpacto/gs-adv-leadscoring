@@ -198,11 +198,17 @@ export async function dispararWebhook(evento, payload) {
   gravar(CHAVES.webhooks, log);
 
   try {
-    await fetch(WEBHOOK_URL, {
+    const resposta = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(envelope)
     });
+    // fetch só cai no catch por erro de rede/CORS: uma resposta de erro do
+    // endpoint (404, 500...) chega até aqui normalmente, então sem isso o
+    // disparo parece ter dado certo mesmo quando o n8n recusou.
+    if (!resposta.ok) {
+      console.error('[webhook] endpoint respondeu erro', evento, resposta.status, await resposta.text().catch(() => ''));
+    }
   } catch (e) {
     console.error('[webhook] falha ao enviar', evento, e);
   }
