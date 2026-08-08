@@ -1,23 +1,14 @@
 /* Fluxo de agendamento do lead: calendário, horário, dados, confirmação. */
 
 import { db, dispararWebhook } from './db.js';
-import { mapaDeDisponibilidade, agendar, slotsDoDia,
-         fmtHora, fmtDataLonga, EXPEDIENTE } from './agenda-core.js';
+import { mapaDeDisponibilidade, agendar,
+         fmtHora, fmtDataLonga, chaveDoDia, dataDoDia } from './agenda-core.js';
 import { capturarOrigem, origemAtual } from './origem.js';
+import { esc, formatarTelefone } from './util.js';
 
 capturarOrigem();
 
 const palco = document.querySelector('#palco');
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
-  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
-const formatarTelefone = v => {
-  const n = String(v ?? '').replace(/\D/g, '').slice(0, 11);
-  return n.length > 10 ? `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`
-       : n.length > 6  ? `(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`
-       : n.length > 2  ? `(${n.slice(0,2)}) ${n.slice(2)}`
-       : n;
-};
 
 const MESES = ['janeiro','fevereiro','março','abril','maio','junho',
                'julho','agosto','setembro','outubro','novembro','dezembro'];
@@ -25,7 +16,7 @@ const DIAS_CURTOS = ['D','S','T','Q','Q','S','S'];
 
 let mapa = new Map();
 let mesVisivel = new Date();
-let diaSel = null;
+let diaSel = null; // chave AAAA-MM-DD, no fuso do escritório — nunca um Date
 let slotSel = null;
 
 const contexto = (() => {
@@ -46,8 +37,9 @@ async function telaEscolha() {
       <p class="q-help">A agenda das próximas semanas está cheia. Responda nossa mensagem no WhatsApp que encaixamos você manualmente.</p></div>`;
     return;
   }
-  if (!diaSel) diaSel = new Date(primeiro);
-  mesVisivel = new Date(diaSel.getFullYear(), diaSel.getMonth(), 1);
+  if (!diaSel) diaSel = primeiro;
+  const [anoSel, mesSel] = diaSel.split('-').map(Number);
+  mesVisivel = new Date(anoSel, mesSel - 1, 1);
   render();
 }
 
@@ -76,7 +68,7 @@ function render() {
       </section>
 
       <section class="horarios">
-        <h2>${diaSel ? fmtDataLonga(diaSel) : ''}</h2>
+        <h2>${diaSel ? fmtDataLonga(dataDoDia(diaSel)) : ''}</h2>
         <div class="slots">${listaDeSlots()}</div>
       </section>
     </div>`;
@@ -85,7 +77,7 @@ function render() {
   document.querySelector('#mesSeguinte').onclick = () => moverMes(1);
 
   palco.querySelectorAll('.cal-dia:not([disabled])').forEach(b => {
-    b.onclick = () => { diaSel = new Date(b.dataset.dia); slotSel = null; render(); };
+    b.onclick = () => { diaSel = b.dataset.dia; slotSel = null; render(); };
   });
   palco.querySelectorAll('.slot').forEach(b => {
     b.onclick = () => { slotSel = { inicio: b.dataset.inicio, livres: b.dataset.livres.split(',') }; telaDados(); };
@@ -104,18 +96,18 @@ function gradeDoMes() {
   let html = '';
   for (let i = 0; i < primeiroDia; i++) html += '<span class="cal-vazio"></span>';
   for (let d = 1; d <= totalDias; d++) {
-    const data = new Date(ano, mes, d);
-    const tem = mapa.has(data.toDateString());
-    const sel = diaSel && data.toDateString() === diaSel.toDateString();
+    const chave = chaveDoDia(ano, mes, d);
+    const tem = mapa.has(chave);
+    const sel = diaSel === chave;
     html += `<button class="cal-dia${sel ? ' sel' : ''}${tem ? ' livre' : ''}"
-              data-dia="${data.toDateString()}" ${tem ? '' : 'disabled'}
+              data-dia="${chave}" ${tem ? '' : 'disabled'}
               aria-label="${d} de ${MESES[mes]}${tem ? '' : ', sem horários'}">${d}</button>`;
   }
   return html;
 }
 
 function listaDeSlots() {
-  const lista = diaSel ? mapa.get(diaSel.toDateString()) : null;
+  const lista = diaSel ? mapa.get(diaSel) : null;
   if (!lista || !lista.length) return '<p class="slots-vazio">Sem horários livres neste dia.</p>';
   return lista.map(s => {
     const d = new Date(s.inicio);

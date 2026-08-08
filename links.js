@@ -5,7 +5,7 @@
    diferentes no relatório. Tudo que passa por aqui sai normalizado.
    ------------------------------------------------------------------ */
 
-export const BASE = 'https://lead-scoring-adv-impacto.vercel.app/';
+export const BASE = 'https://forms.advocaciadeimpacto.adv.br/';
 
 /* Minúsculo, sem acento, sem espaço. As chaves {} ficam de fora da limpeza
    para as macros do Meta ({{campaign.name}}) sobreviverem. */

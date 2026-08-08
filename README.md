@@ -3,7 +3,7 @@
 Funil de qualificação de leads para escritórios de advocacia, com agendamento
 automático das Sessões Estratégicas entre os closers do time.
 
-**Produção:** https://lead-scoring-adv-impacto.vercel.app
+**Produção:** https://forms.advocaciadeimpacto.adv.br
 
 > **Leia a seção [O que é simulação](#o-que-é-simulação-e-precisa-virar-real) antes de
 > mexer em qualquer coisa.** Parte do sistema é um mockup funcional, desenhado

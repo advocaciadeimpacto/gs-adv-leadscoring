@@ -4,6 +4,7 @@
 import { PERGUNTAS, calcular } from './scoring.js';
 import { db, dispararWebhook } from './db.js';
 import { capturarOrigem, origemAtual } from './origem.js';
+import { esc, formatarTelefone } from './util.js';
 
 capturarOrigem();
 
@@ -16,9 +17,6 @@ let contato = { nome: '', email: '', whatsapp: '' };
 const $ = s => document.querySelector(s);
 const palco = $('#palco');
 const barra = $('#barra span');
-
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
-  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const progresso = () => { barra.style.width = (i / TOTAL) * 100 + '%'; };
 
@@ -122,13 +120,7 @@ function telaContato() {
   document.querySelector('#voltar-contato').onclick = () => { i--; respostas.pop(); telaPergunta(); };
 
   const wpp = $('#c-whatsapp');
-  wpp.oninput = () => {
-    const n = wpp.value.replace(/\D/g, '').slice(0, 11);
-    wpp.value = n.length > 10 ? `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`
-              : n.length > 6  ? `(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`
-              : n.length > 2  ? `(${n.slice(0,2)}) ${n.slice(2)}`
-              : n;
-  };
+  wpp.oninput = () => { wpp.value = formatarTelefone(wpp.value); };
 
   $('#form-contato').onsubmit = e => {
     e.preventDefault();

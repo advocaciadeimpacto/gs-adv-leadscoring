@@ -1,23 +1,17 @@
 /* Painel interno: respostas do quiz, agenda dos closers e critérios do modelo. */
 
 import { db } from './db.js';
-import { fmtHora, fmtDataCurta, iso } from './agenda-core.js';
-import { htmlResultado, CRITERIOS, PERGUNTAS, ADERENCIA, CLASSES, PERFIS, ESCADA } from './scoring.js';
+import { fmtHora, fmtDataCurta, iso, instanteNoFuso } from './agenda-core.js';
+import { htmlResultado, CRITERIOS, PERGUNTAS, ADERENCIA, CLASSES, PERFIS, ESCADA, analisar, textoQualidade } from './scoring.js';
 import { rotuloOrigem } from './origem.js';
 import { slug, montarURL, statusDoLink, temMacro, PRESETS, BASE } from './links.js';
+import { esc, fmtTelefone as fmtTel } from './util.js';
 
 const palco = document.querySelector('#palco');
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
-  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const CORES = { A: 'var(--a)', B: 'var(--b)', C: 'var(--c)', D: 'var(--d)' };
-const fmtTel = t => {
-  const n = String(t || '').replace(/\D/g, '');
-  if (n.length === 11) return `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;
-  if (n.length === 10) return `(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`;
-  return t || '';
-};
-const dataHora = s => new Date(s).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+// sempre no fuso do escritório (fmtDataCurta/fmtHora já são fixos nele), não no do navegador de quem está olhando o painel
+const dataHora = s => { const d = new Date(s); return `${fmtDataCurta(d)}, ${fmtHora(d)}`; };
 
 let aba = 'respostas';
 let filtroClasse = 'todas';
@@ -106,10 +100,11 @@ async function telaRespostas() {
 }
 
 function linhaResposta(r) {
+  const quando = new Date(r.criado_em);
   return `
     <div class="linha">
-      <div class="linha-quando"><strong>${dataHora(r.criado_em).split(',')[0]}</strong>
-        <span>${dataHora(r.criado_em).split(', ')[1] || ''}</span></div>
+      <div class="linha-quando"><strong>${fmtDataCurta(quando)}</strong>
+        <span>${fmtHora(quando)}</span></div>
       <div class="linha-lead">
         <strong>${r.lead ? esc(r.lead.nome) : 'Sem contato'}</strong>
         ${r.lead?.escritorio ? `<span class="meta">${esc(r.lead.escritorio)}</span>` : ''}
@@ -133,8 +128,7 @@ function telaDetalhe(r) {
     pontos: r.pontos, area: r.area, perfil: r.perfil,
     base: r.score_base, ajuste: r.ajuste, aderencia: ADERENCIA[r.area],
     total: r.score, classe: r.classe, degrau: r.degrau, degrauEstrutura: r.degrau_estrutura,
-    divergencia: ESCADA.indexOf(r.degrau) - ESCADA.indexOf(r.degrau_estrutura) <= -2 ||
-                 ESCADA.indexOf(r.degrau) - ESCADA.indexOf(r.degrau_estrutura) >= 2,
+    divergencia: Math.abs(ESCADA.indexOf(r.degrau) - ESCADA.indexOf(r.degrau_estrutura)) >= 2,
     qualidade: { nivel: r.qualidade, valor: (r.pontos.urgencia + r.pontos.mentoria), txt: textoQualidade(r.qualidade) },
     pos: r.pos || [], neg: r.neg || [], respostas: r.detalhe || []
   };
@@ -169,14 +163,9 @@ function telaDetalhe(r) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-const textoQualidade = n =>
-  n === 'Alta' ? 'Tem pressa e histórico de investir em acompanhamento. Ataque agora, mesmo que o porte seja menor.'
-: n === 'Média' ? 'Existe intenção, mas o prazo ou o histórico ainda não sustentam pressa total.'
-: 'Sem prazo claro nem histórico de acompanhamento. Amadurecer antes de investir hora de closer.';
-
 /* As leituras de "a favor" e "atenção" não são gravadas: derivam das respostas,
-   então são recalculadas na abertura para nunca ficarem desatualizadas em
-   relação ao modelo vigente. */
+   então são recalculadas na abertura, com a mesma analisar() do scoring.js,
+   para nunca ficarem desatualizadas em relação ao modelo vigente. */
 function recalcularLeituras(r, res) {
   const detalhe = r.detalhe || [];
   const escolhida = crit => detalhe.find(d => d.criterio === crit)?.resposta || '';
@@ -185,30 +174,7 @@ function recalcularLeituras(r, res) {
     return q?.opcoes.find(o => o.txt === escolhida(crit))?.tag;
   };
   const tags = { urgencia: tagDe('urgencia'), mentoria: tagDe('mentoria') };
-  const p = r.pontos, ad = ADERENCIA[r.area];
-  const pos = [], neg = [];
-
-  if (p.faturamento >= 20) pos.push('Faturamento no topo da régua: comporta os produtos mais altos da escada.');
-  if (p.pessoas >= 20) pos.push('Equipe montada: a dor de gestão é concreta e a estrutura absorve o programa.');
-  if (tags.urgencia === 'agora') pos.push('Quer resolver ainda este mês. Existe janela real de fechamento.');
-  if (tags.urgencia === 'trimestre') pos.push('Prazo de até 3 meses: urgência declarada e compatível com o ciclo.');
-  if (tags.mentoria === 'implementou') pos.push('Já participou de acompanhamento e implementou. Perfil executor, com referência de valor.');
-  if (tags.mentoria === 'parcial') pos.push('Tem histórico de acompanhamento e implementou parte: já entende o formato.');
-  if (r.perfil === 'empresario') pos.push('Perfil empresário: entende delegação e a lógica de investir no negócio.');
-  if (r.perfil === 'digital') pos.push('Perfil digital, que é o coração histórico da base: consciência de gestão vinda da escala.');
-  if (r.area === 'massa') pos.push('Atua em ações em massa, onde o método tem o melhor histórico de resultado.');
-
-  if (tags.urgencia === 'sem_prazo') neg.push('Sem prazo definido. Não force fechamento: use a call para dimensionar o custo de continuar como está.');
-  if (tags.urgencia === 'ano') neg.push('Prazo de até 12 meses. A intenção existe, mas a pressa não. Ciclo longo.');
-  if (tags.mentoria === 'nao_aplicou') neg.push('Já participou de um programa e não conseguiu aplicar. Validar comprometimento antes de avançar.');
-  if (tags.mentoria === 'nunca') neg.push('Nunca participou de acompanhamento. Sem referência de valor, a objeção costuma ser "será que funciona".');
-  if (p.faturamento === 5) neg.push('Faturamento até R$ 10 mil. Oferecer os degraus altos aqui gera objeção de preço quase certa.');
-  if (p.pessoas === 5) neg.push('Trabalha sozinho. Boa parte do conteúdo de gestão de equipe não se aplica ainda.');
-  if (ad.ajuste < 0) neg.push(ad.nota);
-  if (r.perfil === 'tradicional') neg.push('Perfil tradicional, com resistência a digital e tecnologia. Exige mais construção de consciência.');
-  if (res.divergencia) neg.push('Faturamento e estrutura apontam degraus distantes na escada. Confirme na call qual dos dois reflete a realidade.');
-
-  return { pos, neg };
+  return analisar(r.pontos, tags, r.area, r.perfil, res.divergencia);
 }
 
 /* ---------- links e utms ---------- */
@@ -406,9 +372,11 @@ async function telaAgenda() {
     db.listarClosers(), db.listarAgendamentos(), db.listarBloqueios(), db.listarWebhooks()
   ]);
 
+  const UMA_HORA_MS = 60 * 60 * 1000;
   const nomeDe = id => closers.find(c => c.id === id)?.nome || id;
   const ativos = ags.filter(a => a.status !== 'cancelado');
-  const futuros = ativos.filter(a => new Date(a.inicio) >= new Date(Date.now() - 36e5))
+  // mantém sessões que começaram há até 1h: dá tempo de ver quem está "em andamento"
+  const futuros = ativos.filter(a => new Date(a.inicio) >= new Date(Date.now() - UMA_HORA_MS))
                         .sort((a, b) => new Date(a.inicio) - new Date(b.inicio));
   const visiveis = filtroCloser === 'todos' ? futuros : futuros.filter(a => a.closer_id === filtroCloser);
 
@@ -481,8 +449,9 @@ async function telaAgenda() {
     e.preventDefault();
     const dia = document.querySelector('#bData').value;
     if (!dia) return;
-    const ini = new Date(`${dia}T${document.querySelector('#bIni').value}`);
-    const fim = new Date(`${dia}T${document.querySelector('#bFim').value}`);
+    // a hora digitada é sempre no fuso do escritório, não no do navegador de quem preenche
+    const ini = instanteNoFuso(dia, document.querySelector('#bIni').value);
+    const fim = instanteNoFuso(dia, document.querySelector('#bFim').value);
     if (fim <= ini) { alert('O fim precisa ser depois do início.'); return; }
     await db.criarBloqueio({
       closer_id: document.querySelector('#bCloser').value,
