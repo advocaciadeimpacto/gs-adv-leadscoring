@@ -181,7 +181,7 @@ export const db = {
   }
 };
 
-const WEBHOOK_URL = 'https://webhook.advocaciadeimpacto.adv.br/webhook/forms-adv';
+const WEBHOOK_URL = 'https://n8n.advocaciadeimpacto.adv.br/webhook/forms-adv';
 
 /* Webhook. O registro local fica como fallback de auditoria mesmo com o
    POST real: se o endpoint cair, o payload não se perde, só não chega
