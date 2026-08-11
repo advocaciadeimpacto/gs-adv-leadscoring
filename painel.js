@@ -8,7 +8,7 @@ import { slug, montarURL, statusDoLink, temMacro, PRESETS, BASE } from './links.
 import { esc, fmtTelefone as fmtTel } from './util.js';
 import { exigirAutenticacao, sair } from './admin-auth.js';
 
-exigirAutenticacao();
+await exigirAutenticacao();
 
 const palco = document.querySelector('#palco');
 document.querySelector('#sair').onclick = sair;
@@ -86,7 +86,6 @@ async function telaRespostas() {
 
       <div class="res-foot">
         <a class="btn btn-ghost chanfro" href="/">Abrir o quiz</a>
-        <button class="btn-link perigo" id="limpar">Apagar dados de teste</button>
       </div>
     </div>`;
 
@@ -96,11 +95,6 @@ async function telaRespostas() {
   palco.querySelectorAll('[data-abrir]').forEach(b => {
     b.onclick = () => { abertoId = b.dataset.abrir; render(); };
   });
-  document.querySelector('#limpar').onclick = async () => {
-    if (!confirm('Apagar respostas, agendamentos e webhooks deste navegador?')) return;
-    await db.limparTudo();
-    render();
-  };
 }
 
 function linhaResposta(r) {

@@ -1,21 +1,31 @@
-/* Tela de acesso do painel. Ver admin-auth.js para o que isto é (e não é). */
+/* Tela de acesso do painel. Ver admin-auth.js para como a sessão funciona. */
 
-import { SENHA, autenticado, autenticar } from './admin-auth.js';
+import { autenticado, autenticar } from './admin-auth.js';
 
-if (autenticado()) location.href = 'painel';
+if (await autenticado()) location.href = 'painel';
 
 const form = document.querySelector('#form');
-const campo = document.querySelector('#senha');
+const campoEmail = document.querySelector('#email');
+const campoSenha = document.querySelector('#senha');
 const erro = document.querySelector('#erro');
+const btn = document.querySelector('#entrar');
 
-form.onsubmit = e => {
+form.onsubmit = async e => {
   e.preventDefault();
-  if (campo.value === SENHA) {
-    autenticar();
-    location.href = 'painel';
+  erro.hidden = true;
+  btn.disabled = true;
+  btn.textContent = 'Entrando...';
+
+  const { error } = await autenticar(campoEmail.value.trim(), campoSenha.value);
+
+  if (error) {
+    erro.hidden = false;
+    campoSenha.value = '';
+    campoSenha.focus();
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
     return;
   }
-  erro.hidden = false;
-  campo.value = '';
-  campo.focus();
+
+  location.href = 'painel';
 };

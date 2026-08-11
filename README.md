@@ -32,7 +32,8 @@ termina em conclusão e agendamento, sem nota, sem critérios, sem diagnóstico.
 
 ## Como rodar
 
-Não há build nem dependências. É HTML, CSS e JavaScript com módulos ES.
+Não há build. É HTML, CSS e JavaScript com módulos ES — a única dependência
+(`@supabase/supabase-js`) vem de CDN via `supabase-client.js`, sem `npm install`.
 
 Em produção as URLs não têm `.html` (`/agendar`, `/painel`, `/admin`...), via
 `cleanUrls` no `vercel.json`. Os links internos do site já apontam pra essas
@@ -52,6 +53,29 @@ na barra de endereço, sabendo que os links que saem dela vão dar 404 nesse mod
 Precisa de um servidor HTTP: os módulos ES não carregam via `file://`.
 
 **Deploy:** push na branch `main` publica na Vercel automaticamente.
+
+---
+
+## Configuração do Supabase
+
+O banco é self-hosted. Pra rodar isso do zero (ou revisar o que já está no ar):
+
+1. **Rode `supabase-schema.sql` inteiro** no SQL Editor do Supabase (Studio,
+   self-hosted). Ele cria as tabelas e já vem com as políticas de RLS certas —
+   público só insere resposta/agendamento e lê closers ativos e horários
+   ocupados (sem nome/telefone/e-mail de ninguém); ler dados de lead exige
+   estar autenticado.
+2. **Crie pelo menos um usuário admin** em Studio → Authentication → Users →
+   Add user (e-mail + senha). É esse login que abre em `admin.html` — não tem
+   painel de convite nem cadastro público de propósito.
+3. **Troque o `JWT_SECRET` da instância antes de ir ao ar de verdade.**
+   `supabase-client.js` está com a chave `anon` de **demonstração** do
+   Supabase self-hosted (é pública, documentada no repositório oficial —
+   `"iss": "supabase-demo"` no payload do JWT). Se o `JWT_SECRET` do servidor
+   ainda for o padrão de exemplo, qualquer pessoa consegue forjar um token
+   `service_role` válido e ignorar todo o RLS. Trocar o `JWT_SECRET`, reiniciar
+   a stack, gerar chaves novas a partir dele, e atualizar essas chaves em todo
+   lugar que já usa as antigas (`supabase-client.js`, a credencial no n8n).
 
 ---
 
@@ -78,10 +102,11 @@ Precisa de um servidor HTTP: os módulos ES não carregam via `file://`.
 | Arquivo | Função |
 |---|---|
 | `scoring.js` | **O modelo inteiro.** Perguntas, pesos, classes, escada, cálculo e render do resultado |
-| `db.js` | Camada de dados. Hoje `localStorage`, desenhada para virar Supabase |
+| `db.js` | Camada de dados. Supabase de verdade, por trás da mesma interface `async { data, error }` de sempre |
+| `supabase-client.js` | Cria o client do Supabase (URL + chave `anon`) usado por `db.js` e `admin-auth.js` |
 | `agenda-core.js` | Geração de horários, disponibilidade e sorteio de closer |
 | `util.js` | `esc()` e formatação de telefone, usados em mais de uma tela |
-| `supabase-schema.sql` | DDL pronto das tabelas |
+| `supabase-schema.sql` | DDL das tabelas + políticas de RLS. Rode no SQL Editor do Supabase |
 | `style.css` | Estilos de tudo |
 | `og.png` | Imagem de preview de link (1200×630) |
 
@@ -117,55 +142,45 @@ o peso, a documentação muda junto. Mantenha assim.
 
 Esta é a lista de trabalho.
 
-### 1. Banco de dados (prioridade)
+### 1. Banco de dados — feito
 
-`db.js` grava em `localStorage`. Cada navegador tem a própria cópia, então o que
-o closer vê não é o que o gestor vê.
+`db.js` usa Supabase de verdade (self-hosted). O que falta não é código, é
+operação: ver [Configuração do Supabase](#configuração-do-supabase) acima —
+principalmente **trocar o `JWT_SECRET`**, que hoje ainda é o de demonstração.
 
-A interface já é **idêntica à do `supabase-js`**: tudo `async`, retornando
-`{ data, error }`. Trocar é substituir o corpo de cada função, sem tocar em mais nada.
+### 2. Fuso horário — feito
 
-```js
-// hoje
-async listarAgendamentos() { return { data: ler(CHAVES.agendamentos), error: null }; }
+Fixo em `America/Sao_Paulo` (via `Intl` com `timeZone` explícito), independente
+do fuso do navegador de quem agenda ou bloqueia horário no painel.
 
-// depois
-async listarAgendamentos() { return await supabase.from('agendamentos').select('*'); }
-```
+### 3. Integrações
 
-O `supabase-schema.sql` tem o DDL completo. **Note a constraint `sem_sobreposicao`**:
-é ela que impede de verdade dois leads reservarem o mesmo closer no mesmo segundo.
-Validação no front nunca resolve isso. Não remova.
-
-### 2. Fuso horário (bug latente)
-
-Os horários são gerados no fuso **do navegador do lead**. Um advogado em outro
-fuso veria horários deslocados. Em produção, fixe `America/Sao_Paulo` na geração
-dos slots em `agenda-core.js` e grave sempre em UTC.
-
-### 3. Integrações que não existem
-
+- **Webhook — feito.** `dispararWebhook()` em `db.js` dispara para o n8n (evento
+  `resposta.criada` ao fim do quiz, `agendamento.criado` ao confirmar
+  agendamento) e grava o log em `webhook_log` no Supabase.
 - **Google Calendar:** o agendamento não cria evento na agenda de ninguém. Precisa
   de OAuth por closer e criação do evento com link de videochamada.
 - **E-mail e WhatsApp:** a confirmação é prometida ao lead na tela, mas nada é
-  enviado. Precisa de confirmação imediata e lembrete antes da call.
-- **Webhook:** `dispararWebhook()` em `db.js` só registra o payload localmente. O
-  formato final já está definido; falta o `fetch` para o endpoint real (n8n, Make
-  ou Edge Function).
+  enviado. Precisa de confirmação imediata e lembrete antes da call — dá pra
+  plugar isso no workflow do n8n que já recebe o webhook.
 
-### 4. Autenticação
+### 4. Autenticação — feito, com uma pendência séria
 
-`painel.html` exige uma senha (`admin.html`) e não é mais linkado em nenhuma
-página pública. **Isso não é segurança de verdade** — é tudo estático, sem
-servidor, então a senha vive no código-fonte de `admin-auth.js`, visível para
-quem abrir o JS. Resolve "achar o link por acaso"; não resolve alguém
-decidido a entrar. Antes de qualquer uso real, trocar por login via Supabase
-Auth, validado no servidor. Troque a senha placeholder em `admin-auth.js`
-mesmo assim, já.
+`painel.html` exige login de verdade via Supabase Auth (`admin.html`) e não é
+mais linkado em nenhuma página pública. As tabelas com dado de lead
+(`respostas`, `agendamentos`, `links`, `webhook_log`) só liberam leitura para
+quem está autenticado — ver as políticas em `supabase-schema.sql`.
+
+**Mas:** a chave `anon` em `supabase-client.js` é a de demonstração pública do
+Supabase self-hosted. Enquanto o `JWT_SECRET` do servidor não for trocado do
+padrão, esse login é decorativo — dá pra forjar um token `service_role` e ler
+tudo direto pela API, ignorando o RLS inteiro. Isso é o item mais urgente da
+lista, na prática, mesmo estando na seção de "autenticação".
 
 ### 5. Placeholders
 
-- **Nomes dos closers:** `CLOSERS` em `db.js` tem "Closer 1, 2, 3".
+- **Nomes dos closers:** a tabela `closers` no Supabase tem "Closer 1, 2, 3"
+  (era `CLOSERS` em `db.js`; agora é uma linha em cada tabela, edite lá).
 - **Materiais gratuitos:** os três links em `obrigado.html` estão como `href="#"`.
   A página de abertura promete acesso na hora, então isso não pode ir ao ar vazio.
 
@@ -201,11 +216,12 @@ que faturamento vale 25, o dado mostra quanto vale.
 
 ## Sugestão de ordem
 
-1. Supabase + autenticação do painel (destrava o uso real por mais de uma pessoa)
-2. Fuso horário fixo
-3. Google Calendar + confirmação por e-mail e WhatsApp
-4. Colunas de desfecho
-5. Substituir os placeholders
+1. **Trocar o `JWT_SECRET` do Supabase** (ver Configuração do Supabase) — sem
+   isso, o login do painel e o RLS são decorativos
+2. Google Calendar + confirmação por e-mail e WhatsApp
+3. Colunas de desfecho
+4. Substituir os placeholders
 
-Os itens 1 a 3 são o que separa o mockup de uma ferramenta que o comercial pode
-usar de verdade. O item 4 é o que faz o scoring deixar de ser chute.
+Supabase, fuso horário e autenticação já saíram da lista de simulação. O
+item 1 aqui é o que falta pra essa autenticação valer alguma coisa de verdade.
+O item 3 é o que faz o scoring deixar de ser chute.

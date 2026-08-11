@@ -118,11 +118,30 @@ create table webhook_log (
 );
 
 -- ---------------------------------------------------------------
--- RLS: a página pública só precisa ler horários livres e inserir
--- agendamento. Ler dados de outros leads deve ficar bloqueado.
-alter table agendamentos enable row level security;
-alter table bloqueios    enable row level security;
-alter table closers      enable row level security;
+-- RLS: a página pública só pode inserir resposta/agendamento e ler
+-- closers ativos + horários ocupados (via função abaixo, sem nome de
+-- lead nenhum). Ler dados de leads (nome, telefone, e-mail, respostas
+-- do quiz) exige estar autenticado — é o painel interno, atrás do
+-- login em admin.html/Supabase Auth. Sem isso, a chave anon (pública,
+-- vive no JS do navegador) conseguiria ler os dados de todo mundo
+-- direto pela API REST, sem nem passar pelo site.
+alter table respostas     enable row level security;
+alter table agendamentos  enable row level security;
+alter table bloqueios     enable row level security;
+alter table closers       enable row level security;
+alter table links         enable row level security;
+alter table webhook_log   enable row level security;
+
+-- ---- anon (o site público: quiz, agendamento) ----
+
+create policy "publico cria resposta"
+  on respostas for insert to anon with check (true);
+
+-- só deixa vincular contato a uma resposta que ainda não tem lead —
+-- impede sobrescrever a resposta de outra pessoa adivinhando o id.
+create policy "publico vincula lead a resposta propria"
+  on respostas for update to anon
+  using (lead is null) with check (true);
 
 create policy "publico cria agendamento"
   on agendamentos for insert to anon with check (true);
@@ -130,8 +149,12 @@ create policy "publico cria agendamento"
 create policy "publico le closers ativos"
   on closers for select to anon using (ativo);
 
--- A consulta de horários livres deve passar por uma função com
--- security definer, para o anônimo nunca ler dados de lead.
+create policy "publico cria log de webhook"
+  on webhook_log for insert to anon with check (true);
+
+-- A consulta de horários livres passa por uma função com security
+-- definer: devolve só closer_id + período, nunca nome/telefone/e-mail
+-- de lead, então pode ficar aberta pro anônimo com segurança.
 create or replace function horarios_ocupados(de timestamptz, ate timestamptz)
 returns table (closer_id text, periodo tstzrange)
 language sql security definer stable as $$
@@ -143,6 +166,37 @@ language sql security definer stable as $$
     from bloqueios b
    where b.periodo && tstzrange(de, ate);
 $$;
+
+grant execute on function horarios_ocupados(timestamptz, timestamptz) to anon;
+
+-- ---- authenticated (o painel interno, atrás do login) ----
+
+create policy "painel le respostas"
+  on respostas for select to authenticated using (true);
+
+create policy "painel le agendamentos"
+  on agendamentos for select to authenticated using (true);
+
+create policy "painel cancela agendamento"
+  on agendamentos for update to authenticated using (true) with check (true);
+
+create policy "painel le closers"
+  on closers for select to authenticated using (true);
+
+create policy "painel le bloqueios"
+  on bloqueios for select to authenticated using (true);
+
+create policy "painel cria bloqueio"
+  on bloqueios for insert to authenticated with check (true);
+
+create policy "painel remove bloqueio"
+  on bloqueios for delete to authenticated using (true);
+
+create policy "painel gerencia links"
+  on links for all to authenticated using (true) with check (true);
+
+create policy "painel le webhook log"
+  on webhook_log for select to authenticated using (true);
 
 -- ---------------------------------------------------------------
 insert into closers (id, nome, email) values

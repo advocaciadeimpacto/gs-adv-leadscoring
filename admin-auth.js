@@ -1,37 +1,37 @@
-/* Guarda de acesso ao painel interno.
+/* Guarda de acesso ao painel interno — Supabase Auth de verdade.
    ------------------------------------------------------------------
-   MOCKUP: isto não é autenticação de verdade. O site é HTML/JS estático,
-   sem servidor — não existe onde esconder uma senha ou validar um login
-   com segurança real no lado do cliente. Qualquer um que abra o código-
-   fonte deste arquivo vê a senha abaixo.
+   Login validado no servidor (Supabase), sessão controlada pelo
+   supabase-js. As tabelas sensíveis (respostas, agendamentos, links,
+   webhook_log) só liberam leitura pra quem estiver autenticado — ver
+   as políticas de RLS em supabase-schema.sql. Sem sessão válida, a
+   chave anon (pública, vive no JS do navegador) não lê nada disso.
+   ------------------------------------------------------------------ */
 
-   O que isto resolve: tirar o painel do alcance de quem só encontra o
-   link por acaso (não fica mais linkado nas páginas públicas, e exige
-   digitar a senha em /admin antes de qualquer dado aparecer).
+import { supabase } from './supabase-client.js';
 
-   O que isto NÃO resolve: alguém decidido a entrar, entra. Para
-   segurança real, trocar por login via Supabase Auth (e-mail/senha ou
-   magic link), validado no servidor — é o mesmo passo que troca
-   localStorage por Supabase em db.js.
+export async function autenticado() {
+  const { data: { session } } = await supabase.auth.getSession();
+  return !!session;
+}
 
-   Troque a senha abaixo antes de divulgar o link do /admin. */
+export async function autenticar(email, senha) {
+  return supabase.auth.signInWithPassword({ email, password: senha });
+}
 
-export const SENHA = 'troque-esta-senha';
-
-const CHAVE = 'adv_admin_sessao';
-
-export const autenticado = () => sessionStorage.getItem(CHAVE) === 'ok';
-export const autenticar = () => sessionStorage.setItem(CHAVE, 'ok');
-export const sair = () => { sessionStorage.removeItem(CHAVE); location.href = 'admin'; };
+export async function sair() {
+  await supabase.auth.signOut();
+  location.href = 'admin';
+}
 
 /* Chame isso no topo de qualquer página que só o time pode ver, antes
-   de montar qualquer coisa na tela. O throw depois do redirecionamento
-   é de propósito: interrompe o resto do módulo na hora, para o código
-   que vem depois (que monta a tela e lê dados) nunca chegar a rodar
-   enquanto a navegação para /admin ainda está em andamento. */
-export function exigirAutenticacao() {
-  if (!autenticado()) {
+   de montar qualquer coisa na tela — com `await`, no topo do módulo
+   (top-level await): enquanto a promise não resolve, nada depois dela
+   roda. Se não tiver sessão, o redirecionamento começa e a promise
+   nunca resolve de propósito — o resto do módulo (que monta a tela e
+   lê dados) não chega a executar enquanto a navegação está em curso. */
+export async function exigirAutenticacao() {
+  if (!(await autenticado())) {
     location.href = 'admin';
-    throw new Error('Painel sem autenticação — redirecionando.');
+    return new Promise(() => {});
   }
 }

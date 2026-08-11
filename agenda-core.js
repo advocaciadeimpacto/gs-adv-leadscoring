@@ -84,24 +84,22 @@ export function diasDaJanela(hoje = new Date()) {
   return dias;
 }
 
-const ocupado = (closerId, inicioISO, agendamentos, bloqueios) => {
+const ocupado = (closerId, inicioISO, ocupacoes) => {
   const t = new Date(inicioISO).getTime();
   const fim = t + EXPEDIENTE.duracaoMin * MIN;
-  const bateu = (a, b) => t < b && fim > a;
-  const temAgenda = agendamentos.some(a =>
-    a.closer_id === closerId && a.status !== 'cancelado' &&
-    bateu(new Date(a.inicio).getTime(), new Date(a.fim).getTime()));
-  const temBloqueio = bloqueios.some(b =>
-    b.closer_id === closerId &&
-    bateu(new Date(b.inicio).getTime(), new Date(b.fim).getTime()));
-  return temAgenda || temBloqueio;
+  return ocupacoes.some(o =>
+    o.closer_id === closerId &&
+    t < new Date(o.fim).getTime() && fim > new Date(o.inicio).getTime());
 };
 
 /* Carrega o estado e devolve, para cada horário, quem está livre.
    Um horário aparece para o lead se pelo menos um closer estiver livre. */
 export async function mapaDeDisponibilidade(hoje = new Date()) {
-  const [{ data: closers }, { data: agendamentos }, { data: bloqueios }] = await Promise.all([
-    db.listarClosers(), db.listarAgendamentos(), db.listarBloqueios()
+  const de = hoje;
+  const ate = new Date(hoje.getTime() + (EXPEDIENTE.janelaDias + 1) * 24 * 60 * MIN);
+
+  const [{ data: closers }, { data: ocupacoes }] = await Promise.all([
+    db.listarClosers(), db.horariosOcupados(iso(de), iso(ate))
   ]);
 
   const limite = Date.now() + EXPEDIENTE.antecedenciaMinHoras * 60 * MIN;
@@ -111,12 +109,12 @@ export async function mapaDeDisponibilidade(hoje = new Date()) {
     const livresNoDia = [];
     for (const slot of slotsDoDia(diaChave)) {
       if (slot.getTime() < limite) continue;
-      const livres = closers.filter(c => !ocupado(c.id, iso(slot), agendamentos, bloqueios));
+      const livres = closers.filter(c => !ocupado(c.id, iso(slot), ocupacoes));
       if (livres.length) livresNoDia.push({ inicio: iso(slot), livres: livres.map(c => c.id) });
     }
     if (livresNoDia.length) mapa.set(diaChave, livresNoDia);
   }
-  return { mapa, closers, agendamentos };
+  return { mapa, closers, ocupacoes };
 }
 
 /* Sorteio aleatório entre os closers livres naquele horário.

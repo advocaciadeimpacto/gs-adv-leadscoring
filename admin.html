@@ -31,15 +31,19 @@
     <div class="step estreito">
       <span class="eyebrow">Acesso restrito</span>
       <h1 class="q-title">Painel interno</h1>
-      <p class="q-help">Essa área é só para o time. Digite a senha para continuar.</p>
+      <p class="q-help">Essa área é só para o time. Entre com sua conta.</p>
 
       <form id="form" novalidate>
         <div class="field">
-          <label for="senha">Senha</label>
-          <input id="senha" name="senha" type="password" autocomplete="current-password" required autofocus>
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="username" required autofocus>
         </div>
-        <p class="erro" id="erro" hidden>Senha incorreta.</p>
-        <button class="btn chanfro" type="submit">Entrar</button>
+        <div class="field">
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" autocomplete="current-password" required>
+        </div>
+        <p class="erro" id="erro" hidden>E-mail ou senha incorretos.</p>
+        <button class="btn chanfro" type="submit" id="entrar">Entrar</button>
       </form>
     </div>
   </div>
