@@ -59,7 +59,9 @@ Precisa de um servidor HTTP: os módulos ES não carregam via `file://`.
 
 | Arquivo | Função |
 |---|---|
-| `painel.html` + `painel.js` | Três abas: Respostas, Agenda do time, Critérios |
+| `painel.html` + `painel.js` | Quatro abas: Respostas, Links e UTMs, Agenda do time, Critérios |
+| `admin.html` + `admin.js` | Tela de senha para entrar no painel. Não é linkada em nenhuma página pública |
+| `admin-auth.js` | Guarda de acesso do painel — leia o comentário no topo antes de confiar nisso |
 
 ### Compartilhado
 
@@ -68,6 +70,7 @@ Precisa de um servidor HTTP: os módulos ES não carregam via `file://`.
 | `scoring.js` | **O modelo inteiro.** Perguntas, pesos, classes, escada, cálculo e render do resultado |
 | `db.js` | Camada de dados. Hoje `localStorage`, desenhada para virar Supabase |
 | `agenda-core.js` | Geração de horários, disponibilidade e sorteio de closer |
+| `util.js` | `esc()` e formatação de telefone, usados em mais de uma tela |
 | `supabase-schema.sql` | DDL pronto das tabelas |
 | `style.css` | Estilos de tudo |
 | `og.png` | Imagem de preview de link (1200×630) |
@@ -142,8 +145,13 @@ dos slots em `agenda-core.js` e grave sempre em UTC.
 
 ### 4. Autenticação
 
-`painel.html` está aberto. Qualquer um com o link vê os dados dos leads. Precisa
-de login antes de qualquer uso real.
+`painel.html` exige uma senha (`admin.html`) e não é mais linkado em nenhuma
+página pública. **Isso não é segurança de verdade** — é tudo estático, sem
+servidor, então a senha vive no código-fonte de `admin-auth.js`, visível para
+quem abrir o JS. Resolve "achar o link por acaso"; não resolve alguém
+decidido a entrar. Antes de qualquer uso real, trocar por login via Supabase
+Auth, validado no servidor. Troque a senha placeholder em `admin-auth.js`
+mesmo assim, já.
 
 ### 5. Placeholders
 

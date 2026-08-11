@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Painel interno · Sessões Estratégicas</title>
+<title>Acesso do painel · Advocacia de Impacto</title>
 <meta name="theme-color" content="#14110D">
-<!-- uso interno: fora de busca e sem seguir links -->
+<!-- página de acesso do time: fora de busca, sem link público -->
 <meta name="robots" content="noindex, nofollow, noarchive">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,27 +17,34 @@
 
 <header class="topbar">
   <div class="topbar-in">
-    <a class="brand" href="painel.html">
+    <a class="brand" href="admin.html">
       <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M4 4h13l3 3v3h-4V8H8v3h9l3 3v6l-3 3H4l-3-3v-3h4v3h9v-3H5l-3-3V7l2-3z" fill="#C9A876"/>
       </svg>
-      Painel interno
+      Advocacia de Impacto
     </a>
-    <a class="nav" href="index.html">Ver o funil do lead</a>
-    <button class="btn-link" id="sair" type="button">Sair</button>
   </div>
-  <nav class="abas" id="abas">
-    <button class="aba on" data-aba="respostas">Respostas</button>
-    <button class="aba" data-aba="links">Links e UTMs</button>
-    <button class="aba" data-aba="agenda">Agenda do time</button>
-    <button class="aba" data-aba="criterios">Critérios</button>
-  </nav>
 </header>
 
-<main class="doc">
-  <div class="wrap wrap-larga" id="palco"></div>
+<main>
+  <div class="wrap">
+    <div class="step estreito">
+      <span class="eyebrow">Acesso restrito</span>
+      <h1 class="q-title">Painel interno</h1>
+      <p class="q-help">Essa área é só para o time. Digite a senha para continuar.</p>
+
+      <form id="form" novalidate>
+        <div class="field">
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" autocomplete="current-password" required autofocus>
+        </div>
+        <p class="erro" id="erro" hidden>Senha incorreta.</p>
+        <button class="btn chanfro" type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
 </main>
 
-<script type="module" src="painel.js"></script>
+<script type="module" src="admin.js"></script>
 </body>
 </html>

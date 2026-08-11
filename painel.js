@@ -6,8 +6,12 @@ import { htmlResultado, CRITERIOS, PERGUNTAS, ADERENCIA, CLASSES, PERFIS, ESCADA
 import { rotuloOrigem } from './origem.js';
 import { slug, montarURL, statusDoLink, temMacro, PRESETS, BASE } from './links.js';
 import { esc, fmtTelefone as fmtTel } from './util.js';
+import { exigirAutenticacao, sair } from './admin-auth.js';
+
+exigirAutenticacao();
 
 const palco = document.querySelector('#palco');
+document.querySelector('#sair').onclick = sair;
 
 const CORES = { A: 'var(--a)', B: 'var(--b)', C: 'var(--c)', D: 'var(--d)' };
 // sempre no fuso do escritório (fmtDataCurta/fmtHora já são fixos nele), não no do navegador de quem está olhando o painel
