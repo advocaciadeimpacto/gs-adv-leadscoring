@@ -31,6 +31,12 @@ async function telaEscolha() {
   const res = await mapaDeDisponibilidade();
   mapa = res.mapa;
 
+  if (res.error) {
+    palco.innerHTML = `<div class="step"><h1 class="q-title">Não consegui carregar os horários</h1>
+      <p class="marcado chanfro">${esc(res.error.message || 'Erro desconhecido')}${res.error.code ? ` <span class="meta">(código ${esc(res.error.code)})</span>` : ''}</p></div>`;
+    return;
+  }
+
   const primeiro = [...mapa.keys()][0];
   if (!primeiro) {
     palco.innerHTML = `<div class="step"><h1 class="q-title">Sem horários abertos no momento</h1>

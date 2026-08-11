@@ -98,9 +98,13 @@ export async function mapaDeDisponibilidade(hoje = new Date()) {
   const de = hoje;
   const ate = new Date(hoje.getTime() + (EXPEDIENTE.janelaDias + 1) * 24 * 60 * MIN);
 
-  const [{ data: closers }, { data: ocupacoes }] = await Promise.all([
+  const [{ data: closers, error: erroClosers }, { data: ocupacoes, error: erroOcupacoes }] = await Promise.all([
     db.listarClosers(), db.horariosOcupados(iso(de), iso(ate))
   ]);
+  // erro aqui vira agenda vazia silenciosamente (closers/ocupacoes já
+  // vêm [] por padrão) — devolve o erro pra quem chama decidir o que
+  // mostrar, em vez de esconder atrás de "sem horários abertos".
+  const erro = erroClosers || erroOcupacoes || null;
 
   const limite = Date.now() + EXPEDIENTE.antecedenciaMinHoras * 60 * MIN;
   const mapa = new Map();
@@ -114,7 +118,7 @@ export async function mapaDeDisponibilidade(hoje = new Date()) {
     }
     if (livresNoDia.length) mapa.set(diaChave, livresNoDia);
   }
-  return { mapa, closers, ocupacoes };
+  return { mapa, closers, ocupacoes, error: erro };
 }
 
 /* Sorteio aleatório entre os closers livres naquele horário.
