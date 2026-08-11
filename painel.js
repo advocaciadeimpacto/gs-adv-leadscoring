@@ -73,7 +73,19 @@ function leituraDeFormsAdv(r) {
 }
 
 async function telaRespostas() {
-  const { data: todas } = await db.listarFormsAdv();
+  const { data, error } = await db.listarFormsAdv();
+  const todas = data || [];
+
+  if (error) {
+    palco.innerHTML = `
+      <div class="step">
+        <span class="eyebrow">Respostas do quiz</span>
+        <h1 class="q-title">Não consegui ler forms_adv</h1>
+        <p class="marcado chanfro">${esc(error.message || 'Erro desconhecido')}${error.code ? ` <span class="meta">(código ${esc(error.code)})</span>` : ''}</p>
+        <p class="q-help">Isso costuma ser falta de GRANT na tabela (a política de RLS existir não basta — o role authenticated também precisa de permissão de SELECT no Postgres) ou a sessão de login ter expirado. Veja o console do navegador para mais detalhe.</p>
+      </div>`;
+    return;
+  }
 
   if (abertoId != null) {
     const r = todas.find(x => x.id === abertoId);
