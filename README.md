@@ -110,6 +110,24 @@ O banco é self-hosted. Pra rodar isso do zero (ou revisar o que já está no ar
 | `style.css` | Estilos de tudo |
 | `og.png` | Imagem de preview de link (1200×630) |
 
+### Sobre a tabela `forms_adv`
+
+A aba **Respostas** do painel lê de `public.forms_adv`, não da tabela `respostas`
+do `supabase-schema.sql`. `forms_adv` não é criada por este repositório: é
+alimentada pelo workflow do n8n que recebe o webhook (`resposta.criada`), numa
+tabela mais simples — uma coluna de texto por pergunta do quiz, mais
+`Score`/`Classe`/`Degrau`/`Qualidade`/`Area`/`Perfil` já calculados. O painel
+reconstrói os pontos por critério (pra desenhar as barras da nota) casando cada
+coluna com as opções de `PERGUNTAS` em `scoring.js` — mesma técnica de sempre,
+sem duplicar as regras do modelo.
+
+O site continua gravando em `respostas` normalmente (é o que `db.criarResposta`
+em `db.js` faz), e a aba **Links e UTMs** ainda lê dessa tabela pra casar leads
+com os links de campanha — só a aba Respostas migrou pra `forms_adv`. Se
+`forms_adv` virar a fonte de verdade em definitivo, os dois pontos citados
+acima (o insert em `respostas` e a leitura em Links) precisam ser revisitados
+também, senão as duas tabelas seguem divergindo.
+
 ---
 
 ## O modelo de scoring

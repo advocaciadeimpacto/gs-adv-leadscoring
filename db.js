@@ -74,6 +74,15 @@ export const db = {
     return { data: data || [], error };
   },
 
+  /* forms_adv é alimentada pelo workflow do n8n que recebe o webhook
+     (evento resposta.criada), não pelo site diretamente — uma coluna de
+     texto por pergunta, mais Score/Classe/Degrau/Qualidade/Area/Perfil já
+     calculados. É o que a aba Respostas do painel mostra hoje. */
+  async listarFormsAdv() {
+    const { data, error } = await supabase.from('forms_adv').select('*').order('id', { ascending: false });
+    return { data: data || [], error };
+  },
+
   /* Mesmo motivo do criarResposta: anon não tem SELECT em respostas, então
      não dá pra confirmar via retorno se a linha existia ou já tinha lead.
      A política de RLS (using (lead is null)) garante que, se a resposta já

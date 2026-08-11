@@ -14,8 +14,6 @@ const palco = document.querySelector('#palco');
 document.querySelector('#sair').onclick = sair;
 
 const CORES = { A: 'var(--a)', B: 'var(--b)', C: 'var(--c)', D: 'var(--d)' };
-// sempre no fuso do escritório (fmtDataCurta/fmtHora já são fixos nele), não no do navegador de quem está olhando o painel
-const dataHora = s => { const d = new Date(s); return `${fmtDataCurta(d)}, ${fmtHora(d)}`; };
 
 let aba = 'respostas';
 let filtroClasse = 'todas';
@@ -41,32 +39,63 @@ async function render() {
 
 /* ---------- respostas ---------- */
 
-async function telaRespostas() {
-  const { data: todas } = await db.listarRespostas();
+/* forms_adv guarda uma coluna de texto cru por pergunta, na mesma ordem
+   e com o mesmo texto de PERGUNTAS em scoring.js — inclusive a de
+   mentoria, cujo nome de coluna saiu cortado em 63 bytes (limite do
+   Postgres pra identificador) quando a tabela foi criada. */
+const COLUNA_DA_PERGUNTA = [
+  'Qual o faturamento mensal do seu escritório?',
+  'Quantas pessoas trabalham no escritório, além de você?',
+  'Em quanto tempo você quer resolver isso?',
+  'Você já participou de algum programa de acompanhamento ou men',
+  'Qual a sua principal área de atuação?',
+  'O que mais se parece com o seu escritório hoje?'
+];
 
-  if (abertoId) {
+/* Reconstrói o que scoring.js precisa (pontos por critério, tags de
+   urgência/mentoria, e a lista de respostas pra exibição) casando cada
+   coluna de texto cru com a opção correspondente em PERGUNTAS — mesma
+   ideia de sempre: nunca duplicar as regras do modelo, só re-derivar
+   a partir do que foi gravado. */
+function leituraDeFormsAdv(r) {
+  const pontos = {};
+  const tags = {};
+  const respostas = PERGUNTAS.map((p, i) => {
+    const respostaTxt = r[COLUNA_DA_PERGUNTA[i]] ?? '';
+    const opcao = p.opcoes.find(o => o.txt === respostaTxt);
+    if (p.crit) {
+      pontos[p.crit] = opcao?.pts ?? 0;
+      if (opcao?.tag) tags[p.crit] = opcao.tag;
+    }
+    return { pergunta: p.titulo, criterio: p.crit || p.campo, resposta: respostaTxt, pts: opcao?.pts ?? null };
+  });
+  return { pontos, tags, respostas };
+}
+
+async function telaRespostas() {
+  const { data: todas } = await db.listarFormsAdv();
+
+  if (abertoId != null) {
     const r = todas.find(x => x.id === abertoId);
     if (r) return telaDetalhe(r);
   }
 
   const lista = filtroClasse === 'todas' ? todas
-    : filtroClasse.startsWith('src:') ? todas.filter(r => (r.origem?.utm_source || 'direto') === filtroClasse.slice(4))
-    : todas.filter(r => r.classe === filtroClasse);
-  const comContato = todas.filter(r => r.lead).length;
-  const contagem = c => todas.filter(r => r.classe === c).length;
+    : filtroClasse.startsWith('src:') ? todas.filter(r => (r.utm_source || 'direto') === filtroClasse.slice(4))
+    : todas.filter(r => r.Classe === filtroClasse);
+  const contagem = c => todas.filter(r => r.Classe === c).length;
 
   // canais presentes na base, para virar filtro sem precisar cadastrar nada
-  const canais = [...new Set(todas.map(r => r.origem?.utm_source || 'direto'))].sort();
+  const canais = [...new Set(todas.map(r => r.utm_source || 'direto'))].sort();
 
   palco.innerHTML = `
     <div class="step">
       <span class="eyebrow">Respostas do quiz</span>
       <h1 class="q-title">Quem preencheu</h1>
-      <p class="q-help">Toda resposta é registrada, mesmo sem contato. Quem respondeu e não agendou aparece sem dados: é a medida de abandono do funil.</p>
+      <p class="q-help">Cadastros vindos do quiz, direto da tabela forms_adv.</p>
 
       <section class="carga">
         <div class="carga-item"><strong>Respostas</strong><span class="carga-num">${todas.length}</span><span class="carga-lbl">preenchimentos no total</span></div>
-        <div class="carga-item"><strong>Com contato</strong><span class="carga-num">${comContato}</span><span class="carga-lbl">${todas.length ? Math.round(comContato / todas.length * 100) : 0}% seguiram para o agendamento</span></div>
         <div class="carga-item"><strong>Classe A e B</strong><span class="carga-num">${contagem('A') + contagem('B')}</span><span class="carga-lbl">leads de maior porte</span></div>
       </section>
 
@@ -76,7 +105,7 @@ async function telaRespostas() {
       </div>
       ${canais.length > 1 ? `<div class="filtros filtros-canal">
         ${canais.map(s => {
-          const n = todas.filter(r => (r.origem?.utm_source || 'direto') === s).length;
+          const n = todas.filter(r => (r.utm_source || 'direto') === s).length;
           return `<button class="chip${filtroClasse === 'src:' + s ? ' on' : ''}" data-c="src:${esc(s)}">${esc(s)} (${n})</button>`;
         }).join('')}
       </div>` : ''}
@@ -93,86 +122,70 @@ async function telaRespostas() {
     b.onclick = () => { filtroClasse = b.dataset.c; render(); };
   });
   palco.querySelectorAll('[data-abrir]').forEach(b => {
-    b.onclick = () => { abertoId = b.dataset.abrir; render(); };
+    b.onclick = () => { abertoId = Number(b.dataset.abrir); render(); };
   });
 }
 
 function linhaResposta(r) {
-  const quando = new Date(r.criado_em);
   return `
     <div class="linha">
-      <div class="linha-quando"><strong>${fmtDataCurta(quando)}</strong>
-        <span>${fmtHora(quando)}</span></div>
+      <div class="linha-quando"><strong>${esc(r.Data)}</strong></div>
       <div class="linha-lead">
-        <strong>${r.lead ? esc(r.lead.nome) : 'Sem contato'}</strong>
-        ${r.lead?.escritorio ? `<span class="meta">${esc(r.lead.escritorio)}</span>` : ''}
-        <span class="meta">${r.lead ? `${esc(fmtTel(r.lead.whatsapp))} · ${esc(r.lead.email)}`
-                                    : 'respondeu e não agendou'}</span>
+        <strong>${esc(r.Nome)}</strong>
+        <span class="meta">${esc(fmtTel(r.Telefone))} · ${esc(r.Email)}</span>
       </div>
       <div class="linha-score">
-        <span class="mini-badge" style="background:${CORES[r.classe]}">${esc(r.classe)}</span>
-        <span class="meta">${r.score} pts · ${esc(r.degrau)}</span>
+        <span class="mini-badge" style="background:${CORES[r.Classe]}">${esc(r.Classe)}</span>
+        <span class="meta">${esc(r.Score)} pts · ${esc(r.Degrau)}</span>
       </div>
       <div class="linha-closer">
-        <span class="meta">origem</span> <strong>${esc(rotuloOrigem(r.origem))}</strong>
+        <span class="meta">origem</span> <strong>${esc(rotuloOrigem({ utm_source: r.utm_source, utm_campaign: r.utm_campaign, utm_content: r.utm_content }))}</strong>
       </div>
       <button class="btn-link" data-abrir="${r.id}">abrir</button>
     </div>`;
 }
 
 function telaDetalhe(r) {
-  // reconstrói a visão do comercial a partir do que foi gravado
+  const divergencia = Math.abs(ESCADA.indexOf(r.Degrau) - ESCADA.indexOf(r['Degrau Estrutura'])) >= 2;
+  const { pontos, tags, respostas } = leituraDeFormsAdv(r);
+  const base = Object.values(pontos).reduce((a, b) => a + b, 0);
+  const aderencia = ADERENCIA[r.Area];
+
   const res = {
-    pontos: r.pontos, area: r.area, perfil: r.perfil,
-    base: r.score_base, ajuste: r.ajuste, aderencia: ADERENCIA[r.area],
-    total: r.score, classe: r.classe, degrau: r.degrau, degrauEstrutura: r.degrau_estrutura,
-    divergencia: Math.abs(ESCADA.indexOf(r.degrau) - ESCADA.indexOf(r.degrau_estrutura)) >= 2,
-    qualidade: { nivel: r.qualidade, valor: (r.pontos.urgencia + r.pontos.mentoria), txt: textoQualidade(r.qualidade) },
-    pos: r.pos || [], neg: r.neg || [], respostas: r.detalhe || []
+    pontos, area: r.Area, perfil: r.Perfil,
+    base, ajuste: aderencia?.ajuste ?? 0, aderencia,
+    total: Number(r.Score), classe: r.Classe, degrau: r.Degrau, degrauEstrutura: r['Degrau Estrutura'],
+    divergencia,
+    qualidade: { nivel: r.Qualidade, valor: pontos.urgencia + pontos.mentoria, txt: textoQualidade(r.Qualidade) },
+    respostas,
+    ...analisar(pontos, tags, r.Area, r.Perfil, divergencia)
   };
-  Object.assign(res, recalcularLeituras(r, res));
 
   palco.innerHTML = `
     <div class="step">
       <button class="btn-back" id="voltar">← Todas as respostas</button>
-      ${r.lead ? `<div class="ficha-lead chanfro">
-          <div><span class="eyebrow">Contato</span><strong>${esc(r.lead.nome)}</strong>
-            ${r.lead.escritorio ? `<span class="meta">${esc(r.lead.escritorio)}</span>` : ''}</div>
-          <div class="ficha-cols">
-            <span>${esc(fmtTel(r.lead.whatsapp))}</span>
-            <span>${esc(r.lead.email)}</span>
-            <span class="meta">respondeu em ${dataHora(r.criado_em)}</span>
-          </div>
-        </div>`
-        : `<p class="marcado chanfro">Respondeu em ${dataHora(r.criado_em)} e <strong>não seguiu para o agendamento</strong>, então não há contato.</p>`}
+      <div class="ficha-lead chanfro">
+        <div><span class="eyebrow">Contato</span><strong>${esc(r.Nome)}</strong></div>
+        <div class="ficha-cols">
+          <span>${esc(fmtTel(r.Telefone))}</span>
+          <span>${esc(r.Email)}</span>
+          <span class="meta">respondeu em ${esc(r.Data)}</span>
+        </div>
+      </div>
       ${htmlResultado(res)}
       <section class="axes">
         <h2>Origem</h2>
         <dl class="dispatch">
-          ${r.origem ? Object.entries(r.origem)
-              .filter(([, v]) => v)
-              .map(([k, v]) => `<div class="d-row"><dt>${esc(k.replace('utm_', ''))}</dt><dd>${esc(v)}</dd></div>`).join('')
-            : '<div class="d-row"><dt>origem</dt><dd class="meta">não identificada (resposta anterior ao rastreio)</dd></div>'}
+          ${r.utm_source ? ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']
+              .filter(k => r[k])
+              .map(k => `<div class="d-row"><dt>${esc(k.replace('utm_', ''))}</dt><dd>${esc(r[k])}</dd></div>`).join('')
+            : '<div class="d-row"><dt>origem</dt><dd class="meta">não identificada</dd></div>'}
         </dl>
       </section>
     </div>`;
 
   document.querySelector('#voltar').onclick = () => { abertoId = null; render(); };
   window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/* As leituras de "a favor" e "atenção" não são gravadas: derivam das respostas,
-   então são recalculadas na abertura, com a mesma analisar() do scoring.js,
-   para nunca ficarem desatualizadas em relação ao modelo vigente. */
-function recalcularLeituras(r, res) {
-  const detalhe = r.detalhe || [];
-  const escolhida = crit => detalhe.find(d => d.criterio === crit)?.resposta || '';
-  const tagDe = crit => {
-    const q = PERGUNTAS.find(p => p.crit === crit);
-    return q?.opcoes.find(o => o.txt === escolhida(crit))?.tag;
-  };
-  const tags = { urgencia: tagDe('urgencia'), mentoria: tagDe('mentoria') };
-  return analisar(r.pontos, tags, r.area, r.perfil, res.divergencia);
 }
 
 /* ---------- links e utms ---------- */

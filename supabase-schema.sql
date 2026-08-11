@@ -199,6 +199,17 @@ create policy "painel le webhook log"
   on webhook_log for select to authenticated using (true);
 
 -- ---------------------------------------------------------------
+-- forms_adv não foi criada por este arquivo (é o destino do workflow do
+-- n8n que recebe o webhook do site) — mas guarda nome, e-mail e telefone
+-- de todo lead, então precisa da mesma trava das outras tabelas com dado
+-- de contato. Sem isso a chave anon (pública, no JS do site) lê a tabela
+-- inteira. Rode isto se `forms_adv` já existir e ainda não tiver RLS.
+alter table forms_adv enable row level security;
+
+create policy "painel le forms_adv"
+  on forms_adv for select to authenticated using (true);
+
+-- ---------------------------------------------------------------
 insert into closers (id, nome, email) values
   ('c1', 'Closer 1', 'closer1@advocaciadeimpacto.adv.br'),
   ('c2', 'Closer 2', 'closer2@advocaciadeimpacto.adv.br'),
