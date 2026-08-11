@@ -2,7 +2,7 @@
 
 import { SENHA, autenticado, autenticar } from './admin-auth.js';
 
-if (autenticado()) location.href = 'painel.html';
+if (autenticado()) location.href = 'painel';
 
 const form = document.querySelector('#form');
 const campo = document.querySelector('#senha');
@@ -12,7 +12,7 @@ form.onsubmit = e => {
   e.preventDefault();
   if (campo.value === SENHA) {
     autenticar();
-    location.href = 'painel.html';
+    location.href = 'painel';
     return;
   }
   erro.hidden = false;

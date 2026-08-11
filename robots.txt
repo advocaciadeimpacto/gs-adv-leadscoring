@@ -3,8 +3,9 @@
 User-agent: *
 Allow: /
 
-# Atenção: obrigado.html, agendar.html, painel.html e admin.html já saem de
-# busca pela meta robots noindex de cada página. Não coloque Disallow para elas aqui:
+# Atenção: /obrigado, /agendar, /painel e /admin (URLs sem .html, graças ao
+# cleanUrls do vercel.json) já saem de busca pela meta robots noindex de cada
+# página. Não coloque Disallow para elas aqui:
 # o Disallow impede o robô de abrir a página e, sem abrir, ele nunca lê o
 # noindex. O resultado seria o contrário do pretendido, com a URL podendo
 # aparecer na busca sem título nem descrição.

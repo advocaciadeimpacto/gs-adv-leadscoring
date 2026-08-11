@@ -34,10 +34,20 @@ termina em conclusão e agendamento, sem nota, sem critérios, sem diagnóstico.
 
 Não há build nem dependências. É HTML, CSS e JavaScript com módulos ES.
 
+Em produção as URLs não têm `.html` (`/agendar`, `/painel`, `/admin`...), via
+`cleanUrls` no `vercel.json`. Os links internos do site já apontam pra essas
+URLs limpas — o que significa que **`python3 -m http.server` sozinho não
+serve mais pra testar a navegação local**, porque ele não sabe resolver
+`/agendar` para `agendar.html`. Use o CLI da Vercel, que reproduz o mesmo
+roteamento de produção:
+
 ```bash
-python3 -m http.server 8000
-# abra http://localhost:8000
+npx vercel dev
 ```
+
+Se preferir só abrir uma página isolada sem instalar nada, `python3 -m
+http.server` ainda funciona — só entre com o nome do arquivo (`.html`) direto
+na barra de endereço, sabendo que os links que saem dela vão dar 404 nesse modo.
 
 Precisa de um servidor HTTP: os módulos ES não carregam via `file://`.
 

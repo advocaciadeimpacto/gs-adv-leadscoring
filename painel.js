@@ -85,7 +85,7 @@ async function telaRespostas() {
         : '<p class="empty">Nenhuma resposta ainda. Preencha o quiz para ver aqui.</p>'}
 
       <div class="res-foot">
-        <a class="btn btn-ghost chanfro" href="index.html">Abrir o quiz</a>
+        <a class="btn btn-ghost chanfro" href="/">Abrir o quiz</a>
         <button class="btn-link perigo" id="limpar">Apagar dados de teste</button>
       </div>
     </div>`;
@@ -435,7 +435,7 @@ async function telaAgenda() {
         </details>`).join('')}</div>` : '<p class="empty">Nenhum webhook ainda.</p>'}
 
       <div class="res-foot">
-        <a class="btn btn-ghost chanfro" href="agendar.html">Abrir página de agendamento</a>
+        <a class="btn btn-ghost chanfro" href="agendar">Abrir página de agendamento</a>
       </div>
     </div>`;
 

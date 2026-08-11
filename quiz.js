@@ -191,7 +191,7 @@ async function finalizar(dadosContato) {
     }));
   } catch { /* sem storage: segue sem contexto */ }
 
-  location.href = 'obrigado.html';
+  location.href = 'obrigado';
 }
 
 telaIntro();
