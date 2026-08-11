@@ -133,24 +133,27 @@ alter table links         enable row level security;
 alter table webhook_log   enable row level security;
 
 -- ---- anon (o site público: quiz, agendamento) ----
+-- authenticated entra nas mesmas políticas do público: alguém do time
+-- logado no painel, testando o quiz/agendamento no mesmo navegador,
+-- não deve esbarrar em RLS que só pensou no visitante anônimo.
 
 create policy "publico cria resposta"
-  on respostas for insert to anon with check (true);
+  on respostas for insert to anon, authenticated with check (true);
 
 -- só deixa vincular contato a uma resposta que ainda não tem lead —
 -- impede sobrescrever a resposta de outra pessoa adivinhando o id.
 create policy "publico vincula lead a resposta propria"
-  on respostas for update to anon
+  on respostas for update to anon, authenticated
   using (lead is null) with check (true);
 
 create policy "publico cria agendamento"
-  on agendamentos for insert to anon with check (true);
+  on agendamentos for insert to anon, authenticated with check (true);
 
 create policy "publico le closers ativos"
   on closers for select to anon using (ativo);
 
 create policy "publico cria log de webhook"
-  on webhook_log for insert to anon with check (true);
+  on webhook_log for insert to anon, authenticated with check (true);
 
 -- A consulta de horários livres passa por uma função com security
 -- definer: devolve só closer_id + período, nunca nome/telefone/e-mail
