@@ -186,11 +186,14 @@ function telaDados() {
     });
 
     if (error) {
-      erro.textContent = error.message;
+      // fica na tela atual mostrando o erro — antes chamava telaEscolha()
+      // aqui, que reconstrói o palco inteiro e apaga a mensagem antes de
+      // alguém conseguir ler. Quem quiser trocar de horário usa o
+      // "← Escolher outro horário" already visível nesta tela.
+      erro.textContent = error.message || 'Não consegui confirmar. Tente de novo em instantes.';
       erro.hidden = false;
       btn.disabled = false;
       btn.textContent = 'Confirmar agendamento';
-      await telaEscolha();
       return;
     }
 
