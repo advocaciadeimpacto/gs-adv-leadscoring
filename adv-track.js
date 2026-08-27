@@ -55,7 +55,11 @@ function origem() {
   const achado = {};
   ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
    'fbclid','gclid','ttclid','msclkid','ctwa_clid'].forEach(k => {
-    const v = p.get(k); if (v) achado[k] = v;
+    const v = p.get(k);
+    /* Mesma dupla codificação do shim do Facebook tratada em origem.js. */
+    if (v) achado[k] = /%[0-9A-Fa-f]{2}/.test(v)
+      ? (() => { try { return decodeURIComponent(v.replace(/\+/g,' ')); } catch { return v; } })()
+      : v;
   });
   if (!Object.keys(achado).length && document.referrer) achado.referrer = document.referrer;
   return Object.keys(achado).length ? achado : null;

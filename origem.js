@@ -23,6 +23,22 @@ const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_ter
    quando alguém esquece de montar a UTM. */
 const CLICK_IDS = ['fbclid', 'gclid', 'ttclid', 'msclkid', 'ctwa_clid'];
 
+/* O shim de link do Facebook (l.php) re-codifica a URL de destino antes
+   de entregar ao navegador. Resultado: o URLSearchParams desfaz UMA
+   camada e o valor ainda chega como `%5BCBO%5D+%5BONGOING%5D...`.
+   Só acontece no Facebook — o Instagram entrega limpo.
+
+   Sem isso a MESMA campanha aparece duas vezes no relatório, uma
+   decodificada e outra não, e as métricas por criativo se fragmentam.
+
+   Só desfaz a segunda camada quando ela existe de fato: a presença de
+   uma sequência %XX é o sinal. Valor já limpo passa intacto. */
+function limparCodificacao(v) {
+  if (typeof v !== 'string' || !/%[0-9A-Fa-f]{2}/.test(v)) return v;
+  try { return decodeURIComponent(v.replace(/\+/g, ' ')); }
+  catch { return v; }
+}
+
 const ler = () => {
   try { return JSON.parse(localStorage.getItem(CHAVE)); } catch { return null; }
 };
@@ -51,7 +67,7 @@ function inferirDoReferrer(ref) {
 export function capturarOrigem() {
   const p = new URLSearchParams(location.search);
   const achado = {};
-  [...UTM, ...CLICK_IDS].forEach(k => { const v = p.get(k); if (v) achado[k] = v; });
+  [...UTM, ...CLICK_IDS].forEach(k => { const v = p.get(k); if (v) achado[k] = limparCodificacao(v); });
 
   const salvo = ler();
   const agora = new Date().toISOString();
