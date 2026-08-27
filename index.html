@@ -46,6 +46,14 @@
   <div class="wrap" id="palco"></div>
 </main>
 
+<script>
+  /* Telemetria do funil. Projeto Supabase de ANALYTICS — separado do banco
+     de leads de propósito: se um cair, o outro continua medindo. A chave
+     abaixo é a `anon`, pública por design; o RLS só permite inserir evento
+     e preencher resposta, nunca ler dado de outra sessão. */
+  window.ADV_ANALYTICS_URL = 'https://vmgyqhfesneannfqrvzg.supabase.co';
+  window.ADV_ANALYTICS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtZ3lxaGZlc25lYW5uZnFydnpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwNDExNjYsImV4cCI6MjEwMTYxNzE2Nn0.KnVAIL4jN-0LHvPdw2QLqsmm2vl2RuvLihoMzkxp0iY';
+</script>
 <script type="module" src="quiz.js"></script>
 </body>
 </html>
