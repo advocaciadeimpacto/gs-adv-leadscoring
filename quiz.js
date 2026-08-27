@@ -5,6 +5,7 @@ import { PERGUNTAS, calcular } from './scoring.js';
 import { db, dispararWebhook } from './db.js';
 import { capturarOrigem, origemAtual } from './origem.js';
 import { esc, formatarTelefone } from './util.js';
+import { marcar, marcarPergunta } from './adv-track.js';
 
 capturarOrigem();
 
@@ -21,6 +22,7 @@ const barra = $('#barra span');
 const progresso = () => { barra.style.width = (i / TOTAL) * 100 + '%'; };
 
 function telaIntro() {
+  marcar('abertura');
   barra.style.width = '0%';
   palco.innerHTML = `
     <div class="step intro">
@@ -43,10 +45,11 @@ function telaIntro() {
       </button>
       <p class="obs">Suas respostas ficam só com o nosso time comercial.</p>
     </div>`;
-  document.querySelector('#start').onclick = () => { i = 0; telaPergunta(); };
+  document.querySelector('#start').onclick = () => { marcar('inicio'); i = 0; telaPergunta(); };
 }
 
 function telaPergunta() {
+  marcarPergunta(i);
   progresso();
   const q = PERGUNTAS[i];
   const compacto = q.opcoes.length > 8 ? ' compacto' : '';
@@ -77,6 +80,9 @@ function telaPergunta() {
 function escolher(n, botao) {
   botao.classList.add('on');
   respostas[i] = PERGUNTAS[i].opcoes[n];
+  // Antes do setTimeout de propósito: lá dentro o `i` já foi incrementado
+  // e o valor seria gravado na etapa seguinte.
+  marcarPergunta(i, PERGUNTAS[i].opcoes[n].txt);
   setTimeout(() => {
     i++;
     i < PERGUNTAS.length ? telaPergunta() : telaContato();
@@ -87,6 +93,7 @@ function escolher(n, botao) {
    scoring não depende — só serve para o time conseguir levar a Sessão
    Estratégica e os materiais até o lead. */
 function telaContato() {
+  marcar('contato_visto');
   progresso();
   palco.innerHTML = `
     <div class="step estreito">
@@ -191,6 +198,7 @@ async function finalizar(dadosContato) {
     }));
   } catch { /* sem storage: segue sem contexto */ }
 
+  marcar('contato_enviado');
   location.href = 'obrigado';
 }
 

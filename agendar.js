@@ -5,8 +5,10 @@ import { mapaDeDisponibilidade, agendar,
          fmtHora, fmtDataLonga, chaveDoDia, dataDoDia } from './agenda-core.js';
 import { capturarOrigem, origemAtual } from './origem.js';
 import { esc, formatarTelefone } from './util.js';
+import { marcar } from './adv-track.js';
 
 capturarOrigem();
+marcar('agendar_visto');
 
 const palco = document.querySelector('#palco');
 
@@ -213,6 +215,7 @@ function telaDados() {
       formulario: data.origem
     });
 
+    marcar('agendamento_confirmado');
     telaConfirmado(data);
   };
 }
