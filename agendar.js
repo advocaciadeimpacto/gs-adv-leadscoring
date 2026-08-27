@@ -6,8 +6,10 @@ import { mapaDeDisponibilidade, agendar,
 import { capturarOrigem, origemAtual } from './origem.js';
 import { esc, formatarTelefone } from './util.js';
 import { marcar } from './adv-track.js';
+import { iniciarPixel, rastrearAgendamento } from './meta-pixel.js';
 
 capturarOrigem();
+iniciarPixel();
 marcar('agendar_visto');
 
 const palco = document.querySelector('#palco');
@@ -214,6 +216,11 @@ function telaDados() {
       origem: origemAtual(),
       formulario: data.origem
     });
+
+    /* Só aqui, depois de o banco aceitar a reserva. Agendamento que
+       falhou por horário tomado não é conversão e não pode entrar na
+       otimização como se fosse. */
+    rastrearAgendamento({ nome, email, whatsapp });
 
     marcar('agendamento_confirmado');
     telaConfirmado(data);

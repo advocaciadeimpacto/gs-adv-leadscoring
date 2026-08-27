@@ -15,6 +15,7 @@
 <meta property="og:image" content="https://forms.advocaciadeimpacto.adv.br/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://connect.facebook.net">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23231b12'/><text y='23' x='16' text-anchor='middle' font-size='20' font-family='sans-serif' font-weight='bold' fill='%23d9b681'>A</text></svg>">
@@ -43,6 +44,12 @@
      e preencher resposta, nunca ler dado de outra sessão. */
   window.ADV_ANALYTICS_URL = 'https://vmgyqhfesneannfqrvzg.supabase.co';
   window.ADV_ANALYTICS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtZ3lxaGZlc25lYW5uZnFydnpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwNDExNjYsImV4cCI6MjEwMTYxNzE2Nn0.KnVAIL4jN-0LHvPdw2QLqsmm2vl2RuvLihoMzkxp0iY';
+
+  /* Pixel da Meta. O ID é público por natureza — aparece no HTML de
+     qualquer site que use pixel. O token do CAPI é o que não pode
+     encostar aqui: ele vive só como variável de ambiente da função
+     em /api/meta-capi, no servidor. */
+  window.ADV_META_PIXEL_ID = '258198390510374';
 </script>
 <script type="module" src="agendar.js"></script>
 </body>

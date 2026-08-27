@@ -6,8 +6,10 @@ import { db, dispararWebhook } from './db.js';
 import { capturarOrigem, origemAtual } from './origem.js';
 import { esc, formatarTelefone } from './util.js';
 import { marcar, marcarPergunta } from './adv-track.js';
+import { iniciarPixel, rastrearCadastro } from './meta-pixel.js';
 
 capturarOrigem();
+iniciarPixel();
 
 const TOTAL = PERGUNTAS.length + 1; // 6 perguntas + etapa de contato
 
@@ -197,6 +199,17 @@ async function finalizar(dadosContato) {
       lead: dadosContato
     }));
   } catch { /* sem storage: segue sem contexto */ }
+
+  /* A conversão vai depois de gravar no banco e de disparar o webhook,
+     de propósito: se a Meta estiver fora do ar, o lead já está salvo e
+     o time já foi avisado. O caminho contrário perderia lead por causa
+     de rastreamento, que é exatamente o que não pode acontecer.
+     Dispara `Lead` e `EndForm` — o segundo é o evento que as campanhas
+     otimizam e o que herda o histórico do form.respondi.app.
+     O envio ao servidor sai daqui; o do navegador é adiado para a
+     página `obrigado`, onde o pixel consegue nascer já sabendo quem é o
+     lead. Os dois lados usam o mesmo event_id. */
+  rastrearCadastro(dadosContato);
 
   marcar('contato_enviado');
   location.href = 'obrigado';
