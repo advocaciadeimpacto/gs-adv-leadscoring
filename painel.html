@@ -11,6 +11,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<!-- Folha exclusiva da aba de funil, toda escopada em `.aba-funil`.
+     Fica separada do style.css porque o style.css é do funil PÚBLICO
+     também (index, obrigado, agendar) — ver o cabeçalho de funil.css. -->
+<link rel="stylesheet" href="funil.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23231b12'/><text y='23' x='16' text-anchor='middle' font-size='20' font-family='sans-serif' font-weight='bold' fill='%23d9b681'>A</text></svg>">
 </head>
 <body>
@@ -28,6 +32,7 @@
   </div>
   <nav class="abas" id="abas">
     <button class="aba on" data-aba="respostas">Respostas</button>
+    <button class="aba" data-aba="funil">Funil</button>
     <button class="aba" data-aba="links">Links e UTMs</button>
     <button class="aba" data-aba="agenda">Agenda do time</button>
     <button class="aba" data-aba="criterios">Critérios</button>

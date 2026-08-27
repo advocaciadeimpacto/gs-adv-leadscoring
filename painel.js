@@ -1,4 +1,5 @@
-/* Painel interno: respostas do quiz, agenda dos closers e critérios do modelo. */
+/* Painel interno: respostas do quiz, funil de captação, agenda dos closers
+   e critérios do modelo. */
 
 import { db } from './db.js';
 import { fmtHora, fmtDataCurta, iso, instanteNoFuso } from './agenda-core.js';
@@ -7,6 +8,7 @@ import { rotuloOrigem } from './origem.js';
 import { slug, montarURL, statusDoLink, temMacro, PRESETS, BASE } from './links.js';
 import { esc, fmtTelefone as fmtTel } from './util.js';
 import { acessoPorLink, sair } from './acesso-por-link.js';
+import { montarFunil } from './funil-painel.js';
 
 await acessoPorLink();
 
@@ -16,6 +18,10 @@ document.querySelector('#sair').onclick = sair;
 const CORES = { A: 'var(--a)', B: 'var(--b)', C: 'var(--c)', D: 'var(--d)' };
 
 let aba = 'respostas';
+/* A aba de funil é a única que deixa recurso vivo depois de desenhada
+   (um WebSocket com o Supabase de analytics e dois popovers registrados
+   em escuta global). Guardamos a instância para poder desmontá-la. */
+let funil = null;
 let filtroClasse = 'todas';
 let filtroCloser = 'todos';
 let abertoId = null;
@@ -30,11 +36,33 @@ document.querySelectorAll('.aba').forEach(b => {
 });
 
 async function render() {
+  /* Sempre antes de trocar o conteúdo: `palco.innerHTML = ...` remove os
+     nós, mas não fecha o socket nem tira os fechadores de popover da
+     escuta global. Sem isto, cada ida e volta na aba deixaria um
+     WebSocket aberto para trás. */
+  if (funil) { funil.desmontar(); funil = null; }
+
+  /* O mapa do funil tem 13 cartões lado a lado e não cabe nos 1020px que
+     servem às listas das outras abas. A classe alarga só nessa aba. */
+  palco.classList.toggle('wrap-funil', aba === 'funil');
+
   palco.innerHTML = '<p class="carregando">Carregando...</p>';
   if (aba === 'respostas') return telaRespostas();
+  if (aba === 'funil') return telaFunil();
   if (aba === 'links') return telaLinks();
   if (aba === 'agenda') return telaAgenda();
   return telaCriterios();
+}
+
+/* ---------- funil ---------- */
+
+/* A aba não tem autenticação própria de propósito: o `acessoPorLink()`
+   lá em cima já abriu a sessão do painel e ela vale para tudo aqui.
+   O que a aba tem de diferente é a FONTE: ela lê o Supabase de
+   analytics por REST direto (`funil-dados.js`), não o self-hosted que
+   o `db.js` usa. São dois bancos, e continuam separados. */
+function telaFunil() {
+  funil = montarFunil(palco);
 }
 
 /* ---------- respostas ---------- */

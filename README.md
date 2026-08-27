@@ -93,7 +93,12 @@ O banco é self-hosted. Pra rodar isso do zero (ou revisar o que já está no ar
 
 | Arquivo | Função |
 |---|---|
-| `painel.html` + `painel.js` | Quatro abas: Respostas, Links e UTMs, Agenda do time, Critérios |
+| `painel.html` + `painel.js` | Cinco abas: Respostas, Funil, Links e UTMs, Agenda do time, Critérios |
+| `funil-painel.js` | A aba **Funil**: passagem de etapa, respostas, tempo por etapa, funil por criativo e eventos ao vivo. Monta e desmonta como componente (`montarFunil`/`desmontar`) |
+| `funil-dados.js` | Leitura do Supabase de **analytics** por REST direto. Não passa pelo `db.js` — é outro banco, ver `funil-config.js` |
+| `funil-controles.js` | Dropdown e seletor de período da aba Funil, com calendário próprio |
+| `funil-config.js` | URL + chave `anon` do Supabase de analytics (o segundo banco) |
+| `funil.css` | Estilos da aba Funil, todos escopados em `.aba-funil`. Separado do `style.css` de propósito — leia o cabeçalho do arquivo |
 | `admin.html` + `admin.js` | Tela de senha para entrar no painel. Não é linkada em nenhuma página pública |
 | `admin-auth.js` | Guarda de acesso do painel — leia o comentário no topo antes de confiar nisso |
 
@@ -103,11 +108,12 @@ O banco é self-hosted. Pra rodar isso do zero (ou revisar o que já está no ar
 |---|---|
 | `scoring.js` | **O modelo inteiro.** Perguntas, pesos, classes, escada, cálculo e render do resultado |
 | `db.js` | Camada de dados. Supabase de verdade, por trás da mesma interface `async { data, error }` de sempre |
-| `supabase-client.js` | Cria o client do Supabase (URL + chave `anon`) usado por `db.js` e `admin-auth.js` |
+| `supabase-client.js` | Cria o client do Supabase **self-hosted** (URL + chave `anon`) usado por `db.js` e `admin-auth.js` |
+| `adv-track.js` | Telemetria de passagem de etapa. Escreve em `funil_eventos`, no Supabase de **analytics** — o mesmo que a aba Funil lê |
 | `agenda-core.js` | Geração de horários, disponibilidade e sorteio de closer |
 | `util.js` | `esc()` e formatação de telefone, usados em mais de uma tela |
 | `supabase-schema.sql` | DDL das tabelas + políticas de RLS. Rode no SQL Editor do Supabase |
-| `style.css` | Estilos de tudo |
+| `style.css` | Estilos de tudo, menos a aba Funil (essa mora em `funil.css`) |
 | `og.png` | Imagem de preview de link (1200×630) |
 
 ### Sobre a tabela `forms_adv`
