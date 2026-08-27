@@ -6,9 +6,9 @@ import { htmlResultado, CRITERIOS, PERGUNTAS, ADERENCIA, CLASSES, PERFIS, ESCADA
 import { rotuloOrigem } from './origem.js';
 import { slug, montarURL, statusDoLink, temMacro, PRESETS, BASE } from './links.js';
 import { esc, fmtTelefone as fmtTel } from './util.js';
-import { exigirAutenticacao, sair } from './admin-auth.js';
+import { acessoPorLink, sair } from './acesso-por-link.js';
 
-await exigirAutenticacao();
+await acessoPorLink();
 
 const palco = document.querySelector('#palco');
 document.querySelector('#sair').onclick = sair;
