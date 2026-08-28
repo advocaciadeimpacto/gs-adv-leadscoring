@@ -228,9 +228,15 @@ export function htmlResultado(res, { titulo = null } = {}) {
      forms_adv antes de o scoring chegar, ou o cadastro veio por outro
      caminho. Nesse caso classe e perfil sao nulos. Em vez de quebrar a
      tela inteira, cai num rotulo neutro e o comercial ainda ve o contato. */
-  const SEM_DADO = { nome: 'Sem classificação', rotulo: 'Não classificado',
-                     leitura: 'Este cadastro não tem as respostas do quiz, então não foi pontuado.',
-                     txt: '', cor: 'var(--d)' };
+  const SEM_DADO = {
+    cor: 'var(--d)',
+    nome: 'Sem classificação',
+    lede: 'Este cadastro chegou sem as respostas do quiz, então não foi pontuado. O contato acima está correto e pode ser trabalhado.',
+    sla: 'Tratar como lead a qualificar na call',
+    rotulo: 'Não identificado',
+    leitura: 'Sem as respostas do quiz não dá para inferir o perfil.',
+    abordagem: 'Faça o diagnóstico na própria conversa.'
+  };
   const k = CLASSES[res.classe] || SEM_DADO;
   const p = PERFIS[res.perfil]  || SEM_DADO;
 
@@ -249,7 +255,7 @@ export function htmlResultado(res, { titulo = null } = {}) {
 
   return `
     <div class="res-head">
-      <div class="grade chanfro" style="background:${k.cor}">${res.classe}</div>
+      <div class="grade chanfro" style="background:${k.cor}">${res.classe ?? '—'}</div>
       <div>
         <span class="eyebrow">${titulo ? esc(titulo) : 'Classificação do lead'}</span>
         <h1>${k.nome}</h1>

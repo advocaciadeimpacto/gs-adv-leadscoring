@@ -233,7 +233,7 @@ function telaDetalheInterna(r) {
         <div class="ficha-cols">
           <span>${esc(fmtTel(r.Telefone))}</span>
           <span>${esc(r.Email)}</span>
-          <span class="meta">respondeu em ${esc(r.Data)}</span>
+          ${r.Data ? `<span class="meta">respondeu em ${esc(r.Data)}</span>` : ''}
         </div>
       </div>
       ${htmlResultado(res)}
