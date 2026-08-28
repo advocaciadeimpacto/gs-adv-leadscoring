@@ -267,7 +267,7 @@ export function htmlResultado(res, { titulo = null } = {}) {
     <dl class="dispatch">
       <div class="d-row"><dt>Prioridade</dt><dd><em>${k.sla}</em></dd></div>
       <div class="d-row"><dt>Degrau da escada</dt><dd>${esc(res.degrau)}${res.divergencia ? ` <span class="alerta">estrutura sugere ${esc(res.degrauEstrutura)}</span>` : ''}</dd></div>
-      <div class="d-row"><dt>Qualidade</dt><dd><em>${res.qualidade.nivel}</em> (${res.qualidade.valor}/50). ${res.qualidade.txt}</dd></div>
+      ${res.qualidade ? `<div class="d-row"><dt>Qualidade</dt><dd><em>${res.qualidade.nivel}</em> (${res.qualidade.valor}/50). ${res.qualidade.txt}</dd></div>` : ''}
       <div class="d-row"><dt>Tipo de advogado</dt><dd><em>${p.rotulo}</em>. ${p.leitura}</dd></div>
       <div class="d-row"><dt>Abordagem</dt><dd>${p.abordagem}</dd></div>
     </dl>

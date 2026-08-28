@@ -220,7 +220,11 @@ function telaDetalheInterna(r) {
     base, ajuste: aderencia?.ajuste ?? 0, aderencia,
     total: Number(r.Score), classe: r.Classe, degrau: r.Degrau, degrauEstrutura: r['Degrau Estrutura'],
     divergencia,
-    qualidade: { nivel: r.Qualidade, valor: pontos.urgencia + pontos.mentoria, txt: textoQualidade(r.Qualidade) },
+    /* Sem quiz nao ha nivel de qualidade: mostrar "null (0/50). undefined"
+       para o comercial e pior do que nao mostrar nada. */
+    qualidade: r.Qualidade
+      ? { nivel: r.Qualidade, valor: pontos.urgencia + pontos.mentoria, txt: textoQualidade(r.Qualidade) }
+      : null,
     respostas,
     ...analisar(pontos, tags, r.Area, r.Perfil, divergencia)
   };
