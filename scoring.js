@@ -169,7 +169,10 @@ export function analisar(pontos, tags, area, perfil, divergencia) {
   if (tags.mentoria === 'nunca') neg.push('Nunca participou de acompanhamento. Sem referência de valor, a objeção costuma ser "será que funciona".');
   if (pontos.faturamento === 5) neg.push('Faturamento até R$ 10 mil. Oferecer os degraus altos aqui gera objeção de preço quase certa.');
   if (pontos.pessoas === 5) neg.push('Trabalha sozinho. Boa parte do conteúdo de gestão de equipe não se aplica ainda.');
-  if (ad.ajuste < 0) neg.push(ad.nota);
+  /* Registro sem quiz respondido chega com area nula, e ADERENCIA[null] é
+     undefined. Sem esta guarda a funcao lanca e o painel trava em
+     "Carregando...", porque a excecao sobe antes de o innerHTML trocar. */
+  if (ad && ad.ajuste < 0) neg.push(ad.nota);
   if (perfil === 'tradicional') neg.push('Perfil tradicional, com resistência a digital e tecnologia. Exige mais construção de consciência.');
   if (divergencia) neg.push('Faturamento e estrutura apontam degraus distantes na escada. Confirme na call qual dos dois reflete a realidade.');
 
@@ -196,7 +199,7 @@ export function calcular(respostas) {
 
   const base = Object.values(pontos).reduce((a, b) => a + b, 0);
   const ad = ADERENCIA[area];
-  const total = Math.max(0, base + ad.ajuste);
+  const total = Math.max(0, base + (ad?.ajuste ?? 0));
   const classe = letra(total);
   const qual = qualidade(pontos);
   const divergencia = Math.abs(degrauFat - degrauPes) >= 2;
@@ -221,8 +224,15 @@ export function abordagem(res) {
 
 /* Visão do comercial. Interna: nunca deve ser mostrada ao lead. */
 export function htmlResultado(res, { titulo = null } = {}) {
-  const k = CLASSES[res.classe];
-  const p = PERFIS[res.perfil];
+  /* Um lead pode existir sem quiz respondido: o n8n grava o contato em
+     forms_adv antes de o scoring chegar, ou o cadastro veio por outro
+     caminho. Nesse caso classe e perfil sao nulos. Em vez de quebrar a
+     tela inteira, cai num rotulo neutro e o comercial ainda ve o contato. */
+  const SEM_DADO = { nome: 'Sem classificação', rotulo: 'Não classificado',
+                     leitura: 'Este cadastro não tem as respostas do quiz, então não foi pontuado.',
+                     txt: '', cor: 'var(--d)' };
+  const k = CLASSES[res.classe] || SEM_DADO;
+  const p = PERFIS[res.perfil]  || SEM_DADO;
 
   const barras = Object.keys(CRITERIOS).map(key => {
     const pct = Math.round((res.pontos[key] / 25) * 100);
@@ -234,7 +244,7 @@ export function htmlResultado(res, { titulo = null } = {}) {
   }).join('');
 
   const linhaScore = res.ajuste !== 0
-    ? `<p class="score-line">Perfil <b>${res.base}</b> · aderência <b>${res.ajuste}</b> (${esc(res.aderencia.rotulo)}) · final <b>${res.total}</b> de 100</p>`
+    ? `<p class="score-line">Perfil <b>${res.base}</b> · aderência <b>${res.ajuste}</b> (${esc(res.aderencia?.rotulo ?? 'sem área')}) · final <b>${res.total}</b> de 100</p>`
     : `<p class="score-line"><b>${res.total}</b> de 100 pontos</p>`;
 
   return `

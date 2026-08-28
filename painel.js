@@ -185,7 +185,31 @@ function linhaResposta(r) {
     </div>`;
 }
 
+/* Rede de seguranca: qualquer excecao ao montar a ficha vira mensagem na
+   tela. Sem isto, a excecao sobe e o palco fica preso no "Carregando..."
+   que render() escreveu antes — o usuario ve tela travada e nenhum erro. */
 function telaDetalhe(r) {
+  try { return telaDetalheInterna(r); }
+  catch (e) {
+    console.error('[painel] falha ao montar a ficha do lead', r?.id, e);
+    palco.innerHTML = `
+      <div class="step">
+        <button class="btn-back" id="voltar">← Todas as respostas</button>
+        <div class="ficha-lead chanfro">
+          <div><span class="eyebrow">Contato</span><strong>${esc(r?.Nome ?? 'sem nome')}</strong></div>
+          <div class="ficha-cols">
+            <span>${esc(fmtTel(r?.Telefone ?? ''))}</span>
+            <span>${esc(r?.Email ?? '')}</span>
+          </div>
+        </div>
+        <p class="note">Não foi possível montar a leitura comercial deste cadastro.
+        O contato acima está correto e pode ser trabalhado normalmente.</p>
+      </div>`;
+    palco.querySelector('#voltar').onclick = () => { abertoId = null; render(); };
+  }
+}
+
+function telaDetalheInterna(r) {
   const divergencia = Math.abs(ESCADA.indexOf(r.Degrau) - ESCADA.indexOf(r['Degrau Estrutura'])) >= 2;
   const { pontos, tags, respostas } = leituraDeFormsAdv(r);
   const base = Object.values(pontos).reduce((a, b) => a + b, 0);
