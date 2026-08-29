@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>O que gravar esta semana — Guia de Contratação</title>
+<meta name="theme-color" content="#0B0F16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0F16; --bg2:#111826; --bg3:#18202F; --bg4:#212B3C;
+  --line:#232D3E; --line2:#1C2432;
+  --ink:#EDF1F7; --ink2:#9FADC2; --ink3:#68768D;
+  --gold:#C9A227; --gold2:#E8C766; --gold3:#7A6417;
+  --ok:#4ADE80; --warn:#FACC15; --bad:#F87171; --blue:#7DA9F5; --viol:#B69CF0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.disp{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.12;letter-spacing:-.02em}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:var(--bg2)}
+*::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:6px;border:2px solid var(--bg2)}
+*::-webkit-scrollbar-thumb:hover{background:var(--gold3)}
+*{scrollbar-width:thin;scrollbar-color:var(--bg4) var(--bg2)}
+
+.shell{display:grid;grid-template-columns:248px 1fr;gap:0;max-width:1520px;margin:0 auto}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--line2);
+  padding:26px 16px 40px 22px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+main{min-width:0;padding:0 0 120px}
+.wrap{max-width:930px;margin:0 auto;padding:0 34px}
+
+.nav-mk{display:flex;align-items:center;gap:9px;margin-bottom:26px}
+.nav-mk i{width:26px;height:26px;display:grid;place-items:center;background:var(--gold);
+  color:#0B0F16;font-weight:700;font-size:12px;font-family:"Fraunces",serif;border-radius:6px;flex:0 0 auto;font-style:normal}
+.nav-mk b{font-family:"Fraunces",Georgia,serif;font-size:15px;font-weight:600;display:block;line-height:1.2}
+.nav-mk s{display:block;text-decoration:none;color:var(--ink3);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+nav a{color:var(--ink3);text-decoration:none;font-size:12.5px;white-space:nowrap;padding:6px 0;
+  display:block;border-left:2px solid transparent;padding-left:11px;margin-left:-11px;transition:.15s}
+nav a:hover{color:var(--ink2)}
+nav a.on{color:var(--gold2);border-left-color:var(--gold);font-weight:500}
+nav .grp{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);
+  opacity:.55;margin:20px 0 7px;padding-left:11px}
+
+.hero{padding:80px 0 40px;border-bottom:1px solid var(--line2);margin-bottom:14px}
+.hero .kick{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:600}
+.hero h1{font-size:clamp(33px,5vw,53px);margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--gold2)}
+.hero .lede{font-size:18.5px;color:var(--ink2);max-width:680px;line-height:1.58}
+.hero .meta{margin-top:30px;display:flex;gap:26px;flex-wrap:wrap;font-size:12px;color:var(--ink3)}
+.hero .meta b{color:var(--ink2);font-weight:500}
+
+section{padding:52px 0;border-bottom:1px solid var(--line2)}
+.sn{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+  font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:9px}
+.sn::before{content:"";width:22px;height:1px;background:var(--gold3)}
+h2{font-size:clamp(25px,3.3vw,35px);margin-bottom:14px}
+h3{font-size:19px;margin:36px 0 12px;color:var(--ink)}
+h4{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:16.5px;margin:26px 0 10px;color:var(--ink)}
+.sub{color:var(--ink2);font-size:16.5px;max-width:720px;margin-bottom:26px}
+p{margin-bottom:15px;color:var(--ink2)}
+p strong,li strong,td strong{color:var(--ink);font-weight:600}
+
+.ks{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin:24px 0}
+.kl{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:17px 16px}
+.kl .t{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px;font-weight:600}
+.kl .n{font-family:ui-monospace,Menlo,monospace;font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.kl .d{font-size:11.5px;color:var(--ink3);margin-top:7px;line-height:1.4}
+.n.bad{color:var(--bad)} .n.ok{color:var(--ok)} .n.warn{color:var(--warn)} .n.gold{color:var(--gold2)}
+
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:11px;background:var(--bg2)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:540px}
+th{text-align:left;padding:11px 14px;font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line);background:var(--bg3);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+tr.hi td{background:rgba(201,162,39,.055)}
+tr.hi td:first-child{box-shadow:inset 2px 0 0 var(--gold)}
+tr.lo td{background:rgba(248,113,113,.045)}
+tr.lo td:first-child{box-shadow:inset 2px 0 0 var(--bad)}
+td b{color:var(--ink)}
+.gd{color:var(--ok)} .bd{color:var(--bad)} .wn{color:var(--warn)}
+
+.box{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--gold);
+  border-radius:0 11px 11px 0;padding:19px 22px;margin:24px 0}
+.box.r{border-left-color:var(--bad)}
+.box.g{border-left-color:var(--ok)}
+.box.b{border-left-color:var(--blue)}
+.box .bt{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
+  font-weight:600;margin-bottom:9px}
+.box.r .bt{color:var(--bad)} .box.g .bt{color:var(--ok)} .box.b .bt{color:var(--blue)}
+.box p:last-child{margin-bottom:0}
+
+ul,ol{margin:0 0 16px 20px;color:var(--ink2)}
+li{margin-bottom:8px}
+li::marker{color:var(--gold3)}
+
+.pill{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;padding:3px 9px;border-radius:20px}
+.p-ok{background:rgba(74,222,128,.12);color:var(--ok)}
+.p-w{background:rgba(250,204,21,.12);color:var(--warn)}
+.p-b{background:rgba(248,113,113,.12);color:var(--bad)}
+.p-g{background:rgba(201,162,39,.14);color:var(--gold2)}
+
+/* ---- regra do relogio ---- */
+.rel{margin:28px 0 12px}
+.rw{display:flex;align-items:center;gap:14px;margin-bottom:11px}
+.rw .lb{width:120px;flex:0 0 120px;text-align:right;line-height:1.25}
+.rw .lb b{display:block;color:var(--ink);font-size:14.5px;font-weight:600}
+.rw .lb s{display:block;text-decoration:none;color:var(--ink3);font-size:11px;
+  font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.rw .tk{flex:1;position:relative;height:42px;background:#0E141F;border-radius:7px;border:1px solid var(--line2);min-width:0}
+.rw .zn{position:absolute;left:0;top:0;bottom:0;width:5.56%;background:rgba(74,222,128,.10);
+  border-right:1px dashed rgba(74,222,128,.35);border-radius:6px 0 0 6px}
+.rw .bar{position:absolute;left:0;top:0;bottom:0;border-radius:6px;
+  background:linear-gradient(90deg,rgba(201,162,39,.26),rgba(201,162,39,.07));
+  border-right:2px solid rgba(201,162,39,.40)}
+.rw .mk{position:absolute;top:-1px;bottom:-1px;width:2px;background:var(--gold);z-index:3}
+.rw .mk::after{content:"";position:absolute;left:50%;top:-4px;width:7px;height:7px;margin-left:-3.5px;
+  background:var(--gold);border-radius:50%}
+.rw .mk s{position:absolute;left:9px;top:50%;transform:translateY(-50%);text-decoration:none;
+  font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:700;color:var(--gold2);
+  white-space:nowrap;font-variant-numeric:tabular-nums}
+.rw .cpa{width:104px;flex:0 0 104px;text-align:right;font-family:ui-monospace,Menlo,monospace;
+  font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+.rw .cpa s{display:block;text-decoration:none;font-size:10px;color:var(--ink3);letter-spacing:.1em;
+  text-transform:uppercase;font-family:Inter,sans-serif;font-weight:600}
+.ruler{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.ruler .lb{width:120px;flex:0 0 120px}
+.ruler .tk{flex:1;position:relative;height:16px;min-width:0}
+.ruler .cpa{width:104px;flex:0 0 104px}
+.ruler .tk i{position:absolute;top:0;font-style:normal;font-family:ui-monospace,Menlo,monospace;
+  font-size:10px;color:var(--ink3);transform:translateX(-50%)}
+.ruler .tk i:first-child{transform:none}
+.relnote{font-size:12px;color:var(--ink3);margin-left:134px;margin-top:2px}
+
+/* ---- quebra diaria ---- */
+.qb{margin:24px 0 6px}
+.qr{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.qr .lb{width:152px;flex:0 0 152px;text-align:right;font-size:12.5px;color:var(--ink2);line-height:1.25}
+.qr .lb b{color:var(--ink);font-weight:600;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.qr .tk{flex:1;position:relative;height:26px;background:#0E141F;border-radius:6px;
+  border:1px solid var(--line2);min-width:0}
+.qr .bar{position:absolute;top:3px;bottom:3px;border-radius:4px}
+.qr .bar.faixa{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.45)}
+.qr .bar.q{left:0;background:linear-gradient(90deg,rgba(248,113,113,.55),rgba(248,113,113,.18));
+  border-right:2px solid rgba(248,113,113,.7)}
+.qr .piso{position:absolute;top:-1px;bottom:-1px;border-left:1px dashed rgba(74,222,128,.55);z-index:2}
+.qr .vl{width:88px;flex:0 0 88px;font-family:ui-monospace,Menlo,monospace;font-size:13.5px;
+  font-variant-numeric:tabular-nums;text-align:right;color:var(--ink);white-space:nowrap}
+.qbleg{font-size:12px;color:var(--ink3);margin:10px 0 0 166px}
+
+/* ---- confronto ---- */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:16px 0 8px}
+.vs .sd{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:17px 19px}
+.vs .sd.w{border-top:2px solid var(--ok)}
+.vs .sd.l{border-top:2px solid var(--bad)}
+.vs .tg{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;margin-bottom:11px;
+  display:flex;justify-content:space-between;gap:8px}
+.vs .tg em{font-style:normal;font-family:ui-monospace,Menlo,monospace;color:var(--ink3);letter-spacing:0}
+.vs .sd.w .tg{color:var(--ok)} .vs .sd.l .tg{color:var(--bad)}
+.vs .fl{font-family:"Fraunces",Georgia,serif;font-size:17.5px;line-height:1.42;color:var(--ink);font-style:italic;margin:0}
+.vs .nt{font-size:12.5px;color:var(--ink3);margin:11px 0 0;line-height:1.5}
+.dif{margin:30px 0}
+.dif .dh{font-family:"Fraunces",Georgia,serif;font-size:19px;color:var(--ink);margin-bottom:4px}
+.dif .dh i{font-style:normal;color:var(--gold);font-family:ui-monospace,Menlo,monospace;font-size:14px;margin-right:8px}
+.dif .dp{font-size:14.5px;color:var(--ink2);margin-bottom:0}
+
+/* ---- ganchos ---- */
+.hk{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--gold3);
+  border-radius:0 13px 13px 0;padding:22px 25px;margin:15px 0}
+.hk.pri{border-left-color:var(--gold);background:linear-gradient(100deg,rgba(201,162,39,.06),var(--bg2) 45%)}
+.hk .hd{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:13px}
+.hk .cd{font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:700;color:var(--gold2);letter-spacing:.05em}
+.hk .nm{font-family:"Fraunces",Georgia,serif;font-size:16px;font-weight:600;color:var(--ink)}
+.hk .fala{font-family:"Fraunces",Georgia,serif;font-size:clamp(20px,2.5vw,26px);line-height:1.36;
+  color:var(--ink);margin:0 0 15px;font-weight:500}
+.hk.pri .fala{font-size:clamp(22px,3vw,30px)}
+.hk .why{font-size:14.5px;color:var(--ink2);margin-bottom:0;line-height:1.6}
+.hk .mt{display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--ink3);margin-top:14px;
+  padding-top:13px;border-top:1px solid var(--line2)}
+.hk .mt b{color:var(--ink2);font-weight:500}
+.strip{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.strip span{font-size:11.5px;color:var(--ink2);background:var(--bg3);border:1px solid var(--line);
+  border-radius:6px;padding:4px 9px;white-space:nowrap}
+.strip span b{font-family:ui-monospace,Menlo,monospace;color:var(--gold2);font-weight:700;margin-right:6px;font-size:11px}
+.strip span.fim{border-color:var(--gold3);background:rgba(201,162,39,.07)}
+.strip span.fim b{color:var(--gold2)}
+
+/* ---- fala grande ---- */
+.diga{background:var(--bg2);border:1px solid var(--line);border-radius:13px;padding:24px 26px;margin:20px 0}
+.diga .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:13px}
+.diga .txt{font-family:"Fraunces",Georgia,serif;font-size:clamp(20px,2.7vw,27px);line-height:1.38;
+  color:var(--ink);font-weight:500}
+.diga .nt{font-size:12.5px;color:var(--ink3);margin:13px 0 0}
+
+.leg{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0 6px;padding:12px 16px;
+  background:var(--bg2);border:1px solid var(--line);border-radius:10px}
+.leg .li{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink3)}
+.leg .sw{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+
+@media(max-width:960px){
+  .shell{grid-template-columns:1fr}
+  aside{display:none}
+  .wrap{padding:0 20px}
+  .vs{grid-template-columns:1fr}
+  .rw .lb,.ruler .lb{width:82px;flex:0 0 82px}
+  .rw .lb b{font-size:12.5px}
+  .rw .cpa,.ruler .cpa{width:80px;flex:0 0 80px;font-size:14px}
+  .relnote{margin-left:0}
+  .qr .lb{width:92px;flex:0 0 92px;font-size:11px}
+  .qr .vl{width:68px;flex:0 0 68px;font-size:11.5px}
+  .qbleg{margin-left:0}
+  .ruler .tk i:nth-child(4),.ruler .tk i:nth-child(6){display:none}
+  .hk{padding:19px 18px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside>
+  <div class="nav-mk"><i>GS</i><div><b>O que gravar</b><s>Guia de Contratação</s></div></div>
+  <nav>
+    <div class="grp">Situação</div>
+    <a href="#onde" class="on">Onde estamos</a>
+    <div class="grp">O que os vídeos ensinam</div>
+    <a href="#relogio">A regra do relógio</a>
+    <a href="#anatomia">O melhor contra o pior</a>
+    <div class="grp">Antes de gravar</div>
+    <a href="#gratis">Duas correções de graça</a>
+    <div class="grp">O que gravar</div>
+    <a href="#quatro">Se for só quatro</a>
+    <a href="#blocoa">Bloco A — do AD02</a>
+    <a href="#blocob">Bloco B — do AD03</a>
+    <a href="#blococ">Bloco C — do AD07</a>
+    <div class="grp">Na hora da câmera</div>
+    <a href="#regras">Regras de gravação</a>
+    <a href="#teste">Como vamos testar</a>
+  </nav>
+</aside>
+
+<main>
+<div class="wrap">
+
+<div class="hero">
+  <div class="kick">Guia de Contratação · pauta de gravação · 28 ago 2026</div>
+  <h1>Os quatro vídeos que já rodaram <em>dizem o que gravar no quinto</em></h1>
+  <p class="lede">Transcrevemos com timestamp os quatro criativos do Guia. O que separa o de R$&nbsp;36,85 do de R$&nbsp;66,83 não é carisma nem tema — é o relógio. Aqui está a regra que saiu disso e 14 ganchos prontos para ler na câmera.</p>
+  <div class="meta">
+    <span>Conta <b class="mono">1378994059677151</b></span>
+    <span>Janela <b>25/05 a 18/08/2026</b></span>
+    <span>Transcrições <b>28/08/2026</b></span>
+    <span>Para <b>Guilherme</b> · por <b>Isaac</b></span>
+  </div>
+</div>
+
+<section id="onde">
+  <div class="sn">Situação</div>
+  <h2>O CPA dobrou duas vezes — e por dois motivos diferentes</h2>
+  <p class="sub">Julho e agosto foram um problema. O dia 24 de agosto foi outro, e é o que está sangrando agora. Vale separar os dois, porque só um deles se resolve com câmera.</p>
+
+  <div class="ks">
+    <div class="kl"><div class="t">CPA · 08 a 23/08</div><div class="n mono warn">R$ 77,34</div><div class="d">as duas campanhas somadas</div></div>
+    <div class="kl"><div class="t">CPA · 24 a 28/08</div><div class="n mono bad">R$ 137,34</div><div class="d">últimos cinco dias</div></div>
+    <div class="kl"><div class="t">Visita → venda, antes</div><div class="n mono">7,73%</div><div class="d">média de 16 dias</div></div>
+    <div class="kl"><div class="t">Visita → venda, agora</div><div class="n mono bad">3,57%</div><div class="d">menos da metade</div></div>
+  </div>
+
+  <h3>Fase 1 — de julho a meados de agosto: o problema era mídia</h3>
+  <p>A venda tem duas etapas que a gente consegue medir: <strong>comprar a visita</strong> na página e <strong>converter</strong> quem chegou lá. Separando as duas ao longo de julho e da primeira metade de agosto:</p>
+
+  <div class="tw"><table>
+    <tr><th>Bloco de 5 dias</th><th class="num">Investido</th><th class="num">Visitas</th><th class="num">Custo por visita</th><th class="num">Visita → venda</th><th class="num">CPA</th></tr>
+    <tr><td>20 a 24/07</td><td class="num">R$ 2.285</td><td class="num">622</td><td class="num"><b>R$ 3,67</b></td><td class="num">6,75%</td><td class="num">R$ 54,41</td></tr>
+    <tr><td>25 a 29/07</td><td class="num">R$ 1.573</td><td class="num">393</td><td class="num"><b>R$ 4,00</b></td><td class="num">6,62%</td><td class="num">R$ 60,49</td></tr>
+    <tr><td>30/07 a 03/08</td><td class="num">R$ 1.466</td><td class="num">348</td><td class="num"><b>R$ 4,21</b></td><td class="num">8,91%</td><td class="num">R$ 47,28</td></tr>
+    <tr><td>04 a 08/08</td><td class="num">R$ 2.799</td><td class="num">618</td><td class="num"><b>R$ 4,53</b></td><td class="num">6,80%</td><td class="num">R$ 66,63</td></tr>
+    <tr><td>09 a 13/08</td><td class="num">R$ 3.194</td><td class="num">554</td><td class="num"><b>R$ 5,76</b></td><td class="num">7,58%</td><td class="num">R$ 76,04</td></tr>
+    <tr class="lo"><td>14 a 18/08</td><td class="num">R$ 2.913</td><td class="num">454</td><td class="num"><b class="bd">R$ 6,42</b></td><td class="num gd">9,91%</td><td class="num">R$ 64,74</td></tr>
+  </table></div>
+
+  <p style="font-size:12.5px;color:var(--ink3);margin-top:-8px">Série da campanha com o histórico contínuo mais longo. A tabela da Fase 2, abaixo, soma as duas campanhas.</p>
+
+  <div class="box">
+    <div class="bt">O que aconteceu nessa fase</div>
+    <p><strong>Comprar a visita ficou 75% mais caro</strong> — de R$ 3,67 para R$ 6,42, subindo semana após semana. E <strong>a conversão da página segurou</strong>: 6,75% no começo, 9,91% no fim. Quem chegava na página comprava tão bem quanto antes, ou melhor. Nessa fase o buraco estava <em>antes</em> do clique, no leilão.</p>
+  </div>
+
+  <p>E o leilão encareceu por três motivos que não têm a ver com o que você fala na câmera:</p>
+  <ol>
+    <li><strong>O melhor criativo da conta está desligado desde 24/07.</strong> O AD02 fez 565 vendas a R$ 36,85 e nunca perdeu um teste — foi arquivado por acidente junto com a campanha.</li>
+    <li><strong>Duas campanhas ativas disputando o mesmo público</strong>, com os mesmos conjuntos e os mesmos vídeos re-upados. Elas leiloam uma contra a outra e sobem o próprio preço.</li>
+    <li><strong>O mesmo roteiro há 85 dias.</strong> Frequência acumulada de 3,2 a 3,6 no mesmo público, e o CPM saiu de ~R$ 57 em julho para R$ 80–102 entre 10 e 17/08.</li>
+  </ol>
+
+  <h3>Fase 2 — a partir de 24/08: o problema virou conversão</h3>
+  <p>Aqui a história inverte, e é por isso que este documento não abre pedindo gravação. Comparando os 16 dias antes da virada com os cinco dias desde ela, nas <strong>duas campanhas somadas</strong>:</p>
+
+  <div class="tw"><table>
+    <tr><th>Etapa</th><th class="num">08 a 23/08</th><th class="num">24 a 28/08</th><th class="num">Variação</th></tr>
+    <tr><td>Investido</td><td class="num">R$ 19.412,15</td><td class="num">R$ 4.944,08</td><td class="num">—</td></tr>
+    <tr><td>Visitas na página</td><td class="num">3.247</td><td class="num">1.007</td><td class="num">—</td></tr>
+    <tr class="hi"><td><b>Custo por visita</b></td><td class="num">R$ 5,98</td><td class="num gd"><b>R$ 4,91</b></td><td class="num gd"><b>−18%</b></td></tr>
+    <tr class="lo"><td><b>Visita → checkout</b></td><td class="num">10,78%</td><td class="num bd"><b>5,76%</b></td><td class="num bd"><b>−47%</b></td></tr>
+    <tr><td>Checkout → venda</td><td class="num">71,7%</td><td class="num wn">62,1%</td><td class="num wn">−13%</td></tr>
+    <tr class="lo"><td><b>Visita → venda</b></td><td class="num">7,73%</td><td class="num bd"><b>3,57%</b></td><td class="num bd"><b>−54%</b></td></tr>
+    <tr class="lo"><td><b>CPA</b></td><td class="num">R$ 77,34</td><td class="num bd"><b>R$ 137,34</b></td><td class="num bd"><b>+78%</b></td></tr>
+  </table></div>
+
+  <div class="box r">
+    <div class="bt">Leia essa tabela de cima para baixo</div>
+    <p><strong>O tráfego ficou mais barato e a venda sumiu do mesmo jeito.</strong> O custo por visita <em>caiu</em> 18%. No dia 24/08 a conta comprou 261 visitas — o pico do mês — pelo menor preço do mês, R$ 4,68 cada. E vendeu quase nada. Isso não é leilão. Não é frequência. Não é criativo cansado. <strong>É a página deixando de converter.</strong></p>
+  </div>
+
+  <h4>A virada tem data e é abrupta</h4>
+  <p>Taxa de visita → venda, dia a dia. Nos 16 dias anteriores ela oscilou entre 5,45% e 10,84%. Nos cinco dias seguintes, <strong>nenhum dia encostou no piso da faixa anterior</strong>.</p>
+
+  <div class="qb">
+    <div class="qr">
+      <div class="lb"><b>08 a 23/08</b><br>faixa de 16 dias</div>
+      <div class="tk"><div class="bar faixa" style="left:49.5%;width:49.0%"></div></div>
+      <div class="vl" style="color:var(--ok)">5,4–10,8%</div>
+    </div>
+    <div class="qr">
+      <div class="lb"><b>24/08</b></div>
+      <div class="tk"><div class="bar q" style="width:13.9%"></div><div class="piso" style="left:49.5%"></div></div>
+      <div class="vl" style="color:var(--bad)">1,53%</div>
+    </div>
+    <div class="qr">
+      <div class="lb"><b>25/08</b></div>
+      <div class="tk"><div class="bar q" style="width:43.9%"></div><div class="piso" style="left:49.5%"></div></div>
+      <div class="vl" style="color:var(--bad)">4,83%</div>
+    </div>
+    <div class="qr">
+      <div class="lb"><b>26/08</b></div>
+      <div class="tk"><div class="bar q" style="width:44.5%"></div><div class="piso" style="left:49.5%"></div></div>
+      <div class="vl" style="color:var(--bad)">4,90%</div>
+    </div>
+    <div class="qr">
+      <div class="lb"><b>27/08</b></div>
+      <div class="tk"><div class="bar q" style="width:35.8%"></div><div class="piso" style="left:49.5%"></div></div>
+      <div class="vl" style="color:var(--bad)">3,94%</div>
+    </div>
+    <div class="qr">
+      <div class="lb"><b>28/08</b></div>
+      <div class="tk"><div class="bar q" style="width:21.8%"></div><div class="piso" style="left:49.5%"></div></div>
+      <div class="vl" style="color:var(--bad)">2,40%</div>
+    </div>
+    <p class="qbleg">A linha tracejada verde é o <strong>pior dia</strong> dos 16 anteriores (5,45%). Escala até 11%.</p>
+  </div>
+
+  <h4>Quebrou em dois degraus — e o primeiro é o grande</h4>
+  <ul>
+    <li><strong>Visita → checkout caiu pela metade: 10,78% para 5,76%.</strong> Esse degrau acontece <em>antes</em> do checkout. É página, botão, CTA ou preço — não é o que está dentro da Hubla.</li>
+    <li><strong>Checkout → venda caiu de 71,7% para 62,1%.</strong> Menor, e esse sim está dentro do checkout: de cada 100 pessoas que chegam lá, 10 a mais desistem no meio.</li>
+  </ul>
+
+  <div class="box">
+    <div class="bt">Uma pista, tratada como pista</div>
+    <p>Existe um <strong>order bump de R$ 37</strong> no checkout da Hubla — “Não deixe essa contratação virar rescisão no terceiro mês”. Ele é candidato natural para o <em>segundo</em> degrau: dobrar o preço na cara de quem já decidiu pagar R$ 47 derruba fechamento. <strong>O Isaac está verificando a data de criação dele.</strong></p>
+    <p style="margin-top:11px">Mas atenção à aritmética: <strong>o order bump está dentro do checkout e não pode explicar o degrau maior</strong>, que é a pessoa nem chegar lá. Alguma coisa mudou antes disso. Não vou chutar o quê — o dado diz que quebrou em 24/08, nos dois degraus, com tráfego mais barato e mais abundante. A causa é o que a gente vai atrás nesta semana.</p>
+  </div>
+
+  <div class="box r">
+    <div class="bt">Quanto isso custou em cinco dias</div>
+    <p>As <strong>1.007 visitas</strong> de 24 a 28/08 foram compradas e pagas. Com a taxa de conversão que a página tinha até dia 23, elas teriam virado <strong>78 vendas</strong>. Viraram <strong>36</strong>.</p>
+    <p style="margin-top:11px"><strong>São 42 vendas perdidas em cinco dias</strong> — e o CPA teria sido <strong class="gd">R$ 63,51</strong> em vez de R$ 137,34. Abaixo da meta de R$ 70, <em>com a verba que já está rodando</em>. A meta não depende de gastar mais nem de gravar mais: depende de a conversão voltar ao que já era.</p>
+  </div>
+
+  <div class="box b">
+    <div class="bt">Não é erro de medição</div>
+    <p>A primeira suspeita sempre é rastreamento quebrado. Não é o caso: <strong>a Hubla confirmou o número de vendas reais</strong>, e ele bate com o que o pixel registrou. As pessoas realmente pararam de comprar.</p>
+    <p style="margin-top:11px">O que continua fora do nosso alcance é o que vem <em>depois</em> da compra — reembolso, aproveitamento do kit, o que vira sessão estratégica. Isso não está integrado e não aparece em nenhuma tabela deste documento.</p>
+  </div>
+
+  <h3>O que isso muda na ordem das coisas</h3>
+  <div class="box g">
+    <div class="bt">É comigo — não custa nada e vem antes de tudo</div>
+    <p><strong>1. Descobrir o que mudou em 24/08 na página ou no checkout.</strong> É a maior alavanca da conta hoje, e não passa por você. Começa pelo order bump e vai até o último parágrafo da página de venda.<br>
+    <strong>2. Religar o AD02</strong> — R$ 36,85 e 565 vendas, desligado por acidente em 24/07.<br>
+    <strong>3. Acabar com a autoconcorrência</strong> entre as duas campanhas.</p>
+  </div>
+
+  <div class="box">
+    <div class="bt">É com você — e continua valendo</div>
+    <p>Tudo o que vem daqui para frente neste documento — as duas correções de custo zero e os catorze roteiros — <strong>segue de pé</strong>. Só não é a explicação da queda desta semana, e eu não vou te vender como se fosse. Criativo novo é o que zera a frequência sem trocar de público e o que impede setembro de repetir julho e agosto. <strong>Consertar a página traz o CPA de volta para R$ 63. Criativo novo é o que o mantém lá.</strong></p>
+  </div>
+</section>
+
+<section id="relogio">
+  <div class="sn">O achado</div>
+  <h2>A ordem em que você diz “30%, 40%” é a ordem exata do CPA</h2>
+  <p class="sub">Quatro vídeos, quatro momentos diferentes para o mesmo número. Ordene os vídeos pelo segundo em que o número entra e você terá ordenado o CPA, do melhor para o pior. Sem exceção.</p>
+
+  <div class="rel">
+    <div class="ruler">
+      <div class="lb"></div>
+      <div class="tk">
+        <i style="left:0">0s</i><i style="left:16.67%">15s</i><i style="left:33.33%">30s</i><i style="left:50%">45s</i><i style="left:66.67%">60s</i><i style="left:83.33%">75s</i><i style="left:100%;transform:translateX(-100%)">90s</i>
+      </div>
+      <div class="cpa"></div>
+    </div>
+
+    <div class="rw">
+      <div class="lb"><b>AD02</b><s>50,9 s</s></div>
+      <div class="tk">
+        <div class="bar" style="width:56.6%"></div>
+        <div class="zn"></div>
+        <div class="mk" style="left:4.44%"><s>0:04</s></div>
+      </div>
+      <div class="cpa" style="color:var(--ok)">R$ 36,85<s>CPA</s></div>
+    </div>
+
+    <div class="rw">
+      <div class="lb"><b>AD03</b><s>39,7 s</s></div>
+      <div class="tk">
+        <div class="bar" style="width:44.1%"></div>
+        <div class="zn"></div>
+        <div class="mk" style="left:8.89%"><s>0:08</s></div>
+      </div>
+      <div class="cpa" style="color:var(--gold2)">R$ 42,83<s>CPA</s></div>
+    </div>
+
+    <div class="rw">
+      <div class="lb"><b>AD07</b><s>67,8 s</s></div>
+      <div class="tk">
+        <div class="bar" style="width:75.3%"></div>
+        <div class="zn"></div>
+        <div class="mk" style="left:18.89%"><s>0:17</s></div>
+      </div>
+      <div class="cpa" style="color:var(--gold2)">R$ 42,50<s>CPA</s></div>
+    </div>
+
+    <div class="rw">
+      <div class="lb"><b>AD09</b><s>85,3 s</s></div>
+      <div class="tk">
+        <div class="bar" style="width:94.8%"></div>
+        <div class="zn"></div>
+        <div class="mk" style="left:25.89%"><s>0:23</s></div>
+      </div>
+      <div class="cpa" style="color:var(--bad)">R$ 66,83<s>CPA</s></div>
+    </div>
+  </div>
+
+  <div class="leg">
+    <span class="li"><span class="sw" style="background:var(--gold)"></span> onde entra o “30%, 40%”</span>
+    <span class="li"><span class="sw" style="background:rgba(201,162,39,.22)"></span> duração do vídeo</span>
+    <span class="li"><span class="sw" style="background:rgba(74,222,128,.28)"></span> zona segura — os 5 primeiros segundos</span>
+  </div>
+
+  <p>O marcador anda para a direita, o CPA sobe junto. O AD07 é o único que sai um pouco da linha — ele fica R$ 0,33 abaixo do AD03 mesmo entregando o número 9 segundos depois. A explicação está no gancho dele, que é o único da conta que coloca <strong>uma aposta na mesa</strong> (“quebrar o seu escritório”) e compra tempo com isso. Fora essa exceção, a curva é limpa.</p>
+
+  <div class="diga">
+    <div class="lbl">A regra que sai daí — cole no espelho antes de gravar</div>
+    <div class="txt">Número doloroso <strong style="color:var(--gold2)">antes do segundo 5</strong>. Oferta nomeada <strong style="color:var(--gold2)">antes do 20</strong>. Vídeo <strong style="color:var(--gold2)">abaixo de 55 segundos</strong>. Preço e clique <strong style="color:var(--gold2)">na mesma respiração</strong>.</div>
+    <p class="nt">Os dois melhores CPAs da conta (51 s e 40 s) fazem as quatro coisas. O pior (85 s) não faz nenhuma.</p>
+  </div>
+
+  <div class="tw"><table>
+    <tr><th>Peça</th><th class="num">Duração</th><th class="num">Número entra</th><th class="num">Oferta entra</th><th class="num">CTA</th><th class="num">CPA</th><th class="num">Vendas</th></tr>
+    <tr class="hi"><td><b>AD02</b> — “Se você é advogado e está contratando outro”</td><td class="num">50,9 s</td><td class="num gd">0:04</td><td class="num gd">0:18 · 36%</td><td class="num">0:45</td><td class="num"><b class="gd">R$ 36,85</b></td><td class="num">565</td></tr>
+    <tr><td><b>AD03</b> — “Sabe qual é o erro comum”</td><td class="num">39,7 s</td><td class="num">0:08</td><td class="num">0:19,6 · 49%</td><td class="num">0:36,9</td><td class="num"><b>R$ 42,83</b></td><td class="num">261</td></tr>
+    <tr><td><b>AD07</b> — “Não faça isso se não quiser quebrar”</td><td class="num">67,8 s</td><td class="num">0:17</td><td class="num wn">0:48,1 · 71%</td><td class="num bd">nenhum</td><td class="num"><b>R$ 42,50</b></td><td class="num">58</td></tr>
+    <tr class="lo"><td><b>AD09</b> — “Fique atento a esse vídeo até o final”</td><td class="num">85,3 s</td><td class="num bd">0:23</td><td class="num bd">1:00 · 70%</td><td class="num">1:22</td><td class="num"><b class="bd">R$ 66,83</b></td><td class="num">9</td></tr>
+  </table></div>
+
+  <div class="box b">
+    <div class="bt">Onde essa leitura é frágil — e vale você saber</div>
+    <p>O AD09 tem <strong>só 9 vendas em R$ 601 investidos</strong>. Nove conversões não fecham estatística. A conclusão bate com a estrutura do roteiro e com o funil dele etapa a etapa, então é uma <strong>hipótese forte</strong> — mas não é fato provado. O AD02, com 565 vendas e R$ 20,8 mil, esse sim está fora de dúvida.</p>
+  </div>
+</section>
+
+<section id="anatomia">
+  <div class="sn">A comparação</div>
+  <h2>O melhor da conta contra o pior, frase por frase</h2>
+  <p class="sub">Mesmo produto, mesmo preço, mesma pessoa na câmera, mesmo assunto. R$ 36,85 contra R$ 66,83. As cinco diferenças são todas de roteiro.</p>
+
+  <h3>Primeiro, onde o AD09 realmente perde</h3>
+  <p>Ele não perde no clique — ele perde <strong>depois</strong> dele.</p>
+
+  <div class="tw"><table>
+    <tr><th>Peça</th><th class="num">CTR</th><th class="num">CPM</th><th class="num">Custo por visita</th><th class="num">Visita → venda</th><th class="num">CPA</th></tr>
+    <tr class="hi"><td><b>AD02</b></td><td class="num">2,03%</td><td class="num">R$ 45,35</td><td class="num gd"><b>R$ 2,96</b></td><td class="num gd"><b>8,02%</b></td><td class="num"><b class="gd">R$ 36,85</b></td></tr>
+    <tr><td>AD07</td><td class="num">2,64%</td><td class="num">R$ 58,92</td><td class="num">R$ 2,97</td><td class="num">7,00%</td><td class="num">R$ 42,50</td></tr>
+    <tr><td>AD03</td><td class="num">1,95%</td><td class="num">R$ 54,75</td><td class="num">R$ 3,98</td><td class="num gd"><b>9,30%</b></td><td class="num">R$ 42,83</td></tr>
+    <tr><td>AD01 <span style="color:var(--ink3)">(mesmo vídeo do AD02)</span></td><td class="num">2,10%</td><td class="num">R$ 63,26</td><td class="num">R$ 3,96</td><td class="num">7,42%</td><td class="num">R$ 53,32</td></tr>
+    <tr class="lo"><td><b>AD09</b></td><td class="num bd"><b>2,87%</b></td><td class="num">R$ 63,39</td><td class="num bd"><b>R$ 4,56</b></td><td class="num bd"><b>6,82%</b></td><td class="num"><b class="bd">R$ 66,83</b></td></tr>
+  </table></div>
+
+  <div class="box r">
+    <div class="bt">A armadilha do CTR</div>
+    <p>O AD09 tem o <strong>maior CTR do Guia</strong> — 41% acima do AD02 — e o pior CPA. Ele compra mais cliques por impressão e menos vendas por clique. E o AD03 fecha o argumento pelo outro lado: <strong>o menor CTR do Guia (1,95%) tem a melhor conversão de página (9,30%)</strong>. Se a gente escolhesse criativo por CTR, mataria o vencedor e escalaria o perdedor.</p>
+    <p style="margin-top:12px"><strong>O gancho do AD09 recruta curiosidade. O do AD02 recruta intenção.</strong> É a mesma diferença que aparece nas cinco comparações abaixo.</p>
+  </div>
+
+  <h3>As cinco diferenças, com as frases literais</h3>
+
+  <div class="dif">
+    <div class="dh"><i>01</i>O número entra seis vezes mais tarde</div>
+    <p class="dp">Não é uma diferença de estilo. É o intervalo em que o espectador decide se aquilo é sobre ele.</p>
+    <div class="vs">
+      <div class="sd w"><div class="tg"><span>AD02 · aos 0:04</span><em>R$ 36,85</em></div>
+        <p class="fl">“…com aquela brincadeira de 30%, 40% sobre o valor do processo que vocês vão dividir.”</p></div>
+      <div class="sd l"><div class="tg"><span>AD09 · aos 0:23</span><em>R$ 66,83</em></div>
+        <p class="fl">“Deixam lá 20, 30, 40% do lucro do escritório para alguém que é um associado.”</p>
+        <p class="nt">Dezenove segundos de vídeo antes disso, sem nada concreto.</p></div>
+    </div>
+  </div>
+
+  <div class="dif">
+    <div class="dh"><i>02</i>Um qualifica por cena, o outro por rótulo</div>
+    <p class="dp">“Advogado” segura todo advogado que passa, inclusive quem não tem associado nenhum. “Está contratando outro advogado” só segura quem está vivendo o problema agora. É literalmente o que os números mostram: mais cliques, menos compradores.</p>
+    <div class="vs">
+      <div class="sd w"><div class="tg"><span>AD02 · 0:00</span><em>cena</em></div>
+        <p class="fl">“Se você é advogado <strong style="color:var(--gold2)">e está contratando outro advogado</strong> para trabalhar no escritório…”</p></div>
+      <div class="sd l"><div class="tg"><span>AD09 · 0:00</span><em>rótulo</em></div>
+        <p class="fl">“Advogado, fique atento a esse vídeo até o final.”</p></div>
+    </div>
+  </div>
+
+  <div class="dif">
+    <div class="dh"><i>03</i>Um abre com uma entrega, o outro com um pedido</div>
+    <p class="dp">“Fique atento até o final” pede 85 segundos emprestados antes de dar qualquer coisa em troca. O AD02 não pede nada — na primeira frase a pessoa já sabe do que se trata.</p>
+    <div class="vs">
+      <div class="sd w"><div class="tg"><span>AD02 · 0:00 a 0:10</span><em>entrega</em></div>
+        <p class="fl">“…entenda uma coisa: você está errando desde o começo.”</p>
+        <p class="nt">Veredito na tela aos dez segundos.</p></div>
+      <div class="sd l"><div class="tg"><span>AD09 · 0:03,5</span><em>promessa vaga</em></div>
+        <p class="fl">“Porque eu quero te dar um conselho que vai deixar o seu escritório mais rico nos próximos meses.”</p>
+        <p class="nt">Sem número, sem aposta, sem oferta, até 0:23.</p></div>
+    </div>
+  </div>
+
+  <div class="dif">
+    <div class="dh"><i>04</i>A oferta aparece aos 36% de um, aos 70% do outro</div>
+    <p class="dp">Quem abandona o AD02 no meio <strong>já sabe que existe um kit à venda e por quanto</strong>. Quem abandona o AD09 aos 45 segundos — metade do vídeo — nunca soube que havia algo para comprar.</p>
+    <div class="vs">
+      <div class="sd w"><div class="tg"><span>AD02 · 0:18</span><em>36% do vídeo</em></div>
+        <p class="fl">“Aqui abaixo eu preparei um kit com contratos associados, funil de contratação de advogados, estagiários, planos de carreira…”</p></div>
+      <div class="sd l"><div class="tg"><span>AD09 · 1:00</span><em>70% do vídeo</em></div>
+        <p class="fl">“Eu construí um kit de documentos com modelos de contratações…”</p>
+        <p class="nt">Um minuto inteiro depois do início.</p></div>
+    </div>
+  </div>
+
+  <div class="dif">
+    <div class="dh"><i>05</i>Um solda o preço ao clique, o outro põe uma mentira entre os dois</div>
+    <p class="dp">Instrução e âncora na mesma respiração contra escassez que ninguém acredita num produto de R$ 47 que roda há três meses. O AD09 adiciona fricção exatamente onde o AD02 remove.</p>
+    <div class="vs">
+      <div class="sd w"><div class="tg"><span>AD02 · 0:45</span><em>uma frase só</em></div>
+        <p class="fl">“Clica aqui abaixo e adquira pelo valor menor do que um lanche, e tenho certeza que você vai mudar a sua trajetória.”</p></div>
+      <div class="sd l"><div class="tg"><span>AD09 · 1:17</span><em>escassez falsa</em></div>
+        <p class="fl">“Pelo valor que <strong style="color:var(--bad)">apenas por alguns minutos</strong> estará disponível para você, por preço de banana.”</p></div>
+    </div>
+  </div>
+
+  <div class="box r">
+    <div class="bt">Bônus — o AD09 apaga a própria autoridade aos 0:57</div>
+    <p>Ele constrói a credencial (“mais de 50 pessoas, faturar milhares de milhões”) e imediatamente a retira: <em>“e isso não tem nada a ver com esse assunto de hoje”</em>. No AD02 a mesma credencial é apresentada como diretamente ligada à dor: <em>“meu escritório, que já tem mais de 8 anos de vida, mais do que 50 colaboradores, e eu sei muito bem dessas dores que você está passando hoje.”</em> <strong>Nunca peça desculpa pela sua autoridade.</strong></p>
+  </div>
+</section>
+
+<section id="gratis">
+  <div class="sn">Antes de gravar</div>
+  <h2>Duas correções que valem mais que um roteiro novo</h2>
+  <p class="sub">Nenhuma das duas exige set, luz ou dia de gravação. Uma são seis segundos de take. A outra é uma frase que só você sabe escrever.</p>
+
+  <h3>Correção 1 — o AD07 não pede a venda</h3>
+  <p>O segundo melhor CPA da conta, R$ 42,50, com a maior CTR entre os vídeos do Guia e a menor frequência — ou seja, ainda tem público para explorar. E ele termina assim:</p>
+
+  <div class="vs">
+    <div class="sd l"><div class="tg"><span>AD07 · 1:02 até o fim</span><em>como está hoje</em></div>
+      <p class="fl">“Então, por valor aqui, preço de banana, eu disponibilizei para você o conhecimento de 8 anos.”</p>
+      <p class="nt">Acabou. Sem “clica aqui abaixo”. Sem instrução nenhuma.</p></div>
+    <div class="sd w"><div class="tg"><span>AD02 · o fecho que funciona</span><em>o que colar no lugar</em></div>
+      <p class="fl">“Clica aqui abaixo e adquira pelo valor menor do que um lanche, e tenho certeza que você vai mudar a sua trajetória.”</p>
+      <p class="nt">Já validado em 565 vendas.</p></div>
+  </div>
+
+  <div class="box g">
+    <div class="bt">O pedido, em uma linha</div>
+    <p><strong>Grave um take de 6 segundos com essa frase</strong>, no mesmo enquadramento e, se der, com a mesma roupa do AD07. A gente troca o fim e sobe o vídeo de novo. É a intervenção de melhor relação esforço/retorno de toda esta análise — e a única que muda um vídeo que <em>já está performando</em>.</p>
+    <p style="margin-top:10px;font-size:13.5px;color:var(--ink3)">Detalhe pequeno mas real: <strong>“preço de banana” está nas duas peças mais fracas</strong> (AD07 e AD09) e <strong>“menos que um lanche” está nas duas melhores</strong> (AD02 e AD03). Troque a expressão junto com o take.</p>
+  </div>
+
+  <h3>Correção 2 — o AD09 promete quatro coisas e não entrega nenhuma</h3>
+  <p>Aos 0:16,6 do AD09 você diz:</p>
+
+  <div class="diga">
+    <div class="lbl">AD09 · 0:16,6 — a promessa que fica em aberto</div>
+    <div class="txt">“E por não saber, não saber <strong style="color:var(--gold2)">os quatro tipos de contratações</strong>, eles fazem o quê?”</div>
+    <p class="nt">O vídeo segue por mais 68 segundos e nunca diz quais são os quatro.</p>
+  </div>
+
+  <p>Isso é o <strong>único mecanismo específico e contável de todo o acervo do Guia</strong>. Nenhum dos quatro vídeos nomeia um método — todos nomeiam só o entregável (“um kit com contratos, funil e planos de carreira”). “Os quatro tipos de contratações” é a única coisa que soa como conhecimento próprio, e ela está enterrada no meio da pior peça, sem resolução.</p>
+
+  <div class="box">
+    <div class="bt">O que eu preciso de você — e só você tem</div>
+    <p><strong>Quais são os quatro tipos?</strong> Escreve os quatro nomes numa mensagem, uma linha cada. Com isso o roteiro <strong>H03</strong> fica pronto para gravar, e ele é a única peça da lista inteira que <em>adiciona informação nova</em> ao funil em vez de reembalar a mesma dor.</p>
+  </div>
+
+  <div class="box b">
+    <div class="bt">E o que corre em paralelo, comigo</div>
+    <p>Enquanto você grava, eu vou atrás do que quebrou em 24/08 na página e no checkout — <strong>é a maior alavanca da conta agora</strong> — e religo o AD02, que está desligado por acidente desde 24/07 com R$ 36,85 e 565 vendas. Nenhum roteiro novo vai bater esse número na primeira semana.</p>
+  </div>
+</section>
+
+<section id="quatro">
+  <div class="sn">Prioridade</div>
+  <h2>Se você gravar só quatro esta semana, grave estes</h2>
+  <p class="sub">Nesta ordem. Os quatro juntos dão menos de quatro minutos de vídeo final e cabem numa manhã de gravação.</p>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H05</span><span class="nm">O AD07 em 45 segundos</span><span class="pill p-g">grave primeiro</span></div>
+    <p class="fala">“Advogado, não faça isso se você não quiser quebrar o seu escritório esse ano.”</p>
+    <p class="why"><strong>Mesmo gancho, mesma copy, vídeo mais curto.</strong> A única coisa que muda é onde a oferta entra: sai dos 0:48 (71% do vídeo) e vai para os 0:16 (36%, a posição do AD02). O AD07 já é o segundo melhor CPA da conta rodando com frequência 1,74 e <em>sem pedir o clique</em>. Se a tese do relógio estiver certa, esta versão bate o AD02. É o teste mais limpo que existe: uma variável só, risco quase zero.</p>
+    <div class="strip"><span><b>0:00</b>gancho-ameaça</span><span><b>0:05</b>o número</span><span><b>0:10</b>“medo de pagar o fixo”</span><span><b>0:16</b>o kit, três itens</span><span><b>0:30</b>autoridade</span><span class="fim"><b>0:38</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD07</b></span><span>Alvo <b>45 s</b></span><span>Ângulo <b>aposta na abertura</b></span></div>
+  </div>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H03</span><span class="nm">Os quatro tipos</span><span class="pill p-g">informação nova</span></div>
+    <p class="fala">“Existem quatro formas de contratar um advogado pro seu escritório. Você provavelmente só conhece a pior — e é a que te custa 40% do processo.”</p>
+    <p class="why"><strong>Resgata a promessa que o AD09 abandonou e a cumpre.</strong> É o único roteiro da lista que coloca conteúdo novo no funil: abre um loop contável (“quatro”), entrega os quatro em uma frase cada, e usa a porcentagem como a <em>pior</em> das quatro em vez de como a única que existe. Depende de você me mandar quais são os quatro.</p>
+    <div class="strip"><span><b>0:00</b>os quatro tipos</span><span><b>0:05</b>o número, como a pior das quatro</span><span><b>0:12</b>as outras três, uma frase cada</span><span><b>0:22</b>o kit</span><span><b>0:35</b>autoridade</span><span class="fim"><b>0:42</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD09 (resgate) sobre a estrutura do AD02</b></span><span>Alvo <b>50 s</b></span></div>
+  </div>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H04</span><span class="nm">Sócio sem ônus, promovido a gancho</span><span class="pill p-g">copy já validada</span></div>
+    <p class="fala">“Você não contratou um associado. Você deu sociedade do seu escritório pra alguém que não põe um real no negócio e vai embora às seis da tarde.”</p>
+    <p class="why"><strong>A melhor frase do acervo inteiro está enterrada aos 0:15,9 do AD03.</strong> Você já disse ela — “um sócio que não tem nenhum ônus a não ser ganhar dinheiro com você” — e ela fez 261 vendas <em>escondida no meio do vídeo</em>. Puxar para o segundo zero é a mudança de menor custo e maior probabilidade da lista: não é copy nova, é copy comprovada em posição nova.</p>
+    <div class="strip"><span><b>0:00</b>a frase</span><span><b>0:06</b>o número que materializa</span><span><b>0:12</b>o custo no ano</span><span><b>0:18</b>o kit</span><span class="fim"><b>0:32</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>40 s</b></span></div>
+  </div>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H12</span><span class="nm">Risco trabalhista</span><span class="pill p-g">eixo de medo novo</span></div>
+    <p class="fala">“Aquele associado que você paga 30% por processo tem hora, tem rotina e responde a você. Isso não é associado. Isso é um vínculo empregatício esperando uma reclamatória.”</p>
+    <p class="why"><strong>Nenhuma das quatro peças menciona vínculo, reclamatória ou passivo.</strong> É um eixo emocional inteiramente novo — o que importa muito agora, porque o problema do mês é fadiga: o mesmo público ouviu o mesmo argumento de lucro 3,5 vezes. Fala com o advogado na linguagem técnica dele, o que compra credibilidade sem gastar segundo explicando.</p>
+    <div class="strip"><span><b>0:00</b>o vínculo</span><span><b>0:07</b>o número e o que ele prova em juízo</span><span><b>0:14</b>o passivo</span><span><b>0:20</b>o kit, contrato de associado primeiro</span><span class="fim"><b>0:36</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>48 s</b></span></div>
+    <p class="why" style="margin-top:14px;color:var(--warn);font-size:13.5px"><strong>Cuidado jurídico:</strong> manter no terreno de “modelo de contrato”, nunca de garantia. Não prometer que o kit blinda de reclamatória.</p>
+  </div>
+
+  <div class="box b">
+    <div class="bt">Antes de gravar o H12 (e o H09)</div>
+    <p>Existem dois criativos <strong>já produzidos e nunca testados</strong> em campanha de venda que podem cobrir esses ângulos com material pronto: <em>“O erro trabalhista que muitos advogados cometem”</em> e <em>“Quanto sobra no fim do mês?”</em>. Eu confiro os dois antes da sua gravação — se servirem, sobram dois slots para outros ganchos.</p>
+  </div>
+</section>
+
+<section id="blocoa">
+  <div class="sn">Os 14 ganchos · bloco A</div>
+  <h2>Derivados do AD02 — cena primeiro, número aos 4 segundos</h2>
+  <p class="sub">Todos abrem colocando o espectador dentro de uma situação em vez de chamá-lo pela profissão. É o que fez o AD02 custar R$ 36,85.</p>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H01</span><span class="nm">A cena do contrato aberto</span></div>
+    <p class="fala">“Se você está com o contrato do seu associado aberto aí na tela, procura a linha que diz 30%. É essa linha que come o seu lucro todo mês.”</p>
+    <p class="why">Leva ao extremo o que faz o AD02 funcionar. Em vez de “está contratando”, coloca a pessoa <strong>olhando para o documento</strong> — a qualificação mais estreita possível, e o número entra aos 0:04.</p>
+    <div class="strip"><span><b>0:00</b>gancho</span><span><b>0:04</b>o número na cláusula</span><span><b>0:09</b>reframe do sócio sem ônus</span><span><b>0:16</b>o kit, três itens</span><span><b>0:30</b>autoridade</span><span class="fim"><b>0:38</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD02</b></span><span>Alvo <b>45 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H02</span><span class="nm">O número é a primeira palavra</span></div>
+    <p class="fala">“Trinta por cento de cem mil reais é trinta mil reais. Por ano, é o carro que você não trocou.”</p>
+    <p class="why">Testa o único lugar mais cedo que 0:04 — o <strong>segundo zero</strong>. Variável isolada: a posição do número. Se a curva do relógio continuar, este é o teto do que dá para fazer.</p>
+    <div class="strip"><span><b>0:00</b>a aritmética em voz alta</span><span><b>0:06</b>a conta do ano</span><span><b>0:12</b>reframe</span><span><b>0:18</b>o kit</span><span><b>0:32</b>autoridade</span><span class="fim"><b>0:40</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD02</b></span><span>Alvo <b>45 s</b></span></div>
+  </div>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H03</span><span class="nm">Os quatro tipos</span><span class="pill p-g">prioridade máxima</span></div>
+    <p class="fala">“Existem quatro formas de contratar um advogado pro seu escritório. Você provavelmente só conhece a pior — e é a que te custa 40% do processo.”</p>
+    <p class="why">Único roteiro que adiciona informação nova ao funil. Depende de você me dizer quais são os quatro. <a href="#quatro" style="color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(125,169,245,.3)">Detalhado acima</a>.</p>
+    <div class="strip"><span><b>0:00</b>os quatro tipos</span><span><b>0:05</b>o número, como a pior das quatro</span><span><b>0:12</b>as outras três</span><span><b>0:22</b>o kit</span><span><b>0:35</b>autoridade</span><span class="fim"><b>0:42</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD09 (resgate) sobre a estrutura do AD02</b></span><span>Alvo <b>50 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H07</span><span class="nm">Faça a conta agora</span></div>
+    <p class="fala">“Abre a sua planilha de faturamento agora. Multiplica por 0,3. Esse número é quanto você paga por ano pra ter um sócio que não é sócio.”</p>
+    <p class="why">Comando de participação — formato que a conta nunca testou. Quem executa a conta <strong>se auto-qualifica antes do clique</strong>, o que ataca exatamente a métrica que prevê CPA (visita→venda) em vez da que não prevê (CTR).</p>
+    <div class="strip"><span><b>0:00</b>o comando</span><span><b>0:05</b>o resultado da conta</span><span><b>0:12</b>reframe</span><span><b>0:18</b>o kit</span><span class="fim"><b>0:33</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD02</b></span><span>Alvo <b>40 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H10</span><span class="nm">Cinquenta pessoas, zero porcentagem</span></div>
+    <p class="fala">“Meu escritório tem mais de 50 colaboradores e nenhum deles ganha porcentagem do processo. Em oito anos, nenhum.”</p>
+    <p class="why">Hoje a sua autoridade é credencial de meio de vídeo — 0:37 no AD02, 0:49 no AD09. Aqui ela vira <strong>prova e gancho ao mesmo tempo</strong>, e a prova <em>é</em> a promessa. Nenhuma peça testou apresentá-la primeiro.</p>
+    <div class="strip"><span><b>0:00</b>a prova</span><span><b>0:06</b>“e o mercado inteiro faz o contrário: 30%, 40%”</span><span><b>0:13</b>reframe</span><span><b>0:20</b>o kit</span><span class="fim"><b>0:36</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD02</b></span><span>Alvo <b>45 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H13</span><span class="nm">Recorte por porte</span></div>
+    <p class="fala">“Se o seu escritório já tem mais de três advogados, você passou do ponto em que pagar por porcentagem ainda fazia sentido.”</p>
+    <p class="why">Auto-seleção por tamanho de escritório. Escritório maior tem mais dor, compra melhor e vira lead melhor para o high ticket depois. É o filtro mais grosso e mais barato que existe — e não exige perguntar faturamento.</p>
+    <div class="strip"><span><b>0:00</b>o porte</span><span><b>0:05</b>o número aplicado a três advogados</span><span><b>0:12</b>reframe</span><span><b>0:19</b>o kit</span><span class="fim"><b>0:35</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD02</b></span><span>Alvo <b>42 s</b></span></div>
+  </div>
+</section>
+
+<section id="blocob">
+  <div class="sn">Os 14 ganchos · bloco B</div>
+  <h2>Derivados do AD03 — reframe afiado, vídeo curto</h2>
+  <p class="sub">O AD03 é o vídeo mais curto da conta (40 s) e tem a melhor retenção do Guia. Encurtar não custou conversão neste público — custou menos.</p>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H04</span><span class="nm">Sócio sem ônus, promovido a gancho</span><span class="pill p-g">prioridade máxima</span></div>
+    <p class="fala">“Você não contratou um associado. Você deu sociedade do seu escritório pra alguém que não põe um real no negócio e vai embora às seis da tarde.”</p>
+    <p class="why">Copy que você já falou e que já vendeu 261 vezes, tirada do meio do vídeo e levada para o segundo zero. <a href="#quatro" style="color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(125,169,245,.3)">Detalhado acima</a>.</p>
+    <div class="strip"><span><b>0:00</b>a frase</span><span><b>0:06</b>o número que materializa</span><span><b>0:12</b>o custo no ano</span><span><b>0:18</b>o kit</span><span class="fim"><b>0:32</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>40 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H08</span><span class="nm">O associado sai e leva a carteira</span></div>
+    <p class="fala">“No dia em que o seu associado sair, ele leva a carteira de clientes junto. E o contrato que você assinou não te protege disso.”</p>
+    <p class="why">Consequência ausente das quatro transcrições. Todas falam de <strong>lucro dividido</strong>; nenhuma fala de <strong>ativo perdido</strong>. Amplia a dor sem inventar promessa nova — mesmo osso, outro nervo.</p>
+    <div class="strip"><span><b>0:00</b>a perda</span><span><b>0:05</b>o número que ele levou embora</span><span><b>0:11</b>“e o contrato não te protege”</span><span><b>0:17</b>o kit, contrato de associado primeiro</span><span class="fim"><b>0:34</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>45 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H09</span><span class="nm">Faturou mais, não ficou mais rico</span></div>
+    <p class="fala">“Seu escritório faturou mais esse ano e você não ficou mais rico. Eu sei exatamente em que linha o dinheiro sumiu.”</p>
+    <p class="why">Reframe de crescimento no espírito do AD03 (“não é crescimento, é perda de lucro”), mas dito como <strong>observação sobre a vida dele</strong>, não como tese. Existe um criativo pronto e nunca testado — “Quanto sobra no fim do mês?” — que talvez já cubra isso.</p>
+    <div class="strip"><span><b>0:00</b>gancho</span><span><b>0:05</b>onde sumiu: 30%, 40%</span><span><b>0:12</b>reframe</span><span><b>0:18</b>o kit</span><span class="fim"><b>0:33</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>42 s</b></span></div>
+  </div>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H12</span><span class="nm">Risco trabalhista</span><span class="pill p-g">prioridade máxima</span></div>
+    <p class="fala">“Aquele associado que você paga 30% por processo tem hora, tem rotina e responde a você. Isso não é associado. Isso é um vínculo empregatício esperando uma reclamatória.”</p>
+    <p class="why">Eixo de medo inteiramente novo, contra a fadiga de frequência. <a href="#quatro" style="color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(125,169,245,.3)">Detalhado acima</a>.</p>
+    <div class="strip"><span><b>0:00</b>o vínculo</span><span><b>0:07</b>o número e o que ele prova em juízo</span><span><b>0:14</b>o passivo</span><span><b>0:20</b>o kit</span><span class="fim"><b>0:36</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>48 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H14</span><span class="nm">Escritório A e escritório B</span></div>
+    <p class="fala">“Escritório A paga 40% do processo. Escritório B paga salário e bônus por meta. Mesmo faturamento, mesmo time. Um dos dois tem lucro.”</p>
+    <p class="why">Toda peça do Guia é monólogo diagnóstico. <strong>Nenhuma coloca duas opções lado a lado.</strong> Mostra o resultado sem exigir depoimento de cliente, que é bem mais caro de produzir. Variável de estrutura, não de tema.</p>
+    <div class="strip"><span><b>0:00</b>a comparação</span><span><b>0:06</b>os dois números</span><span><b>0:14</b>o que sobra em cada</span><span><b>0:20</b>o kit</span><span class="fim"><b>0:36</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD03</b></span><span>Alvo <b>48 s</b></span></div>
+  </div>
+</section>
+
+<section id="blococ">
+  <div class="sn">Os 14 ganchos · bloco C</div>
+  <h2>Derivados do AD07 — aposta na abertura</h2>
+  <p class="sub">O AD07 é o único vídeo da conta que coloca uma aposta na mesa nos primeiros 4 segundos. Isso compra tempo — foi o que permitiu a ele entregar o número aos 0:17 e ainda assim performar.</p>
+
+  <div class="hk pri">
+    <div class="hd"><span class="cd">H05</span><span class="nm">O AD07 em 45 segundos</span><span class="pill p-g">grave primeiro</span></div>
+    <p class="fala">“Advogado, não faça isso se você não quiser quebrar o seu escritório esse ano.”</p>
+    <p class="why">Mesmo gancho, mesma copy, oferta subindo de 71% para 36% do vídeo. Teste de uma variável só. <a href="#quatro" style="color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(125,169,245,.3)">Detalhado acima</a>.</p>
+    <div class="strip"><span><b>0:00</b>gancho-ameaça</span><span><b>0:05</b>o número</span><span><b>0:10</b>“medo de pagar o fixo”</span><span><b>0:16</b>o kit</span><span><b>0:30</b>autoridade</span><span class="fim"><b>0:38</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD07</b></span><span>Alvo <b>45 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H06</span><span class="nm">O medo do fixo</span></div>
+    <p class="fala">“Você não paga porcentagem porque acredita nisso. Você paga porque tem medo de não conseguir fechar o salário no dia cinco.”</p>
+    <p class="why">Você já nomeia a causa emocional real aos 0:23,2 do AD07 — “eles têm medo de pagar o fixo” — e ela nunca foi gancho. Não acusa o espectador de burrice: <strong>atribui a decisão ao medo</strong>, o que desarma a defensiva antes de ela subir.</p>
+    <div class="strip"><span><b>0:00</b>o medo</span><span><b>0:06</b>o número como sintoma</span><span><b>0:12</b>reframe</span><span><b>0:18</b>o kit</span><span class="fim"><b>0:34</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD07</b></span><span>Alvo <b>45 s</b></span></div>
+  </div>
+
+  <div class="hk">
+    <div class="hd"><span class="cd">H11</span><span class="nm">A objeção como abertura</span></div>
+    <p class="fala">“‘Guilherme, e se eu pagar fixo e o cara não produzir?’ Essa é a pergunta que eu mais ouço. E é exatamente por causa dela que você ainda entrega 40% do seu processo.”</p>
+    <p class="why">Você usa auto-entrevista aos 0:16,2 do AD07 (“Por que repartem, Guilherme?”) e esse recurso nunca abriu um vídeo. Abrir pela objeção <strong>mata a única resistência real do avatar antes de ela aparecer</strong> — e o formato pergunta funciona aqui: o AD03 abre com pergunta e tem a melhor conversão de página do Guia.</p>
+    <div class="strip"><span><b>0:00</b>a objeção, na voz dele</span><span><b>0:07</b>a resposta com o número</span><span><b>0:14</b>reframe</span><span><b>0:20</b>o kit</span><span class="fim"><b>0:36</b>preço + clique</span></div>
+    <div class="mt"><span>Deriva de <b>AD07</b></span><span>Alvo <b>48 s</b></span></div>
+  </div>
+</section>
+
+<section id="regras">
+  <div class="sn">Na hora da câmera</div>
+  <h2>O que não muda em nenhum dos catorze</h2>
+  <p class="sub">O gancho muda. O resto é fórmula — e a fórmula veio dos dois vídeos que já venderam 826 vezes.</p>
+
+  <div class="diga">
+    <div class="lbl">A frase da oferta — três itens, sempre nomeados</div>
+    <div class="txt">“Aqui abaixo eu preparei um kit com <strong style="color:var(--gold2)">contratos de associado</strong>, <strong style="color:var(--gold2)">funil de contratação</strong> de advogados e estagiários, e <strong style="color:var(--gold2)">planos de carreira</strong> — todos os documentos que eu uso no meu escritório.”</div>
+    <p class="nt">Nunca “material completo”, nunca “kit exclusivo”. Três coisas contáveis, sempre as mesmas três.</p>
+  </div>
+
+  <div class="diga">
+    <div class="lbl">A frase de fechamento — preço e clique numa respiração só</div>
+    <div class="txt">“Clica aqui abaixo e adquira pelo <strong style="color:var(--gold2)">valor menor do que um lanche</strong>, e tenho certeza que você vai mudar a sua trajetória.”</div>
+    <p class="nt">Sem pausa entre o preço e a instrução. Foi assim nos dois melhores CPAs da conta.</p>
+  </div>
+
+  <h3>O checklist, para conferir antes de cada take</h3>
+  <ul>
+    <li><strong>Número específico e doloroso antes do segundo 5.</strong> Não “uma fatia”, não “boa parte”. Trinta por cento, quarenta por cento, R$ 30 mil.</li>
+    <li><strong>Gancho de cena, não de rótulo.</strong> Descreva uma situação em que ele está agora, não a profissão dele.</li>
+    <li><strong>Oferta nomeada, três itens, antes do segundo 20.</strong></li>
+    <li><strong>Autoridade quantificada e relevante</strong> — 8 anos, mais de 50 colaboradores — sempre ligada à dor. Nunca com ressalva.</li>
+    <li><strong>“Menos que um lanche” colado no “clica aqui abaixo”.</strong></li>
+    <li><strong>Vídeo. Nunca estático.</strong> Os cinco estáticos da conta fizeram CPA de R$ 143,98 — três vezes o dos vídeos.</li>
+    <li><strong>Abaixo de 55 segundos.</strong> O de 40 s tem a melhor retenção da conta.</li>
+  </ul>
+
+  <div class="box r">
+    <div class="bt">O que não repetir — ângulos queimados</div>
+    <ul style="margin-bottom:0">
+      <li>A abertura literal <em>“dividir 30% ou 40% dos honorários”</em> como está desde 25/05. Frequência 3,6 no mesmo público — está gasta.</li>
+      <li><strong>“Fique atento a esse vídeo até o final”</strong> e qualquer variação de pedido de atenção.</li>
+      <li><strong>“Preço de banana”.</strong> Está nas duas peças mais fracas. “Menos que um lanche” está nas duas melhores.</li>
+      <li>Escassez falsa — <em>“apenas por alguns minutos estará disponível”</em>. Ninguém acredita num produto de R$ 47 que roda há três meses, e isso custa exatamente no ponto do clique.</li>
+      <li><strong>“Link da bio”.</strong> Manda gente para o perfil em vez da página de venda.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <div class="bt">Formatos que ainda faltam no Guia</div>
+    <p>Três formatos nunca foram testados neste funil e continuam sendo as maiores lacunas: <strong>depoimento de cliente</strong>, <strong>demonstração de tela</strong> (abrir o kit e mostrar os documentos) e <strong>entrevista</strong>. Os três são mais caros de produzir que os catorze acima — por isso não estão na fila desta semana, mas entram na próxima leva.</p>
+  </div>
+</section>
+
+<section id="teste">
+  <div class="sn">Depois da gravação</div>
+  <h2>Como a gente vai testar — e como vai julgar</h2>
+
+  <ul>
+    <li><strong>Anúncio novo dentro de conjunto que já existe.</strong> Nunca editar anúncio em entrega, nunca duplicar campanha. Editar zera o aprendizado; duplicar cria o concorrente que já está encarecendo o leilão hoje.</li>
+    <li><strong>Três a quatro variações por vez</strong>, por 4 dias ou 50 resultados, o que vier antes.</li>
+    <li><strong>Matar só quem estiver 40% acima do CPA de referência.</strong> O CPA de um dia isolado não serve como sinal — a variação diária deste funil é de 46%, o mesmo criativo faz R$ 26 num dia e R$ 171 no outro. Leitura sempre em média móvel de 7 dias.</li>
+    <li><strong>Julgar por custo por visita de página e por visita→venda. Nunca por CTR.</strong> A tabela do AD09 mostra o preço de errar essa leitura: maior CTR do Guia, pior CPA.</li>
+  </ul>
+
+  <div class="box g">
+    <div class="bt">O que eu preciso de você para começar</div>
+    <p><strong>1.</strong> Os quatro tipos de contratações, uma linha cada — destrava o H03.<br>
+    <strong>2.</strong> O take de 6 segundos com o CTA, para o fim do AD07.<br>
+    <strong>3.</strong> Uma manhã de gravação para H05, H03, H04 e H12 — menos de quatro minutos de vídeo final somados.</p>
+  </div>
+</section>
+
+<footer style="padding:44px 0 20px;color:var(--ink3);font-size:12.5px;border-top:1px solid var(--line2)">
+  <p style="color:var(--ink3);margin-bottom:6px">Guia de Contratação · pauta de gravação · conta <span class="mono">1378994059677151</span></p>
+  <p style="color:var(--ink3);margin-bottom:6px">Métricas de 25/05 a 18/08/2026, coletadas na API da Meta. Transcrições literais dos quatro vídeos feitas em 28/08/2026 a partir do áudio original.</p>
+  <p style="color:var(--ink3);margin:0">Documento de trabalho — os números de mídia mudam a cada dia de veiculação.</p>
+</footer>
+
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var links = [].slice.call(document.querySelectorAll('nav a'));
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el) map[id] = a;
+  });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('on'); });
+        var a = map[e.target.id];
+        if(a) a.classList.add('on');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  Object.keys(map).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) obs.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
