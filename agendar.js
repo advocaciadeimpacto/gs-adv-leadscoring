@@ -7,6 +7,7 @@ import { capturarOrigem, origemAtual } from './origem.js';
 import { esc, formatarTelefone } from './util.js';
 import { marcar } from './adv-track.js';
 import { iniciarPixel, rastrearAgendamento } from './meta-pixel.js';
+import { blocoWhatsApp, ligarWhatsApp } from './whatsapp.js';
 
 capturarOrigem();
 iniciarPixel();
@@ -65,6 +66,7 @@ function render() {
           <div><dt>Com quem</dt><dd>Um especialista do nosso time comercial</dd></div>
         </dl>
         <p class="resumo-nota">O link da chamada chega no seu e-mail e no WhatsApp logo após a confirmação.</p>
+        ${blocoWhatsApp('fila', { nome: contexto?.lead?.nome })}
       </aside>
 
       <section class="calendario">
@@ -82,6 +84,8 @@ function render() {
         <div class="slots">${listaDeSlots()}</div>
       </section>
     </div>`;
+
+  ligarWhatsApp('fila', marcar);
 
   document.querySelector('#mesAnterior').onclick = () => moverMes(-1);
   document.querySelector('#mesSeguinte').onclick = () => moverMes(1);
@@ -242,8 +246,13 @@ function telaConfirmado(ag) {
       <h1 class="q-title">Está marcado</h1>
       <p class="marcado chanfro">${fmtDataLonga(d)}, às <strong>${fmtHora(d)}</strong> · 30 minutos</p>
       <p class="q-help">Enviamos a confirmação com o link da chamada para <strong>${esc(ag.lead_email)}</strong> e para o seu WhatsApp. Um especialista do time já foi designado para a sua sessão.</p>
-      <p class="disclaimer">Se precisar remarcar, responda a mensagem do WhatsApp. Chegue com os números do escritório em mãos: quanto mais concreto, mais útil a conversa.</p>
+      <p class="disclaimer">Chegue com os números do escritório em mãos: quanto mais concreto, mais útil a conversa.</p>
+      ${blocoWhatsApp('pos_agenda', {
+        nome: ag.lead_nome || contexto?.lead?.nome,
+        quando: `${fmtDataLonga(d)} às ${fmtHora(d)}`
+      })}
     </div>`;
+  ligarWhatsApp('pos_agenda', marcar);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

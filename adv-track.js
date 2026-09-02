@@ -19,7 +19,10 @@ const ORDEM = {
   q1_faturamento: 2, q2_pessoas: 3, q3_urgencia: 4,
   q4_mentoria: 5, q5_area: 6, q6_perfil: 7,
   contato_visto: 8, contato_enviado: 9,
-  obrigado: 10, agendar_visto: 11, agendamento_confirmado: 12
+  obrigado: 10, agendar_visto: 11, agendamento_confirmado: 12,
+  // saidas para o WhatsApp: nao sao degraus do funil, sao atalhos laterais.
+  // ficam no fim da ordem para nao deslocar a numeracao das etapas antigas.
+  whatsapp_fila: 13, whatsapp_pos_agenda: 14
 };
 
 const CHAVE_SESSAO = 'adv_sessao_funil';

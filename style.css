@@ -1074,3 +1074,37 @@ h2.sec {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── atalho para o WhatsApp do time ──────────────────────────────────
+   Aparece em dois momentos: na escolha de horário, para quem não quer
+   esperar a agenda; e na confirmação, para quem já marcou. O verde é o
+   único ponto da interface que foge da paleta, de propósito — ele tem
+   que ler como "canal externo", não como o próximo passo do formulário. */
+.wa-bloco {
+  margin-top: 26px; padding: 18px 18px 16px;
+  border: 1px solid var(--line-soft); border-left: 3px solid #25D366;
+  border-radius: 4px 10px 10px 4px; background: var(--bg-2);
+}
+.wa-titulo { margin: 0 0 6px; font-size: 14.5px; font-weight: 600; color: var(--tx); }
+.wa-apoio  { margin: 0 0 14px; font-size: 13px; line-height: 1.55; color: var(--tx-3); }
+.wa-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 18px; border-radius: 999px; text-decoration: none;
+  background: #25D366; color: #062313;
+  font-size: 14px; font-weight: 700; letter-spacing: .01em;
+  transition: background .15s ease, transform .15s ease;
+}
+.wa-btn:hover  { background: #2ee878; }
+.wa-btn:active { transform: translateY(1px); }
+.wa-btn svg    { flex: 0 0 auto; }
+/* A coluna do resumo é estreita: sem isto o rótulo quebra em duas linhas. */
+.resumo .wa-btn { white-space: nowrap; font-size: 13.5px; padding: 10px 15px; }
+
+/* Na confirmação o bloco é o único elemento da coluna: centraliza. */
+.estreito .wa-bloco { text-align: center; border-left-width: 1px; border-radius: 10px; }
+.estreito .wa-bloco .wa-btn { margin: 0 auto; }
+
+@media (max-width: 640px) {
+  .wa-bloco { padding: 16px 14px 14px; }
+  .wa-btn   { width: 100%; justify-content: center; }
+}
