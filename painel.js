@@ -9,6 +9,7 @@ import { slug, montarURL, statusDoLink, temMacro, PRESETS, BASE } from './links.
 import { esc, fmtTelefone as fmtTel } from './util.js';
 import { acessoPorLink, sair } from './acesso-por-link.js';
 import { montarFunil } from './funil-painel.js';
+import { telaCriativos } from './painel-criativos.js';
 
 await acessoPorLink();
 
@@ -49,6 +50,7 @@ async function render() {
   palco.innerHTML = '<p class="carregando">Carregando...</p>';
   if (aba === 'respostas') return telaRespostas();
   if (aba === 'funil') return telaFunil();
+  if (aba === 'criativos') return telaCriativos(palco);
   if (aba === 'links') return telaLinks();
   if (aba === 'agenda') return telaAgenda();
   return telaCriterios();

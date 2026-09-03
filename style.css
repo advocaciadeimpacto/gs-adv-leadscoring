@@ -1108,3 +1108,71 @@ h2.sec {
   .wa-bloco { padding: 16px 14px 14px; }
   .wa-btn   { width: 100%; justify-content: center; }
 }
+
+/* ── aba Criativos ───────────────────────────────────────────────────
+   Cards de anúncio × conjunto com a distribuição de classe do lead.
+   O vídeo entra num modal e só é montado no clique: doze iframes do
+   Facebook carregando juntos travam a aba. */
+.cr-topo { margin-bottom: 26px; }
+.cr-mt { display: flex; gap: 34px; flex-wrap: wrap; margin-top: 22px;
+  padding-top: 20px; border-top: 1px solid var(--line-soft); }
+.cr-mt div b { display: block; font-size: 25px; font-weight: 700; color: var(--gold); line-height: 1; }
+.cr-mt div s { text-decoration: none; display: block; margin-top: 6px; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--tx-3); }
+
+.cr-filtros { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+.cr-filtros button { font-size: 12.5px; font-weight: 600; padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--bg-2); color: var(--tx-2); cursor: pointer; }
+.cr-filtros button.on { background: var(--tx); color: var(--bg); border-color: var(--tx); }
+
+.cr-lista { display: grid; gap: 16px; }
+.cr-card { display: grid; grid-template-columns: 170px 1fr; gap: 22px;
+  background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 12px; padding: 16px; }
+.cr-card[hidden] { display: none; }
+.cr-prev { position: relative; aspect-ratio: 9/16; border-radius: 9px; overflow: hidden;
+  background: var(--bg-3); display: grid; place-items: center; }
+.cr-play { width: 100%; height: 100%; border: 0; background: transparent; cursor: pointer;
+  display: grid; place-items: center; gap: 9px; color: var(--tx-2); }
+.cr-play:hover { background: var(--bg-4); color: var(--tx); }
+.cr-play .ico { font-size: 26px; line-height: 1; }
+.cr-play .txt { font-size: 12px; letter-spacing: .04em; }
+.cr-semvideo { font-size: 11.5px; line-height: 1.5; color: var(--tx-3); text-align: center; }
+.cr-tag { position: absolute; top: 8px; left: 8px; font-size: 9.5px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px; border-radius: 5px; color: #fff; }
+.cr-tag.frio { background: #C0523F; } .cr-tag.rmkt { background: #1F81C1; }
+.cr-tag.organico { background: #4E7A5B; }
+
+.cr-corpo h3 { margin: 0 0 4px; font-size: 18px; line-height: 1.25; word-break: break-word; }
+.cr-conj { margin: 0 0 15px; font-size: 12px; color: var(--tx-3); word-break: break-all; }
+.cr-barra { display: flex; height: 10px; border-radius: 5px; overflow: hidden;
+  background: var(--bg-3); margin-bottom: 8px; }
+.cr-barra.vazia { opacity: .4; }
+.cr-barra .sg { width: var(--w); }
+.sg.a { background: #2E7D5B; } .sg.b { background: #6FA36B; }
+.sg.c { background: #D9A34A; } .sg.d { background: #C0523F; }
+.cr-leg { margin: 0 0 16px; font-size: 12.5px; color: var(--tx-2); }
+.cr-leg b.a { color: #2E7D5B; } .cr-leg b.b { color: #6FA36B; }
+.cr-leg b.c { color: #D9A34A; } .cr-leg b.d { color: #C0523F; }
+.cr-leg s { text-decoration: none; color: var(--tx-3); }
+
+.cr-nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 13px; margin: 0; }
+.cr-nums div { margin: 0; }
+.cr-nums dt { font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--tx-3); margin-bottom: 5px; }
+.cr-nums dd { margin: 0; font-size: 17px; font-weight: 700; }
+.cr-nums dd.bom { color: #6FA36B; } .cr-nums dd.ruim { color: #C0523F; }
+.cr-nums .dest dd { color: var(--gold); font-size: 20px; }
+
+.cr-modal { position: fixed; inset: 0; z-index: 90; background: rgba(6,11,16,.86);
+  display: grid; place-items: center; padding: 20px; }
+.cr-modal[hidden] { display: none; }
+.cr-frame { border-radius: 12px; overflow: hidden; line-height: 0; background: #000; }
+.cr-fechar { position: absolute; top: 18px; right: 20px; width: 40px; height: 40px;
+  border-radius: 50%; border: 1px solid var(--line); background: var(--bg-2);
+  color: var(--tx); font-size: 17px; cursor: pointer; }
+
+@media (max-width: 700px) {
+  .cr-card { grid-template-columns: 1fr; }
+  .cr-prev { max-width: 160px; }
+}
