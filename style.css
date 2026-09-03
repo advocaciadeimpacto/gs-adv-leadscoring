@@ -1131,9 +1131,20 @@ h2.sec {
 .cr-card[hidden] { display: none; }
 .cr-prev { position: relative; aspect-ratio: 9/16; border-radius: 9px; overflow: hidden;
   background: var(--bg-3); display: grid; place-items: center; }
+.cr-thumb { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block; }
 .cr-play { width: 100%; height: 100%; border: 0; background: transparent; cursor: pointer;
   display: grid; place-items: center; gap: 9px; color: var(--tx-2); }
 .cr-play:hover { background: var(--bg-4); color: var(--tx); }
+/* Sobre a imagem o botão vira só o disco de play, com um véu que escurece
+   no hover — o rótulo em texto competiria com a arte do criativo. */
+.cr-play.sobre { position: absolute; inset: 0; background: rgba(6,11,16,.18); color: #fff; }
+.cr-play.sobre:hover { background: rgba(6,11,16,.42); }
+.cr-play.sobre .ico { width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(6,11,16,.62); border: 1px solid rgba(255,255,255,.5);
+  display: grid; place-items: center; font-size: 17px; padding-left: 3px;
+  backdrop-filter: blur(2px); transition: transform .15s ease; }
+.cr-play.sobre:hover .ico { transform: scale(1.08); }
 .cr-play .ico { font-size: 26px; line-height: 1; }
 .cr-play .txt { font-size: 12px; letter-spacing: .04em; }
 .cr-semvideo { font-size: 11.5px; line-height: 1.5; color: var(--tx-3); text-align: center; }

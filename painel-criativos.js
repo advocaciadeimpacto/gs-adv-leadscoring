@@ -59,9 +59,13 @@ function card(l) {
   return `
   <article class="cr-card" data-t="${t.k}">
     <div class="cr-prev">
+      ${l.thumb_url
+        ? `<img class="cr-thumb" src="${esc(l.thumb_url)}" alt="" loading="lazy" width="170" height="302">`
+        : ''}
       ${player
-        ? `<button class="cr-play" data-src="${esc(player)}" aria-label="Reproduzir o vídeo do anúncio">
-             <span class="ico">▶</span><span class="txt">ver o vídeo</span>
+        ? `<button class="cr-play${l.thumb_url ? ' sobre' : ''}" data-src="${esc(player)}"
+                   aria-label="Reproduzir o vídeo de ${esc(l.criativo)}">
+             <span class="ico">▶</span>${l.thumb_url ? '' : '<span class="txt">ver o vídeo</span>'}
            </button>`
         : '<div class="cr-semvideo">sem vídeo<br>vinculado</div>'}
       <span class="cr-tag ${t.k}">${t.rot}</span>
