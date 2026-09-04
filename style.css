@@ -1187,3 +1187,9 @@ h2.sec {
   .cr-card { grid-template-columns: 1fr; }
   .cr-prev { max-width: 160px; }
 }
+
+/* Logo da marca no topo. Altura fixa e largura automática para o arquivo
+   poder ser trocado sem mexer no CSS. */
+.marca-logo { height: 24px; width: auto; display: block; }
+.brand-sub { font-size: 13px; color: var(--tx-3); letter-spacing: .02em; }
+@media (max-width: 640px) { .marca-logo { height: 20px; } }
