@@ -1308,6 +1308,12 @@ h2.sec {
 }
 .aba-respostas .resp-matriz td.zero { color: var(--tx-3); opacity: .45; }
 .aba-respostas .resp-matriz td.forte { color: var(--gold); }
+/* Linha de total por classe: separada do corpo por um fio mais forte. */
+.aba-respostas .resp-matriz tfoot td {
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+  padding-top: 12px;
+}
 .aba-respostas .resp-matriz tr:last-child td { border-bottom: 0; }
 
 /* ---------- lista ---------- */

@@ -370,6 +370,10 @@ function blocoVolume(linhas) {
   const porEstrutura = RF.distribuicao(linhas, '_degrauEstrutura', ESCADA);
   const cruzada = RF.matriz(linhas, CLASSES_ORD, ESCADA);
   const temSemQuiz = cruzada.some(l => l.porClasse[RF.SEM_QUIZ]);
+  /* Total por coluna: quantos A, B, C, D no recorte, independente do
+     produto. Pedido do Isaac em 09/09 — a linha de total da direita soma
+     as classes de cada produto, mas ninguem via o total de cada classe. */
+  const somaColuna = c => cruzada.reduce((s, l) => s + (l.porClasse[c] || 0), 0);
 
   if (!linhas.length) {
     return `<h2 class="sec">Volume por recomendação de produto</h2>
@@ -422,6 +426,12 @@ function blocoVolume(linhas) {
             <td class="num forte">${l.total}</td>
           </tr>`).join('')}
         </tbody>
+        <tfoot><tr>
+          <td>Total</td>
+          ${CLASSES_ORD.map(c => { const n = somaColuna(c); return `<td class="num forte${n ? '' : ' zero'}">${n}</td>`; }).join('')}
+          ${temSemQuiz ? `<td class="num forte">${somaColuna(RF.SEM_QUIZ)}</td>` : ''}
+          <td class="num forte">${linhas.length}</td>
+        </tr></tfoot>
       </table>
     </div>`;
 }
