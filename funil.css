@@ -11,9 +11,15 @@
 
    Mantendo o `style.css` byte a byte idêntico, a regressão fica
    impossível por construção: esta folha só é carregada pelo
-   `painel.html`, e cada regra dela começa em `.aba-funil`, que só
-   existe enquanto a aba está montada. As outras abas do painel
-   (Respostas, Links, Agenda, Critérios) nunca casam com nada aqui.
+   `painel.html`, e cada regra dela começa em `.aba-funil` ou
+   `.aba-respostas`, que só existem enquanto a aba correspondente está
+   montada. Links, Agenda e Critérios nunca casam com nada aqui.
+
+   A aba Respostas entra na lista porque reaproveita os CONTROLES daqui
+   (o seletor de período e o dropdown de `funil-controles.js`) — só o
+   bloco marcado abaixo abre para ela, com `:is()` para não duplicar
+   regra nem mudar a especificidade. O resto da folha continua sendo só
+   do mapa de funil.
 
    Colisão real que isso resolveu: `.cal-dia` existe nas duas folhas
    (o calendário do `agendar.html` e o do seletor de período). Escopado,
@@ -210,31 +216,31 @@
    Só dos blocos da aba. O `body::-webkit-scrollbar` do painel original
    ficou de fora: mudaria a barra da janela inteira, inclusive nas
    outras abas. */
-.aba-funil .mapa, .aba-funil .feed, .aba-funil .tabelabox, .aba-funil .pop-lista {
+.aba-funil .mapa, .aba-funil .feed, .aba-funil .tabelabox, :is(.aba-funil, .aba-respostas) .pop-lista {
   scrollbar-width: thin;
   scrollbar-color: var(--gold-dim) transparent;
 }
 .aba-funil .mapa::-webkit-scrollbar,
 .aba-funil .feed::-webkit-scrollbar,
 .aba-funil .tabelabox::-webkit-scrollbar,
-.aba-funil .pop-lista::-webkit-scrollbar { height: 10px; width: 10px; }
+:is(.aba-funil, .aba-respostas) .pop-lista::-webkit-scrollbar { height: 10px; width: 10px; }
 
 .aba-funil .mapa::-webkit-scrollbar-track,
 .aba-funil .feed::-webkit-scrollbar-track,
 .aba-funil .tabelabox::-webkit-scrollbar-track,
-.aba-funil .pop-lista::-webkit-scrollbar-track { background: var(--bg); border-radius: 99px; margin: 4px; }
+:is(.aba-funil, .aba-respostas) .pop-lista::-webkit-scrollbar-track { background: var(--bg); border-radius: 99px; margin: 4px; }
 
 .aba-funil .mapa::-webkit-scrollbar-thumb,
 .aba-funil .feed::-webkit-scrollbar-thumb,
 .aba-funil .tabelabox::-webkit-scrollbar-thumb,
-.aba-funil .pop-lista::-webkit-scrollbar-thumb {
+:is(.aba-funil, .aba-respostas) .pop-lista::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--gold-dim), oklch(0.34 0.032 60));
   border-radius: 99px; border: 2px solid var(--bg);
 }
 .aba-funil .mapa::-webkit-scrollbar-thumb:hover,
 .aba-funil .feed::-webkit-scrollbar-thumb:hover,
 .aba-funil .tabelabox::-webkit-scrollbar-thumb:hover,
-.aba-funil .pop-lista::-webkit-scrollbar-thumb:hover {
+:is(.aba-funil, .aba-respostas) .pop-lista::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--gold-deep), var(--gold-dim));
 }
 .aba-funil .mapa::-webkit-scrollbar-corner,
@@ -242,95 +248,98 @@
 
 /* ==================================================================
    Controles próprios: dropdown e seletor de período
+   ------------------------------------------------------------------
+   Único bloco compartilhado com a aba Respostas (ver o cabeçalho do
+   arquivo). Se um controle novo nascer aqui, ele nasce para as duas.
    ================================================================== */
 
-.aba-funil .campo { position: relative; }
+:is(.aba-funil, .aba-respostas) .campo { position: relative; }
 
-.aba-funil .gatilho {
+:is(.aba-funil, .aba-respostas) .gatilho {
   display: flex; align-items: center; gap: 10px;
   background: var(--bg-2); border: 1px solid var(--line-soft);
   color: var(--tx-2); font: inherit; font-size: 12.5px; font-weight: 500;
   padding: 8px 13px; border-radius: 11px; cursor: pointer;
   transition: .18s var(--ease); white-space: nowrap;
 }
-.aba-funil .gatilho:hover { border-color: var(--gold-dim); color: var(--tx); }
-.aba-funil .gatilho[aria-expanded="true"] { border-color: var(--gold); color: var(--gold-hi); background: var(--bg-3); }
-.aba-funil .gatilho .rot { color: var(--tx-3); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
-.aba-funil .gatilho .val { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
-.aba-funil .gatilho .seta { flex: 0 0 auto; transition: transform .18s var(--ease); opacity: .75; }
-.aba-funil .gatilho[aria-expanded="true"] .seta { transform: rotate(180deg); }
+:is(.aba-funil, .aba-respostas) .gatilho:hover { border-color: var(--gold-dim); color: var(--tx); }
+:is(.aba-funil, .aba-respostas) .gatilho[aria-expanded="true"] { border-color: var(--gold); color: var(--gold-hi); background: var(--bg-3); }
+:is(.aba-funil, .aba-respostas) .gatilho .rot { color: var(--tx-3); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+:is(.aba-funil, .aba-respostas) .gatilho .val { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
+:is(.aba-funil, .aba-respostas) .gatilho .seta { flex: 0 0 auto; transition: transform .18s var(--ease); opacity: .75; }
+:is(.aba-funil, .aba-respostas) .gatilho[aria-expanded="true"] .seta { transform: rotate(180deg); }
 
-.aba-funil .pop {
+:is(.aba-funil, .aba-respostas) .pop {
   position: absolute; top: calc(100% + 8px); right: 0; z-index: 60;
   background: var(--bg-2); border: 1px solid var(--line);
   box-shadow: 0 22px 48px -14px oklch(0.05 0.01 60 / .82), 0 0 0 1px oklch(0.05 0.01 60 / .4);
   padding: 7px; min-width: 250px;
   animation: funil-pop-entra .16s var(--ease);
 }
-.aba-funil .pop[hidden] { display: none; }
+:is(.aba-funil, .aba-respostas) .pop[hidden] { display: none; }
 @keyframes funil-pop-entra { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
-.aba-funil .pop-lista { max-height: 328px; overflow-y: auto; }
+:is(.aba-funil, .aba-respostas) .pop-lista { max-height: 328px; overflow-y: auto; }
 
-.aba-funil .item {
+:is(.aba-funil, .aba-respostas) .item {
   display: flex; align-items: center; gap: 10px; width: 100%;
   background: none; border: 0; color: var(--tx-2); font: inherit; font-size: 13px;
   padding: 9px 11px; border-radius: 9px; cursor: pointer; text-align: left;
   transition: .12s var(--ease);
 }
-.aba-funil .item:hover, .aba-funil .item.foco { background: var(--bg-4); color: var(--tx); }
-.aba-funil .item[aria-selected="true"] { color: var(--gold-hi); }
-.aba-funil .item .marca { flex: 0 0 14px; opacity: 0; }
-.aba-funil .item[aria-selected="true"] .marca { opacity: 1; }
-.aba-funil .item .txt { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.aba-funil .item .qtd { flex: 0 0 auto; font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--tx-3); }
-.aba-funil .item.foco .qtd, .aba-funil .item:hover .qtd { color: var(--tx-2); }
+:is(.aba-funil, .aba-respostas) .item:hover, :is(.aba-funil, .aba-respostas) .item.foco { background: var(--bg-4); color: var(--tx); }
+:is(.aba-funil, .aba-respostas) .item[aria-selected="true"] { color: var(--gold-hi); }
+:is(.aba-funil, .aba-respostas) .item .marca { flex: 0 0 14px; opacity: 0; }
+:is(.aba-funil, .aba-respostas) .item[aria-selected="true"] .marca { opacity: 1; }
+:is(.aba-funil, .aba-respostas) .item .txt { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:is(.aba-funil, .aba-respostas) .item .qtd { flex: 0 0 auto; font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--tx-3); }
+:is(.aba-funil, .aba-respostas) .item.foco .qtd, :is(.aba-funil, .aba-respostas) .item:hover .qtd { color: var(--tx-2); }
 
-.aba-funil .pop-sep { height: 1px; background: var(--line-soft); margin: 6px 4px; }
-.aba-funil .pop-tit { font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+:is(.aba-funil, .aba-respostas) .pop-sep { height: 1px; background: var(--line-soft); margin: 6px 4px; }
+:is(.aba-funil, .aba-respostas) .pop-tit { font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--tx-3); font-weight: 600; padding: 8px 11px 5px; }
 
 /* ---- calendário ----
    `.cal-dia` também existe no style.css, para o calendário do
    agendar.html. São dois calendários diferentes; o escopo separa. */
-.aba-funil .pop.calendario { min-width: 300px; padding: 12px; }
-.aba-funil .cal-topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.aba-funil .cal-mes { font-family: Sora, sans-serif; font-size: 13.5px; font-weight: 600; color: var(--tx); text-transform: capitalize; }
-.aba-funil .cal-nav { background: var(--bg-3); border: 1px solid var(--line-soft); color: var(--tx-2);
+:is(.aba-funil, .aba-respostas) .pop.calendario { min-width: 300px; padding: 12px; }
+:is(.aba-funil, .aba-respostas) .cal-topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+:is(.aba-funil, .aba-respostas) .cal-mes { font-family: Sora, sans-serif; font-size: 13.5px; font-weight: 600; color: var(--tx); text-transform: capitalize; }
+:is(.aba-funil, .aba-respostas) .cal-nav { background: var(--bg-3); border: 1px solid var(--line-soft); color: var(--tx-2);
   width: 26px; height: 26px; border-radius: 8px; cursor: pointer; display: grid; place-items: center;
   transition: .15s var(--ease); }
-.aba-funil .cal-nav:hover { border-color: var(--gold-dim); color: var(--gold-hi); }
-.aba-funil .cal-nav:disabled { opacity: .3; cursor: default; }
+:is(.aba-funil, .aba-respostas) .cal-nav:hover { border-color: var(--gold-dim); color: var(--gold-hi); }
+:is(.aba-funil, .aba-respostas) .cal-nav:disabled { opacity: .3; cursor: default; }
 
-.aba-funil .cal-grade { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
-.aba-funil .cal-dow { font-size: 10px; text-align: center; color: var(--tx-3); font-weight: 600;
+:is(.aba-funil, .aba-respostas) .cal-grade { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+:is(.aba-funil, .aba-respostas) .cal-dow { font-size: 10px; text-align: center; color: var(--tx-3); font-weight: 600;
   text-transform: uppercase; letter-spacing: .06em; padding-bottom: 5px; }
-.aba-funil .cal-dia {
+:is(.aba-funil, .aba-respostas) .cal-dia {
   aspect-ratio: 1; border: 0; background: none; color: var(--tx-2); font: inherit; font-size: 12px;
   font-variant-numeric: tabular-nums; cursor: pointer; border-radius: 8px;
   display: grid; place-items: center; transition: .12s var(--ease); box-shadow: none;
 }
-.aba-funil .cal-dia:hover:not(:disabled) { background: var(--bg-4); color: var(--tx); }
-.aba-funil .cal-dia:disabled { color: oklch(0.34 0.010 62); cursor: default; }
-.aba-funil .cal-dia.fora { visibility: hidden; }
-.aba-funil .cal-dia.hoje { box-shadow: inset 0 0 0 1px var(--gold-dim); }
-.aba-funil .cal-dia.faixa { background: oklch(0.26 0.030 62); color: var(--tx); border-radius: 0; }
-.aba-funil .cal-dia.ponta { background: var(--gold); color: oklch(0.16 0.02 62); font-weight: 600; border-radius: 8px; }
-.aba-funil .cal-dia.ponta.inicio { border-radius: 8px 0 0 8px; }
-.aba-funil .cal-dia.ponta.fim { border-radius: 0 8px 8px 0; }
-.aba-funil .cal-dia.ponta.unica { border-radius: 8px; }
+:is(.aba-funil, .aba-respostas) .cal-dia:hover:not(:disabled) { background: var(--bg-4); color: var(--tx); }
+:is(.aba-funil, .aba-respostas) .cal-dia:disabled { color: oklch(0.34 0.010 62); cursor: default; }
+:is(.aba-funil, .aba-respostas) .cal-dia.fora { visibility: hidden; }
+:is(.aba-funil, .aba-respostas) .cal-dia.hoje { box-shadow: inset 0 0 0 1px var(--gold-dim); }
+:is(.aba-funil, .aba-respostas) .cal-dia.faixa { background: oklch(0.26 0.030 62); color: var(--tx); border-radius: 0; }
+:is(.aba-funil, .aba-respostas) .cal-dia.ponta { background: var(--gold); color: oklch(0.16 0.02 62); font-weight: 600; border-radius: 8px; }
+:is(.aba-funil, .aba-respostas) .cal-dia.ponta.inicio { border-radius: 8px 0 0 8px; }
+:is(.aba-funil, .aba-respostas) .cal-dia.ponta.fim { border-radius: 0 8px 8px 0; }
+:is(.aba-funil, .aba-respostas) .cal-dia.ponta.unica { border-radius: 8px; }
 
-.aba-funil .cal-rodape { display: flex; align-items: center; justify-content: space-between;
+:is(.aba-funil, .aba-respostas) .cal-rodape { display: flex; align-items: center; justify-content: space-between;
   gap: 10px; margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--line-soft); }
-.aba-funil .cal-info { font-size: 11.5px; color: var(--tx-3); font-family: ui-monospace, monospace; }
-.aba-funil .cal-acoes { display: flex; gap: 6px; }
-.aba-funil .cal-btn { background: var(--bg-3); border: 1px solid var(--line-soft); color: var(--tx-2);
+:is(.aba-funil, .aba-respostas) .cal-info { font-size: 11.5px; color: var(--tx-3); font-family: ui-monospace, monospace; }
+:is(.aba-funil, .aba-respostas) .cal-acoes { display: flex; gap: 6px; }
+:is(.aba-funil, .aba-respostas) .cal-btn { background: var(--bg-3); border: 1px solid var(--line-soft); color: var(--tx-2);
   font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 9px; cursor: pointer;
   transition: .15s var(--ease); }
-.aba-funil .cal-btn:hover { border-color: var(--gold-dim); color: var(--tx); }
-.aba-funil .cal-btn.principal { background: var(--gold); border-color: var(--gold); color: oklch(0.16 0.02 62); font-weight: 600; }
-.aba-funil .cal-btn.principal:hover { background: var(--gold-hi); border-color: var(--gold-hi); }
-.aba-funil .cal-btn:disabled { opacity: .4; cursor: default; }
+:is(.aba-funil, .aba-respostas) .cal-btn:hover { border-color: var(--gold-dim); color: var(--tx); }
+:is(.aba-funil, .aba-respostas) .cal-btn.principal { background: var(--gold); border-color: var(--gold); color: oklch(0.16 0.02 62); font-weight: 600; }
+:is(.aba-funil, .aba-respostas) .cal-btn.principal:hover { background: var(--gold-hi); border-color: var(--gold-hi); }
+:is(.aba-funil, .aba-respostas) .cal-btn:disabled { opacity: .4; cursor: default; }
 
 /* ---------- responsivo ---------- */
 @media (max-width: 1180px) {
@@ -342,6 +351,6 @@
   .aba-funil .funil-controles { align-items: flex-start; width: 100%; }
   .aba-funil .grid-resp { grid-template-columns: minmax(0, 1fr); }
   .aba-funil .ev .c { display: none; }
-  .aba-funil .pop { right: auto; left: 0; }
-  .aba-funil .gatilho .val { max-width: 130px; }
+  :is(.aba-funil, .aba-respostas) .pop { right: auto; left: 0; }
+  :is(.aba-funil, .aba-respostas) .gatilho .val { max-width: 130px; }
 }

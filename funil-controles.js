@@ -117,6 +117,13 @@ const DOW = ['D','S','T','Q','Q','S','S'];
 
 const soData = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+/* Volta de `iso()`. Constrói a data pelos três números, não por
+   `new Date('2026-08-01')`: essa forma é lida como UTC e vira 31/07
+   à noite em quem está a oeste de Greenwich. */
+const doISO = s => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s ?? ''));
+  return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : null;
+};
 const curto = d => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
 const somaDias = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 
@@ -128,7 +135,12 @@ export const PRESETS = [
   { valor: 'tudo', rotulo: 'Todo o período', dias: null }
 ];
 
-export function criarPeriodo({ raiz, hoje = new Date(), aoEscolher }) {
+/* `inicial` existe para quem guarda o período escolhido entre visitas
+   (a aba Respostas persiste os filtros em sessionStorage). Sem ele o
+   seletor sempre voltaria em "Últimos 30 dias" e o gatilho passaria a
+   mentir sobre o que a tela está mostrando. Formato igual ao que
+   `aoEscolher` devolve: { preset, desde, ate }. */
+export function criarPeriodo({ raiz, hoje = new Date(), inicial = null, aoEscolher }) {
   const limite = soData(hoje);
   const campo = el('div', 'campo');
   const gatilho = el('button', 'gatilho chanfro');
@@ -146,6 +158,16 @@ export function criarPeriodo({ raiz, hoje = new Date(), aoEscolher }) {
   let desde = null, ate = null;         // intervalo confirmado
   let a = null, b = null;               // rascunho dentro do calendário
   let mesVisivel = new Date(limite.getFullYear(), limite.getMonth(), 1);
+
+  /* Restaura o que veio de fora, ignorando em silêncio o que não fizer
+     sentido — preset desconhecido ou "custom" sem as duas pontas cai no
+     padrão, nunca deixa o gatilho sem rótulo. */
+  if (inicial?.preset === 'custom' && inicial.desde) {
+    desde = doISO(inicial.desde); ate = doISO(inicial.ate) || desde;
+    if (desde) preset = 'custom';
+  } else if (PRESETS.some(p => p.valor === inicial?.preset)) {
+    preset = inicial.preset;
+  }
 
   const rotuloAtual = () => {
     if (preset !== 'custom') return PRESETS.find(p => p.valor === preset).rotulo;
