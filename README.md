@@ -96,9 +96,10 @@ O banco é self-hosted. Pra rodar isso do zero (ou revisar o que já está no ar
 | `painel.html` + `painel.js` | Cinco abas: Respostas, Funil, Links e UTMs, Agenda do time, Critérios |
 | `funil-painel.js` | A aba **Funil**: passagem de etapa, respostas, tempo por etapa, funil por criativo e eventos ao vivo. Monta e desmonta como componente (`montarFunil`/`desmontar`) |
 | `funil-dados.js` | Leitura do Supabase de **analytics** por REST direto. Não passa pelo `db.js` — é outro banco, ver `funil-config.js` |
-| `funil-controles.js` | Dropdown e seletor de período da aba Funil, com calendário próprio |
+| `respostas-filtro.js` | Filtro, ordenação e agregação da aba **Respostas**. Módulo puro (sem DOM e sem rede) — `node --test respostas-filtro.test.js` |
+| `funil-controles.js` | Dropdown e seletor de período. Nasceu na aba Funil e hoje serve também a barra de filtros da aba Respostas |
 | `funil-config.js` | URL + chave `anon` do Supabase de analytics (o segundo banco) |
-| `funil.css` | Estilos da aba Funil, todos escopados em `.aba-funil`. Separado do `style.css` de propósito — leia o cabeçalho do arquivo |
+| `funil.css` | Estilos da aba Funil, escopados em `.aba-funil`. O bloco dos controles é o único compartilhado com `.aba-respostas`. Separado do `style.css` de propósito — leia o cabeçalho do arquivo |
 | `admin.html` + `admin.js` | Tela de senha para entrar no painel. Não é linkada em nenhuma página pública |
 | `admin-auth.js` | Guarda de acesso do painel — leia o comentário no topo antes de confiar nisso |
 
@@ -126,6 +127,23 @@ tabela mais simples — uma coluna de texto por pergunta do quiz, mais
 reconstrói os pontos por critério (pra desenhar as barras da nota) casando cada
 coluna com as opções de `PERGUNTAS` em `scoring.js` — mesma técnica de sempre,
 sem duplicar as regras do modelo.
+
+**A aba filtra no cliente.** As ~700 linhas são lidas de uma vez e todo o
+recorte (período, classe, produto, origem e busca por nome/telefone/e-mail)
+acontece no navegador, em `respostas-filtro.js` — um módulo puro, com teste
+(`node --test respostas-filtro.test.js`). Ele existe separado por dois
+motivos: o painel só abre com sessão autenticada, então testar a lógica pela
+tela exigiria credencial; e a coluna `Data` é **texto** `DD/MM/AAAA`, sem
+hora e sem fuso. Comparar isso como string põe 09/08 depois de 31/07, então
+cada linha ganha ali uma data real (00:00 em `America/Sao_Paulo`) e uma
+chave `AAAA-MM-DD`, que é o que o filtro de período e a ordenação usam.
+Linha com `Data` inválida vira "sem data" e só aparece em "Todo o período".
+
+O bloco de **volume por recomendação de produto** ("produto" = `Degrau`, com
+`Degrau Estrutura` como segundo eixo) respeita todos os filtros ativos
+**menos o de produto** — senão viraria uma barra de 100% assim que alguém
+escolhesse um produto, e deixaria de responder o que ele existe pra
+responder. Os filtros ficam em `sessionStorage`, não em `localStorage`.
 
 O site continua gravando em `respostas` normalmente (é o que `db.criarResposta`
 em `db.js` faz), e a aba **Links e UTMs** ainda lê dessa tabela pra casar leads

@@ -10,6 +10,11 @@ import { esc, fmtTelefone as fmtTel } from './util.js';
 import { acessoPorLink, sair } from './acesso-por-link.js';
 import { montarFunil } from './funil-painel.js';
 import { telaCriativos } from './painel-criativos.js';
+/* Os controles vieram da aba Funil de propósito: o seletor de período e
+   o dropdown já são o padrão visual do painel, e o nativo do sistema
+   entrega fundo branco no meio do preto quente. Ver funil-controles.js. */
+import { criarDropdown, criarPeriodo } from './funil-controles.js';
+import * as RF from './respostas-filtro.js';
 
 await acessoPorLink();
 
@@ -23,7 +28,9 @@ let aba = 'respostas';
    (um WebSocket com o Supabase de analytics e dois popovers registrados
    em escuta global). Guardamos a instância para poder desmontá-la. */
 let funil = null;
-let filtroClasse = 'todas';
+/* Mesma história da aba Respostas: os dois controles de funil-controles.js
+   registram um fechador na escuta global e precisam ser desmontados. */
+let respostasCtrl = null;
 let filtroCloser = 'todos';
 let abertoId = null;
 
@@ -42,6 +49,7 @@ async function render() {
      escuta global. Sem isto, cada ida e volta na aba deixaria um
      WebSocket aberto para trás. */
   if (funil) { funil.desmontar(); funil = null; }
+  if (respostasCtrl) { respostasCtrl.destruir(); respostasCtrl = null; }
 
   /* O mapa do funil tem 13 cartões lado a lado e não cabe nos 1020px que
      servem às listas das outras abas. A classe alarga só nessa aba. */
@@ -102,9 +110,53 @@ function leituraDeFormsAdv(r) {
   return { pontos, tags, respostas };
 }
 
+/* Filtros da aba
+   ------------------------------------------------------------------
+   A tabela tem ~700 linhas e cabe inteira na memória do navegador, então
+   tudo é carregado uma vez e filtrado no cliente: sem ida ao banco a
+   cada clique de chip e sem paginação. A lógica de filtrar, ordenar e
+   agregar mora em respostas-filtro.js, que é puro e tem teste
+   (`node --test respostas-filtro.test.js`) — o painel exige sessão
+   autenticada, e essa é a única forma de testar isso sem login.
+
+   Os filtros ficam em sessionStorage (não localStorage): valem pela
+   sessão da aba, e quem fecha o navegador volta vendo tudo. */
+const CHAVE_FILTROS = 'painel.respostas.filtros.v1';
+const FILTROS_PADRAO = () => ({
+  periodo: { preset: 'tudo', dias: null, desde: null, ate: null },
+  classes: [], produto: 'todos', origem: 'todas', busca: ''
+});
+
+function lerFiltros() {
+  try {
+    const salvo = JSON.parse(sessionStorage.getItem(CHAVE_FILTROS) || 'null');
+    /* Mescla com o padrão: se um dia a forma mudar, o que estiver
+       guardado de antes não deixa a aba sem período nem sem busca. */
+    return salvo ? { ...FILTROS_PADRAO(), ...salvo, periodo: { ...FILTROS_PADRAO().periodo, ...salvo.periodo } }
+                 : FILTROS_PADRAO();
+  } catch { return FILTROS_PADRAO(); }
+}
+function gravarFiltros() {
+  // modo privado de alguns navegadores estoura no setItem; filtro não é
+  // dado crítico, então falhar aqui não pode derrubar a tela.
+  try { sessionStorage.setItem(CHAVE_FILTROS, JSON.stringify(filtrosResp)); } catch { /* ignora */ }
+}
+
+let filtrosResp = lerFiltros();
+let formsCache = [];              // linhas já anotadas por RF.prepararLinhas
+let repintarResp = null;          // debounce da busca
+
+const CLASSES_ORD = ['A', 'B', 'C', 'D'];
+const ROTULO_SEM = 'Sem quiz';
+const ROTULO_SEM_PRODUTO = 'Sem recomendação';
+const rotuloProduto = v => v === RF.SEM_QUIZ ? ROTULO_SEM_PRODUTO : v;
+const pctTxt = p => p.toFixed(1).replace('.', ',') + '%';
+
+const temFiltro = () => filtrosResp.periodo.preset !== 'tudo' || filtrosResp.classes.length
+  || filtrosResp.produto !== 'todos' || filtrosResp.origem !== 'todas' || filtrosResp.busca.trim();
+
 async function telaRespostas() {
   const { data, error } = await db.listarFormsAdv();
-  const todas = data || [];
 
   if (error) {
     palco.innerHTML = `
@@ -117,71 +169,283 @@ async function telaRespostas() {
     return;
   }
 
+  formsCache = RF.prepararLinhas(data || []);
+
   if (abertoId != null) {
-    const r = todas.find(x => x.id === abertoId);
+    const r = formsCache.find(x => x.id === abertoId);
     if (r) return telaDetalhe(r);
   }
 
-  const lista = filtroClasse === 'todas' ? todas
-    : filtroClasse.startsWith('src:') ? todas.filter(r => (r.utm_source || 'direto') === filtroClasse.slice(4))
-    : todas.filter(r => r.Classe === filtroClasse);
-  const contagem = c => todas.filter(r => r.Classe === c).length;
-
-  // canais presentes na base, para virar filtro sem precisar cadastrar nada
-  const canais = [...new Set(todas.map(r => r.utm_source || 'direto'))].sort();
+  const total = formsCache.length;
 
   palco.innerHTML = `
-    <div class="step">
+    <div class="step aba-respostas">
       <span class="eyebrow">Respostas do quiz</span>
       <h1 class="q-title">Quem preencheu</h1>
-      <p class="q-help">Cadastros vindos do quiz, direto da tabela forms_adv.</p>
+      <p class="q-help">Cadastros vindos do quiz, direto da tabela forms_adv. Os filtros abaixo se combinam e valem também para o bloco de volume.</p>
 
-      <section class="carga">
-        <div class="carga-item"><strong>Respostas</strong><span class="carga-num">${todas.length}</span><span class="carga-lbl">preenchimentos no total</span></div>
-        <div class="carga-item"><strong>Classe A e B</strong><span class="carga-num">${contagem('A') + contagem('B')}</span><span class="carga-lbl">leads de maior porte</span></div>
-      </section>
-
-      <div class="filtros">
-        <button class="chip${filtroClasse === 'todas' ? ' on' : ''}" data-c="todas">Todas</button>
-        ${['A','B','C','D'].map(c => `<button class="chip${filtroClasse === c ? ' on' : ''}" data-c="${c}">Classe ${c} (${contagem(c)})</button>`).join('')}
+      <div class="resp-barra">
+        <div class="resp-controles">
+          <div data-periodo></div>
+          <div data-produto></div>
+          <div data-origem></div>
+        </div>
+        <label class="resp-busca">
+          <span class="sr-so">Buscar</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="6.2" cy="6.2" r="4.4" stroke="currentColor" stroke-width="1.5"/><path d="M9.6 9.6L12.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="search" data-busca placeholder="nome, telefone ou e-mail" value="${esc(filtrosResp.busca)}" autocomplete="off" spellcheck="false">
+        </label>
       </div>
-      ${canais.length > 1 ? `<div class="filtros filtros-canal">
-        ${canais.map(s => {
-          const n = todas.filter(r => (r.utm_source || 'direto') === s).length;
-          return `<button class="chip${filtroClasse === 'src:' + s ? ' on' : ''}" data-c="src:${esc(s)}">${esc(s)} (${n})</button>`;
-        }).join('')}
-      </div>` : ''}
 
-      ${lista.length ? `<div class="lista">${lista.map(linhaResposta).join('')}</div>`
-        : '<p class="empty">Nenhuma resposta ainda. Preencha o quiz para ver aqui.</p>'}
+      <div class="filtros resp-classes" data-classes></div>
+
+      <div class="resp-contagem" data-contagem></div>
+
+      <div data-volume></div>
+
+      <div data-lista></div>
 
       <div class="res-foot">
         <a class="btn btn-ghost chanfro" href="/">Abrir o quiz</a>
+        <span class="meta">${total} ${total === 1 ? 'linha lida' : 'linhas lidas'} de forms_adv</span>
       </div>
     </div>`;
 
-  palco.querySelectorAll('.chip').forEach(b => {
-    b.onclick = () => { filtroClasse = b.dataset.c; render(); };
+  montarControlesRespostas();
+  pintarRespostas();
+}
+
+/* Os dois dropdowns e o seletor de período são montados UMA vez, quando a
+   aba entra. Trocar um chip repinta só a lista, a contagem e o bloco de
+   volume — se o `palco.innerHTML` fosse reescrito a cada filtro, o
+   calendário fecharia sozinho e o cursor sairia do campo de busca. */
+function montarControlesRespostas() {
+  const $ = s => palco.querySelector(s);
+
+  const seletorPeriodo = criarPeriodo({
+    raiz: $('[data-periodo]'),
+    inicial: filtrosResp.periodo,
+    aoEscolher: ({ preset, dias, desde, ate }) => {
+      filtrosResp.periodo = { preset, dias, desde, ate };
+      gravarFiltros(); pintarRespostas();
+    }
   });
+
+  const produtos = RF.valoresDe(formsCache, '_degrau', ESCADA);
+  const seletorProduto = criarDropdown({
+    raiz: $('[data-produto]'),
+    rotulo: 'Produto',
+    aoEscolher: v => { filtrosResp.produto = v; gravarFiltros(); pintarRespostas(); }
+  });
+
+  const origens = [...new Set(formsCache.map(r => r._origem))].sort();
+  const seletorOrigem = criarDropdown({
+    raiz: $('[data-origem]'),
+    rotulo: 'Origem',
+    aoEscolher: v => { filtrosResp.origem = v; gravarFiltros(); pintarRespostas(); }
+  });
+
+  /* Um filtro guardado pode apontar para um produto/origem que sumiu da
+     base; `definir` cai na primeira opção quando o valor não existe, e a
+     leitura de volta mantém o estado honesto com o que está na tela. */
+  const opcoesProduto = n => [
+    { valor: 'todos', rotulo: 'Todos os produtos', nota: n?.total },
+    ...produtos.map(p => ({ valor: p, rotulo: rotuloProduto(p), nota: n?.[p] }))
+  ];
+  const opcoesOrigem = n => [
+    { valor: 'todas', rotulo: 'Todas as origens', nota: n?.total },
+    ...origens.map(o => ({ valor: o, rotulo: o, nota: n?.[o] }))
+  ];
+  seletorProduto.definir(opcoesProduto(), filtrosResp.produto);
+  seletorOrigem.definir(opcoesOrigem(), filtrosResp.origem);
+  filtrosResp.produto = seletorProduto.valor;
+  filtrosResp.origem = seletorOrigem.valor;
+
+  const campo = palco.querySelector('[data-busca]');
+  campo.oninput = () => {
+    filtrosResp.busca = campo.value;
+    gravarFiltros();
+    /* 700 linhas redesenhadas a cada tecla travam a digitação; um
+       respiro curto resolve sem parecer lento. */
+    clearTimeout(repintarResp);
+    repintarResp = setTimeout(pintarRespostas, 130);
+  };
+
+  respostasCtrl = {
+    // chamados por pintarRespostas() para atualizar as contagens laterais
+    produto: (n) => seletorProduto.definir(opcoesProduto(n), filtrosResp.produto),
+    origem: (n) => seletorOrigem.definir(opcoesOrigem(n), filtrosResp.origem),
+    destruir() {
+      clearTimeout(repintarResp);
+      seletorPeriodo.destruir(); seletorProduto.destruir(); seletorOrigem.destruir();
+    }
+  };
+}
+
+/* Aplica o filtro de produto por fora, para reaproveitar o mesmo recorte
+   nas duas coisas: a lista usa tudo, o bloco de volume usa tudo MENOS o
+   produto — senão o bloco viraria uma barra só de 100% assim que alguém
+   escolhesse um produto, e deixaria de responder a pergunta que ele
+   existe pra responder ("como o período se divide entre os produtos"). */
+function pintarRespostas() {
+  const semProduto = RF.aplicarFiltros(formsCache, { ...filtrosResp, produto: 'todos' });
+  const lista = RF.ordenar(filtrosResp.produto === 'todos' ? semProduto
+    : semProduto.filter(r => (r._degrau ?? RF.SEM_QUIZ) === filtrosResp.produto));
+
+  // contagens de faceta: cada filtro conta ignorando a si mesmo
+  const semClasse = RF.aplicarFiltros(formsCache, { ...filtrosResp, produto: 'todos', classes: [] });
+  const semOrigem = RF.aplicarFiltros(formsCache, { ...filtrosResp, produto: 'todos', origem: 'todas' });
+  const conta = (linhas, campo, vazio) => Object.fromEntries([
+    ['total', linhas.length],
+    ...RF.distribuicao(linhas, campo).map(d => [d.valor === RF.SEM_QUIZ ? vazio : d.valor, d.n])
+  ]);
+  respostasCtrl?.produto(conta(semProduto, '_degrau', RF.SEM_QUIZ));
+  respostasCtrl?.origem(conta(semOrigem, '_origem'));
+
+  const $ = s => palco.querySelector(s);
+
+  /* chips de classe: contam dentro do período/origem/busca atuais */
+  const porClasse = conta(semClasse, '_classe', RF.SEM_QUIZ);
+  const temSemQuiz = formsCache.some(r => !r._classe);
+  $('[data-classes]').innerHTML = [
+    `<button class="chip${filtrosResp.classes.length ? '' : ' on'}" data-classe="">Todas</button>`,
+    ...CLASSES_ORD.map(c => `<button class="chip${filtrosResp.classes.includes(c) ? ' on' : ''}" data-classe="${c}">Classe ${c} <span class="chip-n">${porClasse[c] || 0}</span></button>`),
+    temSemQuiz ? `<button class="chip${filtrosResp.classes.includes(RF.SEM_QUIZ) ? ' on' : ''}" data-classe="${RF.SEM_QUIZ}">${ROTULO_SEM} <span class="chip-n">${porClasse[RF.SEM_QUIZ] || 0}</span></button>` : ''
+  ].join('');
+
+  $('[data-contagem]').innerHTML = `
+    <p><strong>${lista.length}</strong> de ${formsCache.length} ${formsCache.length === 1 ? 'resposta' : 'respostas'}${
+      filtrosResp.produto !== 'todos' ? ` · produto <strong>${esc(rotuloProduto(filtrosResp.produto))}</strong>` : ''}</p>
+    ${temFiltro() ? '<button class="btn-link" data-limpar>limpar filtros</button>' : ''}`;
+
+  $('[data-volume]').innerHTML = blocoVolume(semProduto);
+
+  $('[data-lista]').innerHTML = lista.length
+    ? `<h2 class="sec">Respostas</h2><div class="lista">${lista.map(linhaResposta).join('')}</div>`
+    : `<h2 class="sec">Respostas</h2><p class="empty">Nenhuma resposta com esses filtros. ${temFiltro() ? 'Tente afrouxar o período ou limpar os filtros.' : 'Preencha o quiz para ver aqui.'}</p>`;
+
+  ligarCliquesRespostas();
+}
+
+function ligarCliquesRespostas() {
+  palco.querySelectorAll('[data-classe]').forEach(b => {
+    b.onclick = () => {
+      const c = b.dataset.classe;
+      /* "Todas" zera; as outras ligam e desligam, para dar A+B numa
+         tacada só (é o recorte que o comercial mais pede). */
+      if (!c) filtrosResp.classes = [];
+      else filtrosResp.classes = filtrosResp.classes.includes(c)
+        ? filtrosResp.classes.filter(x => x !== c)
+        : [...filtrosResp.classes, c];
+      gravarFiltros(); pintarRespostas();
+    };
+  });
+  palco.querySelectorAll('[data-produto-lin]').forEach(b => {
+    b.onclick = () => {
+      const v = b.dataset.produtoLin;
+      filtrosResp.produto = filtrosResp.produto === v ? 'todos' : v;
+      gravarFiltros(); pintarRespostas();
+    };
+  });
+  const limpar = palco.querySelector('[data-limpar]');
+  if (limpar) limpar.onclick = () => {
+    filtrosResp = FILTROS_PADRAO();
+    gravarFiltros();
+    render();                       // remonta os controles no estado zerado
+  };
   palco.querySelectorAll('[data-abrir]').forEach(b => {
     b.onclick = () => { abertoId = Number(b.dataset.abrir); render(); };
   });
 }
 
+/* Volume por recomendação de produto
+   ------------------------------------------------------------------
+   "Produto" é o degrau da escada que o modelo recomendou (`Degrau`), e
+   `Degrau Estrutura` é o segundo eixo — o degrau que o porte do
+   escritório sustenta. Quando os dois divergem muito, a ficha do lead já
+   avisa; aqui a divergência aparece no atacado, comparando as duas
+   distribuições lado a lado. */
+function blocoVolume(linhas) {
+  const porDegrau = RF.distribuicao(linhas, '_degrau', ESCADA);
+  const porEstrutura = RF.distribuicao(linhas, '_degrauEstrutura', ESCADA);
+  const cruzada = RF.matriz(linhas, CLASSES_ORD, ESCADA);
+  const temSemQuiz = cruzada.some(l => l.porClasse[RF.SEM_QUIZ]);
+
+  if (!linhas.length) {
+    return `<h2 class="sec">Volume por recomendação de produto</h2>
+      <p class="empty">Sem respostas no recorte atual — nada para distribuir.</p>`;
+  }
+
+  const barras = (dist, clicavel) => {
+    const maior = Math.max(...dist.map(d => d.n), 1);
+    return dist.map(d => {
+      const alvo = clicavel ? ` data-produto-lin="${esc(d.valor)}"` : '';
+      const tag = clicavel ? 'button' : 'div';
+      const on = clicavel && filtrosResp.produto === d.valor ? ' on' : '';
+      return `<${tag} class="resp-lin${on}"${alvo}${clicavel ? ' type="button"' : ''}>
+        <span class="resp-lin-nome" title="${esc(rotuloProduto(d.valor))}">${esc(rotuloProduto(d.valor))}</span>
+        <span class="resp-lin-barra"><i style="width:${(d.n / maior) * 100}%"></i></span>
+        <span class="resp-lin-n">${d.n}</span>
+        <span class="resp-lin-pct">${pctTxt(d.pct)}</span>
+      </${tag}>`;
+    }).join('');
+  };
+
+  return `
+    <h2 class="sec">Volume por recomendação de produto</h2>
+    <p class="resp-sub">Distribuição do recorte atual (${linhas.length} ${linhas.length === 1 ? 'resposta' : 'respostas'}), sem considerar o filtro de produto. A barra compara com o produto mais frequente; a porcentagem é sobre o recorte inteiro. Clique numa linha do primeiro bloco para filtrar a lista por aquele produto.</p>
+
+    <div class="resp-eixos">
+      <section class="resp-eixo chanfro">
+        <header><span class="tag">Recomendado</span><h3>Degrau</h3></header>
+        <div class="resp-lins">${barras(porDegrau, true)}</div>
+      </section>
+      <section class="resp-eixo chanfro">
+        <header><span class="tag">Segundo eixo</span><h3>Degrau Estrutura</h3></header>
+        <div class="resp-lins">${barras(porEstrutura, false)}</div>
+      </section>
+    </div>
+
+    <div class="tbl-scroll resp-matriz chanfro">
+      <table>
+        <thead><tr>
+          <th>Produto</th>
+          ${CLASSES_ORD.map(c => `<th class="num">${c}</th>`).join('')}
+          ${temSemQuiz ? `<th class="num">${ROTULO_SEM}</th>` : ''}
+          <th class="num">Total</th>
+        </tr></thead>
+        <tbody>
+          ${cruzada.map(l => `<tr>
+            <td>${esc(rotuloProduto(l.produto))}</td>
+            ${CLASSES_ORD.map(c => `<td class="num${l.porClasse[c] ? '' : ' zero'}">${l.porClasse[c] || 0}</td>`).join('')}
+            ${temSemQuiz ? `<td class="num${l.porClasse[RF.SEM_QUIZ] ? '' : ' zero'}">${l.porClasse[RF.SEM_QUIZ] || 0}</td>` : ''}
+            <td class="num forte">${l.total}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+const origemDe = r => rotuloOrigem({ utm_source: r.utm_source, utm_campaign: r.utm_campaign, utm_content: r.utm_content });
+
 function linhaResposta(r) {
+  const [dia, mes, ano] = String(r.Data || '').split('/');
   return `
     <div class="linha">
-      <div class="linha-quando"><strong>${esc(r.Data)}</strong></div>
+      <div class="linha-quando">${r._chave
+        ? `<strong>${esc(dia)}/${esc(mes)}</strong><span>${esc(ano)}</span>`
+        : '<strong class="sem-data">sem data</strong>'}</div>
       <div class="linha-lead">
         <strong>${esc(r.Nome)}</strong>
         <span class="meta">${esc(fmtTel(r.Telefone))} · ${esc(r.Email)}</span>
       </div>
-      <div class="linha-score">
-        <span class="mini-badge" style="background:${CORES[r.Classe]}">${esc(r.Classe)}</span>
-        <span class="meta">${esc(r.Score)} pts · ${esc(r.Degrau)}</span>
+      <div class="linha-score">${r.Classe
+        ? `<span class="mini-badge" style="background:${CORES[r.Classe]}">${esc(r.Classe)}</span>
+           <span class="meta">${esc(r.Score)} pts · ${esc(r.Degrau)}</span>`
+        : '<span class="mini-badge vazio">–</span><span class="meta">não respondeu o quiz</span>'}
       </div>
       <div class="linha-closer">
-        <span class="meta">origem</span> <strong>${esc(rotuloOrigem({ utm_source: r.utm_source, utm_campaign: r.utm_campaign, utm_content: r.utm_content }))}</strong>
+        <span class="meta">origem</span> <strong title="${esc(origemDe(r))}">${esc(origemDe(r))}</strong>
       </div>
       <button class="btn-link" data-abrir="${r.id}">abrir</button>
     </div>`;

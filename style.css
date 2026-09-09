@@ -1193,3 +1193,156 @@ h2.sec {
 .marca-logo { height: 24px; width: auto; display: block; }
 .brand-sub { font-size: 13px; color: var(--tx-3); letter-spacing: .02em; }
 @media (max-width: 640px) { .marca-logo { height: 20px; } }
+
+/* ==========  aba Respostas: barra de filtros e volume por produto  ==========
+   Tudo escopado em `.aba-respostas`, classe que só existe dentro do
+   painel.html enquanto essa aba está montada — o funil público (index,
+   obrigado, agendar) carrega este mesmo arquivo e não pode ser tocado.
+
+   O seletor de período e os dropdowns NÃO estão aqui: são os controles
+   de `funil-controles.js`, e o estilo deles mora em `funil.css`, no
+   único bloco que aquela folha compartilha com esta aba. */
+
+.aba-respostas .resp-barra {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; margin: 26px 0 14px;
+}
+.aba-respostas .resp-controles { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Mesma casca do `.gatilho` dos dropdowns, para a barra inteira ler como
+   uma coisa só. */
+.aba-respostas .resp-busca {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-2); border: 1px solid var(--line-soft);
+  color: var(--tx-3); padding: 8px 13px; border-radius: 11px;
+  transition: border-color 0.18s var(--ease);
+  flex: 1 1 240px; max-width: 320px;
+}
+.aba-respostas .resp-busca:focus-within { border-color: var(--gold); color: var(--gold-hi); }
+.aba-respostas .resp-busca svg { flex: 0 0 auto; }
+.aba-respostas .resp-busca input {
+  flex: 1; min-width: 0; background: none; border: 0; outline: none;
+  color: var(--tx); font: inherit; font-size: 13px;
+}
+.aba-respostas .resp-busca input::placeholder { color: var(--tx-3); }
+.aba-respostas .resp-busca input::-webkit-search-cancel-button { filter: invert(0.6); cursor: pointer; }
+
+.aba-respostas .resp-classes { margin-bottom: 0; }
+.aba-respostas .chip-n {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px; opacity: .62; margin-left: 3px;
+}
+
+.aba-respostas .resp-contagem {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px;
+  margin: 14px 0 4px;
+}
+.aba-respostas .resp-contagem p {
+  margin: 0; font-size: 13.5px; color: var(--tx-3); max-width: none;
+}
+.aba-respostas .resp-contagem strong { color: var(--gold); font-family: Sora, sans-serif; }
+
+.aba-respostas .resp-sub {
+  color: var(--tx-3); font-size: 13px; margin: -6px 0 18px; max-width: 82ch;
+}
+
+/* ---------- volume por produto ---------- */
+
+.aba-respostas .resp-eixos { display: grid; gap: 14px; }
+@media (min-width: 860px) { .aba-respostas .resp-eixos { grid-template-columns: 1fr 1fr; } }
+
+.aba-respostas .resp-eixo {
+  background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line-soft);
+  padding: 20px 22px 14px;
+}
+.aba-respostas .resp-eixo header {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px;
+}
+/* zera o que `.doc h3` injeta (margem grande e cor dourada de seção) */
+.aba-respostas .resp-eixo h3 { font-size: 15px; margin: 0; color: var(--tx); }
+.aba-respostas .resp-eixo .tag {
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-dim); font-weight: 600;
+}
+
+.aba-respostas .resp-lins { display: flex; flex-direction: column; }
+
+.aba-respostas .resp-lin {
+  display: grid; align-items: center; gap: 12px; width: 100%; text-align: left;
+  grid-template-columns: minmax(0, 1.7fr) minmax(38px, 1fr) 34px 50px;
+  background: none; border: 0; color: var(--tx-2); font: inherit; font-size: 13px;
+  padding: 9px 8px; margin: 0 -8px; border-radius: 9px;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.aba-respostas button.resp-lin { cursor: pointer; }
+.aba-respostas button.resp-lin:hover { background: var(--bg-3); color: var(--tx); }
+.aba-respostas .resp-lin.on { background: var(--bg-3); color: var(--gold-hi); }
+.aba-respostas .resp-lin.on .resp-lin-barra i { background: var(--gold-hi); }
+
+.aba-respostas .resp-lin-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aba-respostas .resp-lin-barra {
+  height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden;
+}
+.aba-respostas .resp-lin-barra i {
+  display: block; height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+  transition: width 0.3s var(--ease);
+}
+.aba-respostas .resp-lin-n {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums; text-align: right; color: var(--tx);
+}
+.aba-respostas .resp-lin-pct {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums; text-align: right; font-size: 12px; color: var(--tx-3);
+}
+
+.aba-respostas .resp-matriz {
+  background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line-soft);
+  padding: 4px 22px 6px; margin: 14px 0 4px;
+}
+.aba-respostas .resp-matriz table { min-width: 420px; font-size: 13.5px; }
+.aba-respostas .resp-matriz th.num, .aba-respostas .resp-matriz td.num {
+  text-align: right; padding-right: 0; padding-left: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums;
+}
+.aba-respostas .resp-matriz td.zero { color: var(--tx-3); opacity: .45; }
+.aba-respostas .resp-matriz td.forte { color: var(--gold); }
+.aba-respostas .resp-matriz tr:last-child td { border-bottom: 0; }
+
+/* ---------- lista ---------- */
+
+/* A origem vem do nome da campanha do Meta e passa de 100 caracteres com
+   frequência. Solta, ela quebra a linha em duas e empurra o "abrir" pra
+   baixo; presa numa coluna com reticências, a lista volta a ser
+   varrível — o texto inteiro fica no `title`. */
+.aba-respostas .linha-closer { flex: 0 1 250px; min-width: 0; }
+.aba-respostas .linha-closer strong {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* O ano fica discreto: a informação que o comercial procura é o dia. O
+   dourado de `.linha-quando span` é do horário na aba de agenda. */
+.aba-respostas .linha-quando span { color: var(--tx-3); font-size: 11.5px; }
+.aba-respostas .linha-quando .sem-data { font-size: 12px; color: var(--tx-3); font-weight: 500; }
+.aba-respostas .mini-badge.vazio {
+  background: var(--bg-4); color: var(--tx-3); box-shadow: inset 0 0 0 1px var(--line-soft);
+}
+
+.sr-so {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Celular: as colunas fixas da linha de volume (número, porcentagem e os
+   vãos) somam mais que a largura útil de uma tela estreita, e a barra
+   fica sem espaço. Aqui elas encolhem em vez de estourar a caixa. */
+@media (max-width: 560px) {
+  .aba-respostas .resp-lin {
+    grid-template-columns: minmax(0, 1.4fr) minmax(22px, 1fr) 30px 46px;
+    gap: 8px; font-size: 12.5px;
+  }
+  .aba-respostas .resp-eixo { padding: 16px 15px 10px; }
+  .aba-respostas .resp-busca { max-width: none; }
+  .aba-respostas .linha-closer { flex: 1 1 100%; }
+}
