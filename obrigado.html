@@ -46,6 +46,22 @@
     <h1 class="obrigado-titulo">Agora falta a parte que muda o jogo</h1>
     <p class="obrigado-lede">O que você respondeu já nos diz o tamanho e o momento do seu escritório. O que ele não diz é onde exatamente está o gargalo, e isso não se descobre por formulário.</p>
 
+    <!-- Vídeo do Guilherme explicando o que é feito com as respostas e por que
+         a sessão existe. Fica ANTES da oferta de propósito: é ele que prepara
+         o clique no "Escolher meu horário" logo abaixo.
+         O player é da VTurb (ConverteAI). O custom element `vturb-smartplayer`
+         é definido pelo script externo; o placeholder interno segura o espaço
+         na proporção 16:9 para a página não pular quando o player monta. -->
+    <section class="video-obrigado">
+      <span class="eyebrow">Assista antes de agendar · 2 min</span>
+      <h2>Por que essa conversa existe e o que fazemos com as suas respostas</h2>
+      <div class="video-moldura chanfro">
+        <vturb-smartplayer id="vid-6aa8378da65c3bf276206919" style="display:block;margin:0 auto;width:100%">
+          <div class="vturb-player-placeholder" style="position:relative;width:100%;padding:56.25% 0 0;z-index:0;background-color:#000"></div>
+        </vturb-smartplayer>
+      </div>
+    </section>
+
     <section class="oferta chanfro">
       <span class="eyebrow">Sessão Estratégica · 30 minutos · online</span>
       <h2>Uma conversa com um especialista do nosso time</h2>
@@ -95,6 +111,18 @@
   </div>
 </div>
 </main>
+
+<script>
+  /* Player do vídeo (VTurb/ConverteAI). Carregado async e no fim do corpo
+     para não atrasar a primeira pintura da página — o placeholder acima já
+     reserva a altura, então nada pula quando ele monta. */
+  (function () {
+    var s = document.createElement('script');
+    s.src = 'https://scripts.converteai.net/6b8512d8-0887-4822-9a3b-14ef5d452089/players/6aa8378da65c3bf276206919/v4/player.js';
+    s.async = true;
+    document.head.appendChild(s);
+  })();
+</script>
 
 <script>
   /* Telemetria do funil. Projeto Supabase de ANALYTICS — separado do banco
