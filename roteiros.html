@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Trinta roteiros · Imersão e Guia · melhor CPA</title>
+<style>
+/* Roteiros para gravar — Grupo Schumann.
+   Tema claro do painel do grupo: fundo creme, cartão branco, tinta quase
+   preta, dourado só como marca. Mobile-first: o documento é lido no
+   celular, em pé, antes de gravar. */
+
+:root {
+  color-scheme: light;
+
+  --plano:        #F6F2EB;
+  --superficie:   #FFFFFF;
+  --superficie-2: #FBF8F3;
+  --linha:        #E8E1D6;
+  --linha-forte:  #D6CCBD;
+
+  --tinta:        #1A1611;
+  --tinta-2:      #5C554C;
+  --tinta-3:      #8B8377;
+
+  --ouro:         #B29065;
+  --ouro-escuro:  #8F6F45;
+  --ouro-claro:   #F1E8DA;
+
+  --raio:   14px;
+  --raio-s: 9px;
+  --sombra: 0 1px 2px rgba(26,22,17,.04), 0 6px 22px rgba(26,22,17,.045);
+  --ease:   cubic-bezier(.16,1,.3,1);
+
+  --fonte: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fonte-titulo: 'Sora', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--plano);
+  color: var(--tinta);
+  font-family: var(--fonte);
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: -.015em; margin: 0; }
+
+a { color: inherit; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .86em;
+  background: var(--ouro-claro);
+  color: var(--ouro-escuro);
+  padding: .1em .38em;
+  border-radius: 5px;
+  word-break: break-word;
+}
+
+/* ------------------------------------------------------------------ topo */
+
+.topo {
+  background: var(--superficie);
+  border-bottom: 1px solid var(--linha);
+}
+
+.topo-in {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 34px 20px 30px;
+}
+
+.kicker {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ouro-escuro);
+}
+
+.topo h1 {
+  font-size: clamp(27px, 7vw, 40px);
+  line-height: 1.12;
+  margin: 0 0 14px;
+}
+
+.topo .sub {
+  margin: 0 0 18px;
+  color: var(--tinta-2);
+  font-size: 15px;
+  max-width: 62ch;
+}
+
+.topo .data {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tinta-3);
+  padding-top: 14px;
+  border-top: 1px solid var(--linha);
+}
+
+/* ------------------------------------------------------------------ abas */
+
+.abas-barra {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(246,242,235,.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--linha);
+}
+
+.abas {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.aba {
+  appearance: none;
+  border: 1px solid var(--linha);
+  background: var(--superficie);
+  color: var(--tinta-2);
+  border-radius: var(--raio-s);
+  padding: 9px 10px;
+  font-family: var(--fonte);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
+}
+
+.aba .aba-t {
+  display: block;
+  font-weight: 600;
+  font-size: 13.5px;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+
+.aba .aba-n {
+  display: block;
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  margin-top: 2px;
+}
+
+.aba:hover { border-color: var(--linha-forte); }
+
+.aba.ativa {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: #fff;
+}
+
+.aba.ativa .aba-n { color: rgba(255,255,255,.62); }
+
+.aba:focus-visible { outline: 2px solid var(--ouro); outline-offset: 2px; }
+
+/* ----------------------------------------------------------------- bloco */
+
+main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 26px 14px 60px;
+}
+
+.bloco[hidden] { display: none; }
+
+.bloco-cab { margin: 6px 0 22px; }
+
+.bloco-cab h2 {
+  font-size: clamp(20px, 5.2vw, 26px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.bloco-sub {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--tinta-2);
+}
+
+/* ---------------------------------------------------------------- índice */
+
+.indice {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 6px;
+  margin-bottom: 24px;
+  box-shadow: var(--sombra);
+}
+
+.indice ol { list-style: none; margin: 0; padding: 0; }
+
+.indice li + li { border-top: 1px solid var(--linha); }
+
+.indice a {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 11px 10px;
+  text-decoration: none;
+  border-radius: var(--raio-s);
+  transition: background .18s var(--ease);
+}
+
+.indice a:hover { background: var(--superficie-2); }
+.indice a:focus-visible { outline: 2px solid var(--ouro); outline-offset: -2px; }
+
+.ix-n {
+  font-family: var(--fonte-titulo);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ouro);
+  letter-spacing: .04em;
+}
+
+.ix-t {
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.34;
+  letter-spacing: -.008em;
+}
+
+.ix-dur {
+  font-size: 11.5px;
+  color: var(--tinta-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------- cartões */
+
+.roteiro, .nota {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 20px 17px 17px;
+  margin-bottom: 16px;
+  scroll-margin-top: 78px;
+}
+
+.nota { background: var(--superficie-2); }
+
+.nota-titulo {
+  font-size: 16.5px;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.rt-top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  align-items: baseline;
+  margin-bottom: 15px;
+}
+
+.rt-num {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .06em;
+  color: var(--ouro);
+  padding-top: 3px;
+}
+
+.rt-titulo {
+  font-size: clamp(18px, 4.6vw, 21px);
+  line-height: 1.22;
+  letter-spacing: -.02em;
+}
+
+.badge {
+  grid-column: 2;
+  justify-self: start;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ouro-escuro);
+  background: var(--ouro-claro);
+  border-radius: 100px;
+  padding: 3px 9px;
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+}
+
+/* o gancho é o que mais importa */
+
+.gancho {
+  background: var(--tinta);
+  color: #FBF8F3;
+  border-radius: var(--raio-s);
+  padding: 15px 16px 16px;
+  margin-bottom: 16px;
+}
+
+.gancho-rot {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #C9A87C;
+  margin-bottom: 9px;
+}
+
+.gancho p {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: clamp(16px, 4.3vw, 19px);
+  line-height: 1.42;
+  letter-spacing: -.015em;
+}
+
+.gancho p + p { margin-top: 9px; }
+
+/* meta */
+
+.meta { margin: 0 0 16px; padding: 0; }
+
+.meta .m {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--linha);
+}
+
+.meta .m:first-child { border-top: 1px dashed var(--linha); }
+
+.meta dt {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+}
+
+.meta dd { margin: 0; font-size: 14px; color: var(--tinta-2); line-height: 1.5; }
+
+/* corpo */
+
+.corpo { font-size: 15px; }
+
+.corpo p { margin: 0 0 12px; }
+.corpo p:last-child { margin-bottom: 0; }
+
+.corpo h4.sub {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ouro-escuro);
+  margin: 20px 0 9px;
+}
+
+.corpo h4.sub:first-child { margin-top: 0; }
+
+.corpo blockquote {
+  margin: 0 0 14px;
+  padding: 2px 0 2px 15px;
+  border-left: 3px solid var(--ouro);
+  color: var(--tinta);
+}
+
+.corpo blockquote p { margin: 0 0 10px; }
+.corpo blockquote p:last-child { margin-bottom: 0; }
+
+.corpo ul, .corpo ol { margin: 0 0 12px; padding-left: 1.25em; }
+.corpo li { margin-bottom: 7px; }
+.corpo li::marker { color: var(--ouro); font-weight: 600; }
+
+.corpo strong { font-weight: 600; }
+
+.rolagem { overflow-x: auto; margin: 0 0 14px; -webkit-overflow-scrolling: touch; }
+
+.corpo table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 540px;
+  font-size: 13px;
+}
+
+.corpo th, .corpo td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--linha);
+  vertical-align: top;
+}
+
+.corpo th {
+  font-family: var(--fonte-titulo);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  border-bottom: 1px solid var(--linha-forte);
+  white-space: nowrap;
+}
+
+.corpo tbody tr:nth-child(even) { background: var(--superficie-2); }
+
+/* ação */
+
+.rt-acao {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linha);
+}
+
+.copiar {
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--linha-forte);
+  background: var(--superficie-2);
+  color: var(--tinta);
+  font-family: var(--fonte);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  padding: 11px 14px;
+  border-radius: var(--raio-s);
+  cursor: pointer;
+  transition: background .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease);
+}
+
+.copiar:hover { background: var(--ouro-claro); border-color: var(--ouro); }
+.copiar:focus-visible { outline: 2px solid var(--ouro); outline-offset: 2px; }
+.copiar.feito { background: var(--tinta); border-color: var(--tinta); color: #fff; }
+
+/* --------------------------------------------------------------- rodapé */
+
+.rodape {
+  border-top: 1px solid var(--linha);
+  background: var(--superficie);
+}
+
+.rodape p {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 20px 20px 28px;
+  font-size: 12.5px;
+  color: var(--tinta-3);
+}
+
+/* ---------------------------------------------------------------- aviso */
+
+.aviso {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, 14px);
+  background: var(--tinta);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 100px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s var(--ease), transform .2s var(--ease);
+  z-index: 60;
+}
+
+.aviso.visivel { opacity: 1; transform: translate(-50%, 0); }
+
+/* ------------------------------------------------------------- desktop */
+
+@media (min-width: 720px) {
+  body { font-size: 16.5px; }
+  main { padding: 34px 24px 80px; }
+  .topo-in { padding: 54px 24px 44px; }
+  .abas { padding: 12px 24px; gap: 10px; }
+  .aba { padding: 11px 14px; }
+  .aba .aba-t { font-size: 15px; }
+  .roteiro, .nota { padding: 26px 26px 20px; }
+  .indice a { grid-template-columns: 34px 1fr auto; padding: 12px 14px; }
+  .ix-t { font-size: 15px; }
+  .rt-top { grid-template-columns: auto 1fr auto; }
+  .badge { grid-column: auto; justify-self: end; margin-top: 0; }
+  .meta .m { grid-template-columns: 190px 1fr; gap: 14px; align-items: baseline; }
+  .gancho { padding: 18px 20px 19px; }
+  .copiar { width: auto; min-width: 200px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; }
+}
+
+/* ------------------------------------------------------------ impressão */
+
+@media print {
+  :root { --sombra: none; }
+  html { scroll-behavior: auto; }
+  body { background: #fff; font-size: 10.5pt; line-height: 1.45; }
+  .abas-barra, .rt-acao, .aviso, .indice { display: none !important; }
+  .topo { border-bottom: 1px solid #ccc; }
+  .topo-in, main, .rodape p { max-width: none; padding: 12pt 0; }
+  .bloco { display: block !important; }
+  .bloco[hidden] { display: block !important; }
+  .bloco + .bloco { break-before: page; page-break-before: always; }
+  .bloco-cab h2 { font-size: 16pt; }
+  .roteiro, .nota {
+    border: 1px solid #ddd;
+    box-shadow: none;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    padding: 10pt;
+    margin-bottom: 10pt;
+  }
+  .gancho { background: #f2ede4; color: #1A1611; border: 1px solid #ccc; }
+  .gancho-rot { color: #8F6F45; }
+  .corpo table { min-width: 0; font-size: 9pt; }
+  a { text-decoration: none; }
+}
+
+
+.fala{margin:.55rem 0;line-height:1.62}
+.fala .tempo{display:inline-block;min-width:82px;font-variant-numeric:tabular-nums;font-size:.78rem;
+letter-spacing:.04em;text-transform:uppercase;color:var(--fraco,#6B655C);margin-right:.5rem}
+.rot-sec{margin:1.35rem 0 .35rem;font-size:.74rem;letter-spacing:.11em;text-transform:uppercase;
+color:var(--fraco,#6B655C);font-weight:600}
+.meta code{font-size:.8rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border-bottom:1px solid var(--linha,#E6DFD4);padding:.55rem .6rem;text-align:left;vertical-align:top}
+th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fraco,#6B655C)}
+</style>
+</head>
+<body>
+<header class="topo"><div class="topo-in">
+<p class="kicker">Grupo Schumann · conta educacional</p>
+<h1>Trinta roteiros construídos sobre o melhor CPA de cada funil</h1>
+<p class="sub">Quinze para a Imersão Escritório Previsível e quinze para o Guia de Contratação, escritos a partir da performance real de 01/08 a 16/09/2026. Cada roteiro diz de qual padrão nasceu, e cada padrão é provado com o trecho literal da transcrição do criativo que vendeu — ou do que gastou sem vender. Documento de gravação: o botão no fim de cada cartão copia só a fala.</p>
+<p class="data">16 de setembro de 2026</p>
+</div></header>
+
+<div class="abas-barra"><div class="abas" role="tablist" aria-label="Blocos"><button class="aba ativa" role="tab" id="aba-iep" aria-controls="bloco-iep" aria-selected="true" data-alvo="bloco-iep"><span class="aba-t">Imersão · 15 roteiros</span><span class="aba-n">VD20 a VD34</span></button><button class="aba" role="tab" id="aba-guia" aria-controls="bloco-guia" aria-selected="false" data-alvo="bloco-guia"><span class="aba-t">Guia · 15 roteiros</span><span class="aba-n">VD09 a VD23</span></button><button class="aba" role="tab" id="aba-an-iep" aria-controls="bloco-an-iep" aria-selected="false" data-alvo="bloco-an-iep"><span class="aba-t">Análise · Imersão</span><span class="aba-n">o padrão que vende</span></button><button class="aba" role="tab" id="aba-an-guia" aria-controls="bloco-an-guia" aria-selected="false" data-alvo="bloco-an-guia"><span class="aba-t">Análise · Guia</span><span class="aba-n">1 vídeo contra 7 que zeraram</span></button></div></div>
+
+<section class="bloco ativo" id="bloco-iep" role="tabpanel" aria-labelledby="aba-iep">
+<div class="bloco-cab"><p class="bloco-sub">2ª edição · 26 de setembro · 10h às 16h · ao vivo · ingresso R$ 27 no lote atual · meta: bater o CPA de R$ 37,04 do VD14</p></div>
+<nav class="indice" aria-label="Índice"><ol><li><a href="#iep-1"><span class="ix-n">01</span><span class="ix-t">Domingo à noite</span><span class="ix-dur">72 s</span></a></li><li><a href="#iep-2"><span class="ix-n">02</span><span class="ix-t">&quot;O senhor mesmo vai cuidar?&quot;</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-3"><span class="ix-n">03</span><span class="ix-t">&quot;Uma pergunta rapidinha&quot;</span><span class="ix-dur">72 s</span></a></li><li><a href="#iep-4"><span class="ix-n">04</span><span class="ix-t">&quot;Quando as coisas acalmarem&quot;</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-5"><span class="ix-n">05</span><span class="ix-t">Contratou para ter tempo</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-6"><span class="ix-n">06</span><span class="ix-t">O melhor advogado do escritório</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-7"><span class="ix-n">07</span><span class="ix-t">Todo mundo recebe, menos você</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-8"><span class="ix-n">08</span><span class="ix-t">O cliente que encerrou e sumiu</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-9"><span class="ix-n">09</span><span class="ix-t">Quem montou a sua agenda?</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-10"><span class="ix-n">10</span><span class="ix-t">Pedido de demissão na sexta</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-11"><span class="ix-n">11</span><span class="ix-t">Tarefa de primeiro ano</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-12"><span class="ix-n">12</span><span class="ix-t">Medo de virar só gestor</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-13"><span class="ix-n">13</span><span class="ix-t">O melhor mês, sem comemorar</span><span class="ix-dur">75 s</span></a></li><li><a href="#iep-14"><span class="ix-n">14</span><span class="ix-t">Não é para todo advogado</span><span class="ix-dur">65 s</span></a></li><li><a href="#iep-15"><span class="ix-n">15</span><span class="ix-t">Trabalhou doente</span><span class="ix-dur">75 s</span></a></li></ol></nav>
+<article class="roteiro" id="iep-1">
+<header class="rt-top"><span class="rt-num">01</span>
+<h3 class="rt-titulo">Domingo à noite</h3>
+<span class="badge">72 s</span></header>
+<p class="meta"><code>VD20-IEP-domingo_a_noite</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, se hoje é domingo à noite e você tá com o notebook aberto &quot;só pra adiantar a
+semana&quot;, esse vídeo é pra você.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o notebook aberto no domingo à noite como sintoma do escritório que só funciona dentro da cabeça do dono. Nasce do Padrão 1.2 (você + cena) e 1.3 (absolvição + inimigo externo). Herda do VD14.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD02 (zero vendas) trata &quot;trabalhar demais&quot; como tese abstrata; o roteiro 2 do doc 19 trata tempo como lista de sinais. Aqui é uma única cena — o domingo — sem lista e sem tese.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, se hoje é domingo à noite e você tá com o notebook aberto &quot;só pra adiantar a
+semana&quot;, esse vídeo é pra você.</p><p class="fala"><span class="tempo">3–15s</span>Todo domingo a mesma coisa. A família na sala, e você respondendo e-mail, revisando
+peça, montando a semana do escritório inteiro. E você acha que isso é dedicação. Não é. É
+sintoma.</p><p class="fala"><span class="tempo">15–35s</span>O problema não é você trabalhar demais. É que o seu escritório só funciona dentro da
+sua cabeça. A semana de todo mundo depende de você montar. A resposta de todo cliente depende de
+você revisar. E ninguém te ensinou a construir um escritório que anda sem empurrão — a faculdade
+forma advogado, não forma dono.</p><p class="fala"><span class="tempo">35–58s</span>Eu levei oito anos pra aprender isso, errando. Hoje o meu escritório tem duas sedes e
+mais de cinquenta pessoas — e o domingo voltou a ser meu. No dia 26 de setembro eu vou passar
+seis horas contigo, ao vivo, das 10 às 16, montando isso pro seu escritório: quem faz o quê, que
+processo fica escrito, que número você olha. Você sai com o mapa preenchido e um plano de 90
+dias.</p><p class="fala"><span class="tempo">58–72s — CTA</span>O ingresso desse lote tá em vinte e sete reais — menos que um almoço. Clica aqui
+embaixo em Saiba Mais e garante tua vaga na Imersão Escritório Previsível. E que domingo volte a
+ser domingo.</p>
+<p class="rot-sec">Produção</p><p>gravar de noite, luz baixa de casa, notebook aberto ao lado — a cena do gancho é a cena do vídeo. Anúncio programado para entregar mais forte no fim de semana.</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O notebook aberto no domingo à noite não é dedicação.</p>
+<p>Corpo: É sintoma de um escritório que só funciona dentro da sua cabeça. Dia 26 de setembro, das 10h às 16h, ao vivo: seis horas comigo montando o escritório que anda sem empurrão — funções, processos escritos, números — e você sai com o plano dos próximos 90 dias pronto. Ingresso a R$ 27 nesse lote, menos que um almoço. Clica em Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, se hoje é domingo à noite e você tá com o notebook aberto &quot;só pra adiantar a semana&quot;, esse vídeo é pra você. Todo domingo a mesma coisa. A família na sala, e você respondendo e-mail, revisando peça, montando a semana do escritório inteiro. E você acha que isso é dedicação. Não é. É sintoma. O problema não é você trabalhar demais. É que o seu escritório só funciona dentro da sua cabeça. A semana de todo mundo depende de você montar. A resposta de todo cliente depende de você revisar. E ninguém te ensinou a construir um escritório que anda sem empurrão — a faculdade forma advogado, não forma dono. Eu levei oito anos pra aprender isso, errando. Hoje o meu escritório tem duas sedes e mais de cinquenta pessoas — e o domingo voltou a ser meu. No dia 26 de setembro eu vou passar seis horas contigo, ao vivo, das 10 às 16, montando isso pro seu escritório: quem faz o quê, que processo fica escrito, que número você olha. Você sai com o mapa preenchido e um plano de 90 dias. O ingresso desse lote tá em vinte e sete reais — menos que um almoço. Clica aqui embaixo em Saiba Mais e garante tua vaga na Imersão Escritório Previsível. E que domingo volte a ser domingo.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-2">
+<header class="rt-top"><span class="rt-num">02</span>
+<h3 class="rt-titulo">&quot;O senhor mesmo vai cuidar?&quot;</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD21-IEP-o_senhor_mesmo_vai_cuidar</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>&quot;Doutor, mas é o senhor mesmo que vai cuidar do meu caso?&quot; E você, todo orgulhoso: &quot;eu
+mesmo&quot;.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a pergunta do cliente que lisonjeia e aprisiona — a promessa pessoal que proíbe delegar. Nasce do Padrão 1.2 (frase falada do cliente, como no VD07) e 1.4 (condenação da prática, não da pessoa, como no AD01). Herda do VD07 e do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD07 usa a voz do cliente <strong>durante</strong> o processo (&quot;como está meu processo?&quot;); aqui a voz do cliente aparece <strong>na contratação</strong>, e o mecanismo é outro — a promessa do &quot;eu mesmo&quot; como trava de delegação.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>&quot;Doutor, mas é o senhor mesmo que vai cuidar do meu caso?&quot; E você, todo orgulhoso: &quot;eu
+mesmo&quot;.</p><p class="fala"><span class="tempo">3–15s</span>Essa resposta parece atendimento de qualidade. Ela é a frase mais cara do seu
+escritório. Porque no dia em que você prometeu isso pra vinte clientes, você se proibiu de
+delegar qualquer coisa pra qualquer pessoa.</p><p class="fala"><span class="tempo">15–40s</span>E não é culpa sua — a gente aprendeu que qualidade é fazer pessoalmente. Não é.
+Qualidade é padrão: o cliente bem atendido por um time treinado, com processo escrito, com você
+supervisionando o que importa. Escritório grande nenhum funciona na base do &quot;eu mesmo&quot;.
+Funciona na base do &quot;meu time, do meu jeito, com o meu padrão&quot;.</p><p class="fala"><span class="tempo">40–62s</span>Depois de estruturar mais de 700 escritórios de advocacia, eu te digo: essa troca — do
+&quot;eu mesmo&quot; pro &quot;meu padrão&quot; — é o que separa quem cresce de quem afunda no próprio balcão. É
+isso que eu monto contigo no dia 26 de setembro, seis horas ao vivo, das 10 às 16: como atender
+com padrão, delegar sem perder qualidade e sair do meio do caminho do seu próprio escritório.
+Você sai com o mapa preenchido e o plano de 90 dias.</p><p class="fala"><span class="tempo">62–75s — CTA</span>Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui
+embaixo e garante a tua vaga.</p>
+<p class="rot-sec">Produção</p><p>o gancho é encenado — Guilherme faz a voz do cliente e a própria resposta; mudar levemente o enquadramento entre as duas falas para marcar quem fala.</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: &quot;É o senhor mesmo que vai cuidar do meu caso?&quot;</p>
+<p>Corpo: Se você responde &quot;eu mesmo&quot; com orgulho, entende: essa é a frase que proíbe o seu escritório de crescer. Qualidade não é fazer pessoalmente — é padrão escrito e time treinado, com você supervisionando o que importa. Dia 26/09, das 10h às 16h, ao vivo: seis horas montando isso pro seu escritório. R$ 27 no lote atual, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="&quot;Doutor, mas é o senhor mesmo que vai cuidar do meu caso?&quot; E você, todo orgulhoso: &quot;eu mesmo&quot;. Essa resposta parece atendimento de qualidade. Ela é a frase mais cara do seu escritório. Porque no dia em que você prometeu isso pra vinte clientes, você se proibiu de delegar qualquer coisa pra qualquer pessoa. E não é culpa sua — a gente aprendeu que qualidade é fazer pessoalmente. Não é. Qualidade é padrão: o cliente bem atendido por um time treinado, com processo escrito, com você supervisionando o que importa. Escritório grande nenhum funciona na base do &quot;eu mesmo&quot;. Funciona na base do &quot;meu time, do meu jeito, com o meu padrão&quot;. Depois de estruturar mais de 700 escritórios de advocacia, eu te digo: essa troca — do &quot;eu mesmo&quot; pro &quot;meu padrão&quot; — é o que separa quem cresce de quem afunda no próprio balcão. É isso que eu monto contigo no dia 26 de setembro, seis horas ao vivo, das 10 às 16: como atender com padrão, delegar sem perder qualidade e sair do meio do caminho do seu próprio escritório. Você sai com o mapa preenchido e o plano de 90 dias. Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui embaixo e garante a tua vaga.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-3">
+<header class="rt-top"><span class="rt-num">03</span>
+<h3 class="rt-titulo">&quot;Uma pergunta rapidinha&quot;</h3>
+<span class="badge">72 s</span></header>
+<p class="meta"><code>VD22-IEP-pergunta_rapidinha</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>&quot;Posso te fazer uma pergunta rapidinha?&quot; Quantas vezes você ouviu essa frase hoje?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o dono como manual vivo do escritório — o dia consumido por interrupções. Nasce do Padrão 1.2 (frase falada, agora a do time) e 1.3 (absolvição: o problema não é a equipe). Herda do VD07 na forma e do VD14 no veredito.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 9 do doc 19 é a tarefa delegada que volta refeita; aqui é a economia da interrupção — ninguém devolve tarefa, todos pedem resposta. Sintoma diferente, mecanismo diferente (conhecimento não escrito, não critério não entregue).</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>&quot;Posso te fazer uma pergunta rapidinha?&quot; Quantas vezes você ouviu essa frase hoje?</p><p class="fala"><span class="tempo">3–15s</span>Se o seu time só anda te perguntando, você não tem um time. Você tem um grupo de pessoas
+esperando você pensar por elas. E a tua função virou essa: ser o manual vivo do escritório.</p><p class="fala"><span class="tempo">15–40s</span>O problema não é a tua equipe ser fraca. É que a resposta de tudo mora num lugar só: na
+tua cabeça. Não tem processo escrito, não tem padrão de peça, não tem regra de atendimento —
+então toda dúvida vira interrupção, e o teu dia vira uma fila de perguntas rapidinhas. Você não
+trabalha mais que todo mundo: você é consultado o dia inteiro e trabalha de noite.</p><p class="fala"><span class="tempo">40–60s</span>No dia 26 de setembro, das 10 às 16, ao vivo, eu vou te mostrar como tirar o escritório
+da tua cabeça e colocar no papel: funções, processos, padrões — o que eu fiz nas duas sedes do
+meu escritório, com mais de cinquenta pessoas, e o que estruturei em mais de 700 escritórios.</p><p class="fala"><span class="tempo">60–72s — CTA</span>Seis horas de mão na massa. Você sai com o mapa preenchido e o plano de 90 dias.
+Vinte e sete reais nesse lote. Clica em Saiba Mais e garante a tua vaga na Imersão Escritório
+Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: &quot;Posso te fazer uma pergunta rapidinha?&quot;</p>
+<p>Corpo: A frase que mais rouba o dia de quem é dono de escritório. Se toda dúvida do time termina em você, o problema não é a equipe — é que o escritório inteiro mora na sua cabeça. Dia 26/09, seis horas ao vivo pra colocar ele no papel: funções, processos, padrões. R$ 27 nesse lote, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="&quot;Posso te fazer uma pergunta rapidinha?&quot; Quantas vezes você ouviu essa frase hoje? Se o seu time só anda te perguntando, você não tem um time. Você tem um grupo de pessoas esperando você pensar por elas. E a tua função virou essa: ser o manual vivo do escritório. O problema não é a tua equipe ser fraca. É que a resposta de tudo mora num lugar só: na tua cabeça. Não tem processo escrito, não tem padrão de peça, não tem regra de atendimento — então toda dúvida vira interrupção, e o teu dia vira uma fila de perguntas rapidinhas. Você não trabalha mais que todo mundo: você é consultado o dia inteiro e trabalha de noite. No dia 26 de setembro, das 10 às 16, ao vivo, eu vou te mostrar como tirar o escritório da tua cabeça e colocar no papel: funções, processos, padrões — o que eu fiz nas duas sedes do meu escritório, com mais de cinquenta pessoas, e o que estruturei em mais de 700 escritórios. Seis horas de mão na massa. Você sai com o mapa preenchido e o plano de 90 dias. Vinte e sete reais nesse lote. Clica em Saiba Mais e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-4">
+<header class="rt-top"><span class="rt-num">04</span>
+<h3 class="rt-titulo">&quot;Quando as coisas acalmarem&quot;</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD23-IEP-quando_as_coisas_acalmarem</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, quantas vezes você já disse &quot;quando as coisas acalmarem, eu organizo o
+escritório&quot;?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a calmaria que nunca chega — a organização do escritório eternamente adiada pela urgência. Nasce do Padrão 1.3 (absolvição: o urgente grita mais alto por desenho, não por defeito seu). Herda do VD14.</p>
+<p class="rot-sec">Diferença do que já existe</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, quantas vezes você já disse &quot;quando as coisas acalmarem, eu organizo o
+escritório&quot;?</p><p class="fala"><span class="tempo">3–15s</span>Vou te contar uma coisa que dói: não vai acalmar. Nunca. Faz quanto tempo que você
+espera? Um ano? Três?</p><p class="fala"><span class="tempo">15–40s</span>E o problema não é você. É que a urgência sempre grita mais alto que o importante.
+Prazo grita. Audiência grita. Cliente grita. Organizar o escritório não grita — e por isso perde
+todo dia, pra sempre. Escritório nenhum se organizou &quot;quando acalmou&quot;. Se organizou quando o
+dono marcou dia e hora pra isso, do mesmo jeito que marca audiência.</p><p class="fala"><span class="tempo">40–62s</span>Então marca: 26 de setembro, das 10 às 16, ao vivo. Seis horas em que o processo da vez
+é o teu escritório. A gente vai colocar os teus números na mesa e sair com funções definidas,
+processos escritos e um plano de 90 dias — o mesmo caminho que eu usei nas duas sedes do meu
+escritório e nos mais de 700 que estruturei.</p><p class="fala"><span class="tempo">62–75s — CTA</span>Vinte e sete reais nesse lote, menos que um almoço. Clica em Saiba Mais aqui
+embaixo. A calmaria não vem — o dia 26, sim.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: &quot;Quando as coisas acalmarem, eu organizo o escritório.&quot;</p>
+<p>Corpo: Você diz isso há quanto tempo? Não vai acalmar — a urgência sempre grita mais alto que o importante. Organizar o escritório só acontece com dia e hora marcados, como audiência. Marca: 26/09, das 10h às 16h, ao vivo. Seis horas com os números do seu escritório na mesa, e um plano de 90 dias no fim. R$ 27 no lote atual. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, quantas vezes você já disse &quot;quando as coisas acalmarem, eu organizo o escritório&quot;? Vou te contar uma coisa que dói: não vai acalmar. Nunca. Faz quanto tempo que você espera? Um ano? Três? E o problema não é você. É que a urgência sempre grita mais alto que o importante. Prazo grita. Audiência grita. Cliente grita. Organizar o escritório não grita — e por isso perde todo dia, pra sempre. Escritório nenhum se organizou &quot;quando acalmou&quot;. Se organizou quando o dono marcou dia e hora pra isso, do mesmo jeito que marca audiência. Então marca: 26 de setembro, das 10 às 16, ao vivo. Seis horas em que o processo da vez é o teu escritório. A gente vai colocar os teus números na mesa e sair com funções definidas, processos escritos e um plano de 90 dias — o mesmo caminho que eu usei nas duas sedes do meu escritório e nos mais de 700 que estruturei. Vinte e sete reais nesse lote, menos que um almoço. Clica em Saiba Mais aqui embaixo. A calmaria não vem — o dia 26, sim.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-5">
+<header class="rt-top"><span class="rt-num">05</span>
+<h3 class="rt-titulo">Contratou para ter tempo</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD24-IEP-contratou_pra_ter_tempo</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, se você contratou gente pra ter mais tempo e hoje trabalha mais do que quando
+era sozinho, deixa eu te explicar o que aconteceu.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>contratou para ter tempo e trabalha mais do que quando era sozinho. É o <strong>teste controlado da análise</strong>: o mecanismo do VD03 (zero vendas em R$ 157,54) com o único defeito que a contraprova aponta consertado — o sujeito deixou de ser o Guilherme e virou o espectador. Nasce direto do Padrão 1.2. Herda do VD14 na forma e do VD03 no conteúdo.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD03 abre com &quot;quando <strong>eu</strong> comecei a montar meu time&quot; e conta a história do Guilherme; aqui a mesma dor abre com &quot;se <strong>você</strong> contratou&quot; e a história é a do espectador. Se este CPA vier muito abaixo do VD03, o padrão do sujeito está confirmado com variável isolada.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, se você contratou gente pra ter mais tempo e hoje trabalha mais do que quando
+era sozinho, deixa eu te explicar o que aconteceu.</p><p class="fala"><span class="tempo">3–20s</span>Você não contratou errado. Você contratou sem estrutura. Cada pessoa que entrou trouxe
+junto uma fila de dúvidas, treinos e correções — e tudo isso caiu em cima de quem? De você.
+Então quanto mais gente, mais dor de cabeça. E você começou a desconfiar que o problema era o
+time.</p><p class="fala"><span class="tempo">20–45s</span>Não é. O problema é que ninguém te mostrou que contratação vem <strong>depois</strong> da clareza:
+qual função, com qual processo escrito, respondendo pra quem, medida por qual número. Quando
+cada pessoa entra num lugar desenhado, ela te devolve tempo em vez de consumir. Hoje eu tenho
+mais de cinquenta pessoas em duas sedes — e cada contratação me devolve horas, não tira.</p><p class="fala"><span class="tempo">45–65s</span>No dia 26 de setembro, seis horas ao vivo comigo, das 10 às 16, você vai desenhar essa
+estrutura: as funções que o teu escritório precisa, o processo de cada uma, e o teu plano de 90
+dias pra sair do sufoco na ordem certa.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua
+vaga na Imersão Escritório Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Contratou pra ter tempo. Trabalha mais do que antes.</p>
+<p>Corpo: Você não contratou errado — contratou sem estrutura. Sem função clara e processo escrito, cada pessoa nova consome o seu dia em vez de devolver. Dia 26/09, das 10h às 16h, ao vivo: seis horas desenhando a estrutura do seu time, com plano de 90 dias no fim. R$ 27, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, se você contratou gente pra ter mais tempo e hoje trabalha mais do que quando era sozinho, deixa eu te explicar o que aconteceu. Você não contratou errado. Você contratou sem estrutura. Cada pessoa que entrou trouxe junto uma fila de dúvidas, treinos e correções — e tudo isso caiu em cima de quem? De você. Então quanto mais gente, mais dor de cabeça. E você começou a desconfiar que o problema era o time. Não é. O problema é que ninguém te mostrou que contratação vem <strong>depois</strong> da clareza: qual função, com qual processo escrito, respondendo pra quem, medida por qual número. Quando cada pessoa entra num lugar desenhado, ela te devolve tempo em vez de consumir. Hoje eu tenho mais de cinquenta pessoas em duas sedes — e cada contratação me devolve horas, não tira. No dia 26 de setembro, seis horas ao vivo comigo, das 10 às 16, você vai desenhar essa estrutura: as funções que o teu escritório precisa, o processo de cada uma, e o teu plano de 90 dias pra sair do sufoco na ordem certa. Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-6">
+<header class="rt-top"><span class="rt-num">06</span>
+<h3 class="rt-titulo">O melhor advogado do escritório</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD25-IEP-melhor_advogado_do_escritorio</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Você é o melhor advogado do seu escritório. E é exatamente por isso que ele não cresce.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>ser o melhor advogado do próprio escritório é o teto dele. Nasce do Padrão 1.4 (veredito cedo que condena uma prática — como o &quot;você está errando desde o começo&quot; do AD01 — sem culpar o caráter). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD04 pergunta &quot;advogado ou dono?&quot; — uma escolha de identidade; aqui não há escolha, há um mecanismo: a competência individual como gargalo físico do crescimento. O elogio reenquadrado como diagnóstico é gancho novo na conta.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Você é o melhor advogado do seu escritório. E é exatamente por isso que ele não cresce.</p><p class="fala"><span class="tempo">3–20s</span>Pensa comigo: se toda peça importante passa por você, se todo caso difícil é seu, se
+todo cliente grande exige você — o teto do escritório é a tua capacidade física. Vinte e quatro
+horas por dia. Acabou. Não tem contratação nem esforço que aumente isso.</p><p class="fala"><span class="tempo">20–45s</span>E ninguém te avisou, porque ser o melhor parece elogio. Mas empresa que depende do
+talento de uma pessoa não é empresa — é um talento com CNPJ. Escritório que cresce é aquele em
+que o conhecimento do melhor virou padrão de todos: modelo, processo, treino, revisão. O teu
+jeito de trabalhar, escrito, multiplicado pelo time.</p><p class="fala"><span class="tempo">45–65s</span>Foi isso que eu fiz nas duas sedes do meu escritório, com mais de cinquenta pessoas, e
+que estruturei em mais de 700 escritórios de advocacia. E é isso que eu monto contigo no dia 26
+de setembro, das 10 às 16, ao vivo: seis horas de mão na massa, saindo com o mapa preenchido e o
+plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui
+embaixo e garante a tua vaga.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Ser o melhor advogado do escritório é o problema.</p>
+<p>Corpo: Se toda peça importante passa por você, o teto do escritório é a sua capacidade física. Empresa que depende do talento de um só não é empresa — é um talento com CNPJ. Dia 26/09, seis horas ao vivo transformando o seu jeito de trabalhar em padrão do time. R$ 27 no lote atual. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Você é o melhor advogado do seu escritório. E é exatamente por isso que ele não cresce. Pensa comigo: se toda peça importante passa por você, se todo caso difícil é seu, se todo cliente grande exige você — o teto do escritório é a tua capacidade física. Vinte e quatro horas por dia. Acabou. Não tem contratação nem esforço que aumente isso. E ninguém te avisou, porque ser o melhor parece elogio. Mas empresa que depende do talento de uma pessoa não é empresa — é um talento com CNPJ. Escritório que cresce é aquele em que o conhecimento do melhor virou padrão de todos: modelo, processo, treino, revisão. O teu jeito de trabalhar, escrito, multiplicado pelo time. Foi isso que eu fiz nas duas sedes do meu escritório, com mais de cinquenta pessoas, e que estruturei em mais de 700 escritórios de advocacia. E é isso que eu monto contigo no dia 26 de setembro, das 10 às 16, ao vivo: seis horas de mão na massa, saindo com o mapa preenchido e o plano de 90 dias. Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui embaixo e garante a tua vaga.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-7">
+<header class="rt-top"><span class="rt-num">07</span>
+<h3 class="rt-titulo">Todo mundo recebe, menos você</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD26-IEP-todo_mundo_recebe_menos_voce</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>No dia cinco, todo mundo do seu escritório recebe em dia. Menos você.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o dia do pagamento — todo mundo tem salário definido, menos o dono, que fica com &quot;o que sobrar&quot;. Nasce do Padrão 1.2 (hábito específico e reconhecível, como o &quot;30%, 40%&quot; do AD01) e do 1.4 (mecanismo em linguagem de dinheiro). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 1 do doc 19 diagnostica lucro com quatro sinais em lista; aqui é uma única cena (o dia cinco) e um único hábito (a ausência de pró-labore), sem lista. O VD19 (tô rico, tô pobre) trata a oscilação do caixa; aqui o assunto é a remuneração do dono, que nenhum criativo da conta toca.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>No dia cinco, todo mundo do seu escritório recebe em dia. Menos você.</p><p class="fala"><span class="tempo">3–20s</span>Estagiário tem salário. Secretária tem salário. Advogado tem salário. E o dono? O dono
+fica com &quot;o que sobrar&quot;. Tem mês que sobra, tem mês que não — e você chama isso de normal.</p><p class="fala"><span class="tempo">20–45s</span>Não é normal. É o sinal mais claro de que o escritório não tem gestão financeira: a
+pessoa que mais trabalha é a única sem remuneração definida. Você não está sendo dono de uma
+empresa — está sendo fiador dela. E enquanto o teu pró-labore for &quot;o resto&quot;, você nunca vai
+saber se o escritório dá lucro de verdade ou se ele só sobrevive porque você aceita não receber.</p><p class="fala"><span class="tempo">45–65s</span>No dia 26 de setembro, das 10 às 16, ao vivo, um dos blocos é exatamente esse: gestão
+financeira do escritório — quanto entra, quanto sai, quanto sobra, e o teu lugar nessa conta.
+Seis horas de mão na massa, com os teus números, saindo com o mapa preenchido e o plano de 90
+dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua
+vaga na Imersão Escritório Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Todo mundo no seu escritório tem salário. Menos você.</p>
+<p>Corpo: Quem mais trabalha é o único que recebe &quot;o que sobrar&quot;. Isso não é dedicação — é ausência de gestão financeira. Dia 26/09, seis horas ao vivo com os números do seu escritório na mesa: quanto entra, quanto sai, quanto sobra e o seu lugar nessa conta. R$ 27, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="No dia cinco, todo mundo do seu escritório recebe em dia. Menos você. Estagiário tem salário. Secretária tem salário. Advogado tem salário. E o dono? O dono fica com &quot;o que sobrar&quot;. Tem mês que sobra, tem mês que não — e você chama isso de normal. Não é normal. É o sinal mais claro de que o escritório não tem gestão financeira: a pessoa que mais trabalha é a única sem remuneração definida. Você não está sendo dono de uma empresa — está sendo fiador dela. E enquanto o teu pró-labore for &quot;o resto&quot;, você nunca vai saber se o escritório dá lucro de verdade ou se ele só sobrevive porque você aceita não receber. No dia 26 de setembro, das 10 às 16, ao vivo, um dos blocos é exatamente esse: gestão financeira do escritório — quanto entra, quanto sai, quanto sobra, e o teu lugar nessa conta. Seis horas de mão na massa, com os teus números, saindo com o mapa preenchido e o plano de 90 dias. Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-8">
+<header class="rt-top"><span class="rt-num">08</span>
+<h3 class="rt-titulo">O cliente que encerrou e sumiu</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD27-IEP-cliente_que_encerrou_e_sumiu</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, lembra daquele cliente que você atendeu bem, encerrou o caso... e nunca mais
+falou com ele?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o cliente bem atendido que encerrou o caso e nunca mais teve notícia do escritório — o pós-encerramento como território abandonado. Nasce do Padrão 1.2 (cena vivida) e 1.3 (absolvição: ninguém ensina o que vem depois da sentença). Herda do VD07 e do VD06 — os dois campeões do território pós-venda — sem repetir o gancho de nenhum.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>VD07 e VD06 falam do cliente ansioso <strong>durante</strong> o processo; aqui é o silêncio <strong>depois</strong> do fim. Mesmo eixo comprovado, momento oposto da jornada.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, lembra daquele cliente que você atendeu bem, encerrou o caso... e nunca mais
+falou com ele?</p><p class="fala"><span class="tempo">3–20s</span>O processo acabou, você faturou, ele agradeceu — e sumiu. Agora multiplica isso por
+todos os clientes desde que o escritório abriu. É uma multidão de gente que já confiou em você e
+que hoje não lembra que você existe.</p><p class="fala"><span class="tempo">20–45s</span>E a culpa não é sua: ninguém ensina isso. A gente aprende a conduzir o processo até a
+sentença — e ninguém ensina o que vem depois do fim. Só que os escritórios que entenderam sabem:
+cliente bem atendido volta e indica. O relacionamento não termina com o processo. Quem deixa
+terminar está recomeçando a carteira do zero todo mês.</p><p class="fala"><span class="tempo">45–65s</span>No dia 26 de setembro, das 10 às 16, ao vivo, eu vou te mostrar a jornada completa do
+cliente — da entrada ao pós-encerramento — do jeito que eu montei nas duas sedes do meu
+escritório. Seis horas de mão na massa, mapa preenchido, plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui
+embaixo e garante a tua vaga.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O cliente agradeceu, encerrou — e sumiu.</p>
+<p>Corpo: Soma todos os clientes que o seu escritório já atendeu. Com quantos você ainda fala? Ninguém ensina o que vem depois da sentença — e é exatamente aí que os escritórios estruturados se separam dos demais. Dia 26/09, seis horas ao vivo desenhando a jornada completa do cliente. R$ 27 no lote atual. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, lembra daquele cliente que você atendeu bem, encerrou o caso... e nunca mais falou com ele? O processo acabou, você faturou, ele agradeceu — e sumiu. Agora multiplica isso por todos os clientes desde que o escritório abriu. É uma multidão de gente que já confiou em você e que hoje não lembra que você existe. E a culpa não é sua: ninguém ensina isso. A gente aprende a conduzir o processo até a sentença — e ninguém ensina o que vem depois do fim. Só que os escritórios que entenderam sabem: cliente bem atendido volta e indica. O relacionamento não termina com o processo. Quem deixa terminar está recomeçando a carteira do zero todo mês. No dia 26 de setembro, das 10 às 16, ao vivo, eu vou te mostrar a jornada completa do cliente — da entrada ao pós-encerramento — do jeito que eu montei nas duas sedes do meu escritório. Seis horas de mão na massa, mapa preenchido, plano de 90 dias. Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui embaixo e garante a tua vaga.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-9">
+<header class="rt-top"><span class="rt-num">09</span>
+<h3 class="rt-titulo">Quem montou a sua agenda?</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD28-IEP-quem_montou_sua_agenda</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Que horas você decidiu o que ia fazer hoje? Pensa bem. Você decidiu — ou o WhatsApp
+decidiu por você?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o dia decidido pelo incêndio — o dono que não monta a própria agenda. Nasce do Padrão 1.2 (pergunta que obriga a auto-verificação imediata) e 1.3 (absolvição: não é falta de disciplina, é desenho). Herda do VD07 na forma de pergunta e do VD14 no veredito.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 2 do doc 19 trata das decisões <strong>dos outros</strong> paradas esperando o dono; aqui é o dia <strong>do próprio dono</strong> sequestrado pela urgência. Cena diferente, personagem diferente.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Que horas você decidiu o que ia fazer hoje? Pensa bem. Você decidiu — ou o WhatsApp
+decidiu por você?</p><p class="fala"><span class="tempo">3–20s</span>A maioria dos donos de escritório não monta a própria agenda. Abre o celular às sete da
+manhã, encontra quarenta mensagens, e o dia vai pro incêndio que gritar mais alto. De noite,
+exausto, vem aquela sensação: trabalhei o dia inteiro e não fiz nada do que importava.</p><p class="fala"><span class="tempo">20–45s</span>Isso não é falta de disciplina. É um escritório desenhado pra funcionar assim: sem
+função definida, sem processo, sem responsável — tudo vira urgência, e toda urgência é tua.
+Agenda não se defende com força de vontade. Se defende com estrutura: quando cada coisa tem
+dono, o incêndio para de nascer.</p><p class="fala"><span class="tempo">45–65s</span>Dia 26 de setembro, das 10 às 16, ao vivo: seis horas comigo desenhando essa estrutura
+pro teu escritório — funções, processos, números — do jeito que eu apliquei nas duas sedes do
+meu e nos mais de 700 que estruturei. Você sai com o mapa preenchido e o plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote. Clica em Saiba Mais e garante a tua vaga na
+Imersão Escritório Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Quem montou a sua agenda de hoje foi o incêndio.</p>
+<p>Corpo: Você abre o celular às 7h, encontra quarenta mensagens, e o dia inteiro vai pra quem gritar mais alto. Não é falta de disciplina — é escritório sem estrutura: tudo vira urgência, e toda urgência é sua. Dia 26/09, seis horas ao vivo desenhando funções, processos e números. R$ 27, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Que horas você decidiu o que ia fazer hoje? Pensa bem. Você decidiu — ou o WhatsApp decidiu por você? A maioria dos donos de escritório não monta a própria agenda. Abre o celular às sete da manhã, encontra quarenta mensagens, e o dia vai pro incêndio que gritar mais alto. De noite, exausto, vem aquela sensação: trabalhei o dia inteiro e não fiz nada do que importava. Isso não é falta de disciplina. É um escritório desenhado pra funcionar assim: sem função definida, sem processo, sem responsável — tudo vira urgência, e toda urgência é tua. Agenda não se defende com força de vontade. Se defende com estrutura: quando cada coisa tem dono, o incêndio para de nascer. Dia 26 de setembro, das 10 às 16, ao vivo: seis horas comigo desenhando essa estrutura pro teu escritório — funções, processos, números — do jeito que eu apliquei nas duas sedes do meu e nos mais de 700 que estruturei. Você sai com o mapa preenchido e o plano de 90 dias. Vinte e sete reais nesse lote. Clica em Saiba Mais e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-10">
+<header class="rt-top"><span class="rt-num">10</span>
+<h3 class="rt-titulo">Pedido de demissão na sexta</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD29-IEP-pedido_de_demissao_na_sexta</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Sexta-feira, cinco da tarde, a tua melhor advogada pede pra conversar. E o teu estômago
+gela.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o pedido de demissão que gela o estômago — o conhecimento do escritório guardado na cabeça das pessoas, não em processo. Nasce do Padrão 1.2 (cena com hora e dia) e 1.4 (mecanismo nomeado: o conhecimento é ativo do escritório, não da pessoa). Herda do AD01 na condenação da prática.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 3 do doc 19 cita &quot;quando alguém sai, você entra em pânico&quot; como um item de uma lista de quatro sinais de equipe; aqui essa linha vira o vídeo inteiro — uma cena, com o mecanismo e o antídoto dela.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Sexta-feira, cinco da tarde, a tua melhor advogada pede pra conversar. E o teu estômago
+gela.</p><p class="fala"><span class="tempo">3–20s</span>Porque você sabe o que aquilo pode significar. E não é só perder uma pessoa boa. É que
+tudo o que ela sabe — os casos dela, os modelos dela, o jeito dela de atender — vai embora
+junto. Não está escrito em lugar nenhum. Está na cabeça dela.</p><p class="fala"><span class="tempo">20–45s</span>Se um pedido de demissão tem o poder de te dar medo, o problema não é quem sai. É que o
+teu escritório guarda o conhecimento no lugar errado. Escritório estruturado guarda em processo:
+modelo documentado, rotina escrita, padrão que treina o substituto em semanas. Gente boa vai e
+vem. O conhecimento fica — porque ele é do escritório.</p><p class="fala"><span class="tempo">45–65s</span>Essa é uma das coisas que eu monto contigo no dia 26 de setembro, das 10 às 16, ao
+vivo: como documentar o teu escritório de um jeito que ninguém carregue ele embora na bolsa.
+Seis horas de mão na massa, mapa preenchido, plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui
+embaixo e garante a tua vaga.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O pedido de demissão que gela o estômago.</p>
+<p>Corpo: Se perder uma pessoa te dá medo, o conhecimento do seu escritório está guardado no lugar errado: na cabeça dela. Escritório estruturado guarda em processo — gente vai e vem, o conhecimento fica. Dia 26/09, seis horas ao vivo documentando o seu. R$ 27 no lote atual. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Sexta-feira, cinco da tarde, a tua melhor advogada pede pra conversar. E o teu estômago gela. Porque você sabe o que aquilo pode significar. E não é só perder uma pessoa boa. É que tudo o que ela sabe — os casos dela, os modelos dela, o jeito dela de atender — vai embora junto. Não está escrito em lugar nenhum. Está na cabeça dela. Se um pedido de demissão tem o poder de te dar medo, o problema não é quem sai. É que o teu escritório guarda o conhecimento no lugar errado. Escritório estruturado guarda em processo: modelo documentado, rotina escrita, padrão que treina o substituto em semanas. Gente boa vai e vem. O conhecimento fica — porque ele é do escritório. Essa é uma das coisas que eu monto contigo no dia 26 de setembro, das 10 às 16, ao vivo: como documentar o teu escritório de um jeito que ninguém carregue ele embora na bolsa. Seis horas de mão na massa, mapa preenchido, plano de 90 dias. Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui embaixo e garante a tua vaga.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-11">
+<header class="rt-top"><span class="rt-num">11</span>
+<h3 class="rt-titulo">Tarefa de primeiro ano</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD30-IEP-tarefa_de_primeiro_ano</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, me responde com sinceridade: ontem você fez alguma tarefa que você já fazia no
+teu primeiro ano de advocacia?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o teste de ontem — o dono que ainda executa tarefas do primeiro ano de advocacia. Nasce do Padrão 1.2 (pergunta-teste com detalhe reconhecível) e 1.3 (absolvição: ninguém sentou com você pra separar trabalho de dono e trabalho de time). Herda do VD14.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD02 (zero vendas) afirma a tese &quot;não é sobre trabalhar mais&quot; e pergunta &quot;quanto custa a sua hora&quot;; aqui não há tese nem conta — há um teste concreto sobre o dia de ontem, com exemplos que a pessoa fez de fato.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, me responde com sinceridade: ontem você fez alguma tarefa que você já fazia no
+teu primeiro ano de advocacia?</p><p class="fala"><span class="tempo">3–20s</span>Baixou documento de cliente? Respondeu &quot;bom dia, doutor&quot; no WhatsApp? Conferiu prazo,
+montou pasta? Pois é. O escritório cresceu, o faturamento cresceu — e a tua rotina continua a
+mesma do estágio.</p><p class="fala"><span class="tempo">20–45s</span>E o problema não é apego. É que nunca ninguém sentou contigo pra separar o que é
+trabalho de dono e o que é trabalho de time. Então você faz tudo: o de dono, o de advogado e o
+de estagiário. E o escritório paga o preço mais caro possível por cada tarefa simples — porque
+quem executa é você.</p><p class="fala"><span class="tempo">45–65s</span>No dia 26 de setembro, das 10 às 16, ao vivo, a gente vai fazer exatamente essa
+separação, com o teu escritório na mesa: o que só você pode fazer, o que é do time, e qual
+processo escrito sustenta a troca. Seis horas de mão na massa — mapa preenchido e plano de 90
+dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua
+vaga na Imersão Escritório Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Ontem você fez tarefa de primeiro ano de advocacia?</p>
+<p>Corpo: Baixar documento, responder &quot;bom dia, doutor&quot;, montar pasta. O escritório cresceu — e a sua rotina continua a do estágio, porque ninguém nunca separou com você o que é trabalho de dono e o que é do time. Dia 26/09, seis horas ao vivo fazendo essa separação. R$ 27, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, me responde com sinceridade: ontem você fez alguma tarefa que você já fazia no teu primeiro ano de advocacia? Baixou documento de cliente? Respondeu &quot;bom dia, doutor&quot; no WhatsApp? Conferiu prazo, montou pasta? Pois é. O escritório cresceu, o faturamento cresceu — e a tua rotina continua a mesma do estágio. E o problema não é apego. É que nunca ninguém sentou contigo pra separar o que é trabalho de dono e o que é trabalho de time. Então você faz tudo: o de dono, o de advogado e o de estagiário. E o escritório paga o preço mais caro possível por cada tarefa simples — porque quem executa é você. No dia 26 de setembro, das 10 às 16, ao vivo, a gente vai fazer exatamente essa separação, com o teu escritório na mesa: o que só você pode fazer, o que é do time, e qual processo escrito sustenta a troca. Seis horas de mão na massa — mapa preenchido e plano de 90 dias. Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-12">
+<header class="rt-top"><span class="rt-num">12</span>
+<h3 class="rt-titulo">Medo de virar só gestor</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD31-IEP-medo_de_virar_so_gestor</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>&quot;Se eu parar de peticionar, eu viro o quê? Administrador?&quot; Se essa pergunta já passou
+pela tua cabeça, assiste até o fim.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a objeção de identidade — o medo de largar a técnica e &quot;virar administrador&quot;. Nasce do Padrão 1.2 (a frase é a que o próprio espectador pensa) e 1.3 (absolvição do medo + inversão: gestão devolve o advogado ao direito). Herda do VD14 na estrutura de absolvição.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD04 pergunta &quot;advogado ou dono?&quot; como escolha; o VD16 trata os medos de montar equipe. Aqui o medo é outro — perder a própria identidade de advogado — e a resposta inverte a objeção em vez de escolher um lado: quem está afogado na operação é que já não exerce a advocacia que sonhou.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>&quot;Se eu parar de peticionar, eu viro o quê? Administrador?&quot; Se essa pergunta já passou
+pela tua cabeça, assiste até o fim.</p><p class="fala"><span class="tempo">3–20s</span>Muito advogado trava o crescimento do escritório por causa desse medo. Medo de largar a
+técnica, virar &quot;só gestor&quot; e deixar de ser advogado. E eu entendo — a gente estudou anos pra
+isso. A técnica é a nossa identidade.</p><p class="fala"><span class="tempo">20–45s</span>Mas olha o que acontece na prática: hoje, afogado na operação, você peticiona com
+pressa, atende com pressa e estuda menos do que queria. Você já não exerce a advocacia que
+sonhou. Gestão não é o que te afasta do direito — é o que te devolve pra ele. Com time cuidando
+do operacional, você escolhe onde a tua técnica entra: nos casos que importam, na tese, na
+estratégia.</p><p class="fala"><span class="tempo">45–65s</span>É essa troca que eu mostro no dia 26 de setembro, das 10 às 16, ao vivo: como montar
+time e processo pra você exercer a advocacia no nível mais alto — e não no balcão. Seis horas de
+mão na massa, com mapa preenchido e plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui
+embaixo e garante a tua vaga.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: &quot;Se eu parar de peticionar, eu viro o quê?&quot;</p>
+<p>Corpo: O medo de virar &quot;só gestor&quot; trava mais escritório do que se imagina. Mas afogado na operação, peticionando com pressa, você já não exerce a advocacia que sonhou. Gestão é o que devolve você pro direito — nos casos que importam. Dia 26/09, seis horas ao vivo. R$ 27 no lote atual. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="&quot;Se eu parar de peticionar, eu viro o quê? Administrador?&quot; Se essa pergunta já passou pela tua cabeça, assiste até o fim. Muito advogado trava o crescimento do escritório por causa desse medo. Medo de largar a técnica, virar &quot;só gestor&quot; e deixar de ser advogado. E eu entendo — a gente estudou anos pra isso. A técnica é a nossa identidade. Mas olha o que acontece na prática: hoje, afogado na operação, você peticiona com pressa, atende com pressa e estuda menos do que queria. Você já não exerce a advocacia que sonhou. Gestão não é o que te afasta do direito — é o que te devolve pra ele. Com time cuidando do operacional, você escolhe onde a tua técnica entra: nos casos que importam, na tese, na estratégia. É essa troca que eu mostro no dia 26 de setembro, das 10 às 16, ao vivo: como montar time e processo pra você exercer a advocacia no nível mais alto — e não no balcão. Seis horas de mão na massa, com mapa preenchido e plano de 90 dias. Vinte e sete reais nesse lote — menos que um almoço. Clica em Saiba Mais aqui embaixo e garante a tua vaga.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-13">
+<header class="rt-top"><span class="rt-num">13</span>
+<h3 class="rt-titulo">O melhor mês, sem comemorar</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD32-IEP-melhor_mes_sem_comemorar</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Qual foi o melhor mês de faturamento da história do teu escritório? Agora me responde:
+você comemorou?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o recorde de faturamento que ninguém comemorou — crescimento sem estrutura vira castigo, e nasce o medo de crescer. Nasce do Padrão 1.2 (pergunta sobre um dia vivido) e 1.3 (veredito: cada vitória vira castigo — condenando o desenho, não a pessoa). Herda do VD14.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD17 usa a metáfora da jaula (o crescimento aprisiona a rotina) e o VD19 a oscilação rico/pobre entre meses. Aqui a cena é o <strong>dia do recorde</strong> e o sentimento nele — a anestesia da vitória — e o mecanismo desemboca no medo de crescer, que nenhum criativo da conta nomeia.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Qual foi o melhor mês de faturamento da história do teu escritório? Agora me responde:
+você comemorou?</p><p class="fala"><span class="tempo">3–20s</span>A maioria não comemora. Porque no melhor mês da história você estava exausto demais pra
+sentir qualquer coisa. Mais contrato entrando significava uma coisa só: mais trabalho em cima de
+você.</p><p class="fala"><span class="tempo">20–45s</span>Esse é o lado que ninguém conta do crescimento sem estrutura: cada vitória vira
+castigo. Faturou mais? Trabalha mais. Mais cliente? Mais WhatsApp, mais prazo, mais noite mal
+dormida. O número sobe e a rotina piora — e aí, sem perceber, você começa a ter medo de crescer.
+E passa a recusar o que devia comemorar.</p><p class="fala"><span class="tempo">45–65s</span>Crescimento só vira conquista quando a estrutura cresce junto: time com função definida,
+processo escrito, número acompanhado. Foi o que eu aprendi construindo duas sedes e um time de
+mais de cinquenta pessoas. No dia 26 de setembro, das 10 às 16, ao vivo, eu monto esse caminho
+contigo — seis horas, mapa preenchido, plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua
+vaga na Imersão Escritório Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O melhor mês da história — e você nem comemorou.</p>
+<p>Corpo: Quando não há estrutura, cada vitória vira castigo: mais faturamento é só mais trabalho em cima de você. E sem perceber, você começa a ter medo de crescer. Dia 26/09, seis horas ao vivo montando a estrutura que transforma crescimento em conquista. R$ 27, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Qual foi o melhor mês de faturamento da história do teu escritório? Agora me responde: você comemorou? A maioria não comemora. Porque no melhor mês da história você estava exausto demais pra sentir qualquer coisa. Mais contrato entrando significava uma coisa só: mais trabalho em cima de você. Esse é o lado que ninguém conta do crescimento sem estrutura: cada vitória vira castigo. Faturou mais? Trabalha mais. Mais cliente? Mais WhatsApp, mais prazo, mais noite mal dormida. O número sobe e a rotina piora — e aí, sem perceber, você começa a ter medo de crescer. E passa a recusar o que devia comemorar. Crescimento só vira conquista quando a estrutura cresce junto: time com função definida, processo escrito, número acompanhado. Foi o que eu aprendi construindo duas sedes e um time de mais de cinquenta pessoas. No dia 26 de setembro, das 10 às 16, ao vivo, eu monto esse caminho contigo — seis horas, mapa preenchido, plano de 90 dias. Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-14">
+<header class="rt-top"><span class="rt-num">14</span>
+<h3 class="rt-titulo">Não é para todo advogado</h3>
+<span class="badge">65 s</span></header>
+<p class="meta"><code>VD33-IEP-nao_e_pra_todo_advogado</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>A Imersão Escritório Previsível não é pra todo advogado. E é melhor eu te falar isso
+antes de você gastar vinte e sete reais.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>desqualificação — dizer para quem a Imersão NÃO é, e só então para quem é. É a exceção controlada da régua: o único do lote que fala da oferta cedo. Herda do VD01-GUIA (&quot;kit_nao_e_pra_todos&quot;, que vendeu a R$ 109,15), do VD11 (oferta comprimida e concreta, R$ 143) e aplica o Padrão 1.6 por dentro: o descarte explícito da faixa errada é o filtro que os criativos C02 e VD12 não tinham.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o VD09 promete o formato (&quot;você não vai assistir nada&quot;); aqui o mecanismo é outro — dizer três &quot;não é pra você&quot; antes de qualquer &quot;é pra você&quot;. Posição de uso: empilhar em público morno e remarketing, onde o VD11 provou que oferta comprimida funciona; expectativa de CPA na faixa do VD11, não do VD14.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>A Imersão Escritório Previsível não é pra todo advogado. E é melhor eu te falar isso
+antes de você gastar vinte e sete reais.</p><p class="fala"><span class="tempo">3–28s</span>Não é pra quem quer assistir aula deitado no sofá — lá a gente trabalha: são seis horas
+de mão na massa, com os números do teu escritório na mesa. Não é pra quem coleciona certificado —
+o certificado existe, mas ele é o de menos. E não é pra quem ainda não tem escritório nem
+operação — porque o que a gente organiza lá é uma operação que já existe.</p><p class="fala"><span class="tempo">28–52s</span>Agora, se você é dono de escritório, fatura, e vive afogado — o dia inteiro consultado,
+a semana decidida pelos incêndios, o crescimento travado em você —, aí sim: foi pra você que eu
+montei cada bloco. Dia 26 de setembro, das 10 às 16, ao vivo: aquisição de clientes e vendas,
+contratação e time, pós-venda, gestão financeira. Você sai com o mapa preenchido e o plano dos
+próximos 90 dias.</p><p class="fala"><span class="tempo">52–65s — CTA</span>Vinte e sete reais nesse lote — menos que um almoço. Se é pra ti, clica em Saiba
+Mais aqui embaixo e garante a vaga. Se não é, esse vídeo acabou de te economizar o valor.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: A imersão não é pra todo advogado.</p>
+<p>Corpo: Não é pra quem quer aula no sofá, nem pra quem coleciona certificado, nem pra quem ainda não tem operação. É pra dono de escritório que fatura e vive afogado no próprio negócio. Dia 26/09, das 10h às 16h, ao vivo: seis horas de mão na massa e um plano de 90 dias no fim. R$ 27. Se é pra você, clica em Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="A Imersão Escritório Previsível não é pra todo advogado. E é melhor eu te falar isso antes de você gastar vinte e sete reais. Não é pra quem quer assistir aula deitado no sofá — lá a gente trabalha: são seis horas de mão na massa, com os números do teu escritório na mesa. Não é pra quem coleciona certificado — o certificado existe, mas ele é o de menos. E não é pra quem ainda não tem escritório nem operação — porque o que a gente organiza lá é uma operação que já existe. Agora, se você é dono de escritório, fatura, e vive afogado — o dia inteiro consultado, a semana decidida pelos incêndios, o crescimento travado em você —, aí sim: foi pra você que eu montei cada bloco. Dia 26 de setembro, das 10 às 16, ao vivo: aquisição de clientes e vendas, contratação e time, pós-venda, gestão financeira. Você sai com o mapa preenchido e o plano dos próximos 90 dias. Vinte e sete reais nesse lote — menos que um almoço. Se é pra ti, clica em Saiba Mais aqui embaixo e garante a vaga. Se não é, esse vídeo acabou de te economizar o valor.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="iep-15">
+<header class="rt-top"><span class="rt-num">15</span>
+<h3 class="rt-titulo">Trabalhou doente</h3>
+<span class="badge">75 s</span></header>
+<p class="meta"><code>VD34-IEP-trabalhou_doente</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, lembra da última vez que você trabalhou doente? Com febre — e mesmo assim
+respondendo cliente?</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a memória de trabalhar com febre — o corpo do dono como única infraestrutura do escritório. Nasce do Padrão 1.2 (cena vivida, não hipótese) e 1.4 (mecanismo nomeado: ponto único de falha; credencial e cicatriz de 2020 em uma linha, no meio). Herda do VD14 e, na cicatriz, do material do VD02 usado na posição certa — como prova no meio, não como biografia na abertura.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 6 do doc 19 propõe o teste hipotético das duas semanas com três sinais do que quebraria; aqui não há hipótese nem lista — há a lembrança de um dia que aconteceu, e o mecanismo é a ausência de cobertura, não a enumeração do que quebra.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, lembra da última vez que você trabalhou doente? Com febre — e mesmo assim
+respondendo cliente?</p><p class="fala"><span class="tempo">3–20s</span>Você não trabalhou doente por dedicação. Trabalhou porque não tinha escolha: se você
+parasse, o escritório parava junto. Prazo é teu, cliente é teu, decisão é tua. O teu corpo é a
+única infraestrutura do negócio.</p><p class="fala"><span class="tempo">20–45s</span>E isso tem nome: ponto único de falha. Empresa séria nenhuma opera assim — e o teu
+escritório opera. Não porque você é desorganizado, mas porque ninguém nunca te mostrou como se
+constrói cobertura: processo escrito que outro consegue seguir, função com substituto, decisão
+com critério que não dependa do teu humor às onze da noite.</p><p class="fala"><span class="tempo">45–65s</span>Eu paguei caro por essa lição — em 2020 o preço foi a minha saúde. Hoje o meu
+escritório funciona comigo dentro ou comigo fora, com duas sedes e mais de cinquenta pessoas. No
+dia 26 de setembro, das 10 às 16, ao vivo, eu te mostro por onde essa construção começa: seis
+horas de mão na massa, mapa preenchido, plano de 90 dias.</p><p class="fala"><span class="tempo">65–75s — CTA</span>Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua
+vaga na Imersão Escritório Previsível.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Você já trabalhou com febre respondendo cliente.</p>
+<p>Corpo: Não foi dedicação — foi falta de escolha. Quando o dono para, o escritório para: o seu corpo é a única infraestrutura do negócio. Isso tem nome (ponto único de falha) e tem solução (processo, função, cobertura). Dia 26/09, seis horas ao vivo. R$ 27, menos que um almoço. Saiba Mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, lembra da última vez que você trabalhou doente? Com febre — e mesmo assim respondendo cliente? Você não trabalhou doente por dedicação. Trabalhou porque não tinha escolha: se você parasse, o escritório parava junto. Prazo é teu, cliente é teu, decisão é tua. O teu corpo é a única infraestrutura do negócio. E isso tem nome: ponto único de falha. Empresa séria nenhuma opera assim — e o teu escritório opera. Não porque você é desorganizado, mas porque ninguém nunca te mostrou como se constrói cobertura: processo escrito que outro consegue seguir, função com substituto, decisão com critério que não dependa do teu humor às onze da noite. Eu paguei caro por essa lição — em 2020 o preço foi a minha saúde. Hoje o meu escritório funciona comigo dentro ou comigo fora, com duas sedes e mais de cinquenta pessoas. No dia 26 de setembro, das 10 às 16, ao vivo, eu te mostro por onde essa construção começa: seis horas de mão na massa, mapa preenchido, plano de 90 dias. Vinte e sete reais nesse lote. Clica em Saiba Mais aqui embaixo e garante a tua vaga na Imersão Escritório Previsível.">Copiar o roteiro falado</button></div>
+</article>
+<section class="nota"><h3 class="nota-titulo">Tabela final</h3><div class="corpo"><div class="rolagem"><table><thead><tr><th>#</th><th>Criativo</th><th>Ângulo</th><th>Padrão de origem</th><th>Campeão que herda</th></tr></thead><tbody><tr><td>1</td><td>VD20-IEP-domingo_a_noite</td><td>o notebook de domingo como sintoma do escritório que mora na cabeça do dono</td><td>1.2 você+cena · 1.3 absolvição</td><td>VD14</td></tr><tr><td>2</td><td>VD21-IEP-o_senhor_mesmo_vai_cuidar</td><td>a promessa &quot;eu mesmo&quot; que proíbe delegar</td><td>1.2 frase falada do cliente · 1.4 condena a prática</td><td>VD07 + AD01</td></tr><tr><td>3</td><td>VD22-IEP-pergunta_rapidinha</td><td>o dono como manual vivo, o dia comido por interrupções</td><td>1.2 frase falada do time · 1.3 absolvição</td><td>VD07 + VD14</td></tr><tr><td>4</td><td>VD23-IEP-quando_as_coisas_acalmarem</td><td>a calmaria que nunca chega e a gestão eternamente adiada</td><td>1.3 absolvição + inimigo (a urgência)</td><td>VD14</td></tr><tr><td>5</td><td>VD24-IEP-contratou_pra_ter_tempo</td><td>mecanismo do VD03 com o sujeito trocado para &quot;você&quot; — teste controlado da análise</td><td>1.2 sujeito da 1ª frase</td><td>VD14 (forma) + VD03 (conteúdo)</td></tr><tr><td>6</td><td>VD25-IEP-melhor_advogado_do_escritorio</td><td>a competência do dono como teto físico do crescimento</td><td>1.4 veredito cedo estilo AD01</td><td>AD01</td></tr><tr><td>7</td><td>VD26-IEP-todo_mundo_recebe_menos_voce</td><td>o dono sem pró-labore, fiador do próprio negócio</td><td>1.2 hábito específico · 1.4 mecanismo em dinheiro</td><td>AD01</td></tr><tr><td>8</td><td>VD27-IEP-cliente_que_encerrou_e_sumiu</td><td>o pós-encerramento abandonado — o outro lado do território dos campeões de pós-venda</td><td>1.2 cena · 1.3 absolvição</td><td>VD07 + VD06</td></tr><tr><td>9</td><td>VD28-IEP-quem_montou_sua_agenda</td><td>o dia sequestrado pelo incêndio; agenda sem dono</td><td>1.2 pergunta-teste · 1.3 absolvição</td><td>VD07 + VD14</td></tr><tr><td>10</td><td>VD29-IEP-pedido_de_demissao_na_sexta</td><td>o conhecimento guardado na cabeça das pessoas, não em processo</td><td>1.2 cena · 1.4 mecanismo nomeado</td><td>AD01</td></tr><tr><td>11</td><td>VD30-IEP-tarefa_de_primeiro_ano</td><td>o dono que ainda executa tarefas do primeiro ano</td><td>1.2 pergunta-teste · 1.3 absolvição</td><td>VD14</td></tr><tr><td>12</td><td>VD31-IEP-medo_de_virar_so_gestor</td><td>a objeção de identidade invertida: gestão devolve o advogado ao direito</td><td>1.2 frase pensada pelo espectador · 1.3 absolvição</td><td>VD14</td></tr><tr><td>13</td><td>VD32-IEP-melhor_mes_sem_comemorar</td><td>o recorde sem comemoração e o medo de crescer</td><td>1.2 cena vivida · 1.3 veredito no desenho</td><td>VD14</td></tr><tr><td>14</td><td>VD33-IEP-nao_e_pra_todo_advogado</td><td>desqualificação: três &quot;não é pra você&quot; antes do &quot;é pra você&quot; — para morno/remarketing</td><td>1.5 oferta como antídoto · 1.6 faixa certa</td><td>VD01-GUIA + VD11</td></tr><tr><td>15</td><td>VD34-IEP-trabalhou_doente</td><td>o corpo do dono como ponto único de falha do escritório</td><td>1.2 cena vivida · 1.4 mecanismo nomeado</td><td>VD14 (+ prova do VD02 na posição certa)</td></tr></tbody></table></div>
+<p><strong>Como rodar.</strong> Catorze são criativos de sintoma para frio, todos disputando o piso de R$ 37 do VD14; o VD33 é peça de morno/remarketing e deve ser julgado contra o teto de R$ 143 do VD11, não contra o VD14. O VD24 é o teste que isola a variável mais forte da análise (o sujeito da primeira frase): vale subir cedo e observar contra o histórico do VD03. Nenhum roteiro repete gancho dos 18 no ar, dos 10 do doc 19 (nenhuma lista numerada de sinais, nenhuma menção a método) nem dos 5 One Shot (nenhuma mecânica de exibição única ou preço de remarketing).</p></div></section>
+</section><section class="bloco" id="bloco-guia" role="tabpanel" aria-labelledby="aba-guia">
+<div class="bloco-cab"><p class="bloco-sub">Kit de contratação de advogado associado · R$ 47 · meta: bater o CPA de R$ 84 do AD01, que sozinho responde por 428 vendas</p></div>
+<nav class="indice" aria-label="Índice"><ol><li><a href="#gui-1"><span class="ix-n">01</span><span class="ix-t">O júnior no topo da folha</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-2"><span class="ix-n">02</span><span class="ix-t">O aumento que você não deu</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-3"><span class="ix-n">03</span><span class="ix-t">Sócio do seu anúncio</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-4"><span class="ix-n">04</span><span class="ix-t">Mil contratos, menos um</span><span class="ix-dur">57 s</span></a></li><li><a href="#gui-5"><span class="ix-n">05</span><span class="ix-t">Contrato baixado da internet</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-6"><span class="ix-n">06</span><span class="ix-t">Três advogados, três combinados</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-7"><span class="ix-n">07</span><span class="ix-t">Ele escolhe os processos</span><span class="ix-dur">56 s</span></a></li><li><a href="#gui-8"><span class="ix-n">08</span><span class="ix-t">O bom pediu salário</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-9"><span class="ix-n">09</span><span class="ix-t">Pedindo favor para quem você contratou</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-10"><span class="ix-n">10</span><span class="ix-t">Prometeu sociedade para segurar</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-11"><span class="ix-n">11</span><span class="ix-t">A audiência que virou dois anos</span><span class="ix-dur">57 s</span></a></li><li><a href="#gui-12"><span class="ix-n">12</span><span class="ix-t">O reajuste ensaiado no banho</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-13"><span class="ix-n">13</span><span class="ix-t">Estagiário há um ano, sem papel</span><span class="ix-dur">57 s</span></a></li><li><a href="#gui-14"><span class="ix-n">14</span><span class="ix-t">A primeira semana esperando</span><span class="ix-dur">58 s</span></a></li><li><a href="#gui-15"><span class="ix-n">15</span><span class="ix-t">Paga como te pagaram</span><span class="ix-dur">58 s</span></a></li></ol></nav>
+<article class="roteiro" id="gui-1">
+<header class="rt-top"><span class="rt-num">01</span>
+<h3 class="rt-titulo">O júnior no topo da folha</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD09-GUIA-junior_no_topo_da_folha</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, coloca em ordem quanto cada advogado do teu escritório levou no mês passado.
+Se tem um júnior no topo dessa lista, esse vídeo é pra ti.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o ranking de repasses do mês, posto na mão do espectador — o júnior que ganha como sênior porque a porcentagem desconectou pagamento de senioridade. Nasce do Padrão 1.2 (sujeito trocado) e 1.3 (o número devolvido ao dono certo). Herda do AD01. É o <strong>teste controlado do lote</strong>: o mesmo mecanismo que VD04 e VD06 contam como memória do Guilherme (&quot;advogado júnior recebendo 15, 20 mil&quot;), reescrito com o espectador como sujeito e a folha DELE como cena. Se o CPA vier ordens abaixo do zero de VD04/VD06, o padrão do sujeito está isolado com variável única.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>VD04 e VD06 (no ar, zero vendas) contam essa cena em primeira pessoa e no passado; o H07 do doc 12 manda multiplicar faturamento por 0,3 — aqui não há conta sobre faturamento nenhum, há ordenação da folha, e o personagem é o júnior do espectador.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, coloca em ordem quanto cada advogado do teu escritório levou no mês passado.
+Se tem um júnior no topo dessa lista, esse vídeo é pra ti.</p><p class="fala"><span class="tempo">3–12s</span>Porque é isso que os trinta, quarenta por cento por processo fazem com a tua folha: o
+pagamento para de acompanhar a senioridade e passa a acompanhar a sorte — o processo que caiu na
+mão de cada um.</p><p class="fala"><span class="tempo">12–22s</span>Um júnior com um caso gordo ganha mais que um sênior. Não porque ele ficou melhor de
+uma hora pra outra. Porque você combinou errado — e o combinado paga a fatia, não o trabalho.</p><p class="fala"><span class="tempo">22–32s</span>E repara na parte mais cara: quem definiu o salário dele não foi você. Foi a
+distribuição. Você virou espectador da própria folha de pagamento.</p><p class="fala"><span class="tempo">32–50s</span>Aqui embaixo eu deixei o kit com os documentos que eu uso no meu escritório — são mais
+de oito anos, mais de cinquenta colaboradores, duas sedes, e nenhum salário definido por sorteio:
+os tipos de advogado associado, os modelos de contrato de cada um, os planos de carreira e o
+funil de contratação.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p><p>no gancho, na tela, um ranking de três linhas sem nomes (1º, 2º, 3º) com a palavra <em>júnior</em> na primeira linha; some antes do veredito. É a imagem que faz a pessoa abrir a planilha de cabeça.</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Tem um júnior no topo da sua folha de pagamento.</p>
+<p>Corpo: É o que os 30%, 40% por processo fazem: o pagamento para de acompanhar a senioridade e passa a acompanhar a sorte da distribuição — e quem paga a diferença é o seu lucro. No kit: os tipos de advogado associado, os modelos de contrato de cada um, planos de carreira e o funil de contratação — os documentos que eu uso no meu escritório há mais de oito anos. R$ 47, menos que um lanche. Clica em Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, coloca em ordem quanto cada advogado do teu escritório levou no mês passado. Se tem um júnior no topo dessa lista, esse vídeo é pra ti. Porque é isso que os trinta, quarenta por cento por processo fazem com a tua folha: o pagamento para de acompanhar a senioridade e passa a acompanhar a sorte — o processo que caiu na mão de cada um. Um júnior com um caso gordo ganha mais que um sênior. Não porque ele ficou melhor de uma hora pra outra. Porque você combinou errado — e o combinado paga a fatia, não o trabalho. E repara na parte mais cara: quem definiu o salário dele não foi você. Foi a distribuição. Você virou espectador da própria folha de pagamento. Aqui embaixo eu deixei o kit com os documentos que eu uso no meu escritório — são mais de oito anos, mais de cinquenta colaboradores, duas sedes, e nenhum salário definido por sorteio: os tipos de advogado associado, os modelos de contrato de cada um, os planos de carreira e o funil de contratação. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-2">
+<header class="rt-top"><span class="rt-num">02</span>
+<h3 class="rt-titulo">O aumento que você não deu</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD10-GUIA-aumento_que_voce_nao_deu</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, o teu associado ganhou um aumento este ano. Quem deu foi você — e você não
+percebeu.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a porcentagem como aumento automático — o pagamento do associado cresce todo ano junto com o escritório, sem reunião, sem meta e sem decisão do dono. Nasce do Padrão 1.3 (o número como dinheiro do espectador) e 1.5.2 (mecanismo em linguagem de dinheiro). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o H09 do doc 12 pergunta onde o lucro sumiu; o VD04 (zero vendas) narra &quot;quanto mais você cresce, mais escala essa porcentagem&quot; como memória do Guilherme. Aqui o evento é um <strong>aumento</strong> — algo que o espectador sabe que nunca concedeu — e é ele quem descobre, no vídeo, que concedeu.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, o teu associado ganhou um aumento este ano. Quem deu foi você — e você não
+percebeu.</p><p class="fala"><span class="tempo">3–13s</span>Funciona assim: ele leva trinta, quarenta por cento de cada processo. O escritório
+cresceu, entrou mais processo, processo maior — e a mesma porcentagem virou um pagamento maior.
+Todo ano. Sem ninguém pedir.</p><p class="fala"><span class="tempo">13–23s</span>Você nunca sentou pra dar esse aumento. Não teve conversa, não teve meta batida, não
+teve promoção. O combinado de porcentagem dá aumento sozinho — e quem paga a diferença é o teu
+lucro.</p><p class="fala"><span class="tempo">23–33s</span>Aumento de verdade é decisão: a pessoa cresceu, assumiu mais, subiu um degrau que
+existe no papel. No teu combinado não tem degrau. Tem uma esteira — e ela só anda pra cima.</p><p class="fala"><span class="tempo">33–50s</span>Aqui embaixo está o kit com os documentos que eu uso no meu escritório há mais de oito
+anos, com mais de cinquenta colaboradores e duas sedes: os planos de carreira — pra aumento
+voltar a ser decisão tua —, os tipos de advogado associado, os modelos de contrato de cada um e
+o funil de contratação.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais, menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Você deu um aumento este ano. E não ficou sabendo.</p>
+<p>Corpo: Quem paga 30%, 40% por processo dá aumento automático todo ano: o escritório cresce, a fatia cresce junto — sem conversa, sem meta, sem decisão sua. No kit, os documentos que eu uso no meu escritório há mais de oito anos: planos de carreira, tipos de advogado associado, modelos de contrato e funil de contratação. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, o teu associado ganhou um aumento este ano. Quem deu foi você — e você não percebeu. Funciona assim: ele leva trinta, quarenta por cento de cada processo. O escritório cresceu, entrou mais processo, processo maior — e a mesma porcentagem virou um pagamento maior. Todo ano. Sem ninguém pedir. Você nunca sentou pra dar esse aumento. Não teve conversa, não teve meta batida, não teve promoção. O combinado de porcentagem dá aumento sozinho — e quem paga a diferença é o teu lucro. Aumento de verdade é decisão: a pessoa cresceu, assumiu mais, subiu um degrau que existe no papel. No teu combinado não tem degrau. Tem uma esteira — e ela só anda pra cima. Aqui embaixo está o kit com os documentos que eu uso no meu escritório há mais de oito anos, com mais de cinquenta colaboradores e duas sedes: os planos de carreira — pra aumento voltar a ser decisão tua —, os tipos de advogado associado, os modelos de contrato de cada um e o funil de contratação. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais, menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-3">
+<header class="rt-top"><span class="rt-num">03</span>
+<h3 class="rt-titulo">Sócio do seu anúncio</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD11-GUIA-socio_do_seu_anuncio</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, aquele cliente que você fechou semana passada: quem trouxe foi você. Quem fez
+a reunião foi você. E quarenta por cento dele já têm dono.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o associado leva 30–40% de um cliente que ele não trouxe — a captação é paga pelo dono, a fatia incide sobre cliente que chegou pronto. Nasce do Padrão 1.3 (número cedo, dinheiro do espectador) e 1.5.2 (mecanismo em dinheiro). Herda do AD01, com o reframe do sócio aplicado a um território novo: a captação.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 10 do doc 20 e o H02/H07 do doc 12 fazem a conta da porcentagem sobre o processo; o H04 promove o &quot;sócio sem ônus&quot; a gancho. Aqui a lente é <strong>quem trouxe o cliente</strong>: nenhum dos 24 toca no custo de aquisição — e é a única versão da dor em que o espectador investiu dinheiro vivo antes de dividir.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, aquele cliente que você fechou semana passada: quem trouxe foi você. Quem fez
+a reunião foi você. E quarenta por cento dele já têm dono.</p><p class="fala"><span class="tempo">3–14s</span>O teu associado não conhecia esse cliente. Não indicou, não captou, não atendeu a
+primeira ligação. O processo caiu na mesa dele já fechado — e trinta, quarenta por cento do
+honorário vão pra ele do mesmo jeito.</p><p class="fala"><span class="tempo">14–24s</span>Entende o que você combinou: você paga pra trazer o cliente e divide como se tivessem
+trazido juntos. Isso não é equipe. É um sócio na tua captação — que nunca colocou um real nela.</p><p class="fala"><span class="tempo">24–33s</span>Contratado de verdade é pago pelo trabalho que faz: a peça, o prazo, o atendimento.
+Não por uma fatia de um cliente que você trouxe sozinho.</p><p class="fala"><span class="tempo">33–50s</span>Aqui embaixo eu deixei os documentos que eu uso no meu escritório — mais de oito anos,
+mais de cinquenta colaboradores, duas sedes: os modelos de contrato de associado, os tipos de
+advogado associado, o funil de contratação e os planos de carreira, pra remuneração seguir o
+trabalho, não a fatia.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O cliente foi você que trouxe. A fatia é dele.</p>
+<p>Corpo: Você paga a captação, faz a reunião, fecha o contrato — e 30%, 40% do honorário vão para quem recebeu o processo pronto na mesa. Isso não é equipe: é um sócio na sua captação que nunca investiu nela. No kit: modelos de contrato de associado, tipos de advogado associado, funil de contratação e planos de carreira — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, aquele cliente que você fechou semana passada: quem trouxe foi você. Quem fez a reunião foi você. E quarenta por cento dele já têm dono. O teu associado não conhecia esse cliente. Não indicou, não captou, não atendeu a primeira ligação. O processo caiu na mesa dele já fechado — e trinta, quarenta por cento do honorário vão pra ele do mesmo jeito. Entende o que você combinou: você paga pra trazer o cliente e divide como se tivessem trazido juntos. Isso não é equipe. É um sócio na tua captação — que nunca colocou um real nela. Contratado de verdade é pago pelo trabalho que faz: a peça, o prazo, o atendimento. Não por uma fatia de um cliente que você trouxe sozinho. Aqui embaixo eu deixei os documentos que eu uso no meu escritório — mais de oito anos, mais de cinquenta colaboradores, duas sedes: os modelos de contrato de associado, os tipos de advogado associado, o funil de contratação e os planos de carreira, pra remuneração seguir o trabalho, não a fatia. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-4">
+<header class="rt-top"><span class="rt-num">04</span>
+<h3 class="rt-titulo">Mil contratos, menos um</h3>
+<span class="badge">57 s</span></header>
+<p class="meta"><code>VD12-GUIA-mil_contratos_menos_um</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, você já escreveu mais de mil contratos na vida. Falta um: o do advogado que
+trabalha do teu lado.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a ironia de ofício — o advogado que escreve contrato o dia inteiro e não tem contrato com o próprio advogado. Nasce do Padrão 1.2 (você + cena) e 1.5.3 (veredito em uma frase). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 1 do doc 20 ataca o combinado por áudio de WhatsApp com um associado específico; o H01 do doc 12 abre com o contrato na tela. Aqui o gancho é a contradição profissional — contrato é o produto da casa e não é prática da casa — e fala também com quem tem &quot;um papel qualquer&quot; assinado às pressas, não só com quem não tem nada.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, você já escreveu mais de mil contratos na vida. Falta um: o do advogado que
+trabalha do teu lado.</p><p class="fala"><span class="tempo">3–14s</span>Pro cliente, você não abre mão: cláusula de honorário, de rescisão, de responsabilidade.
+Pro teu próprio time, o combinado dos trinta, quarenta por cento vive num áudio, num &quot;depois a
+gente formaliza&quot;, num papel genérico assinado correndo.</p><p class="fala"><span class="tempo">14–23s</span>Na tua casa, contrato virou produto — e deixou de ser prática. A relação mais cara do
+teu escritório, a pessoa que toca os teus processos todos os dias, é a única funcionando sem
+regra escrita.</p><p class="fala"><span class="tempo">23–32s</span>E não é desleixo, é rotina: o urgente é sempre o processo do cliente. Só que o dia em
+que vocês discordarem não vai avisar antes — e nesse dia vale a versão de quem falar mais alto.</p><p class="fala"><span class="tempo">32–50s</span>Aqui embaixo estão os documentos que eu uso no meu escritório há mais de oito anos,
+com mais de cinquenta colaboradores e duas sedes: os modelos de contrato de associado, os tipos
+de advogado associado, o manual do advogado associado e o funil de contratação. É o contrato que
+faltava na tua pasta.</p><p class="fala"><span class="tempo">50–57s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Mil contratos escritos. Falta o do seu próprio advogado.</p>
+<p>Corpo: Para o cliente, você exige cláusula de tudo. Para quem toca os seus processos todos os dias, o combinado dos 30%, 40% vive num áudio. No kit: os modelos de contrato de associado, os tipos de advogado associado, o manual do associado e o funil de contratação — os documentos que eu uso no meu escritório há mais de oito anos. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, você já escreveu mais de mil contratos na vida. Falta um: o do advogado que trabalha do teu lado. Pro cliente, você não abre mão: cláusula de honorário, de rescisão, de responsabilidade. Pro teu próprio time, o combinado dos trinta, quarenta por cento vive num áudio, num &quot;depois a gente formaliza&quot;, num papel genérico assinado correndo. Na tua casa, contrato virou produto — e deixou de ser prática. A relação mais cara do teu escritório, a pessoa que toca os teus processos todos os dias, é a única funcionando sem regra escrita. E não é desleixo, é rotina: o urgente é sempre o processo do cliente. Só que o dia em que vocês discordarem não vai avisar antes — e nesse dia vale a versão de quem falar mais alto. Aqui embaixo estão os documentos que eu uso no meu escritório há mais de oito anos, com mais de cinquenta colaboradores e duas sedes: os modelos de contrato de associado, os tipos de advogado associado, o manual do advogado associado e o funil de contratação. É o contrato que faltava na tua pasta. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-5">
+<header class="rt-top"><span class="rt-num">05</span>
+<h3 class="rt-titulo">Contrato baixado da internet</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD13-GUIA-contrato_baixado_da_internet</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, o contrato que rege o teu escritório hoje foi baixado da internet num dia de
+pressa. Você trocou o nome, a data — e assinou.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o modelo genérico baixado num dia de pressa — o papel existe, mas descreve a relação de outra pessoa. Nasce do Padrão 1.2 (cena com objeto reconhecível) e 1.3 (erro antes do documento). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 1 do doc 20 é o zero papel (combinado por áudio); o H01 do doc 12 é a linha dos 30% no contrato aberto. Aqui o documento <strong>existe e foi baixado pronto</strong> — o erro não é a ausência do contrato, é o contrato errado dando sensação de segurança.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, o contrato que rege o teu escritório hoje foi baixado da internet num dia de
+pressa. Você trocou o nome, a data — e assinou.</p><p class="fala"><span class="tempo">3–13s</span>Ele até fala dos trinta, quarenta por cento. O resto é de um escritório que não é o teu:
+cláusulas que não têm nada a ver com o teu combinado, obrigações que ninguém ali cumpre, e
+nenhuma linha sobre o que importa na tua relação.</p><p class="fala"><span class="tempo">13–22s</span>Contrato genérico não é contrato — é sensação de contrato. No dia em que vocês
+discordarem, ele vai ser lido com atenção pela primeira vez. Por vocês dois. Nesse dia você
+descobre o que assinou.</p><p class="fala"><span class="tempo">22–32s</span>Modelo de contrato não se escolhe no buscador. Se escolhe pelo tipo de associado que
+você tem — porque cada tipo pede um contrato, uma remuneração e uma responsabilidade diferentes.</p><p class="fala"><span class="tempo">32–50s</span>Por isso o kit aqui embaixo começa pelos tipos de advogado associado e só então entrega
+os modelos de contrato de cada tipo, com o manual do advogado associado e o funil de contratação
+juntos. São os documentos que eu uso no meu escritório: mais de oito anos, mais de cinquenta
+colaboradores, duas sedes.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O contrato do seu associado foi baixado da internet.</p>
+<p>Corpo: Você trocou o nome e a data — e o resto descreve o escritório de outra pessoa. Contrato genérico é sensação de contrato: ele só é lido com atenção no dia da discordância. No kit: os tipos de advogado associado e o modelo de contrato de cada tipo, com o manual do associado e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, o contrato que rege o teu escritório hoje foi baixado da internet num dia de pressa. Você trocou o nome, a data — e assinou. Ele até fala dos trinta, quarenta por cento. O resto é de um escritório que não é o teu: cláusulas que não têm nada a ver com o teu combinado, obrigações que ninguém ali cumpre, e nenhuma linha sobre o que importa na tua relação. Contrato genérico não é contrato — é sensação de contrato. No dia em que vocês discordarem, ele vai ser lido com atenção pela primeira vez. Por vocês dois. Nesse dia você descobre o que assinou. Modelo de contrato não se escolhe no buscador. Se escolhe pelo tipo de associado que você tem — porque cada tipo pede um contrato, uma remuneração e uma responsabilidade diferentes. Por isso o kit aqui embaixo começa pelos tipos de advogado associado e só então entrega os modelos de contrato de cada tipo, com o manual do advogado associado e o funil de contratação juntos. São os documentos que eu uso no meu escritório: mais de oito anos, mais de cinquenta colaboradores, duas sedes. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-6">
+<header class="rt-top"><span class="rt-num">06</span>
+<h3 class="rt-titulo">Três advogados, três combinados</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD14-GUIA-tres_advogados_tres_combinados</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, no teu escritório tem três advogados e três combinados diferentes. Um leva
+quarenta por cento, outro trinta, outro um fixo que você inventou no dia.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>cada contratação foi improvisada num aperto diferente — três pessoas, três acordos, e a bomba do dia em que um descobre o combinado do outro. Nasce do Padrão 1.2 (você + cena) e 1.5.2 (mecanismo em dinheiro). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>nenhum dos 24 trata a desigualdade interna dos combinados. O roteiro 7 do doc 20 explica como cada improviso nasce (a contratação afogada); aqui o assunto é o que os improvisos acumulados viram — um escritório onde pra mesma peça você paga três preços.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, no teu escritório tem três advogados e três combinados diferentes. Um leva
+quarenta por cento, outro trinta, outro um fixo que você inventou no dia.</p><p class="fala"><span class="tempo">3–13s</span>Cada um foi contratado num aperto diferente, e cada negociação saiu do jeito que deu.
+Resultado: pela mesma peça, pelo mesmo trabalho, você paga três preços — e não sabe dizer por
+quê.</p><p class="fala"><span class="tempo">13–23s</span>E tem uma conversa que você não controla: eles almoçam juntos. No dia em que um
+descobrir o combinado do outro, o teu problema deixa de ser financeiro e vira um problema de
+time inteiro.</p><p class="fala"><span class="tempo">23–33s</span>Isso não nasceu de má-fé. Nasceu de contratar sem regra: sem tipo definido, sem
+contrato padrão, sem degrau. Quando não existe regra, cada contratação vira leilão — e você é
+sempre o lado com pressa.</p><p class="fala"><span class="tempo">33–50s</span>Aqui embaixo está o kit com os documentos que eu uso no meu escritório — mais de oito
+anos, mais de cinquenta colaboradores, duas sedes e uma regra só pra todo mundo: os tipos de
+advogado associado, os modelos de contrato de cada tipo, os planos de carreira e o funil de
+contratação.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais, menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Três advogados, três combinados — e nenhuma regra.</p>
+<p>Corpo: Um leva 40%, outro 30%, outro um fixo inventado no dia do aperto. Pela mesma peça, três preços — até o dia em que um descobre o combinado do outro. No kit: os tipos de advogado associado, os modelos de contrato de cada tipo, planos de carreira e o funil de contratação — os documentos que eu uso no meu escritório há mais de oito anos. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, no teu escritório tem três advogados e três combinados diferentes. Um leva quarenta por cento, outro trinta, outro um fixo que você inventou no dia. Cada um foi contratado num aperto diferente, e cada negociação saiu do jeito que deu. Resultado: pela mesma peça, pelo mesmo trabalho, você paga três preços — e não sabe dizer por quê. E tem uma conversa que você não controla: eles almoçam juntos. No dia em que um descobrir o combinado do outro, o teu problema deixa de ser financeiro e vira um problema de time inteiro. Isso não nasceu de má-fé. Nasceu de contratar sem regra: sem tipo definido, sem contrato padrão, sem degrau. Quando não existe regra, cada contratação vira leilão — e você é sempre o lado com pressa. Aqui embaixo está o kit com os documentos que eu uso no meu escritório — mais de oito anos, mais de cinquenta colaboradores, duas sedes e uma regra só pra todo mundo: os tipos de advogado associado, os modelos de contrato de cada tipo, os planos de carreira e o funil de contratação. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais, menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-7">
+<header class="rt-top"><span class="rt-num">07</span>
+<h3 class="rt-titulo">Ele escolhe os processos</h3>
+<span class="badge">56 s</span></header>
+<p class="meta"><code>VD15-GUIA-ele_escolhe_os_processos</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, repara na pilha de processos que sobra na tua mesa: são os pequenos. Os gordos,
+o teu associado pegou primeiro.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>quem ganha por porcentagem escolhe o processo que paga — e devolve os pequenos pra mesa do dono. Nasce do Padrão 1.3 (número cedo) e 1.5.2 (mecanismo em dinheiro). Herda do AD01 na espinha e do AD03 no reframe seco.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>nervo novo do mesmo osso — nenhum dos 24 fala da triagem de casos. O VD07 no ar fala da qualidade depois que a pessoa sai; aqui é a rotina de hoje, com todo mundo dentro: o dono do escritório fazendo os processos que o contratado dispensou.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, repara na pilha de processos que sobra na tua mesa: são os pequenos. Os gordos,
+o teu associado pegou primeiro.</p><p class="fala"><span class="tempo">3–13s</span>É matemático. Quem ganha trinta, quarenta por cento do processo escolhe o processo que
+vale a porcentagem. A causa pequena, o cliente difícil, o caso trabalhoso que paga pouco — isso
+&quot;não compensa&quot; pra ele.</p><p class="fala"><span class="tempo">13–22s</span>Compensa pra quem, então? Pra você — que é o dono e não pode dispensar cliente. Você
+contratou pra tirar trabalho de cima de ti e criou um sistema onde o contratado tem direito de
+escolha e você tem obrigação de sobra.</p><p class="fala"><span class="tempo">22–31s</span>Em time contratado do jeito certo, quem distribui o trabalho é o escritório, com
+critério teu. Distribuição não é privilégio de quem pega — é decisão de quem paga.</p><p class="fala"><span class="tempo">31–48s</span>Aqui embaixo estão os documentos que eu uso pra isso no meu escritório há mais de oito
+anos — mais de cinquenta colaboradores, duas sedes: os tipos de advogado associado, os modelos
+de contrato de cada um, o manual do advogado associado e os planos de carreira.</p><p class="fala"><span class="tempo">48–56s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Os processos gordos são dele. A sobra é sua.</p>
+<p>Corpo: Quem ganha 30%, 40% por processo escolhe o processo que vale a fatia — e a causa pequena, o cliente difícil e o caso que paga pouco voltam para a mesa do dono. No kit: os tipos de advogado associado, os modelos de contrato de cada um, o manual do associado e planos de carreira — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, repara na pilha de processos que sobra na tua mesa: são os pequenos. Os gordos, o teu associado pegou primeiro. É matemático. Quem ganha trinta, quarenta por cento do processo escolhe o processo que vale a porcentagem. A causa pequena, o cliente difícil, o caso trabalhoso que paga pouco — isso &quot;não compensa&quot; pra ele. Compensa pra quem, então? Pra você — que é o dono e não pode dispensar cliente. Você contratou pra tirar trabalho de cima de ti e criou um sistema onde o contratado tem direito de escolha e você tem obrigação de sobra. Em time contratado do jeito certo, quem distribui o trabalho é o escritório, com critério teu. Distribuição não é privilégio de quem pega — é decisão de quem paga. Aqui embaixo estão os documentos que eu uso pra isso no meu escritório há mais de oito anos — mais de cinquenta colaboradores, duas sedes: os tipos de advogado associado, os modelos de contrato de cada um, o manual do advogado associado e os planos de carreira. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-8">
+<header class="rt-top"><span class="rt-num">08</span>
+<h3 class="rt-titulo">O bom pediu salário</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD16-GUIA-o_bom_pediu_salario</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, lembra daquele candidato bom — o que respondeu tudo certo na entrevista? Ele
+pediu salário. Você ofereceu trinta por cento. Nunca mais soube dele.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a porcentagem como filtro ao contrário — o candidato bom pediu salário, você só tinha 30% pra oferecer, e ele foi trabalhar no escritório do lado. Nasce do Padrão 1.2 (cena vivida — a entrevista perdida) e 1.5.3 (veredito em uma frase). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 10 do doc 20 e o H06 do doc 12 tratam o medo do fixo pelo lado do custo mensal; aqui o custo é outro e nunca foi tocado — o talento que a proposta de porcentagem manda embora. É ângulo de recrutamento, não de folha.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–3s</span>Advogado, lembra daquele candidato bom — o que respondeu tudo certo na entrevista? Ele
+pediu salário. Você ofereceu trinta por cento. Nunca mais soube dele.</p><p class="fala"><span class="tempo">3–14s</span>Advogado bom não topa viver da sorte da distribuição. Quem tem entrega pra mostrar quer
+combinado claro, remuneração definida e um degrau pra subir. Quando a tua única proposta é
+porcentagem, quem aceita é quem não recebeu proposta melhor.</p><p class="fala"><span class="tempo">14–23s</span>Ou seja: o teu modelo de contratação funciona como um filtro ao contrário. Ele deixa
+passar quem você devia recusar — e recusa quem você queria contratar.</p><p class="fala"><span class="tempo">23–32s</span>E não é falta de dinheiro, é falta de formato: existe mais de um tipo de advogado
+associado e mais de um jeito de formalizar e remunerar. Você só nunca teve os documentos de cada
+um na mão.</p><p class="fala"><span class="tempo">32–50s</span>Estão aqui embaixo — os que eu uso no meu escritório há mais de oito anos, com mais de
+cinquenta colaboradores e duas sedes: os tipos de advogado associado, os modelos de contrato de
+cada tipo, os planos de carreira e o funil de contratação de advogado e de estagiário. É a
+proposta que faltou na tua última entrevista.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: O candidato bom pediu salário. Você ofereceu 30%.</p>
+<p>Corpo: E ele foi trabalhar no escritório do lado. Proposta de porcentagem é filtro ao contrário: recusa quem você queria contratar e deixa passar quem você devia recusar. No kit: os tipos de advogado associado, os modelos de contrato de cada tipo, planos de carreira e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, lembra daquele candidato bom — o que respondeu tudo certo na entrevista? Ele pediu salário. Você ofereceu trinta por cento. Nunca mais soube dele. Advogado bom não topa viver da sorte da distribuição. Quem tem entrega pra mostrar quer combinado claro, remuneração definida e um degrau pra subir. Quando a tua única proposta é porcentagem, quem aceita é quem não recebeu proposta melhor. Ou seja: o teu modelo de contratação funciona como um filtro ao contrário. Ele deixa passar quem você devia recusar — e recusa quem você queria contratar. E não é falta de dinheiro, é falta de formato: existe mais de um tipo de advogado associado e mais de um jeito de formalizar e remunerar. Você só nunca teve os documentos de cada um na mão. Estão aqui embaixo — os que eu uso no meu escritório há mais de oito anos, com mais de cinquenta colaboradores e duas sedes: os tipos de advogado associado, os modelos de contrato de cada tipo, os planos de carreira e o funil de contratação de advogado e de estagiário. É a proposta que faltou na tua última entrevista. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-9">
+<header class="rt-top"><span class="rt-num">09</span>
+<h3 class="rt-titulo">Pedindo favor para quem você contratou</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD17-GUIA-pedindo_favor_pro_contratado</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>&quot;Oi, tudo bem? Será que consegue protocolar aquela hoje?&quot; — Advogado, você mandou essa
+mensagem pro teu próprio contratado. E ficou esperando a resposta como quem pede favor.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o dono que pede favor pra quem ele paga — a porcentagem comprou a peça, não a prioridade, e levou junto a autoridade de distribuir e cobrar. Nasce do Padrão 1.2 na variante de frase falada (o formato do VD07 da Imersão, validado lá e nunca usado no Guia) e 1.5.3 (veredito em uma frase). Herda do AD01 e, na forma do gancho, do VD07-IEP.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o H04 do doc 12 condena a divisão do lucro (&quot;sócio sem ônus&quot;); aqui o que a porcentagem come não é o lucro — é o comando. Nenhum dos 24 trata autoridade, e nenhum criativo do Guia jamais abriu com frase falada.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>&quot;Oi, tudo bem? Será que consegue protocolar aquela hoje?&quot; — Advogado, você mandou essa
+mensagem pro teu próprio contratado. E ficou esperando a resposta como quem pede favor.</p><p class="fala"><span class="tempo">4–14s</span>Isso acontece porque quem ganha trinta, quarenta por cento do processo não te deve
+horário, não te deve prioridade, não te deve rotina. Ele te deve a peça — quando der. Você não
+montou uma equipe. Você contratou um fornecedor.</p><p class="fala"><span class="tempo">14–24s</span>E com fornecedor não se combina meta, não se treina, não se cobra padrão. Toda vez que
+você precisa de prioridade, você negocia de novo. Dentro do teu próprio escritório, você virou
+cliente — e nem é o preferido.</p><p class="fala"><span class="tempo">24–33s</span>Time de verdade tem combinado escrito: o que cada um entrega, em que prazo, respondendo
+a quem. Não porque você é durão — porque está no papel, e papel não precisa pedir duas vezes.</p><p class="fala"><span class="tempo">33–50s</span>Aqui embaixo estão os documentos que eu uso no meu escritório há mais de oito anos —
+mais de cinquenta colaboradores, duas sedes: os tipos de advogado associado, os modelos de
+contrato de cada um, o manual do advogado associado e o funil de contratação.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p><p>o gancho é lido do celular, olhando pra tela, como quem relê a própria mensagem; os olhos sobem pra câmera no &quot;Advogado&quot;. A troca de olhar é a virada da cena pro veredito.</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: &quot;Será que consegue protocolar aquela hoje?&quot;</p>
+<p>Corpo: Você paga a pessoa — e pede favor. Quem ganha 30%, 40% por processo não deve horário nem prioridade: deve a peça, quando der. Isso não é equipe, é fornecedor. No kit: os tipos de advogado associado, os modelos de contrato de cada um, o manual do associado e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="&quot;Oi, tudo bem? Será que consegue protocolar aquela hoje?&quot; — Advogado, você mandou essa mensagem pro teu próprio contratado. E ficou esperando a resposta como quem pede favor. Isso acontece porque quem ganha trinta, quarenta por cento do processo não te deve horário, não te deve prioridade, não te deve rotina. Ele te deve a peça — quando der. Você não montou uma equipe. Você contratou um fornecedor. E com fornecedor não se combina meta, não se treina, não se cobra padrão. Toda vez que você precisa de prioridade, você negocia de novo. Dentro do teu próprio escritório, você virou cliente — e nem é o preferido. Time de verdade tem combinado escrito: o que cada um entrega, em que prazo, respondendo a quem. Não porque você é durão — porque está no papel, e papel não precisa pedir duas vezes. Aqui embaixo estão os documentos que eu uso no meu escritório há mais de oito anos — mais de cinquenta colaboradores, duas sedes: os tipos de advogado associado, os modelos de contrato de cada um, o manual do advogado associado e o funil de contratação. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-10">
+<header class="rt-top"><span class="rt-num">10</span>
+<h3 class="rt-titulo">Prometeu sociedade para segurar</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD18-GUIA-prometeu_sociedade_pra_segurar</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, quando o teu melhor advogado ameaçou sair, você disse aquela frase: &quot;segura
+mais um pouco, que ano que vem a gente conversa sobre sociedade.&quot;</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a promessa de sociedade como única moeda de retenção — sem degrau no meio, toda negociação começa no topo. Nasce do Padrão 1.2 (frase falada, dita pelo próprio dono) e 1.5.3 (veredito). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 4 do doc 20 é o dano de perder quem você formou; aqui é o que você fez pra evitar a saída — prometer sociedade sem intenção definida, uma dívida que vence. Nenhum dos 24 toca na promessa de sociedade.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>Advogado, quando o teu melhor advogado ameaçou sair, você disse aquela frase: &quot;segura
+mais um pouco, que ano que vem a gente conversa sobre sociedade.&quot;</p><p class="fala"><span class="tempo">4–14s</span>Você não queria dar sociedade. Você queria ganhar tempo. Mas pra ele aquilo virou
+promessa — e promessa de sociedade não expira. Cada mês que passa, ele trabalha esperando uma
+coisa que você não pretende entregar.</p><p class="fala"><span class="tempo">14–24s</span>Você fez essa promessa porque era a única moeda que você tinha. No teu escritório não
+existe degrau: ou a pessoa é &quot;o resto&quot;, ou é sócia. Sem plano de carreira, toda negociação de
+retenção começa no topo.</p><p class="fala"><span class="tempo">24–33s</span>E no dia em que ele cobrar — e ele vai cobrar — sobram duas opções ruins: dar uma
+sociedade que você não queria, ou perder a pessoa e deixar na memória dela uma promessa
+descumprida.</p><p class="fala"><span class="tempo">33–50s</span>O que você oferece no lugar da promessa é degrau escrito: o que precisa entregar pra
+subir e o que muda quando sobe. Está no kit aqui embaixo, com os documentos que eu uso há mais
+de oito anos no meu escritório — mais de cinquenta colaboradores, duas sedes: os planos de
+carreira, os tipos de advogado associado, os modelos de contrato e o funil de contratação.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: &quot;Ano que vem a gente conversa sobre sociedade.&quot;</p>
+<p>Corpo: Você disse isso para não perder seu melhor advogado — e criou uma dívida que vence. Sem plano de carreira, a sociedade é o único degrau que existe, e toda negociação começa no topo. No kit: os planos de carreira, os tipos de advogado associado, os modelos de contrato e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, quando o teu melhor advogado ameaçou sair, você disse aquela frase: &quot;segura mais um pouco, que ano que vem a gente conversa sobre sociedade.&quot; Você não queria dar sociedade. Você queria ganhar tempo. Mas pra ele aquilo virou promessa — e promessa de sociedade não expira. Cada mês que passa, ele trabalha esperando uma coisa que você não pretende entregar. Você fez essa promessa porque era a única moeda que você tinha. No teu escritório não existe degrau: ou a pessoa é &quot;o resto&quot;, ou é sócia. Sem plano de carreira, toda negociação de retenção começa no topo. E no dia em que ele cobrar — e ele vai cobrar — sobram duas opções ruins: dar uma sociedade que você não queria, ou perder a pessoa e deixar na memória dela uma promessa descumprida. O que você oferece no lugar da promessa é degrau escrito: o que precisa entregar pra subir e o que muda quando sobe. Está no kit aqui embaixo, com os documentos que eu uso há mais de oito anos no meu escritório — mais de cinquenta colaboradores, duas sedes: os planos de carreira, os tipos de advogado associado, os modelos de contrato e o funil de contratação. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-11">
+<header class="rt-top"><span class="rt-num">11</span>
+<h3 class="rt-titulo">A audiência que virou dois anos</h3>
+<span class="badge">57 s</span></header>
+<p class="meta"><code>VD19-GUIA-audiencia_que_virou_dois_anos</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, aquele colega que você chamou pra fazer UMA audiência, há dois anos... ainda
+está aí, né? No mesmo combinado daquela audiência.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o colega chamado pra UMA audiência que está há dois anos no escritório — no mesmo combinado provisório daquela tarde. Nasce do Padrão 1.2 (você + cena com tempo) e 1.5.3 (veredito). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 8 do doc 20 conta as quatro formas como mecanismo contável; aqui é uma pessoa concreta presa na forma errada — o provisório que ninguém revisou. Nenhum dos 24 trata o combinado pontual que virou permanente.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>Advogado, aquele colega que você chamou pra fazer UMA audiência, há dois anos... ainda
+está aí, né? No mesmo combinado daquela audiência.</p><p class="fala"><span class="tempo">4–14s</span>Era pra ser pontual: uma diligência, uma porcentagem, obrigado e tchau. Só que apareceu
+outra, e mais outra — e hoje ele toca uma fila de processos teus com o contrato de quem ia
+passar uma tarde.</p><p class="fala"><span class="tempo">14–23s</span>O combinado certo pra um dia é o combinado errado pra dois anos. O que era quebra-galho
+virou o jeito oficial do escritório trabalhar — e ninguém decidiu isso. Foi ficando.</p><p class="fala"><span class="tempo">23–33s</span>Pra cada relação existe uma formalização: quem faz diligência pontual é um tipo de
+associado; quem toca a tua carteira todo dia é outro — com outro contrato, outra remuneração,
+outra responsabilidade. Usar o mesmo papel pros dois é pagar errado nos dois.</p><p class="fala"><span class="tempo">33–50s</span>Aqui embaixo estão os tipos de advogado associado com o modelo de contrato de cada um,
+o manual do advogado associado e o funil de contratação — os documentos que eu uso no meu
+escritório, que tem mais de oito anos, mais de cinquenta colaboradores e duas sedes.</p><p class="fala"><span class="tempo">50–57s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Você chamou para UMA audiência. Faz dois anos.</p>
+<p>Corpo: E ele segue no combinado daquela tarde — tocando uma fila de processos com o contrato de quem ia fazer uma diligência. Para cada relação existe um tipo de associado e um contrato. No kit: os tipos de advogado associado com o modelo de cada um, o manual do associado e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, aquele colega que você chamou pra fazer UMA audiência, há dois anos... ainda está aí, né? No mesmo combinado daquela audiência. Era pra ser pontual: uma diligência, uma porcentagem, obrigado e tchau. Só que apareceu outra, e mais outra — e hoje ele toca uma fila de processos teus com o contrato de quem ia passar uma tarde. O combinado certo pra um dia é o combinado errado pra dois anos. O que era quebra-galho virou o jeito oficial do escritório trabalhar — e ninguém decidiu isso. Foi ficando. Pra cada relação existe uma formalização: quem faz diligência pontual é um tipo de associado; quem toca a tua carteira todo dia é outro — com outro contrato, outra remuneração, outra responsabilidade. Usar o mesmo papel pros dois é pagar errado nos dois. Aqui embaixo estão os tipos de advogado associado com o modelo de contrato de cada um, o manual do advogado associado e o funil de contratação — os documentos que eu uso no meu escritório, que tem mais de oito anos, mais de cinquenta colaboradores e duas sedes. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-12">
+<header class="rt-top"><span class="rt-num">12</span>
+<h3 class="rt-titulo">O reajuste ensaiado no banho</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD20-GUIA-reajuste_ensaiado_no_banho</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, tem uma conversa que você ensaia no banho há seis meses: rever os quarenta por
+cento do teu associado. E toda segunda-feira você decide que essa semana não.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a conversa de rever os 40% que o dono ensaia há meses e nunca tem — porque o combinado é um costume, não um contrato, e mexer em qualquer ponto é abrir a relação inteira. Nasce do Padrão 1.2 (cena interna reconhecível) e 1.5.3 (veredito). Herda do AD01 e do AD03 no reframe.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 9 do doc 20 é não conseguir cobrar o amigo; aqui não há amizade — há um combinado antigo objetivamente defasado e a paralisia de renegociar sem instrumento. O nervo é a conversa adiada, não o vínculo pessoal.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>Advogado, tem uma conversa que você ensaia no banho há seis meses: rever os quarenta por
+cento do teu associado. E toda segunda-feira você decide que essa semana não.</p><p class="fala"><span class="tempo">4–13s</span>Você sabe que o combinado de anos atrás não faz mais sentido pro escritório de hoje. E
+mesmo assim a conversa não acontece. Sabe por que trava?</p><p class="fala"><span class="tempo">13–23s</span>Porque vocês não têm um combinado — têm um costume. Não existe contrato dizendo o que é
+revisável, não existe critério, não existe degrau. Mexer em qualquer coisa é abrir a relação
+inteira. Então você prefere pagar caro calado a puxar o assunto.</p><p class="fala"><span class="tempo">23–32s</span>Conversa de remuneração só é leve quando existe estrutura embaixo dela: tipo definido,
+contrato claro, plano de carreira dizendo o que muda e quando. Sem isso, todo reajuste vira
+confronto.</p><p class="fala"><span class="tempo">32–50s</span>O kit aqui embaixo é essa estrutura em documento — o que eu uso no meu escritório há
+mais de oito anos, com mais de cinquenta colaboradores e duas sedes: os tipos de advogado
+associado, os modelos de contrato, os planos de carreira e o funil de contratação. É por onde
+essa conversa começa.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: A conversa que você ensaia no banho há seis meses.</p>
+<p>Corpo: Rever os 40% do associado. Você sabe que o combinado antigo não faz mais sentido — e adia, porque sem contrato, critério e degrau, mexer em qualquer ponto é abrir a relação inteira. No kit: os tipos de advogado associado, os modelos de contrato, planos de carreira e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, tem uma conversa que você ensaia no banho há seis meses: rever os quarenta por cento do teu associado. E toda segunda-feira você decide que essa semana não. Você sabe que o combinado de anos atrás não faz mais sentido pro escritório de hoje. E mesmo assim a conversa não acontece. Sabe por que trava? Porque vocês não têm um combinado — têm um costume. Não existe contrato dizendo o que é revisável, não existe critério, não existe degrau. Mexer em qualquer coisa é abrir a relação inteira. Então você prefere pagar caro calado a puxar o assunto. Conversa de remuneração só é leve quando existe estrutura embaixo dela: tipo definido, contrato claro, plano de carreira dizendo o que muda e quando. Sem isso, todo reajuste vira confronto. O kit aqui embaixo é essa estrutura em documento — o que eu uso no meu escritório há mais de oito anos, com mais de cinquenta colaboradores e duas sedes: os tipos de advogado associado, os modelos de contrato, os planos de carreira e o funil de contratação. É por onde essa conversa começa. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-13">
+<header class="rt-top"><span class="rt-num">13</span>
+<h3 class="rt-titulo">Estagiário há um ano, sem papel</h3>
+<span class="badge">57 s</span></header>
+<p class="meta"><code>VD21-GUIA-estagiario_ha_um_ano_sem_papel</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, o teu estagiário está contigo há mais de um ano e não existe um papel com o
+nome dele. Se alguém perguntar o que ele é do escritório, a resposta é &quot;ele está ajudando&quot;.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>o estagiário que está há um ano &quot;ajudando&quot; — sem termo, sem modalidade, sem nada escrito. Nasce do Padrão 1.2 (você + cena com tempo) e 1.8.4 — é o primeiro criativo do funil cujo protagonista da oferta é a entrega menos usada do kit: as modalidades de contratação de estagiário. Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 3 do doc 20 ataca o estagiário fazendo trabalho de advogado (limite de tarefa); aqui a dor é a relação sem forma nenhuma — o &quot;está ajudando&quot; como modalidade que não existe.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>Advogado, o teu estagiário está contigo há mais de um ano e não existe um papel com o
+nome dele. Se alguém perguntar o que ele é do escritório, a resposta é &quot;ele está ajudando&quot;.</p><p class="fala"><span class="tempo">4–14s</span>Começou como um favor: ele queria aprender, você precisava de uma mão. Só que favor não
+tem prazo, não tem tarefa definida, não tem valor combinado. E o que não tem forma, cada um
+entende de um jeito.</p><p class="fala"><span class="tempo">14–23s</span>Estágio é uma relação com regra própria — e &quot;está ajudando&quot; não é uma modalidade que
+existe. O improviso que parece leveza hoje é a conversa difícil de amanhã.</p><p class="fala"><span class="tempo">23–32s</span>E tem o outro lado: sem nada definido, ele também não sabe o que está construindo aí
+dentro. Tarefa, aprendizado, valor, futuro — tudo no escuro, pros dois.</p><p class="fala"><span class="tempo">32–50s</span>No kit aqui embaixo estão as modalidades de contratação de estagiário — junto com o
+funil de contratação de estagiário e de advogado, os tipos de advogado associado e os planos de
+carreira. São os documentos que eu uso no meu escritório: mais de oito anos, mais de cinquenta
+colaboradores, duas sedes.</p><p class="fala"><span class="tempo">50–57s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Seu estagiário está há um ano &quot;ajudando&quot;.</p>
+<p>Corpo: Sem termo, sem tarefa definida, sem valor combinado — e o que não tem forma, cada um entende de um jeito. No kit: as modalidades de contratação de estagiário, o funil de contratação de estagiário e de advogado, os tipos de advogado associado e planos de carreira — os documentos que eu uso no meu escritório há mais de oito anos. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, o teu estagiário está contigo há mais de um ano e não existe um papel com o nome dele. Se alguém perguntar o que ele é do escritório, a resposta é &quot;ele está ajudando&quot;. Começou como um favor: ele queria aprender, você precisava de uma mão. Só que favor não tem prazo, não tem tarefa definida, não tem valor combinado. E o que não tem forma, cada um entende de um jeito. Estágio é uma relação com regra própria — e &quot;está ajudando&quot; não é uma modalidade que existe. O improviso que parece leveza hoje é a conversa difícil de amanhã. E tem o outro lado: sem nada definido, ele também não sabe o que está construindo aí dentro. Tarefa, aprendizado, valor, futuro — tudo no escuro, pros dois. No kit aqui embaixo estão as modalidades de contratação de estagiário — junto com o funil de contratação de estagiário e de advogado, os tipos de advogado associado e os planos de carreira. São os documentos que eu uso no meu escritório: mais de oito anos, mais de cinquenta colaboradores, duas sedes. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-14">
+<header class="rt-top"><span class="rt-num">14</span>
+<h3 class="rt-titulo">A primeira semana esperando</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD22-GUIA-primeira_semana_esperando</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, lembra da primeira semana do teu último contratado? Ele sentado, esperando você
+ter tempo de explicar o serviço. E você sem tempo — que foi exatamente o motivo de você
+contratar.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a primeira semana do contratado, passada esperando o dono ter tempo de explicar o serviço — a contratação que termina na assinatura quando devia terminar na autonomia. Nasce do Padrão 1.2 (cena vivida) e 1.5.3 (a conclusão errada corrigida por um veredito sobre a prática). Herda do AD01.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o roteiro 7 do doc 20 cita &quot;o que a pessoa faz na primeira semana&quot; como um item dentro do ângulo da urgência, e o roteiro 5 trata a delegação de método pra equipe que já existe; aqui a primeira semana É o vídeo — o recém-contratado parado, a conclusão falsa (&quot;contratei mal&quot;) e o custo dobrado do começo sem regra. É o movimento do doc 24 (um item de lista vira o vídeo inteiro) aplicado ao Guia.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>Advogado, lembra da primeira semana do teu último contratado? Ele sentado, esperando você
+ter tempo de explicar o serviço. E você sem tempo — que foi exatamente o motivo de você
+contratar.</p><p class="fala"><span class="tempo">4–14s</span>Aí ele começou do jeito que dava: um mês fazendo só o que não tem risco — juntada,
+prazo, planilha — porque ninguém disse o que ele podia assumir. E você fechou a sentença:
+&quot;contratei mal&quot;.</p><p class="fala"><span class="tempo">14–24s</span>Só que a pessoa não chegou errada. Ela chegou num escritório onde nada está escrito: o
+que ela faz, como se faz aqui, o que ela decide sozinha e o que sobe pra você. Contratação não
+termina na assinatura — termina quando a pessoa sabe o que fazer sem te perguntar.</p><p class="fala"><span class="tempo">24–33s</span>Enquanto isso não existe, cada contratado novo custa duas vezes: o que você paga pra
+ele e as horas que você gasta consertando o começo.</p><p class="fala"><span class="tempo">33–50s</span>O kit aqui embaixo cobre a contratação de ponta a ponta: o funil de contratação de
+advogado, de estagiário e dos demais colaboradores, com o manual do advogado associado, os tipos
+de associado e os modelos de contrato. São os documentos que eu uso no meu escritório — mais de
+oito anos, mais de cinquenta colaboradores, duas sedes.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: A primeira semana dele foi esperando você ter tempo.</p>
+<p>Corpo: Você contratou por falta de tempo — e o começo do contratado depende do seu tempo. Sem nada escrito, ele passa um mês no que não tem risco e você conclui que &quot;contratou mal&quot;. No kit: o funil de contratação de advogado, estagiário e demais colaboradores, o manual do associado, os tipos de associado e os modelos de contrato. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, lembra da primeira semana do teu último contratado? Ele sentado, esperando você ter tempo de explicar o serviço. E você sem tempo — que foi exatamente o motivo de você contratar. Aí ele começou do jeito que dava: um mês fazendo só o que não tem risco — juntada, prazo, planilha — porque ninguém disse o que ele podia assumir. E você fechou a sentença: &quot;contratei mal&quot;. Só que a pessoa não chegou errada. Ela chegou num escritório onde nada está escrito: o que ela faz, como se faz aqui, o que ela decide sozinha e o que sobe pra você. Contratação não termina na assinatura — termina quando a pessoa sabe o que fazer sem te perguntar. Enquanto isso não existe, cada contratado novo custa duas vezes: o que você paga pra ele e as horas que você gasta consertando o começo. O kit aqui embaixo cobre a contratação de ponta a ponta: o funil de contratação de advogado, de estagiário e dos demais colaboradores, com o manual do advogado associado, os tipos de associado e os modelos de contrato. São os documentos que eu uso no meu escritório — mais de oito anos, mais de cinquenta colaboradores, duas sedes. Clica no &quot;Saiba mais&quot; aqui embaixo: quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article><article class="roteiro" id="gui-15">
+<header class="rt-top"><span class="rt-num">15</span>
+<h3 class="rt-titulo">Paga como te pagaram</h3>
+<span class="badge">58 s</span></header>
+<p class="meta"><code>VD23-GUIA-paga_como_te_pagaram</code></p>
+<div class="gancho"><span class="gancho-rot">Gancho · 0–3 s</span><p>Advogado, o teu primeiro chefe te pagava trinta por cento do processo. Hoje é você quem
+paga os trinta — pro teu associado.</p></div>
+<div class="corpo"><p class="rot-sec">Ângulo</p><p>a porcentagem como herança — você paga 30% porque foi assim que te pagaram, o modelo veio de fábrica, não de decisão. É o <strong>segundo teste controlado do lote</strong>: o formato de veredito campeão da Imersão (absolvição + inimigo externo — aqui, o costume do mercado), que a seção 1.7 mostrou não ter NENHUM vencedor no Guia. Roda assumidamente como experimento, julgado contra os 14 condenatórios. Herda do VD14-IEP no formato do veredito e do AD01 em todo o resto da espinha.</p>
+<p class="rot-sec">Diferença do que já existe</p><p>o H06 do doc 12 atribui a porcentagem ao medo do fixo; aqui a causa é o costume herdado — e o formato do veredito é o inverso de todos os campeões do Guia, por desenho.</p>
+<p class="rot-sec">Roteiro falado</p><p class="fala"><span class="tempo">0–4s</span>Advogado, o teu primeiro chefe te pagava trinta por cento do processo. Hoje é você quem
+paga os trinta — pro teu associado.</p><p class="fala"><span class="tempo">4–14s</span>Você nunca decidiu isso. Você herdou. Foi assim contigo, é assim que o mercado sempre
+fez, e no dia de contratar você repetiu o único modelo que conhecia. O problema não é você — é o
+modelo que te entregaram pronto.</p><p class="fala"><span class="tempo">14–24s</span>Só que olha esse modelo do outro lado do balcão, agora que o balcão é teu: quando você
+recebia a porcentagem, ela parecia justa. Agora que você paga, é o teu lucro que ela reparte — a
+cada processo, trinta, quarenta por cento pra alguém que não divide contigo nenhuma conta e
+nenhum risco.</p><p class="fala"><span class="tempo">24–33s</span>Tradição não é critério. Existem outros jeitos de formalizar e remunerar advogado — o
+mercado só nunca te apresentou, porque ninguém ensina dono de escritório a contratar.</p><p class="fala"><span class="tempo">33–50s</span>Aqui embaixo estão os documentos que eu uso no meu escritório há mais de oito anos —
+mais de cinquenta colaboradores, duas sedes: os tipos de advogado associado, os modelos de
+contrato de cada um, os planos de carreira e o funil de contratação.</p><p class="fala"><span class="tempo">50–58s</span>Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um
+lanche.</p>
+<p class="rot-sec">Produção</p>
+<p class="rot-sec">Copy do anúncio</p><p>Título: Você paga 30% porque foi assim que te pagaram.</p>
+<p>Corpo: O modelo veio de herança, não de decisão — e do lado do dono do balcão ele reparte o seu lucro a cada processo. Existem outros jeitos de formalizar e remunerar advogado. No kit: os tipos de advogado associado, os modelos de contrato de cada um, planos de carreira e o funil de contratação — os documentos que eu uso no meu escritório. R$ 47, menos que um lanche. Saiba mais.</p></div>
+<div class="rt-acao"><button class="copiar" data-texto="Advogado, o teu primeiro chefe te pagava trinta por cento do processo. Hoje é você quem paga os trinta — pro teu associado. Você nunca decidiu isso. Você herdou. Foi assim contigo, é assim que o mercado sempre fez, e no dia de contratar você repetiu o único modelo que conhecia. O problema não é você — é o modelo que te entregaram pronto. Só que olha esse modelo do outro lado do balcão, agora que o balcão é teu: quando você recebia a porcentagem, ela parecia justa. Agora que você paga, é o teu lucro que ela reparte — a cada processo, trinta, quarenta por cento pra alguém que não divide contigo nenhuma conta e nenhum risco. Tradição não é critério. Existem outros jeitos de formalizar e remunerar advogado — o mercado só nunca te apresentou, porque ninguém ensina dono de escritório a contratar. Aqui embaixo estão os documentos que eu uso no meu escritório há mais de oito anos — mais de cinquenta colaboradores, duas sedes: os tipos de advogado associado, os modelos de contrato de cada um, os planos de carreira e o funil de contratação. Clica no &quot;Saiba mais&quot; aqui embaixo e leva por quarenta e sete reais — menos que um lanche.">Copiar o roteiro falado</button></div>
+</article>
+<section class="nota"><h3 class="nota-titulo">Tabela final</h3><div class="corpo"><div class="rolagem"><table><thead><tr><th>#</th><th>Criativo</th><th>Ângulo</th><th>Padrão de origem</th><th>Campeão que herda</th></tr></thead><tbody><tr><td>1</td><td>VD09-GUIA-junior_no_topo_da_folha</td><td>o júnior no topo da folha — pagamento desconectado de senioridade; teste controlado do sujeito (VD04/VD06 em 2ª pessoa)</td><td>1.2 sujeito trocado · 1.3 número do espectador</td><td>AD01 (forma) + VD04/VD06 (conteúdo)</td></tr><tr><td>2</td><td>VD10-GUIA-aumento_que_voce_nao_deu</td><td>o aumento automático que a porcentagem concede todo ano sem decisão do dono</td><td>1.3 número cedo · 1.5.2 mecanismo em dinheiro</td><td>AD01</td></tr><tr><td>3</td><td>VD11-GUIA-socio_do_seu_anuncio</td><td>30–40% sobre cliente que o associado não trouxe — sócio na captação paga pelo dono</td><td>1.3 número cedo · 1.5.2 mecanismo em dinheiro</td><td>AD01</td></tr><tr><td>4</td><td>VD12-GUIA-mil_contratos_menos_um</td><td>a ironia de ofício: contrato é produto da casa e não é prática da casa</td><td>1.2 você+cena · 1.5.3 veredito</td><td>AD01</td></tr><tr><td>5</td><td>VD13-GUIA-contrato_baixado_da_internet</td><td>o modelo genérico com nome trocado — sensação de contrato</td><td>1.2 cena com objeto · 1.3 erro antes do documento</td><td>AD01</td></tr><tr><td>6</td><td>VD14-GUIA-tres_advogados_tres_combinados</td><td>três acordos improvisados, três preços pela mesma peça — e o dia em que um descobre o do outro</td><td>1.2 você+cena · 1.5.2 mecanismo</td><td>AD01</td></tr><tr><td>7</td><td>VD15-GUIA-ele_escolhe_os_processos</td><td>seleção adversa de casos: o associado pega os gordos, a sobra é do dono</td><td>1.3 número cedo · 1.5.2 mecanismo</td><td>AD01 + AD03 (reframe)</td></tr><tr><td>8</td><td>VD16-GUIA-o_bom_pediu_salario</td><td>a porcentagem como filtro ao contrário — repele o candidato que você queria</td><td>1.2 cena vivida · 1.5.3 veredito</td><td>AD01</td></tr><tr><td>9</td><td>VD17-GUIA-pedindo_favor_pro_contratado</td><td>o dono pedindo favor a quem paga — porcentagem compra a peça, não a prioridade</td><td>1.2 frase falada (formato VD07-IEP) · 1.5.3 veredito</td><td>AD01 + VD07-IEP (forma)</td></tr><tr><td>10</td><td>VD18-GUIA-prometeu_sociedade_pra_segurar</td><td>a promessa de sociedade como única moeda de retenção sem degrau no meio</td><td>1.2 frase falada do dono · 1.5.3 veredito</td><td>AD01</td></tr><tr><td>11</td><td>VD19-GUIA-audiencia_que_virou_dois_anos</td><td>o combinado provisório de uma audiência perpetuado por dois anos</td><td>1.2 cena com tempo · 1.5.3 veredito</td><td>AD01</td></tr><tr><td>12</td><td>VD20-GUIA-reajuste_ensaiado_no_banho</td><td>a renegociação adiada porque o combinado é costume, não contrato</td><td>1.2 cena interna · 1.5.3 veredito</td><td>AD01 + AD03 (reframe)</td></tr><tr><td>13</td><td>VD21-GUIA-estagiario_ha_um_ano_sem_papel</td><td>o estagiário &quot;ajudando&quot; há um ano sem forma nenhuma — estreia das modalidades de estagiário</td><td>1.2 cena com tempo · 1.8.4 entrega inédita</td><td>AD01</td></tr><tr><td>14</td><td>VD22-GUIA-primeira_semana_esperando</td><td>o recém-contratado parado esperando o dono, e a conclusão falsa &quot;contratei mal&quot;</td><td>1.2 cena vivida · 1.5.3 veredito</td><td>AD01</td></tr><tr><td>15</td><td>VD23-GUIA-paga_como_te_pagaram</td><td>a porcentagem herdada do primeiro chefe — teste controlado do formato absolvição+inimigo externo</td><td>1.7 não-confirmação · formato VD14-IEP</td><td>AD01 (espinha) + VD14-IEP (veredito)</td></tr></tbody></table></div>
+<p><strong>Como rodar.</strong> Todos os quinze disputam contra R$ 84,18 (AD01 — Cópia), que é a meta, não contra a média de R$ 88,11. Dois são experimentos declarados e devem subir cedo, com leitura separada: o <strong>VD09</strong> isola a variável do sujeito (mesmo mecanismo do VD04/VD06, que fizeram zero, em segunda pessoa) e o <strong>VD23</strong> testa se o formato de absolvição do campeão da Imersão tem lugar no Guia — se ficar 40% acima dos condenatórios do lote, a não-confirmação da seção 1.7 vira regra permanente do funil. Nenhum roteiro repete gancho dos 8 no ar, dos 10 do doc 20, dos 14 do doc 12 nem dos 7 de setembro; todos têm entre 150 e 200 palavras faladas — nenhum chega perto das 227–317 dos sete que falharam. Julgar por custo por visita e visita→venda, nunca por CTR (regra do doc 12, que o AD09 pagou pra provar).</p></div></section>
+</section><section class="bloco" id="bloco-an-iep" role="tabpanel" aria-labelledby="aba-an-iep">
+<div class="bloco-cab"><p class="bloco-sub">Imersão — o que separa quem vendeu de quem gastou, com o trecho literal que prova cada ponto</p></div>
+<section class="nota"><h3 class="nota-titulo">Antes de tudo</h3><div class="corpo"><p><strong>Data:</strong> 16/09/2026 <strong>Janela dos dados:</strong> 01/08/2026 a 16/09/2026 · Conta educacional <code>act_1378994059677151</code> <strong>Fonte:</strong> pacote de CPA por criativo (IEP: R$ 4.925,91 investidos, 26 vendas, CPA médio R$ 189,46; Guia: R$ 47.664,91, 541 vendas, CPA médio R$ 88,11) e as transcrições literais dos vídeos. <strong>Meta:</strong> bater o melhor CPA da conta — <strong>R$ 37,04</strong> do <code>VD14-IEP-comprou_curso_e_nao_mudou</code> — e não a média. <strong>Oferta:</strong> Imersão Escritório Previsível · 26/09 · 10h às 16h · ao vivo · <strong>R$ 27</strong> (lote atual) · checkout <code>https://pay.hub.la/yhcXix6lfpRwOFHheZIR</code>.</p>
+<blockquote><p>Todos os roteiros citam a data 26/09 e o preço R$ 27, porque é o que os campeões fazem e o que a página sustenta hoje. Se houver nova edição, a única coisa a trocar é a linha de data — a estrutura não depende dela.</p></blockquote></div></section>
+<section class="nota"><h3 class="nota-titulo">1.1 Os primeiros 3 segundos, lado a lado</h3><div class="corpo"><p>A primeira frase de cada vídeo, com o CPA ao lado. A tabela sozinha já conta a história.</p>
+<div class="rolagem"><table><thead><tr><th>Criativo</th><th>Primeira frase (literal)</th><th>CPA</th></tr></thead><tbody><tr><td>VD14</td><td>&quot;Advogado, <strong>se você</strong> comprou um curso para mudar seu escritório de advocacia e isso não interferiu em nada no dia a dia, o problema não é você.&quot;</td><td>R$ 37,04</td></tr><tr><td>VD07</td><td>&quot;<strong>Doutor, como é que está meu processo?</strong> Essa é uma pergunta que todo mundo que é advogado dono do escritório ouve e tem pavor dela.&quot;</td><td>R$ 77,75</td></tr><tr><td>AD01 (Guia)</td><td>&quot;<strong>Se você é advogado</strong> e está contratando outro advogado para trabalhar no escritório, com aquela brincadeira de 30%, 40%... você está errando desde o começo.&quot;</td><td>R$ 84,18 / R$ 88,44</td></tr><tr><td>VD11</td><td>&quot;Seis horas ao vivo no dia 26 de setembro, das 10h às 16h, aqui mesmo no Zoom.&quot;</td><td>R$ 143,16</td></tr><tr><td>VD06</td><td>&quot;<strong>Eu estava conversando</strong> com um cliente meu essa tarde e ele estava falando bem assim...&quot;</td><td>R$ 211,26</td></tr><tr><td>VD10</td><td>&quot;Advogado, tem certeza que você já participou de algum evento, de alguma imersão e talvez não aplicou nada daquilo que você levou?&quot;</td><td>R$ 244,41</td></tr><tr><td>VD02</td><td>&quot;Advogado, <strong>não é sobre trabalhar mais</strong>.&quot;</td><td>R$ 0 vendas em R$ 179,89</td></tr><tr><td>VD03</td><td>&quot;<strong>Quando eu comecei</strong> a montar meu time no escritório de advocacia, eu percebi que...&quot;</td><td>R$ 0 vendas em R$ 157,54</td></tr><tr><td>VD05</td><td>&quot;<strong>Eu sou dono</strong> de um escritório de advocacia já há oito anos.&quot;</td><td>R$ 0 vendas em R$ 111,42</td></tr><tr><td>C17/R02/N05/C02</td><td>(criativos de oferta: certificado, estrutura, &quot;o que você leva&quot;)</td><td>R$ 0 vendas em R$ 624,36</td></tr></tbody></table></div></div></section><section class="nota"><h3 class="nota-titulo">1.2 O sujeito da primeira frase decide o CPA</h3><div class="corpo"><p>O padrão mais duro do pacote: <strong>quem abre a primeira frase é quem paga o CPA.</strong></p>
+<ul><li><strong>&quot;Você&quot; + cena vivida</strong> (VD14, VD07, AD01): CPA de R$ 37 a R$ 88. Os três melhores da conta inteira, nos dois funis, abrem assim. No VD07 a primeira voz nem é a do Guilherme — é a do cliente do espectador, dizendo a frase que o espectador ouve todo dia.</li><li><strong>A oferta em si</strong> (VD11): R$ 143. Vende, mas custa quase 4x o campeão.</li><li><strong>Um terceiro contando cena</strong> (VD06): R$ 211. Vendeu 5 — mas só porque gastou R$ 1.056,30, o maior gasto do funil. O &quot;eu estava conversando com um cliente&quot; cobra pedágio mesmo quando o vídeo é bom.</li><li><strong>&quot;Eu&quot; + biografia do Guilherme</strong> (VD05, VD03): <strong>zero vendas</strong>. Os dois únicos vídeos que abrem com a trajetória dele são os dois que não venderam nada tendo tudo para vender — o VD05 abre com oito anos de história e meio milhão de folha, e ninguém comprou.</li></ul>
+<p>O VD02 é o caso instrutivo do meio: abre com &quot;Advogado&quot;, mas a segunda palavra já é uma <strong>tese abstrata</strong> (&quot;não é sobre trabalhar mais&quot;) — não há cena para a pessoa se reconhecer — e no meio vira biografia (bariátrica, 120 quilos, depressão). Zero vendas em R$ 179,89. Endereçar o espectador não basta: é preciso dar a ele <strong>uma cena dele</strong> nos primeiros segundos.</p></div></section><section class="nota"><h3 class="nota-titulo">1.3 Sintoma antes da oferta, com detalhe que se reconhece — e um veredito até os 15 segundos</h3><div class="corpo"><p>Os campeões não descrevem a Imersão nos primeiros segundos. Descrevem <strong>um comportamento ou uma cena que o espectador viveu esta semana</strong>, com detalhe específico:</p>
+<ul><li>VD14: &quot;comprou um curso... e isso <strong>não interferiu em nada no dia a dia</strong>&quot; — o curso parado.</li><li>VD07: a pergunta literal do cliente, entre aspas, do jeito que chega no WhatsApp.</li><li>AD01: &quot;<strong>aquela brincadeira de 30%, 40%</strong> sobre o valor do processo&quot; — o número exato da prática. Quem faz isso se reconhece na hora; quem não faz sai do vídeo, e é isso que barateia.</li></ul>
+<p>E logo depois da cena vem um <strong>veredito</strong>, sempre num dos dois formatos — e nunca fora deles:</p>
+<ul><li><strong>Absolvição da pessoa + condenação de um inimigo externo.</strong> VD14: &quot;<strong>o problema não é você</strong>... a maioria dos cursos não te traz algo implementável&quot; (inimigo: os cursos). VD07: &quot;<strong>a gente não foi ensinado</strong> como a gente faz um bom alinhamento de expectativa&quot; (inimigo: a formação).</li><li><strong>Condenação de uma prática específica, não do caráter.</strong> AD01: &quot;<strong>você está errando desde o começo</strong>. Você está repartindo o seu lucro com a pessoa que nem sequer é sócio&quot; — condena o contrato de 30%, e imediatamente explica o mecanismo do erro.</li></ul>
+<p>A contraprova do veredito errado é o VD10: ele até abre com o espectador e um sintoma (&quot;participou de imersão e não aplicou nada&quot;), mas o diagnóstico culpa a pessoa — &quot;<strong>nós temos um mal muito claro... a obesidade mental</strong>&quot; — e depois o vídeo vira um cronograma de blocos da Imersão. Uma venda a R$ 244,41, o pior CPA entre os que venderam. O VD14 trata o mesmo tema (comprou e não mudou) absolvendo a pessoa, e faz R$ 37.</p></div></section><section class="nota"><h3 class="nota-titulo">1.4 O que os quatro campeões do IEP têm em comum com o AD01 (428 vendas)</h3><div class="corpo"><p>Colocando VD14, VD07, VD11 e VD06 ao lado do AD01, a anatomia comum é esta, na ordem:</p>
+<ol><li><strong>Auto-seleção em uma frase.</strong> &quot;Se você [comportamento específico]&quot; ou a frase falada que o público-alvo ouve. Quem não é o alvo sai em 3 segundos — e isso é desejável, é o filtro que derruba o CPA.</li><li><strong>Veredito nos primeiros 15 segundos</strong> (absolvição + inimigo externo, ou condenação da prática com mecanismo).</li><li><strong>Mecanismo explicado em linguagem de dinheiro ou de rotina</strong>, não de conceito. AD01: &quot;está repartindo o seu lucro&quot;. VD07: &quot;qualidade técnica é obrigação... experiência é o que separa&quot;.</li><li><strong>Credencial em uma linha, no meio, nunca na abertura.</strong> VD06: &quot;depois de ter estruturado mais de 700 escritórios de advocacia&quot; — uma oração subordinada, e o vídeo segue. O AD01 usa &quot;meu escritório, que já tem mais de 8 anos de vida, mais do que 50 colaboradores&quot; no penúltimo bloco. Prova é tempero. O VD05 fez da prova o prato e vendeu zero.</li><li><strong>A oferta entra como antídoto do sintoma, concreta:</strong> data, horário, &quot;seis horas&quot;, &quot;mão na massa&quot;, entregáveis — e no AD01 o preço ancorado pequeno: &quot;<strong>pelo valor menor do que um lanche</strong>&quot;. Nenhum campeão do IEP diz o preço em voz alta; o AD01, que diz, é o criativo mais vendedor da conta. Com a Imersão a R$ 27, a âncora do lanche está disponível e é verdadeira.</li><li><strong>Nenhum campeão nomeia método ou framework.</strong> O VD15 (três estágios do crescimento), único criativo construído sobre framework, gastou R$ 146,94 e vendeu zero.</li></ol></div></section><section class="nota"><h3 class="nota-titulo">1.5 A contraprova de ouro: por que C17, R02, N05 e C02 gastaram R$ 624,36 e venderam zero</h3><div class="corpo"><p>C17 (Certificado, R$ 260,52), N05 (Estrutura de entrega, R$ 157,67), R02 (O que você leva, R$ 142,26) e C02 (R$ 63,91): quatro criativos, <strong>zero vendas</strong>. E no mesmo período o AD01 vendeu 428 unidades <strong>descrevendo entregáveis</strong> — &quot;kit com contratos associados, funil de contratação... planos de carreira&quot;.</p>
+<p>A diferença não é o conteúdo. É a <strong>posição</strong>. No AD01, a lista de entregáveis chega vinte segundos depois da ferida aberta, amarrada nela com a frase &quot;<strong>se essa é a sua dor</strong>&quot;. Nos criativos de &quot;o que você leva&quot;, a lista chega primeiro — e uma lista de entregáveis responde uma pergunta que ninguém fez ainda. O que a contraprova ensina, em três linhas:</p>
+<ul><li><strong>Entregável é antídoto e prova. Nunca é gancho.</strong> O mesmo certificado que não vende como abertura (C17, o maior gasto dos quatro) aparece de passagem no VD11 e no fim dos campeões sem atrapalhar nada.</li><li><strong>O certificado em particular é a oferta errada para este comprador.</strong> O dono afogado entre 10 e 50 mil não compra credencial — compra alívio e direção. Credencial fala com quem está começando, e quem está começando não é o público (ver 1.6).</li><li><strong>O teto do criativo de oferta é o VD11: R$ 143.</strong> Ele é a exceção que confirma — oferta pura, mas falada, curta, concreta (data, horário, mapa, plano, certificado) e com um mini-inimigo embutido (&quot;<strong>Nada de aulão</strong>, é realmente implementável&quot;). Serve para empilhar em quem já viu sintoma. Não serve para abrir conta nova: o piso do criativo de sintoma é R$ 37.</li></ul></div></section><section class="nota"><h3 class="nota-titulo">1.6 Dois padrões menores que também custaram dinheiro</h3><div class="corpo"><ul><li><strong>Falar com a faixa errada mata.</strong> C02 (&quot;não estudou 5 anos para faturar 10 mil&quot;) e VD12 (&quot;faturar menos de 10 mil&quot;) miram <strong>abaixo</strong> do comprador — zero vendas somando R$ 202,07. O VD18 (&quot;estagnado entre 10 e 30 mil&quot;) mira a faixa certa e vendeu a R$ 129,94. O comprador da Imersão já fatura; fale com quem ele <strong>é</strong>, não com quem ele tem medo de ser.</li><li><strong>Garantia como gancho não funciona.</strong> VD08 (&quot;devolvo teu dinheiro integral&quot;): R$ 111,58, zero vendas. Reversão de risco responde uma objeção que ainda não se formou — mesmo erro de posição dos criativos de oferta. Garantia entra no fim, ou na copy, nunca abre.</li></ul></div></section><section class="nota"><h3 class="nota-titulo">1.7 A régua dos 15 roteiros abaixo</h3><div class="corpo"><p>Do que está acima, as regras que todos os 15 seguem:</p>
+<ol><li>Primeira frase: <strong>você + cena vivida</strong>, ou uma <strong>frase falada</strong> que o dono de escritório ouve ou diz — nunca &quot;eu&quot;, nunca tese, nunca oferta (com uma exceção controlada, o VD33, herdeiro do VD11 e do VD01-GUIA, e sinalizada como tal).</li><li>Veredito até os 15 segundos: absolve a pessoa, condena uma prática ou um inimigo externo.</li><li>Credencial em uma linha no meio (700 escritórios, duas sedes, 50+ pessoas, 8 anos — os números que já estão nos criativos aprovados). Biografia jamais antes do sintoma.</li><li>Oferta como antídoto: 26/09, 10h às 16h, ao vivo, seis horas, mão na massa, mapa preenchido, plano de 90 dias — certificado citado no máximo de passagem, nunca como argumento.</li><li>Preço dito e ancorado pequeno, espelhando o AD01: &quot;vinte e sete reais — menos que um almoço&quot;.</li><li><strong>Sem lista numerada de sinais</strong> (é a anatomia do lote de 15/09, doc 19) e <strong>sem nomear método</strong> (o lote de 15/09 usa Identidade-Ordem-Progresso nos dez; nenhum campeão nomeia método). Essas duas ausências são o que separa este lote do anterior no ar.</li><li>Falar só com quem já fatura e tem operação. Nenhum roteiro para iniciante.</li><li>OAB: nenhuma promessa de resultado, de faturamento ou de cliente; nenhum &quot;fácil&quot;; nenhuma comparação com concorrente. Números grandes são sempre &quot;o que eu construí&quot;, nunca projeção.</li></ol>
+<p>Ângulos vizinhos de algo que já existe trazem uma linha &quot;Diferença do que já existe&quot; explicando por que não é repetição.</p></div></section>
+</section><section class="bloco" id="bloco-an-guia" role="tabpanel" aria-labelledby="aba-an-guia">
+<div class="bloco-cab"><p class="bloco-sub">Guia — por que um vídeo faz 428 vendas e os sete gravados depois, com o mesmo rosto e a mesma oferta, não venderam</p></div>
+<section class="nota"><h3 class="nota-titulo">Antes de tudo</h3><div class="corpo"><p><strong>Data:</strong> 16/09/2026 <strong>Janela dos dados:</strong> 01/08/2026 a 16/09/2026 · Conta educacional <code>act_1378994059677151</code> <strong>Fonte:</strong> pacote de CPA por criativo (funil do Guia: R$ 47.664,91 investidos, 541 vendas, CPA médio R$ 88,11) e as transcrições literais — o AD01/AD02 que carrega o funil, três antigos de referência (AD03, AD07, AD09) e os sete gravados em setembro que não venderam (VD01, VD03 a VD08). <strong>Meta:</strong> bater o melhor criativo em atividade — <strong>R$ 84,18</strong> do <code>AD01 — Cópia</code> (392 vendas) — e não a média de R$ 88,11. <strong>Oferta:</strong> kit/guia de contratação de advogado associado · <strong>R$ 47</strong> · checkout <code>https://pay.hub.la/er0di9JqRZs3q4YyyHMF</code>.</p>
+<blockquote><p>O caso deste funil é diferente do da Imersão (doc 24): lá havia um campeão e vários medianos; aqui há UM vídeo com 523 vendas somadas (AD01 = AD02, mesma filmagem) e sete vídeos novos, gravados depois, com o mesmo rosto e a mesma oferta, que somaram 2 vendas. Os sete são a contraprova mais valiosa da conta: eles desmontam a anatomia do campeão peça por peça, um elo quebrado por vídeo. A análise abaixo aponta qual elo cada um quebrou, com a citação.</p></blockquote></div></section>
+<section class="nota"><h3 class="nota-titulo">1.1 Os primeiros 3 segundos, lado a lado</h3><div class="corpo"><p>A primeira frase de cada vídeo, literal, com o resultado ao lado.</p>
+<div class="rolagem"><table><thead><tr><th>Criativo</th><th>Primeira frase (literal)</th><th>Resultado na janela</th></tr></thead><tbody><tr><td>AD01/AD02 (mesma filmagem)</td><td>&quot;<strong>Se você é advogado e está contratando outro advogado</strong> para trabalhar no escritório, com aquela brincadeira de 30%, 40%...&quot;</td><td>523 vendas · CPA R$ 84,18 a R$ 91,00</td></tr><tr><td>VD01</td><td>&quot;<strong>Esse kit aqui</strong> não é pra todo mundo.&quot;</td><td>2 vendas · CPA R$ 109,15</td></tr><tr><td>VD03</td><td>&quot;Advogado, <strong>eu documentei oito anos de erros</strong> na minha advocacia&quot;</td><td>0 vendas</td></tr><tr><td>VD04</td><td>&quot;Se você é advogado e contrata um outro advogado... <strong>naquela ideia de pagar porcentagem</strong>, saiba que você está cometendo um erro muito grave&quot;</td><td>0 vendas</td></tr><tr><td>VD05</td><td>&quot;Se você é advogado e vai contratar um outro advogado para pagar porcentagem, <strong>eu quero deixar um alerta muito grande nesse vídeo</strong>.&quot;</td><td>0 vendas</td></tr><tr><td>VD06</td><td>&quot;Advogado, <strong>são oito anos errando</strong> na hora de contratar time, contratar outro advogado <strong>para trabalhar para mim</strong>&quot;</td><td>0 vendas</td></tr><tr><td>VD07</td><td>&quot;Se você é advogado e contrata um outro advogado pagando porcentagem, <strong>já percebeu que quando você não tem mais essa pessoa</strong>...&quot; (45 palavras até o primeiro ponto final)</td><td>0 vendas</td></tr><tr><td>VD08</td><td>&quot;Advogado, <strong>há quanto tempo você não tira férias</strong> do escritório?&quot;</td><td>0 vendas</td></tr></tbody></table></div>
+<p>E o tamanho, que a tabela de cima não mostra: o campeão tem <strong>168 palavras em 50,9 segundos</strong>. Os vencedores antigos têm 145 (AD03) e 190 (AD07). Os sete de setembro têm <strong>de 227 a 317 palavras</strong> — todos mais longos que qualquer vencedor da conta, e quatro deles mais longos que o AD09 (265 palavras), que era o pior vídeo do acervo até setembro. No ritmo do campeão (3,3 palavras por segundo), o VD08 passa de 90 segundos.</p></div></section><section class="nota"><h3 class="nota-titulo">1.2 O sujeito da primeira frase — o padrão do doc 24, confirmado e refinado</h3><div class="corpo"><p>O padrão mais forte do funil da Imersão (doc 24, 1.2) era: quem abre a primeira frase paga o CPA. Aqui ele se confirma — e ganha um refinamento que o doc 24 não tinha.</p>
+<p><strong>Confirma-se no extremo ruim.</strong> Os dois vídeos que abrem com o Guilherme são dois zeros:</p>
+<ul><li>VD03: &quot;Advogado, <strong>eu documentei</strong> oito anos de erros <strong>na minha advocacia</strong>&quot; — e segue no eu: &quot;Já contratei advogado por porcentagem e quando eu vi ele estava virando sócio <strong>meu</strong>.&quot;</li><li>VD06: &quot;são oito anos errando na hora de contratar... outro advogado para trabalhar <strong>para mim</strong>&quot; — o espectador é plateia da memória de outro.</li></ul>
+<p>É a mesma sentença que o funil da Imersão deu ao VD05 e ao VD03 de lá (biografia na abertura, zero vendas). Dois funis, quatro vídeos, quatro zeros: <strong>abrir com &quot;eu&quot; é o erro mais caro que este rosto pode cometer em anúncio.</strong></p>
+<p><strong>Confirma-se no meio.</strong> O VD01 abre com o produto (&quot;<strong>Esse kit aqui</strong> não é pra todo mundo&quot;) e foi o único dos sete que vendeu algo — 2 vendas a R$ 109,15, 30% mais caro que o campeão. É o espelho exato do VD11 da Imersão (abertura de oferta, R$ 143 contra R$ 37 do campeão de lá): <strong>abrir com a oferta custa caro; abrir com biografia custa tudo.</strong></p>
+<p><strong>E ganha um refinamento.</strong> VD04, VD05 e VD07 abrem com a fórmula literal do campeão — &quot;Se você é advogado e contrata(ndo) um outro advogado&quot; — e venderam zero mesmo assim. O sujeito certo na primeira frase é necessário, mas não basta: o que decide é o que acontece nos 12 segundos seguintes. É disso que tratam as seções 1.3 a 1.6.</p></div></section><section class="nota"><h3 class="nota-titulo">1.3 ERRO antes do DOCUMENTO — e o número do espectador sumiu dos sete</h3><div class="corpo"><p>O campeão fala do erro primeiro e do documento depois. A ordem dele, cravada na transcrição: cena (0:00) → número (&quot;aquela brincadeira de <strong>30%, 40%</strong> sobre o valor do processo&quot;, aos 0:04) → veredito (&quot;<strong>você está errando desde o começo</strong>&quot;) → mecanismo (&quot;<strong>Você está repartindo o seu lucro com a pessoa que nem sequer é sócio do teu escritório</strong>&quot;) → e só então o kit, aos 0:18. O doc 12 já tinha medido: nos quatro antigos, a ordem em que o &quot;30%, 40%&quot; entra é exatamente a ordem do CPA (AD02 0:04 → AD03 0:08 → AD07 0:17 → AD09 0:23).</p>
+<p>Nos sete de setembro, <strong>o número do espectador sumiu ou mudou de dono</strong>:</p>
+<ul><li><strong>Sumiu por completo</strong> em VD01, VD05, VD07 e VD08. Quatro vídeos do funil da porcentagem sem o número da porcentagem. O VD05 fala &quot;pagar porcentagem&quot; três vezes e nunca diz quanto; o VD08 nem do erro de contratação fala.</li><li><strong>Mudou de dono</strong> em VD03, VD04 e VD06: o número existe, mas é o da memória do Guilherme — &quot;ele era júnior, tinha lá <strong>15, 20 mil reais</strong> de salário porque <strong>eu</strong> passava 30% dos meus processos para ele&quot; (VD03). No campeão, o 30–40% é o dinheiro que <strong>o espectador</strong> está perdendo agora; em setembro, virou o dinheiro que <strong>o Guilherme</strong> perdeu no passado. Mesmo número, ferida de outra pessoa.</li><li>E dois abriram direto pelo DOCUMENTO: o VD01 pelo kit (&quot;Esse kit aqui...&quot;) e o VD03 pela documentação (&quot;eu documentei oito anos de erros&quot;) — o kit como diário de erros do Guilherme, não como a ferramenta que ele usa. O campeão vende &quot;<strong>todos os documentos que eu utilizo no meu escritório</strong>&quot; — documento vivo, em uso, não arquivo de acidentes.</li></ul></div></section><section class="nota"><h3 class="nota-titulo">1.4 Cena concreta com personagem × afirmação abstrata</h3><div class="corpo"><p>O campeão tem uma única cena, que está acontecendo agora, com dois personagens: o espectador e o advogado que ele está contratando, com a divisão &quot;de 30%, 40% sobre o valor do processo que <strong>vocês vão dividir</strong>&quot;. Os sete de setembro trocaram a cena por três tipos de abstração:</p>
+<ul><li><strong>Lista de aspirações</strong> (VD01): &quot;previsibilidade, escalabilidade, realmente faturar um valor legal no mês... pós-venda bem organizado... time de alta performance&quot;. Nenhuma cena — um varal de substantivos que qualquer curso do mercado promete.</li><li><strong>População genérica no lugar do espectador</strong> (VD05): &quot;<strong>Tem muita gente</strong> que vai fazer isso&quot;, &quot;<strong>Outros</strong> acabam fazendo isso&quot;, &quot;<strong>Quantas pessoas aqui</strong> começam operando assim&quot;, &quot;como eu já vi em muitos <strong>clientes meus</strong>&quot;. Quatro sujeitos numa peça só, e nenhum é &quot;você&quot;. A primeira frase até endereça o espectador — e a segunda o dilui numa multidão. O VD07 comete a variante mais cara: &quot;Quantos <strong>alunos</strong> aqui eu vi perdendo prazo&quot; — a palavra &quot;alunos&quot; entrega que quem fala é um mentor com plateia, não um colega com a mesma dor.</li><li><strong>Metáfora no lugar do mecanismo</strong> (VD08): &quot;a gente vira <strong>refém</strong> do próprio escritório. A gente vai criando realmente uma <strong>prisão</strong>&quot;. O campeão explica o erro em linguagem de dinheiro (&quot;repartindo o seu lucro&quot;); o VD08 explica em imagem — e imagem não dói no bolso.</li></ul>
+<p>E a fórmula de anúncio meta-referente, que o doc 12 já tinha condenado no AD09 (&quot;fique atento a esse vídeo&quot;), voltou no VD05: &quot;<strong>eu quero deixar um alerta muito grande nesse vídeo</strong>&quot;. Frase sobre o vídeo, não sobre a vida do espectador — o pedido de atenção que o pior criativo antigo já tinha provado que não paga.</p></div></section><section class="nota"><h3 class="nota-titulo">1.5 O experimento quase controlado: AD01 × VD06</h3><div class="corpo"><p>Mesmo tema (oito anos errando ao contratar), mesmo rosto, mesma oferta, mesmo funil. 428 vendas contra zero. Cinco diferenças, todas na transcrição:</p>
+<ol><li><strong>O sujeito.</strong> AD01: &quot;Se <strong>você</strong> é advogado e <strong>está contratando</strong>&quot; — cena do espectador, no presente. VD06: &quot;são oito anos errando... contratar outro advogado para trabalhar <strong>para mim</strong>&quot; — memória do Guilherme, no passado.</li><li><strong>O dono do número.</strong> AD01: &quot;30%, 40% sobre o valor do processo que <strong>vocês</strong> vão dividir&quot; — é o lucro do espectador vazando, aos 0:04. VD06: &quot;<strong>ele</strong> estava recebendo lá 15, 20 mil reais sendo advogado júnior&quot; — é o prejuízo antigo do Guilherme, dentro de anedota.</li><li><strong>O veredito.</strong> AD01 condena o espectador em uma frase: &quot;entenda uma coisa, <strong>você está errando desde o começo</strong>&quot;, seguida do mecanismo (&quot;repartindo o seu lucro com quem nem sequer é sócio&quot;). VD06 confessa: &quot;<strong>eu já errei de tudo que você imaginar</strong>&quot; — ninguém é condenado, logo ninguém precisa de correção urgente.</li><li><strong>A credencial.</strong> AD01 usa uma linha, grudada na dor: &quot;meu escritório, que já tem mais de 8 anos de vida, mais do que 50 colaboradores <strong>e eu sei muito bem dessas dores que você está passando hoje</strong>&quot;. VD06 empilha currículo: &quot;mais de 500 escritórios que eu já estruturei à mão. Contradoria, jurídico, comercial, pós-venda.&quot;</li><li><strong>A promessa.</strong> AD01: &quot;entender como cada advogado pode ganhar <strong>sem consumir o seu lucro</strong>&quot; — promessa de dinheiro. VD06: &quot;um funil de contratação para você <strong>errar menos</strong>&quot; — promessa de atenuante. Ninguém paga R$ 47 para errar menos; paga para parar de repartir o lucro.</li></ol>
+<p>O VD04 fecha o experimento pelo outro lado: manteve o gancho do campeão (você + cena + porcentagem) e quebrou o meio — disse &quot;porcentagem&quot; sem o número (o 30, 40% só aparece na metade), trocou o veredito seco por um atenuado (&quot;<strong>pode custar</strong> o lucro&quot;), desviou para a biografia no segundo 8 (&quot;<strong>Eu fiz isso</strong> por muitos e muitos anos&quot;) e entregou o kit só depois de dois terços do texto. Gancho de campeão com espinha de zero: zero.</p></div></section><section class="nota"><h3 class="nota-titulo">1.6 A credencial que inchou e virou currículo — e a ferida de outro funil</h3><div class="corpo"><p>Nos vencedores, a prova é uma linha no meio, amarrada à dor. Nos sete de setembro, ela virou um bloco-currículo de três a quatro itens — &quot;oito anos, duas sedes, 60 colaboradores, mais de 500 escritórios que eu já estruturei&quot; — recitado em <strong>todos os sete</strong>, quase sempre com um item que nenhum vencedor usa (os &quot;500 escritórios estruturados&quot;, que aliás não está na lista aprovada do doc 20). O VD05 gasta o bloco inteiro duas vezes. O doc 24 já tinha visto isso na Imersão: prova é tempero; quem faz da prova o prato vende zero. Setembro fez da prova o prato sete vezes.</p>
+<p>E o VD08 quebrou um elo que nenhum outro quebrou: <strong>a ferida</strong>. &quot;Há quanto tempo você não tira férias?&quot; é dor de rotina — o território do campeão da Imersão (domingo à noite, agenda, férias). Colada num kit de documentos de R$ 47, vendeu zero: o antídoto não cura aquela ferida. Quem está exausto compra estrutura e caminho (é o outro funil); quem acabou de ver que reparte o lucro com um não-sócio compra o contrato que corrige isso — hoje, por impulso, por menos que um lanche. A ferida do Guia é de dinheiro e tem de casar com documento.</p></div></section><section class="nota"><h3 class="nota-titulo">1.7 O que se confirma e o que NÃO se confirma do doc 24</h3><div class="corpo"><p><strong>Confirma-se, com contraprova dupla:</strong></p>
+<ol><li><strong>O sujeito da primeira frase decide</strong> (1.2 de lá): &quot;eu&quot;/biografia = zero em quatro vídeos de dois funis; &quot;você&quot; + cena = os campeões dos dois funis.</li><li><strong>A hierarquia das aberturas</strong> (1.5 de lá): oferta como gancho custa caro mas sobrevive (VD11-IEP R$ 143; VD01-GUIA R$ 109 — os únicos &quot;medianos&quot; dos dois lotes); biografia custa tudo.</li><li><strong>Credencial em uma linha, nunca como prato</strong> (1.4.4 de lá): os sete incharam o bloco, os sete falharam.</li><li><strong>A anatomia em ordem</strong> (1.4 de lá): cena → veredito → mecanismo em dinheiro → credencial de uma linha → oferta concreta → preço no clique. Setembro é a prova pelo negativo: cada vídeo quebrou um elo diferente e todos caíram.</li></ol>
+<p><strong>NÃO se confirma — e isso é o mais interessante do pacote:</strong></p>
+<ol><li><strong>A absolvição não tem nenhum vencedor no Guia.</strong> Na Imersão, o formato campeão é absolver a pessoa e condenar um inimigo externo (&quot;o problema não é você... a maioria dos cursos não te traz algo implementável&quot;, VD14, R$ 37). No Guia, TODOS os vencedores condenam o espectador na cara: &quot;<strong>você está errando desde o começo</strong>&quot; (AD01), &quot;você está dividindo com um sócio que não tem nenhum ônus&quot; (AD03), &quot;isso é um baita de um erro&quot; (AD07). E as três formas de suavizar a condenação testadas em setembro falharam: diluir a culpa numa multidão (VD05, &quot;muita gente faz isso&quot;), transferir a culpa para o próprio Guilherme (VD03/VD06, &quot;quem errou fui eu&quot;) e atenuar o veredito (VD04, &quot;pode custar&quot;). A hipótese que os dados sustentam: o comprador de R$ 47 compra no ardor da condenação — o vídeo aponta a cláusula errada no contrato DELE e vende o corretivo na mesma respiração. Absolvição aqui tira a urgência. O VD23 abaixo é o teste controlado desse formato; até ele provar o contrário, condenação da prática é a regra do lote.</li><li><strong>Dor de rotina não transfere.</strong> O sintoma de estilo de vida (domingo, férias, agenda), que na Imersão é o território do campeão, fez zero no Guia (VD08). A ferida tem de casar com o antídoto: kit de documentos cura erro de contratação, não cansaço.</li><li><strong>(Já registrado no doc 24, confirmado de novo)</strong> O preço dito em voz alta: nenhum campeão da Imersão fala o preço; no Guia, o campeão fala — &quot;pelo valor menor do que um lanche&quot; — e é obrigatório falar.</li></ol></div></section><section class="nota"><h3 class="nota-titulo">1.8 A régua dos 15 roteiros abaixo</h3><div class="corpo"><ol><li>Primeira frase: <strong>você + cena que está acontecendo</strong>, ou uma frase falada da rotina do dono. Nunca &quot;eu&quot;, nunca o kit, nunca &quot;esse vídeo&quot;, nunca lista de aspirações.</li><li><strong>O número do espectador (trinta, quarenta por cento) até o segundo 8</strong> em todo roteiro cujo ângulo passa pela porcentagem — e sempre como dinheiro do espectador, nunca como memória do Guilherme. Nunca como primeira frase (a abertura literal do campeão roda desde maio; a moldura é sempre uma cena nova).</li><li><strong>Veredito que condena a prática, em uma frase, até o segundo 15</strong> — condena o combinado, nunca o caráter. Sem atenuante (&quot;pode custar&quot;) e sem diluição (&quot;muita gente&quot;). Exceção única e sinalizada: o VD23, teste do formato de absolvição.</li><li><strong>Kit enumerado até 40% do vídeo</strong>, só com itens da lista do doc 20 (modelos de contrato de associado; tipos de advogado associado; manual do advogado associado; modalidades de contratação de estagiário; funil de contratação de advogado, de estagiário e dos demais colaboradores; planos de carreira; &quot;os documentos que eu uso no meu escritório&quot;).</li><li><strong>Credencial em UMA linha, grudada na dor</strong> — mais de oito anos, mais de cinquenta colaboradores, duas sedes. Nada de &quot;500 escritórios&quot; nem &quot;60 colaboradores&quot;: não estão na lista aprovada e são a marca registrada dos sete que falharam.</li><li><strong>Preço e clique na mesma respiração:</strong> &quot;Clica no &#x27;Saiba mais&#x27; aqui embaixo — quarenta e sete reais, menos que um lanche.&quot; Sem escassez, sem &quot;preço de banana&quot;, sem &quot;fique até o final&quot;.</li><li><strong>Curto:</strong> alvo de 150 a 200 palavras faladas (45 a 60 segundos no ritmo do campeão). Nenhum roteiro do lote chega perto das 227–317 palavras de setembro.</li><li>OAB e doc 20: nenhum número de faturamento/lucro para o espectador, nenhum prazo de resultado, nenhuma garantia de que contrato blinda, nenhuma consultoria trabalhista afirmativa, nenhuma menção a imersão, evento, turma ou data.</li></ol>
+<p>Ângulos vizinhos de algo que já existe trazem a linha &quot;Diferença do que já existe&quot; explicando por que não é repetição — contra os 10 do doc 20, os 14 do doc 12 e os 7 de setembro.</p></div></section>
+</section>
+
+<footer class="rodape"><p>Grupo Schumann · documento interno de gravação · gerado em 16/09/2026</p></footer>
+
+<script>
+document.querySelectorAll('.aba').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.aba').forEach(function(x){x.classList.remove('ativa');x.setAttribute('aria-selected','false');});
+    document.querySelectorAll('.bloco').forEach(function(x){x.classList.remove('ativo');});
+    b.classList.add('ativa'); b.setAttribute('aria-selected','true');
+    document.getElementById(b.dataset.alvo).classList.add('ativo');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+document.querySelectorAll('.copiar').forEach(function(b){
+  b.addEventListener('click', function(){
+    navigator.clipboard.writeText(b.dataset.texto).then(function(){
+      b.classList.add('feito'); var t=b.textContent; b.textContent='Copiado';
+      setTimeout(function(){b.classList.remove('feito'); b.textContent=t;},1600);
+    });
+  });
+});
+</script>
+</body>
+</html>
