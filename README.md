@@ -161,7 +161,11 @@ combinar antes:** eles saem de uma decisão de negócio, não de otimização t�
 
 Tudo mora no topo de `scoring.js`.
 
-- **4 critérios com peso igual, 25 pontos cada**, somando 100
+- **4 critérios de 25 pontos cada.** Desde 18/09/2026, **quantidade de pessoas
+  tem peso 0,5** (pedido do Vitor); a soma ponderada é normalizada para 0–100,
+  então os cortes de classe não mudaram. Leads anteriores foram pontuados com
+  peso igual e **não foram recalculados** — decisão de não mexer no banco.
+  `pontos` guarda o ponto cru da resposta; só `base`/`total` usam o peso.
 - **Classe A** a partir de 85, **B** 65, **C** 45, **D** abaixo
 - **Faturamento e pessoas** definem o degrau da escada de produtos
 - **Urgência e histórico de mentoria** formam a linha de qualidade (0 a 50)

@@ -5,11 +5,20 @@
 
 import { esc } from './util.js';
 
+/* `peso` entrou em 18/09/2026, a pedido do Vitor: "quantidade de pessoas"
+   passa a valer metade dos outros critérios. A nota continua de 0 a 100 —
+   a soma ponderada é normalizada — para que os cortes de classe (85/65/45)
+   não mudem e as notas antigas e novas continuem comparáveis.
+
+   Leads anteriores a 18/09 NÃO foram recalculados, por decisão: foram
+   pontuados com peso igual e o banco ficou como estava. `pontos` continua
+   guardando o ponto cru de cada resposta (0 a 25); só `base`/`total` usam o
+   peso. */
 export const CRITERIOS = {
-  faturamento: { nome: 'Faturamento', max: 25 },
-  pessoas:     { nome: 'Quantidade de pessoas', max: 25 },
-  urgencia:    { nome: 'Urgência', max: 25 },
-  mentoria:    { nome: 'Histórico de acompanhamento', max: 25 }
+  faturamento: { nome: 'Faturamento', max: 25, peso: 1 },
+  pessoas:     { nome: 'Quantidade de pessoas', max: 25, peso: 0.5 },
+  urgencia:    { nome: 'Urgência', max: 25, peso: 1 },
+  mentoria:    { nome: 'Histórico de acompanhamento', max: 25, peso: 1 }
 };
 
 export const ESCADA = ['Trincheira', 'Gestão Descomplicada', 'Gestão de Impacto', 'Implementação ou Impactus'];
@@ -197,7 +206,10 @@ export function calcular(respostas) {
     if (q.campo === 'perfil') perfil = r.tipo;
   });
 
-  const base = Object.values(pontos).reduce((a, b) => a + b, 0);
+  const teto = Object.values(CRITERIOS).reduce((a, c) => a + c.max * c.peso, 0);
+  const ponderado = Object.keys(CRITERIOS)
+    .reduce((a, k) => a + (pontos[k] ?? 0) * CRITERIOS[k].peso, 0);
+  const base = Math.round((ponderado / teto) * 100);
   const ad = ADERENCIA[area];
   const total = Math.max(0, base + (ad?.ajuste ?? 0));
   const classe = letra(total);
@@ -244,7 +256,7 @@ export function htmlResultado(res, { titulo = null } = {}) {
     const pct = Math.round((res.pontos[key] / 25) * 100);
     const cls = pct >= 70 ? 'strong' : pct >= 35 ? '' : 'weak';
     return `<div class="axis">
-        <div class="axis-top"><span>${CRITERIOS[key].nome}</span><b>${res.pontos[key]} / 25</b></div>
+        <div class="axis-top"><span>${CRITERIOS[key].nome}${CRITERIOS[key].peso !== 1 ? ` <span class="meta">· peso ${String(CRITERIOS[key].peso).replace('.', ',')}</span>` : ''}</span><b>${res.pontos[key]} / 25</b></div>
         <div class="track"><div class="fill ${cls}" style="width:${pct}%"></div></div>
       </div>`;
   }).join('');

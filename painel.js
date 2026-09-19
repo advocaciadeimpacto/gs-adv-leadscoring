@@ -842,7 +842,7 @@ function tabela(crit) {
   const q = PERGUNTAS.find(p => p.crit === crit);
   const temDegrau = q.opcoes.some(o => o.degrau !== undefined);
   return `<div class="tbl-scroll"><table${temDegrau ? '' : ' class="t2"'}>
-    <thead><tr><th>${CRITERIOS[crit].nome}</th><th>Pts</th>${temDegrau ? '<th>Degrau</th>' : ''}</tr></thead>
+    <thead><tr><th>${CRITERIOS[crit].nome}${CRITERIOS[crit].peso !== 1 ? ` · peso ${String(CRITERIOS[crit].peso).replace('.', ',')}` : ''}</th><th>Pts</th>${temDegrau ? '<th>Degrau</th>' : ''}</tr></thead>
     <tbody>${q.opcoes.slice().sort((a, b) => b.pts - a.pts).map(o =>
       `<tr><td>${esc(o.txt)}</td><td class="pts">${o.pts}</td>${temDegrau ? `<td>${esc(ESCADA[o.degrau])}</td>` : ''}</tr>`
     ).join('')}</tbody></table></div>`;
@@ -853,7 +853,7 @@ function telaCriterios() {
     <div class="step">
       <span class="eyebrow">Modelo v3</span>
       <h1 class="q-title">Critérios de pontuação</h1>
-      <p class="q-help">Quatro critérios com peso igual, 25 pontos cada. Classe A a partir de 85.</p>
+      <p class="q-help">Quatro critérios de 25 pontos cada. <strong>Quantidade de pessoas vale metade</strong> dos outros três (peso 0,5, desde 18/09/2026); a soma é normalizada para continuar de 0 a 100. Classe A a partir de 85. Leads anteriores a 18/09 foram pontuados com peso igual e não foram recalculados.</p>
 
       ${tabela('faturamento')}
       ${tabela('pessoas')}
