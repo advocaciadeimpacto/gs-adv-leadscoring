@@ -154,6 +154,24 @@ também, senão as duas tabelas seguem divergindo.
 
 ---
 
+## Pesquisa de quem comprou a Imersão (`/pesquisa-iep`)
+
+Pesquisa de perfil para os compradores da Imersão Escritório Previsível, com a
+mesma mecânica do quiz e o **mesmo modelo de nota** — `scoring-iep.js` importa
+critérios, pesos, classes, escada, aderência e perfis de `scoring.js`, para uma
+classe A da pesquisa significar o mesmo que uma do quiz. O que muda:
+
+- 8 perguntas. A de urgência vira "depois da imersão, como você pretende colocar
+  o plano em prática?" (intenção de acompanhamento). Tempo de advocacia, maior
+  desafio e um campo livre não pontuam: servem para o Guilherme preparar o dia.
+- **Não dispara Pixel nem CAPI** (quem responde já comprou; um `Lead`/`EndForm`
+  entraria no pixel que otimiza a Sessão) e não usa o `adv-track.js`.
+- Grava por `api/pesquisa-iep.js` em `public.pesquisa_iep` no Supabase
+  **gerenciado** (onde moram as tabelas da Imersão, não o self-hosted) e manda ao
+  n8n `[GS] IEP · pesquisa de perfil` (`KhGvRUuNKUZvWi10`), que avisa no WhatsApp
+  com a classe e a leitura comercial. Hoje o aviso vai só para o Isaac.
+- Aceita `?nome=&email=&whatsapp=` para chegar preenchida quando o link vai no privado.
+
 ## O modelo de scoring
 
 Definido pelo time de marketing com o Guilherme. **Não altere pesos sem
