@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Respostas da pesquisa · Imersão Escritório Previsível</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#14110D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Lê a view painel_pesquisa_iep: respostas sem e-mail e sem WhatsApp. O que
+     interessa aqui é o conteúdo do dia, não o contato — o contato está no aviso
+     que o time recebe no WhatsApp. */
+  :root{
+    --fundo:#14110D; --papel:#1C1814; --linha:rgba(255,255,255,.08);
+    --tx:#F2EDE6; --tx2:#B9B0A4; --tx3:#8A8073;
+    --ouro:#D9B681; --ouro2:#B08D3F; --verde:#5FB88B; --azul:#6FA8DC; --vermelho:#D98A7B;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--fundo);color:var(--tx);font-family:Inter,-apple-system,system-ui,sans-serif;line-height:1.5}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 16px 70px}
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  .eb{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ouro2);font-weight:600}
+  h1{font-family:Sora,sans-serif;font-size:clamp(25px,4.6vw,34px);margin:6px 0 0;letter-spacing:-.02em}
+  .sub{color:var(--tx2);font-size:14.5px;margin:10px 0 24px;max-width:70ch}
+  .quando{font-size:12px;color:var(--tx3)}
+  .totais{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+  .card{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:15px 17px}
+  .card .n{font-family:Sora,sans-serif;font-size:27px;font-weight:700;line-height:1}
+  .card .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-top:6px}
+  h2{font-family:Sora,sans-serif;font-size:17px;margin:30px 0 12px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .bloco{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:16px 18px}
+  .bloco h3{font-size:13.5px;margin:0 0 14px;color:var(--tx);font-weight:600}
+  .linha{margin-bottom:11px}
+  .linha:last-child{margin-bottom:0}
+  .rot{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--tx2);margin-bottom:5px}
+  .rot b{color:var(--tx);font-variant-numeric:tabular-nums}
+  .trilho{height:7px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+  .trilho i{display:block;height:100%;border-radius:99px;background:var(--ouro)}
+  .trilho.b i{background:var(--azul)} .trilho.v i{background:var(--verde)} .trilho.r i{background:var(--vermelho)}
+  .frases{display:grid;gap:10px}
+  .frase{background:var(--papel);border:1px solid var(--linha);border-left:3px solid var(--ouro2);border-radius:12px;padding:13px 16px}
+  .frase p{margin:0;font-size:15px}
+  .frase span{display:block;margin-top:7px;font-size:11.5px;color:var(--tx3)}
+  table{width:100%;border-collapse:collapse;background:var(--papel);border:1px solid var(--linha);border-radius:14px;overflow:hidden;font-size:13.5px}
+  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--linha);vertical-align:top}
+  th{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-weight:600}
+  tr:last-child td{border-bottom:0}
+  .cl{font-weight:700;font-family:Sora,sans-serif}
+  .cl.A{color:var(--verde)} .cl.B{color:var(--azul)} .cl.C{color:var(--ouro)} .cl.D{color:var(--tx3)}
+  .vazio{color:var(--tx3);font-size:14px;background:var(--papel);border:1px dashed var(--linha);border-radius:14px;padding:26px;text-align:center}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}.totais{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <span class="eb">Imersão Escritório Previsível · sábado, 26/09</span>
+      <h1>O que respondeu quem vai estar lá</h1>
+    </div>
+    <span class="quando" id="quando">carregando…</span>
+  </header>
+  <p class="sub">Respostas da pesquisa enviada a quem comprou o ingresso. Serve para ajustar os exemplos do dia: o que aparece mais aqui é o que a sala espera ouvir. Sem e-mail e sem telefone — o contato de cada um vai no aviso do time.</p>
+
+  <div class="totais">
+    <div class="card"><div class="n" id="t-total">—</div><div class="k">respostas</div></div>
+    <div class="card"><div class="n" id="t-desafio">—</div><div class="k">desafio mais citado</div></div>
+    <div class="card"><div class="n" id="t-acomp">—</div><div class="k">querem acompanhamento</div></div>
+    <div class="card"><div class="n" id="t-ab">—</div><div class="k">classe A ou B</div></div>
+  </div>
+
+  <div id="conteudo"></div>
+</div>
+
+<script>
+const SB = { url: 'https://vmgyqhfesneannfqrvzg.supabase.co',
+             key: 'sb_publishable_i3Uz9zvdLeXddbw-HOBP9w_mBTsi32k' };
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* A pergunta vira gráfico pelo CRITÉRIO gravado em respostas[], não pela posição:
+   se a ordem das perguntas mudar no formulário, o painel continua certo. */
+const BLOCOS = [
+  { crit: 'faturamento', titulo: 'Faturamento mensal', cor: '' },
+  { crit: 'pessoas',     titulo: 'Pessoas no escritório', cor: 'b' },
+  { crit: 'desafio',     titulo: 'Maior desafio hoje', cor: 'v' },
+  { crit: 'urgencia',    titulo: 'Depois da imersão', cor: 'r' },
+  { crit: 'area',        titulo: 'Área de atuação', cor: '' },
+  { crit: 'perfil',      titulo: 'Como é o escritório hoje', cor: 'b' },
+  { crit: 'oab',         titulo: 'Tempo de advocacia', cor: 'v' },
+  { crit: 'mentoria',    titulo: 'Já fez acompanhamento?', cor: 'r' }
+];
+
+function contar(linhas, crit) {
+  const c = new Map();
+  linhas.forEach(l => (l.respostas || []).forEach(r => {
+    if (r.criterio === crit && r.resposta) c.set(r.resposta, (c.get(r.resposta) || 0) + 1);
+  }));
+  return [...c.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+function barras(pares, total, cor) {
+  if (!pares.length) return '<p style="color:var(--tx3);font-size:13px;margin:0">Sem resposta ainda.</p>';
+  return pares.map(([rot, n]) => `
+    <div class="linha">
+      <div class="rot"><span>${esc(rot)}</span><b>${n} · ${Math.round((n / total) * 100)}%</b></div>
+      <div class="trilho ${cor}"><i style="width:${Math.max(3, Math.round((n / total) * 100))}%"></i></div>
+    </div>`).join('');
+}
+
+async function carregar() {
+  let linhas = [];
+  try {
+    const r = await fetch(`${SB.url}/rest/v1/painel_pesquisa_iep?select=*`, {
+      headers: { apikey: SB.key, Authorization: 'Bearer ' + SB.key }, cache: 'no-store'
+    });
+    if (r.ok) linhas = await r.json();
+  } catch (e) { /* mantém a tela */ }
+
+  const total = linhas.length;
+  $('#quando').textContent = 'atualizado ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  $('#t-total').textContent = total;
+
+  if (!total) {
+    $('#t-desafio').textContent = '—'; $('#t-acomp').textContent = '—'; $('#t-ab').textContent = '—';
+    $('#conteudo').innerHTML = '<div class="vazio">Ninguém respondeu ainda. A página atualiza sozinha a cada minuto.</div>';
+    return;
+  }
+
+  const desafios = contar(linhas, 'desafio');
+  $('#t-desafio').textContent = desafios.length ? desafios[0][0].split(':')[0].split(',')[0] : '—';
+  $('#t-desafio').style.fontSize = '15px';
+  const acomp = linhas.filter(l => (l.plano || '').toLowerCase().startsWith('com acompanhamento')).length;
+  $('#t-acomp').textContent = `${acomp} de ${total}`;
+  $('#t-acomp').style.fontSize = '20px';
+  $('#t-ab').textContent = linhas.filter(l => l.classe === 'A' || l.classe === 'B').length;
+
+  const textos = linhas.filter(l => (l.texto_livre || '').trim());
+
+  $('#conteudo').innerHTML = `
+    <h2>O que a sala respondeu</h2>
+    <div class="grid">
+      ${BLOCOS.map(b => `<div class="bloco"><h3>${b.titulo}</h3>${barras(contar(linhas, b.crit), total, b.cor)}</div>`).join('')}
+    </div>
+
+    <h2>O que eles querem sair sabendo ${textos.length ? `(${textos.length})` : ''}</h2>
+    ${textos.length ? `<div class="frases">${textos.map(l => `
+      <div class="frase"><p>“${esc(l.texto_livre)}”</p>
+        <span>${esc(l.primeiro_nome || 'sem nome')} · ${esc(l.desafio || '')}</span></div>`).join('')}</div>`
+      : '<div class="vazio">Ninguém escreveu nada no campo aberto ainda.</div>'}
+
+    <h2>Resposta por resposta</h2>
+    <table>
+      <thead><tr><th>Quando</th><th>Quem</th><th>Classe</th><th>Faturamento</th><th>Desafio</th><th>Depois da imersão</th></tr></thead>
+      <tbody>${linhas.map(l => {
+        const fat = (l.respostas || []).find(r => r.criterio === 'faturamento')?.resposta || '—';
+        return `<tr>
+          <td>${new Date(l.criado_em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
+          <td>${esc(l.primeiro_nome || '—')}</td>
+          <td class="cl ${esc(l.classe || '')}">${esc(l.classe || '—')}</td>
+          <td>${esc(fat)}</td>
+          <td>${esc(l.desafio || '—')}</td>
+          <td>${esc(l.plano || '—')}</td>
+        </tr>`; }).join('')}</tbody>
+    </table>`;
+}
+
+carregar();
+setInterval(carregar, 60000);
+</script>
+</body>
+</html>
