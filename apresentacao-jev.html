@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Jev na operação do Grupo Schumann</title>
+<style>
+:root{
+  --creme:#F7F3EA; --papel:#FFFFFF; --tinta:#1A1611; --tinta2:#5C554C; --tinta3:#8B8377;
+  --linha:#E8E1D6; --ouro:#B29065; --ouro-esc:#8F6F45; --ouro-claro:#F1E8DA;
+  --noite:#14110D; --noite2:#1F1A14;
+  --verde:#1F8A5B; --verde-claro:#E4F3EB; --vermelho:#B3453B; --vermelho-claro:#F8E6E3;
+  --azul:#2A78D6; --laranja:#EB6834; --roxo:#6B55C9;
+  --raio:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--creme);color:var(--tinta);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.slide{min-height:100vh;padding:72px 24px;display:flex;align-items:center;border-bottom:1px solid var(--linha);position:relative}
+.slide.escuro{background:var(--noite);color:#F2EDE6;border-bottom-color:#2A241C}
+.int{max-width:1080px;margin:0 auto;width:100%}
+.kick{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ouro-esc);font-weight:700;margin:0 0 14px}
+.escuro .kick{color:var(--ouro)}
+h1{font-size:clamp(38px,6.4vw,74px);line-height:1.02;margin:0 0 22px;letter-spacing:-.025em}
+h2{font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin:0 0 18px;letter-spacing:-.02em}
+h3{font-size:19px;margin:0 0 8px;letter-spacing:-.01em}
+p.lead{font-size:clamp(17px,2vw,21px);color:var(--tinta2);max-width:62ch;margin:0 0 20px}
+.escuro p.lead{color:#B9B0A4}
+.num-slide{position:absolute;top:22px;right:26px;font-size:12px;color:var(--tinta3);font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.escuro .num-slide{color:#6E665B}
+.ouro{color:var(--ouro)}
+.grade{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.cartao{background:var(--papel);border:1px solid var(--linha);border-radius:var(--raio);padding:22px 22px 20px;box-shadow:0 1px 2px rgba(26,22,17,.04),0 8px 28px rgba(26,22,17,.05)}
+.escuro .cartao{background:var(--noite2);border-color:#2E271E;box-shadow:none}
+.cartao p{margin:0;color:var(--tinta2);font-size:15px}
+.escuro .cartao p{color:#B9B0A4}
+.big{font-size:clamp(34px,4.4vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1}
+.rot{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta3);margin-top:8px;font-weight:600}
+.escuro .rot{color:#8B8377}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--ouro-claro);color:var(--ouro-esc);margin:0 6px 6px 0}
+.chip.v{background:var(--verde-claro);color:var(--verde)} .chip.r{background:var(--vermelho-claro);color:var(--vermelho)}
+.nota{font-size:12.5px;color:var(--tinta3);margin-top:14px}
+.escuro .nota{color:#7C7468}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:var(--ouro-claro);padding:.08em .4em;border-radius:5px}
+.escuro code{background:#2A231A;color:#E9D6B6}
+pre{margin:0;background:#0E0C09;color:#E9E2D6;border-radius:14px;padding:18px 20px;font-size:13.5px;line-height:1.55;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;border:1px solid #2A241C}
+pre .k{color:#D9B27A} pre .s{color:#8FD1A8} pre .c{color:#7C7468} pre .n{color:#8AB8F0}
+
+/* comparação sistema 1 x 2 */
+.duelo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lado{border-radius:var(--raio);padding:24px}
+.lado.s2{background:var(--papel);border:1px solid var(--linha)}
+.lado.s1{background:var(--noite);color:#F2EDE6}
+.lado ul{margin:12px 0 0;padding-left:18px} .lado li{margin:6px 0;font-size:15px}
+.lado.s1 li{color:#CFC6B9}
+
+/* barras de velocidade */
+.barra-cx{margin:14px 0}
+.barra-rot{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.barra-rot b{font-variant-numeric:tabular-nums}
+.trilho{height:14px;background:#EDE7DD;border-radius:999px;overflow:hidden}
+.escuro .trilho{background:#2A241C}
+.trilho i{display:block;height:100%;border-radius:999px}
+
+/* casos de uso */
+.caso{display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:start}
+.caso .n{width:64px;height:64px;border-radius:18px;background:var(--noite);color:var(--ouro);display:grid;place-items:center;font-size:26px;font-weight:800}
+.fluxo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 4px}
+.no{background:var(--papel);border:1px solid var(--linha);border-radius:12px;padding:9px 12px;font-size:13.5px;font-weight:600}
+.no.jev{background:var(--noite);color:var(--ouro);border-color:var(--noite)}
+.no.saida{background:var(--ouro-claro);border-color:#E3D3B8;color:var(--ouro-esc)}
+.seta{color:var(--tinta3);font-weight:700}
+.saidas{display:flex;flex-wrap:wrap;gap:6px}
+.nota-fit{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.medidor{display:flex;gap:4px;align-items:center;font-size:12.5px;color:var(--tinta2)}
+.medidor i{width:18px;height:6px;border-radius:3px;background:#E3DBCD;display:inline-block}
+.medidor i.on{background:var(--ouro)}
+
+/* tabela */
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--papel);border-radius:var(--raio);overflow:hidden;border:1px solid var(--linha)}
+th,td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--linha);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta3);background:#FBF8F3}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* linha do tempo do piloto */
+.tempo{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:10px}
+.tempo:before{content:"";position:absolute;left:4%;right:4%;top:22px;height:2px;background:var(--linha)}
+.passo{position:relative;padding:0 10px;text-align:center}
+.passo .bola{width:44px;height:44px;border-radius:50%;background:var(--noite);color:var(--ouro);display:grid;place-items:center;font-weight:800;margin:0 auto 12px;position:relative;z-index:1;border:4px solid var(--creme)}
+.passo h3{font-size:16px}
+.passo p{font-size:14px;color:var(--tinta2);margin:0}
+
+/* riscos */
+.risco{border-left:4px solid var(--vermelho);background:var(--papel);border-radius:0 var(--raio) var(--raio) 0;padding:16px 18px;border-top:1px solid var(--linha);border-right:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.risco.medio{border-left-color:#D9A13A}
+.risco.baixo{border-left-color:var(--verde)}
+.risco h3{font-size:16px}
+.risco p{margin:4px 0 0;font-size:14.5px;color:var(--tinta2)}
+.risco .mit{margin-top:8px;font-size:13.5px;color:var(--tinta)}
+.risco .mit b{color:var(--verde)}
+
+/* capa */
+.capa{background:radial-gradient(1200px 600px at 80% 10%,#2A2218 0%,var(--noite) 60%)}
+.capa h1 span{color:var(--ouro)}
+.selo{display:inline-flex;gap:10px;align-items:center;border:1px solid #3A3126;border-radius:999px;padding:8px 14px;font-size:13px;color:#CFC6B9;margin-bottom:26px}
+.selo i{width:8px;height:8px;border-radius:50%;background:var(--ouro);display:inline-block}
+.rodape-capa{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;color:#8B8377;font-size:14px}
+.rodape-capa b{color:#F2EDE6;font-weight:600}
+
+/* navegação */
+.nav{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:10}
+.nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--linha);background:rgba(255,255,255,.92);font-size:18px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.08);color:var(--tinta)}
+.progresso{position:fixed;left:0;top:0;height:3px;background:var(--ouro);z-index:11;width:0}
+
+@media (max-width:860px){
+  .g3,.g4{grid-template-columns:1fr 1fr}
+  .duelo{grid-template-columns:1fr}
+  .tempo{grid-template-columns:1fr 1fr;row-gap:22px}
+  .tempo:before{display:none}
+}
+@media (max-width:560px){
+  .slide{padding:64px 16px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .caso{grid-template-columns:1fr}
+  .caso .n{width:48px;height:48px;font-size:20px;border-radius:14px}
+  .tempo{grid-template-columns:1fr}
+  table{font-size:13.5px} th,td{padding:10px}
+  .nav{display:none}
+}
+@media print{.nav,.progresso{display:none}.slide{min-height:auto;break-after:page}}
+</style>
+</head>
+<body>
+<div class="progresso" id="progresso"></div>
+
+<!-- 1 · CAPA -->
+<section class="slide escuro capa" id="s1">
+  <span class="num-slide">01 / 12</span>
+  <div class="int">
+    <div class="selo"><i></i> Estudo · 23 de setembro de 2026</div>
+    <h1>Jev: decisões em <span>meio segundo</span> para a operação do Grupo Schumann</h1>
+    <p class="lead">O que é a IA que viralizou este mês, onde ela cabe no nosso dia a dia — WhatsApp, anúncios, leads e comercial — e como testar sem risco antes de ligar qualquer coisa.</p>
+    <div class="rodape-capa">
+      <div><b>Para</b> Isaac · Guilherme · time</div>
+      <div><b>Preparado por</b> growthtap</div>
+      <div><b>Leitura</b> 8 minutos</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · RESUMO -->
+<section class="slide" id="s2">
+  <span class="num-slide">02 / 12</span>
+  <div class="int">
+    <p class="kick">Em uma página</p>
+    <h2>O resumo para quem tem dois minutos</h2>
+    <div class="grade g2" style="margin-top:22px">
+      <div class="cartao"><h3>O que é</h3><p>Um modelo de IA que <b>não escreve nem conversa: só decide</b>. Recebe um texto, escolhe entre opções que nós definimos e diz o quanto tem certeza. Em 70 a 500 milissegundos.</p></div>
+      <div class="cartao"><h3>Onde ajuda a gente</h3><p>Onde chega <b>texto livre em volume</b> e alguém precisa decidir para onde mandar: respostas dos disparos de WhatsApp, comentários nos anúncios, revisão de mensagens antes de enviar.</p></div>
+      <div class="cartao"><h3>Onde não ajuda</h3><p>Onde já temos regra fixa (o score A/B/C/D do quiz), onde é preciso escrever (copy, roteiro, resposta ao lead) ou explicar o porquê de uma decisão.</p></div>
+      <div class="cartao"><h3>A recomendação</h3><p><b>Piloto de 2 semanas</b> na triagem das respostas dos disparos do ZapFlow. Só liga de verdade se concordar com a classificação humana em <b>90% ou mais</b>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · O QUE É -->
+<section class="slide escuro" id="s3">
+  <span class="num-slide">03 / 12</span>
+  <div class="int">
+    <p class="kick">O que é o Jev</p>
+    <h2>Uma IA feita para <span class="ouro">máquinas</span>, não para conversas</h2>
+    <p class="lead">Lançado em setembro de 2026 pela TypeSafe AI, é o primeiro modelo público de uma categoria nova: os <b>System One Models</b>. Em vez de gerar texto palavra por palavra, ele lê tudo de uma vez e devolve a decisão pronta, num formato que o sistema entende direto.</p>
+    <div class="grade g3" style="margin-top:26px">
+      <div class="cartao"><span class="chip">escolha</span><h3>Escolhe uma opção</h3><p>"Esta mensagem é: interessado, dúvida de preço, opt-out ou reclamação?"</p></div>
+      <div class="cartao"><span class="chip">nota</span><h3>Dá uma nota</h3><p>"De 0 a 10, o quanto este comentário parece um cliente com caso real?"</p></div>
+      <div class="cartao"><span class="chip">probabilidade</span><h3>Diz se é verdade</h3><p>"Qual a chance de esta mensagem prometer resultado de processo?"</p></div>
+    </div>
+    <p class="nota">Toda resposta vem com um grau de confiança. É isso que permite a regra "se tiver menos de 80% de certeza, manda para um humano".</p>
+  </div>
+</section>
+
+<!-- 4 · SISTEMA 1 x 2 -->
+<section class="slide" id="s4">
+  <span class="num-slide">04 / 12</span>
+  <div class="int">
+    <p class="kick">A ideia por trás</p>
+    <h2>Pensar rápido e pensar devagar</h2>
+    <p class="lead">A ideia vem da psicologia (Kahneman): o "sistema 1" é a decisão rápida e automática; o "sistema 2" é o raciocínio lento. O argumento da TypeSafe é que a maior parte das decisões dentro de um software é do tipo rápido — e estamos pagando preço de raciocínio lento por elas.</p>
+    <div class="duelo" style="margin-top:22px">
+      <div class="lado s2">
+        <span class="chip">Sistema 2 · Claude, GPT</span>
+        <h3>Raciocina e escreve</h3>
+        <ul>
+          <li>Escreve copy, roteiro, resposta ao lead</li>
+          <li>Resume, analisa, explica o porquê</li>
+          <li>Segundos por resposta</li>
+          <li>Custo por chamada relevante em volume</li>
+        </ul>
+      </div>
+      <div class="lado s1">
+        <span class="chip" style="background:#2A231A;color:var(--ouro)">Sistema 1 · Jev</span>
+        <h3>Decide e segue</h3>
+        <ul>
+          <li>Classifica, pontua, roteia</li>
+          <li>Não escreve e não explica</li>
+          <li>70 a 500 milissegundos</li>
+          <li>Custo quase zero, mesmo em milhares de chamadas</li>
+        </ul>
+      </div>
+    </div>
+    <p class="nota">Os dois se complementam: o Jev faz a triagem em tempo real, e o Claude entra só quando é preciso escrever ou pensar.</p>
+  </div>
+</section>
+
+<!-- 5 · NÚMEROS -->
+<section class="slide escuro" id="s5">
+  <span class="num-slide">05 / 12</span>
+  <div class="int">
+    <p class="kick">Os números</p>
+    <h2>Velocidade e custo, segundo o fabricante</h2>
+    <div class="grade g4" style="margin:22px 0 28px">
+      <div class="cartao"><div class="big ouro">70–500<span style="font-size:.5em"> ms</span></div><div class="rot">por decisão</div></div>
+      <div class="cartao"><div class="big ouro">~194×</div><div class="rot">mais rápido que LLM de ponta</div></div>
+      <div class="cartao"><div class="big ouro">~445×</div><div class="rot">mais barato em classificação</div></div>
+      <div class="cartao"><div class="big ouro">US$ 0,04</div><div class="rot">por milhão de tokens de entrada · saída grátis</div></div>
+    </div>
+    <div class="cartao">
+      <h3>Tempo para classificar 1.000 e-mails (teste independente, MindStudio)</h3>
+      <div class="barra-cx">
+        <div class="barra-rot"><span>LLM conversacional</span><b>~5 min · US$ 0,62</b></div>
+        <div class="trilho"><i style="width:100%;background:#6E665B"></i></div>
+      </div>
+      <div class="barra-cx">
+        <div class="barra-rot"><span>Jev, uma de cada vez</span><b>70 s · US$ 0,09</b></div>
+        <div class="trilho"><i style="width:23%;background:var(--ouro)"></i></div>
+      </div>
+      <div class="barra-cx">
+        <div class="barra-rot"><span>Jev, em paralelo</span><b>6 s · US$ 0,09</b></div>
+        <div class="trilho"><i style="width:2%;background:var(--ouro)"></i></div>
+      </div>
+    </div>
+    <p class="nota">Os multiplicadores (194× e 445×) são medições internas da TypeSafe. O teste da MindStudio confirma a velocidade, mas não mediu acerto em português.</p>
+  </div>
+</section>
+
+<!-- 6 · COMO SE INTEGRA -->
+<section class="slide" id="s6">
+  <span class="num-slide">06 / 12</span>
+  <div class="int">
+    <p class="kick">Como funciona na prática</p>
+    <h2>Uma chamada, uma decisão</h2>
+    <p class="lead">A integração é uma requisição HTTP: mandamos o texto e o formato da resposta que aceitamos. No ZapFlow isso cabe num nó de "Requisição HTTP", seguido de um "Switch" que manda cada resposta para um caminho.</p>
+    <div class="grade g2" style="margin-top:20px;align-items:start">
+<pre><span class="c">// o que o ZapFlow manda</span>
+POST /v1/decide
+{
+  <span class="k">"input"</span>: <span class="s">"quanto fica a imersão? já tinha comprado o guia"</span>,
+  <span class="k">"schema"</span>: {
+    <span class="k">"intencao"</span>: {
+      <span class="k">"choice"</span>: [<span class="s">"quer_comprar"</span>, <span class="s">"duvida_preco"</span>,
+                 <span class="s">"ja_comprou"</span>, <span class="s">"opt_out"</span>,
+                 <span class="s">"suporte"</span>, <span class="s">"outro"</span>]
+    }
+  }
+}</pre>
+<pre><span class="c">// o que volta, em ~0,2 s</span>
+{
+  <span class="k">"intencao"</span>: <span class="s">"duvida_preco"</span>,
+  <span class="k">"score"</span>: <span class="n">0.91</span>,
+  <span class="k">"confidence"</span>: <span class="n">0.95</span>
+}
+
+<span class="c">// e o fluxo decide:</span>
+<span class="c">// confiança ≥ 0,80 → segue o caminho</span>
+<span class="c">// abaixo disso     → vai para um humano</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · CASOS DE USO 1-2 -->
+<section class="slide" id="s7">
+  <span class="num-slide">07 / 12</span>
+  <div class="int">
+    <p class="kick">Onde cabe na nossa operação · 1 de 2</p>
+    <h2>Os dois usos com mais retorno agora</h2>
+
+    <div class="cartao caso" style="margin-top:22px">
+      <div class="n">1</div>
+      <div>
+        <span class="chip">Educacional</span><span class="chip">Escritório</span><span class="chip v">prioridade do piloto</span>
+        <h3>Triagem das respostas aos disparos de WhatsApp</h3>
+        <p>Hoje o ZapFlow só entende o botão "Parar mensagens". Com os disparos desta semana — <b>1.753 contatos da base low ticket</b> amanhã e <b>880 da base da Sessão Estratégica</b> importados hoje —, vão chegar centenas de respostas soltas que alguém precisa ler.</p>
+        <div class="fluxo">
+          <span class="no">Lead responde o disparo</span><span class="seta">→</span>
+          <span class="no jev">Jev classifica · 0,2 s</span><span class="seta">→</span>
+          <div class="saidas">
+            <span class="no saida">quer comprar → SDR</span>
+            <span class="no saida">já comprou → suporte</span>
+            <span class="no saida">opt-out → tag e silêncio</span>
+            <span class="no saida">dúvida → resposta pronta</span>
+          </div>
+        </div>
+        <div class="nota-fit">
+          <span class="medidor">Volume <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+          <span class="medidor">Facilidade de medir <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+          <span class="medidor">Risco <i class="on"></i><i></i><i></i><i></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cartao caso" style="margin-top:16px">
+      <div class="n">2</div>
+      <div>
+        <span class="chip">Escritório</span><span class="chip">Educacional</span>
+        <h3>Comentários nos anúncios</h3>
+        <p>Nos anúncios do bancário, parte dos comentários é gente com caso real pedindo contato — e parte é golpe do falso advogado oferecendo "ajuda" no mesmo post. Ninguém lê isso em tempo real. O Jev separa em segundos.</p>
+        <div class="fluxo">
+          <span class="no">Comentário novo</span><span class="seta">→</span>
+          <span class="no jev">Jev classifica</span><span class="seta">→</span>
+          <div class="saidas">
+            <span class="no saida">caso real → SDR na hora</span>
+            <span class="no saida">dúvida de preço → resposta</span>
+            <span class="no saida">golpe → ocultar e avisar</span>
+            <span class="no saida">spam → ocultar</span>
+          </div>
+        </div>
+        <div class="nota-fit">
+          <span class="medidor">Volume <i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+          <span class="medidor">Facilidade de medir <i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+          <span class="medidor">Risco <i class="on"></i><i class="on"></i><i></i><i></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · CASOS DE USO 3-5 -->
+<section class="slide" id="s8">
+  <span class="num-slide">08 / 12</span>
+  <div class="int">
+    <p class="kick">Onde cabe na nossa operação · 2 de 2</p>
+    <h2>Três usos para depois do piloto</h2>
+    <div class="grade g3" style="margin-top:22px;align-items:stretch">
+      <div class="cartao">
+        <div class="caso" style="grid-template-columns:1fr"><div class="n" style="width:48px;height:48px;font-size:20px;border-radius:14px">3</div></div>
+        <h3 style="margin-top:12px">Revisar mensagens antes de enviar</h3>
+        <p>Barrar automaticamente o texto que promete resultado de processo, fala valor de honorário ou assina como "escritório" num produto do educacional — o erro que corrigimos esta semana no onboarding do Pós-venda.</p>
+        <div style="margin-top:12px"><span class="chip">agentes de IA do ZapFlow</span><span class="chip">textos do time</span></div>
+      </div>
+      <div class="cartao">
+        <div class="caso" style="grid-template-columns:1fr"><div class="n" style="width:48px;height:48px;font-size:20px;border-radius:14px">4</div></div>
+        <h3 style="margin-top:12px">Qualificar o PF pelo relato do caso</h3>
+        <p>Caso bancário abaixo de R$ 30 mil de dívida não fecha. Se o formulário tiver um campo "conte o seu caso", o Jev estima se passa do piso antes de a SDR gastar tempo — o "custo por lead bom" na origem.</p>
+        <div style="margin-top:12px"><span class="chip r">depende de campo aberto no formulário</span></div>
+      </div>
+      <div class="cartao">
+        <div class="caso" style="grid-template-columns:1fr"><div class="n" style="width:48px;height:48px;font-size:20px;border-radius:14px">5</div></div>
+        <h3 style="margin-top:12px">Organizar as respostas abertas das pesquisas</h3>
+        <p>Agrupar em temas o "o que você quer sair sabendo" das pesquisas do IEP, Pós-venda e ImpactMind RH, para o painel do Guilherme. Volume pequeno: aqui o Claude já resolve, o Jev só sai mais barato.</p>
+        <div style="margin-top:12px"><span class="chip">baixa prioridade</span></div>
+      </div>
+    </div>
+    <div class="cartao" style="margin-top:16px;background:var(--ouro-claro);border-color:#E3D3B8">
+      <p style="color:var(--tinta)"><b>Onde NÃO usar:</b> o score A/B/C/D do quiz da Sessão Estratégica (já é regra fixa e funciona), escrever copy e roteiro (o Jev não escreve), e qualquer decisão que precise ser explicada para o cliente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · CUSTO -->
+<section class="slide escuro" id="s9">
+  <span class="num-slide">09 / 12</span>
+  <div class="int">
+    <p class="kick">Quanto custaria</p>
+    <h2>O custo não é o problema</h2>
+    <p class="lead">Estimativa com o volume desta semana, a US$ 0,042 por milhão de tokens de entrada e saída grátis. Uma mensagem curta de WhatsApp tem uns 60 tokens; com as instruções, conte ~200.</p>
+    <table style="margin-top:18px;background:var(--noite2);border-color:#2E271E;color:#E9E2D6">
+      <thead><tr><th style="background:#1A1611;color:#8B8377;border-color:#2E271E">Uso</th><th style="background:#1A1611;color:#8B8377;border-color:#2E271E">Volume por mês</th><th class="num" style="background:#1A1611;color:#8B8377;border-color:#2E271E">Tokens</th><th class="num" style="background:#1A1611;color:#8B8377;border-color:#2E271E">Custo</th></tr></thead>
+      <tbody>
+        <tr><td style="border-color:#2E271E">Respostas dos disparos</td><td style="border-color:#2E271E">~3.000 respostas</td><td class="num" style="border-color:#2E271E">600 mil</td><td class="num" style="border-color:#2E271E">US$ 0,03</td></tr>
+        <tr><td style="border-color:#2E271E">Comentários nos anúncios</td><td style="border-color:#2E271E">~5.000 comentários</td><td class="num" style="border-color:#2E271E">1 milhão</td><td class="num" style="border-color:#2E271E">US$ 0,04</td></tr>
+        <tr><td style="border-color:#2E271E">Revisão de mensagens geradas</td><td style="border-color:#2E271E">~10.000 mensagens</td><td class="num" style="border-color:#2E271E">4 milhões</td><td class="num" style="border-color:#2E271E">US$ 0,17</td></tr>
+        <tr><td style="border-color:#2E271E"><b>Total</b></td><td style="border-color:#2E271E"></td><td class="num" style="border-color:#2E271E"><b>5,6 milhões</b></td><td class="num" style="border-color:#2E271E"><b class="ouro">US$ 0,24</b></td></tr>
+      </tbody>
+    </table>
+    <p class="nota">Menos de R$ 2 por mês nos três usos juntos. O custo real do projeto é o tempo de montar os fluxos e de conferir o acerto — é isso que o piloto mede.</p>
+  </div>
+</section>
+
+<!-- 10 · RISCOS -->
+<section class="slide" id="s10">
+  <span class="num-slide">10 / 12</span>
+  <div class="int">
+    <p class="kick">Antes de usar</p>
+    <h2>Os cuidados, do mais sério ao mais leve</h2>
+    <div class="grade g2" style="margin-top:22px">
+      <div class="risco">
+        <h3>Dados pessoais e sigilo</h3>
+        <p>Mandar mensagem de lead para um terceiro exige base legal na LGPD. No escritório pesa também o sigilo profissional do advogado: o relato do caso é informação sensível.</p>
+        <p class="mit"><b>Como mitigar:</b> mandar só o texto da mensagem, sem nome, telefone ou CPF. Não usar no relato de caso do escritório até ter o contrato de tratamento de dados.</p>
+      </div>
+      <div class="risco">
+        <h3>Português não é garantido</h3>
+        <p>O site lista inglês, chinês, russo, japonês, coreano, alemão e espanhol. Português não aparece.</p>
+        <p class="mit"><b>Como mitigar:</b> o piloto existe para isso — 200 mensagens reais, conferidas por gente, antes de qualquer automação.</p>
+      </div>
+      <div class="risco medio">
+        <h3>Produto em acesso antecipado</h3>
+        <p>Lançado este mês. Preço, limites e disponibilidade podem mudar, e a empresa é nova.</p>
+        <p class="mit"><b>Como mitigar:</b> nenhum fluxo crítico depende só dele. Se o Jev cair, a mensagem vai para a fila humana, como hoje.</p>
+      </div>
+      <div class="risco medio">
+        <h3>Números do próprio fabricante</h3>
+        <p>Os 194× mais rápido e 445× mais barato são medições internas. O acerto em tarefas reais de outras empresas ainda é pouco documentado.</p>
+        <p class="mit"><b>Como mitigar:</b> medir o nosso acerto, nos nossos dados, e decidir por ele.</p>
+      </div>
+      <div class="risco baixo">
+        <h3>Não explica a decisão</h3>
+        <p>Ele devolve a escolha e a confiança, mas não o porquê. Numa decisão errada, não há raciocínio para auditar.</p>
+        <p class="mit"><b>Como mitigar:</b> usar só onde errar é barato (uma mensagem que vai para o lugar errado e volta), nunca onde a decisão precisa de justificativa.</p>
+      </div>
+      <div class="risco baixo">
+        <h3>Contexto limitado</h3>
+        <p>Aceita até 64 mil tokens por chamada — muito para uma mensagem, pouco para uma conversa longa inteira.</p>
+        <p class="mit"><b>Como mitigar:</b> mandar a última mensagem e um resumo curto do contexto, não o histórico todo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · PILOTO -->
+<section class="slide" id="s11">
+  <span class="num-slide">11 / 12</span>
+  <div class="int">
+    <p class="kick">O plano</p>
+    <h2>Piloto de duas semanas, com critério de corte</h2>
+    <p class="lead">Começar pela triagem das respostas aos disparos: é onde há volume agora e onde o acerto é fácil de medir.</p>
+    <div class="tempo" style="margin-top:30px">
+      <div class="passo"><div class="bola">1</div><h3>Acesso</h3><p>Isaac pede o teste grátis de 14 dias no site do Jev. Não pede cartão.</p></div>
+      <div class="passo"><div class="bola">2</div><h3>Amostra</h3><p>200 respostas reais dos disparos desta semana, sem nome e sem telefone.</p></div>
+      <div class="passo"><div class="bola">3</div><h3>Gabarito</h3><p>Alguém do time classifica as 200 na mão. Em paralelo, o Jev classifica as mesmas.</p></div>
+      <div class="passo"><div class="bola">4</div><h3>Decisão</h3><p>Concordou em 90% ou mais: liga no ZapFlow. Menos: fica de fora, sem custo.</p></div>
+    </div>
+    <div class="grade g3" style="margin-top:34px">
+      <div class="cartao"><div class="big" style="color:var(--verde)">≥ 90%</div><div class="rot">de concordância com o time para ligar</div></div>
+      <div class="cartao"><div class="big">≥ 0,80</div><div class="rot">de confiança para seguir sozinho — abaixo disso, humano</div></div>
+      <div class="cartao"><div class="big">0</div><div class="rot">fluxos críticos dependendo só do Jev</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · PRÓXIMOS PASSOS -->
+<section class="slide escuro" id="s12">
+  <span class="num-slide">12 / 12</span>
+  <div class="int">
+    <p class="kick">Próximos passos</p>
+    <h2>O que precisa acontecer agora</h2>
+    <div class="grade g3" style="margin-top:22px">
+      <div class="cartao"><span class="chip" style="background:#2A231A;color:var(--ouro)">Isaac</span><h3>Pedir o acesso</h3><p>Formulário em jevai.net. Teste de 14 dias, sem cartão.</p></div>
+      <div class="cartao"><span class="chip" style="background:#2A231A;color:var(--ouro)">growthtap</span><h3>Montar o teste</h3><p>Separar as 200 respostas, anonimizar, rodar no Jev e comparar com o gabarito do time.</p></div>
+      <div class="cartao"><span class="chip" style="background:#2A231A;color:var(--ouro)">Time</span><h3>Classificar a amostra</h3><p>Uma pessoa, uma hora: as 200 respostas em seis categorias.</p></div>
+    </div>
+    <div class="cartao" style="margin-top:22px">
+      <h3>Fontes</h3>
+      <p style="font-size:13.5px;line-height:1.8">
+        Jev AI — site oficial (jevai.net) ·
+        heise online, "AI model Jev to make machines decide faster" ·
+        MindStudio, "Jev AI Tested" e "12 Jev Use Cases Tested" ·
+        Fast Company Brasil, "Jev: conheça a IA criada para tomar decisões dentro de softwares" ·
+        TechTudo, "O que é Jev?" ·
+        Pat McGuinness, "Jev Makes Fast and Cheap Decisions" ·
+        Cloudraft, "Top Use Cases of Jev"
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="nav">
+  <button type="button" id="ant" aria-label="Slide anterior">↑</button>
+  <button type="button" id="prox" aria-label="Próximo slide">↓</button>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  function atual(){
+    var meio=window.scrollY+window.innerHeight/3, i=0;
+    slides.forEach(function(s,k){ if(s.offsetTop<=meio) i=k; });
+    return i;
+  }
+  function ir(d){ var i=Math.max(0,Math.min(slides.length-1,atual()+d)); slides[i].scrollIntoView({behavior:'smooth'}); }
+  document.getElementById('prox').onclick=function(){ir(1)};
+  document.getElementById('ant').onclick=function(){ir(-1)};
+  document.addEventListener('keydown',function(e){
+    if(['ArrowDown','PageDown',' ','ArrowRight'].indexOf(e.key)>=0){e.preventDefault();ir(1)}
+    if(['ArrowUp','PageUp','ArrowLeft'].indexOf(e.key)>=0){e.preventDefault();ir(-1)}
+  });
+  var barra=document.getElementById('progresso');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    barra.style.width=(h>0?100*window.scrollY/h:0)+'%';
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
