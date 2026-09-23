@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Onboarding · Pós-Venda e ImpactMind RH</title>
+<style>
+:root{--creme:#FBF8F3;--papel:#fff;--tinta:#23201C;--fraco:#6B655C;--linha:#E6DFD4;--dourado:#B08D3F;--dourado-esc:#8E7130;--zap:#1FA855;--erro:#B3261E;--raio:14px}
+*{box-sizing:border-box}html,body{margin:0;background:var(--creme);color:var(--tinta);font-family:-apple-system,system-ui,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+main{max-width:820px;margin:0 auto;padding:28px 16px 70px}
+.kick{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dourado-esc);margin:0 0 6px;font-weight:600}
+h1{font-size:28px;line-height:1.2;margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:var(--fraco);margin:0 0 22px}
+.regras{background:var(--papel);border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px;margin:0 0 26px}
+.regras h2{font-size:15px;margin:0 0 10px}
+.regras ul{margin:0;padding-left:18px}.regras li{margin:6px 0;font-size:14.5px}
+.regras code,.card code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:#F4F0E8;padding:.05em .35em;border-radius:4px}
+.alerta{border-left:4px solid var(--erro)}
+h2.grupo{font-size:19px;margin:34px 0 4px}
+p.grupo-sub{color:var(--fraco);font-size:14.5px;margin:0 0 18px}
+.card{background:var(--papel);border:1px solid var(--linha);border-radius:var(--raio);padding:18px;margin:0 0 20px;box-shadow:0 1px 2px rgba(35,32,28,.05),0 8px 24px rgba(35,32,28,.05)}
+.card-top{display:flex;gap:14px;align-items:flex-start}
+.num{font-weight:700;color:var(--dourado);font-size:15px;padding-top:4px;font-variant-numeric:tabular-nums}
+.card h3{font-size:16px;margin:0 0 6px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0}
+.tag{font-size:12px;background:#F4F0E8;border-radius:999px;padding:2px 10px}.tag.base{background:#EEF3EC}
+.cont{font-size:12px;color:var(--fraco);font-variant-numeric:tabular-nums}
+.nota{font-size:13.5px;color:var(--fraco);margin:12px 0 14px}
+.tela{background:#ECE5DD;border-radius:12px;padding:16px 14px}
+.bolha{background:#fff;border-radius:10px;padding:10px 12px 8px;max-width:520px;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.txt{margin:0;font-size:14.5px;white-space:pre-wrap}
+.rod{margin:8px 0 0;font-size:12px;color:#8a8a8a;text-align:right}
+mark{background:#FFF1C9;color:inherit;border-radius:3px;padding:0 2px;font-weight:600}
+.acoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.copiar{font:inherit;font-size:14px;font-weight:600;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--dourado);color:#fff}
+.copiar.feito{background:var(--zap);color:#fff}
+@media (max-width:520px){h1{font-size:24px}.card{padding:14px}}
+</style></head><body><main>
+<p class="kick">Advocacia de Impacto · onboarding dos low tickets</p>
+<h1>Mensagens de boas-vindas: Pós-Venda e ImpactMind RH</h1>
+<p class="sub">O que quem compra cada um dos dois produtos recebe no WhatsApp depois da compra. Três mensagens por produto: a de entrada, o empurrão do dia seguinte e a do fim da primeira semana. Escritas na voz do Guilherme, com os campos entre [colchetes] para o time preencher.</p>
+
+<section class="regras">
+<h2>Como funciona</h2>
+<ul>
+<li>As três mensagens saem pela linha oficial, pelo fluxo do ZapFlow, disparadas pelo webhook de compra da Hubla — o mesmo modelo que já roda para a Imersão.</li>
+<li><code>[NOME]</code> é o primeiro nome do comprador, que vem do webhook.</li>
+<li>A pesquisa de perfil é a mesma página para os dois produtos, mudando só o fim do link:<br>
+<code>forms.advocaciadeimpacto.adv.br/pesquisa-lowticket?p=posvenda</code> · <code>?p=impactrh</code></li>
+<li>O que está <mark>marcado</mark> ainda precisa de confirmação de vocês antes de entrar no ar.</li>
+</ul>
+</section>
+
+<section class="regras alerta">
+<h2>O que falta vocês responderem</h2>
+<ul>
+<li><strong>Pós-Venda:</strong> o kit chega por e-mail logo após a compra. Confirma o remetente e o assunto do e-mail, para a mensagem dizer exatamente onde procurar.</li>
+<li><strong>ImpactMind RH:</strong> falta o link de acesso ao módulo e o link (ou o caminho) para o comprador marcar a implementação assistida. Sem os dois, a mensagem 1 vai para o ar incompleta.</li>
+<li><strong>ImpactMind RH:</strong> o acesso é de 30 dias. Precisamos decidir se a mensagem do dia 7 já avisa disso ou se isso vira uma mensagem separada mais perto do fim.</li>
+</ul>
+</section>
+
+<h2 class="grupo">Pós-Venda no Piloto Automático · R$ 47</h2>
+<p class="grupo-sub">Quem compra recebe por e-mail o Manual do Cliente, os dois passo a passo do processo, as 7 mensagens prontas e o Mapa da Equipe. O risco aqui é o clássico do produto digital barato: baixar e não usar.</p>
+
+<article class="card">
+  <div class="card-top"><span class="num">01</span><div>
+    <h3>Entrada — sai na hora da compra</h3>
+    <p class="meta"><span class="tag">pós-venda</span><span class="tag base">webhook da Hubla</span><span class="cont" data-cont="pv1"></span></p>
+  </div></div>
+  <p class="nota">Confirma a compra, diz onde o material está e já entrega a primeira tarefa. Pedir para salvar o número evita que as próximas mensagens caiam no vazio.</p>
+  <div class="tela"><div class="bolha"><p class="txt" id="pv1">Oi, [NOME]! Aqui é do escritório do Guilherme Schumann. Sua compra do *Pós-Venda no Piloto Automático* está confirmada. ✅
+
+O kit inteiro já foi para o seu e-mail: o Manual do Cliente, os dois passo a passo do processo (pessoa física e pessoa jurídica), as 7 mensagens prontas e o Mapa da Equipe. Se não achar, olha no spam e na aba de promoções.
+
+Faz uma coisa antes de fechar o computador hoje: abre o Manual do Cliente, troca a logo e preenche os campos entre [colchetes] com o nome do escritório, o WhatsApp e o horário de atendimento. São dez minutos, e é o que faz o material virar seu.
+
+Salva este número aqui. É por ele que eu te mando o resto.</p>
+  <p class="rod">✓✓</p></div></div>
+  <div class="acoes"><button class="copiar" data-copiar="pv1">Copiar mensagem</button></div>
+</article>
+
+<article class="card">
+  <div class="card-top"><span class="num">02</span><div>
+    <h3>Dia seguinte — o primeiro uso de verdade</h3>
+    <p class="meta"><span class="tag">pós-venda</span><span class="tag base">24 h depois</span><span class="cont" data-cont="pv2"></span></p>
+  </div></div>
+  <p class="nota">Aqui entra a pesquisa. Ela vem depois de a pessoa ter tido contato com o material, não antes — quem ainda não abriu nada não tem o que responder.</p>
+  <div class="tela"><div class="bolha"><p class="txt" id="pv2">[NOME], uma pergunta rápida: você já trocou a logo do Manual do Cliente?
+
+Se já, o próximo passo é o que muda o jogo: no próximo contrato assinado, manda o Manual e o passo a passo do processo pro WhatsApp do cliente no mesmo dia. Não espera a primeira cobrança chegar. É isso que faz ele parar de perguntar "doutor, e o meu processo?".
+
+E me ajuda com duas coisas rápidas aqui, pra eu saber como é o seu escritório e te mandar o que serve pra ele:
+👉 https://forms.advocaciadeimpacto.adv.br/pesquisa-lowticket?p=posvenda
+
+Leva menos de dois minutos.</p>
+  <p class="rod">✓✓</p></div></div>
+  <div class="acoes"><button class="copiar" data-copiar="pv2">Copiar mensagem</button></div>
+</article>
+
+<article class="card">
+  <div class="card-top"><span class="num">03</span><div>
+    <h3>Dia 7 — quem usou e quem não usou</h3>
+    <p class="meta"><span class="tag">pós-venda</span><span class="tag base">7 dias depois</span><span class="cont" data-cont="pv3"></span></p>
+  </div></div>
+  <p class="nota">Pergunta aberta, de propósito: a resposta separa quem implantou de quem engavetou, e diz ao time com quem falar.</p>
+  <div class="tela"><div class="bolha"><p class="txt" id="pv3">[NOME], faz uma semana que você levou o kit de pós-venda.
+
+Me conta em uma linha: já mandou o Manual do Cliente para algum cliente novo?
+
+Se já mandou, quero saber o que o cliente respondeu — isso aqui é o que a gente usa para melhorar o material.
+Se ainda não mandou, também me fala. Na maioria das vezes é só uma dúvida boba travando, e eu te desentravo por aqui mesmo.</p>
+  <p class="rod">✓✓</p></div></div>
+  <div class="acoes"><button class="copiar" data-copiar="pv3">Copiar mensagem</button></div>
+</article>
+
+<h2 class="grupo">ImpactMind RH · R$ 37</h2>
+<p class="grupo-sub">Quem compra ganha 30 dias do módulo de recrutamento com IA e uma implementação assistida com o time, usando uma vaga real do escritório. O onboarding tem uma tarefa só: marcar a implementação e criar a primeira vaga.</p>
+
+<article class="card">
+  <div class="card-top"><span class="num">04</span><div>
+    <h3>Entrada — sai na hora da compra</h3>
+    <p class="meta"><span class="tag">ImpactMind RH</span><span class="tag base">webhook da Hubla</span><span class="cont" data-cont="rh1"></span></p>
+  </div></div>
+  <p class="nota">O relógio dos 30 dias começa na compra, então a mensagem trata a implementação como a primeira coisa a fazer, não como um bônus para depois.</p>
+  <div class="tela"><div class="bolha"><p class="txt" id="rh1">Oi, [NOME]! Aqui é do escritório do Guilherme Schumann. Seu acesso ao *ImpactMind RH* está liberado. ✅
+
+Você entra por aqui: <mark>[LINK DE ACESSO]</mark>
+
+Antes de sair mexendo sozinho, marca a sua implementação com o nosso time. A gente monta junto a sua primeira vaga de verdade — a que você precisa preencher agora, não uma vaga de teste:
+<mark>[LINK PARA MARCAR A IMPLEMENTAÇÃO]</mark>
+
+Seu acesso é de 30 dias e começa a contar hoje. Quem marca a implementação na primeira semana sai com a vaga rodando; quem deixa para depois costuma perder o mês.
+
+Salva este número. É por ele que eu te acompanho.</p>
+  <p class="rod">✓✓</p></div></div>
+  <div class="acoes"><button class="copiar" data-copiar="rh1">Copiar mensagem</button></div>
+</article>
+
+<article class="card">
+  <div class="card-top"><span class="num">05</span><div>
+    <h3>Dia seguinte — a primeira vaga</h3>
+    <p class="meta"><span class="tag">ImpactMind RH</span><span class="tag base">24 h depois</span><span class="cont" data-cont="rh2"></span></p>
+  </div></div>
+  <p class="nota">Mesma lógica do pós-venda: a pesquisa entra depois do primeiro contato com a ferramenta.</p>
+  <div class="tela"><div class="bolha"><p class="txt" id="rh2">[NOME], já conseguiu entrar no ImpactMind RH?
+
+Se entrou, faz o seguinte hoje: cria a vaga que você precisa preencher agora. A IA escreve a descrição com você e já monta o formulário de candidatura. Daí é só mandar o link para os candidatos — cada currículo que chegar já vem lido, pontuado e ordenado.
+
+E me ajuda aqui, pra eu entender como é o seu escritório e o que você precisa contratar:
+👉 https://forms.advocaciadeimpacto.adv.br/pesquisa-lowticket?p=impactrh
+
+Dois minutos, no máximo.</p>
+  <p class="rod">✓✓</p></div></div>
+  <div class="acoes"><button class="copiar" data-copiar="rh2">Copiar mensagem</button></div>
+</article>
+
+<article class="card">
+  <div class="card-top"><span class="num">06</span><div>
+    <h3>Dia 7 — antes de o mês passar</h3>
+    <p class="meta"><span class="tag">ImpactMind RH</span><span class="tag base">7 dias depois</span><span class="cont" data-cont="rh3"></span></p>
+  </div></div>
+  <p class="nota">Um quarto do acesso já foi embora. A mensagem cobra o que precisa acontecer para o produto valer, sem rodeio.</p>
+  <div class="tela"><div class="bolha"><p class="txt" id="rh3">[NOME], passou uma semana dos seus 30 dias de ImpactMind RH.
+
+Me diz em uma palavra onde você está: *vaga criada*, *candidatos chegando* ou *ainda não abri*.
+
+Se for "ainda não abri", responde aqui que eu marco a implementação com o time e a gente cria a vaga junto, na chamada. Levar a vaga para dentro da ferramenta é o que faz a conta fechar — sem isso, o mês passa e você continua lendo currículo um por um.</p>
+  <p class="rod">✓✓</p></div></div>
+  <div class="acoes"><button class="copiar" data-copiar="rh3">Copiar mensagem</button></div>
+</article>
+
+<script>
+/* Conta caracteres e copia o texto limpo — o que sai daqui é colado no
+   fluxo do ZapFlow, então o negrito do WhatsApp (*) tem de ir junto. */
+const limpo = id => document.getElementById(id).innerText.trim();
+document.querySelectorAll('[data-cont]').forEach(el => {
+  el.textContent = limpo(el.dataset.cont).length + ' caracteres';
+});
+document.querySelectorAll('.copiar').forEach(b => {
+  b.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(limpo(b.dataset.copiar));
+      const antes = b.textContent;
+      b.textContent = 'Copiado'; b.classList.add('feito');
+      setTimeout(() => { b.textContent = antes; b.classList.remove('feito'); }, 1800);
+    } catch (e) { /* sem área de transferência: a pessoa seleciona à mão */ }
+  };
+});
+</script>
+</main></body></html>
