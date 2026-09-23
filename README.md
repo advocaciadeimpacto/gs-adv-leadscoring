@@ -172,6 +172,58 @@ classe A da pesquisa significar o mesmo que uma do quiz. O que muda:
   com a classe e a leitura comercial. Hoje o aviso vai só para o Isaac.
 - Aceita `?nome=&email=&whatsapp=` para chegar preenchida quando o link vai no privado.
 
+## Pesquisa de quem comprou os low ticket (`/pesquisa-lowticket`)
+
+Pesquisa de perfil para os compradores dos dois produtos de entrada:
+**Pós-Venda no Piloto Automático** (R$ 47) e **ImpactMind RH** (R$ 37).
+
+**É um formulário só.** O produto vem da URL e nunca do palpite:
+
+| Produto | Link |
+| --- | --- |
+| Pós-Venda no Piloto Automático | `/pesquisa-lowticket?p=posvenda` |
+| ImpactMind RH | `/pesquisa-lowticket?p=impactrh` |
+
+O parâmetro aceita apelidos (`pos-venda`, `rh`, `impactmind`…), porque o link
+vai ser colado à mão em e-mail e área de membros. Sem `?p=` — ou com um valor
+irreconhecível — a primeira tela pergunta qual produto a pessoa comprou, em vez
+de gravar uma resposta que depois ninguém sabe de qual produto é. O nome do
+produto aparece **escrito** no topo, na intro, na tela de contato e no
+agradecimento, e o slug vai no insert e no webhook.
+
+- **8 perguntas.** Três são próprias de cada produto (situação atual, o que mais
+  dói e quando pretende aplicar) e cinco são as mesmas do quiz (faturamento,
+  pessoas, área, perfil e histórico de acompanhamento). Abre pelas próprias de
+  propósito: perguntar faturamento na primeira tela, para quem acabou de pagar
+  R$ 47, derruba resposta.
+- **Mesmo modelo de nota.** `scoring-lowticket.js` importa critérios, pesos,
+  classes, escada, aderência e perfis de `scoring.js`, pelo mesmo motivo do
+  `scoring-iep.js`: uma classe A tem de significar o mesmo nos três formulários.
+  A pergunta de urgência vira "quando você vai usar isso" — quem pagou já
+  decidiu; o que separa um comprador do outro é se o material roda nesta semana
+  ou vira PDF parado.
+- A leitura comercial aqui é de **escada**, não de fechamento: a pergunta que o
+  painel responde é quem, dentro dos R$ 47, já cabe num degrau acima. O mesmo
+  dado é lido de forma diferente em cada produto — trabalhar sozinho é um
+  problema no Pós-Venda (não há equipe para executar a rotina) e é uma janela no
+  ImpactMind RH (é a primeira contratação do escritório).
+- **Não dispara Pixel nem CAPI** e não usa o `adv-track.js`, pelos mesmos
+  motivos da pesquisa do IEP.
+- Grava por `api/pesquisa-lowticket.js` em `public.pesquisa_lowticket` no
+  Supabase **gerenciado** e manda ao n8n em
+  `https://n8n.advocaciadeimpacto.adv.br/webhook/lowticket-pesquisa`
+  (`PESQUISA_LOWTICKET_WEBHOOK_URL` troca o destino), com a mensagem do WhatsApp
+  já montada no endpoint.
+- Aceita `?nome=&email=&whatsapp=` para chegar preenchida, junto com o `?p=`.
+
+O painel de respostas é o `painel-pesquisa-lowticket.html` (`/painel-pesquisa-lowticket`),
+que lê a view `painel_pesquisa_lowticket` — **sem e-mail e sem telefone**. Ele
+filtra por produto, e as três perguntas próprias só são contadas dentro de um
+produto: empilhar na mesma barra respostas de perguntas diferentes seria mentira
+de gráfico.
+
+---
+
 ## O modelo de scoring
 
 Definido pelo time de marketing com o Guilherme. **Não altere pesos sem
