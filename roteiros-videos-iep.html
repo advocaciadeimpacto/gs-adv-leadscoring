@@ -55,6 +55,31 @@ body.editando [data-e]:focus{box-shadow:0 0 0 2px var(--ouro-escuro)}
 .barra button[hidden]{display:none}
 .status{font-size:13px;color:var(--tinta-3);margin-left:auto;text-align:right}
 .status.ok{color:var(--ok)}
+
+/* modo cards (gravação) */
+.deck-topo,.deck-acoes,.deck-fim,.gravados{display:none}
+body.cartoes .topo,body.cartoes .regras,body.cartoes .secao,body.cartoes .rodape{display:none}
+body.cartoes main .in{padding-top:14px}
+body.cartoes article.cartao{display:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+body.cartoes article.cartao.atual{display:block;will-change:transform}
+body.cartoes article.cartao.voando{transition:transform .28s ease, opacity .28s ease}
+body.cartoes .gancho{font-size:21px}
+body.cartoes .fala{font-size:18px;line-height:1.6}
+body.cartoes .cta{font-size:17px}
+body.cartoes .deck-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px;font-size:14px;color:var(--tinta-3)}
+body.cartoes .deck-topo b{color:var(--tinta)}
+body.cartoes .deck-acoes{display:flex;gap:8px;margin:14px 0 0;flex-wrap:wrap}
+.deck-acoes button,.gravados button,.deck-fim button{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:10px 14px;border:1px solid #D6CCBD;background:var(--superficie);color:var(--tinta);cursor:pointer}
+.deck-acoes .gravei{flex:1;background:var(--ok);border-color:var(--ok);color:#fff}
+body.cartoes .deck-fim.mostra{display:block;text-align:center;background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);padding:28px 18px}
+.deck-fim p{margin:0 0 14px;font-size:18px;font-weight:600}
+body.cartoes .gravados.mostra{display:block;margin:18px 0 0}
+.gravados p{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);margin:0 0 8px}
+.gravados .lista{display:flex;gap:8px;flex-wrap:wrap}
+.gravados button{font-size:14px;padding:7px 12px;background:var(--superficie-2)}
+.dica{font-size:13px;color:var(--tinta-3);margin:10px 0 0;text-align:center}
+body.cartoes .dica{display:block}
+.dica{display:none}
 </style>
 </head>
 <body>
@@ -73,9 +98,10 @@ body.editando [data-e]:focus{box-shadow:0 0 0 2px var(--ouro-escuro)}
 • Lembretes são para quem já comprou: tom de imersão, "a gente", "tá?", "vamos lá".
 • Pode errar e seguir. Falar como conversa, não como anúncio.</div>
 
+<div class="deck-topo"><span>Roteiro <b id="dPos">1</b> de <b id="dTot">4</b></span><span id="dGrav">0 gravados</span></div>
 <p class="secao">Convites · para as bases que ainda não compraram</p>
 
-<article class="cartao convite">
+<article class="cartao convite" data-id="c1" data-nome="Convite 1">
   <div class="cab"><span class="cod">CONVITE 1</span><span class="meta" data-e="c1-meta">"é sábado" · ~45 s</span></div>
   <h2 data-e="c1-titulo">Sábado eu passo seis horas contigo</h2>
   <p class="rot">Gancho</p>
@@ -90,7 +116,7 @@ Por esse motivo eu abri a Imersão Escritório Previsível, das 10 às 16 horas,
   <p class="cta" data-e="c1-cta">"Quer estar comigo no sábado? É só clicar aqui embaixo e garantir a sua vaga."</p>
 </article>
 
-<article class="cartao convite">
+<article class="cartao convite" data-id="c2" data-nome="Convite 2">
   <div class="cab"><span class="cod">CONVITE 2</span><span class="meta" data-e="c2-meta">"é amanhã" · ~40 s</span></div>
   <h2 data-e="c2-titulo">É amanhã, e a sua condição ainda está aqui</h2>
   <p class="rot">Gancho</p>
@@ -107,7 +133,7 @@ A condição da nossa lista fecha hoje à noite.</p>
 
 <p class="secao">Lembretes · para quem já comprou</p>
 
-<article class="cartao lembrete">
+<article class="cartao lembrete" data-id="l1" data-nome="Lembrete 1">
   <div class="cab"><span class="cod">LEMBRETE 1</span><span class="meta" data-e="l1-meta">"é amanhã" · ~40 s</span></div>
   <h2 data-e="l1-titulo">Amanhã é o nosso dia: três compromissos</h2>
   <p class="rot">Gancho</p>
@@ -124,7 +150,7 @@ Terceiro: bloqueia a agenda das 10 às 16. Computador, caderno do lado, celular 
   <p class="cta" data-e="l1-cta">"O link do grupo está aqui embaixo. Até amanhã, às dez!"</p>
 </article>
 
-<article class="cartao lembrete">
+<article class="cartao lembrete" data-id="l2" data-nome="Lembrete 2">
   <div class="cab"><span class="cod">LEMBRETE 2</span><span class="meta" data-e="l2-meta">"é hoje" · ~25 s</span></div>
   <h2 data-e="l2-titulo">É hoje, começa às dez</h2>
   <p class="rot">Gancho</p>
@@ -137,10 +163,19 @@ Pega os números que você separou, o caderno, e deixa o celular longe. Hoje é 
   <p class="cta" data-e="l2-cta">"É só clicar aqui embaixo e entrar na sala. Te vejo lá. Bora implementar!"</p>
 </article>
 
+<div class="deck-fim" id="dFim"><p>Todos gravados. 🎬</p><button type="button" id="dVoltarFim">Voltar o último</button></div>
+<div class="deck-acoes" id="dAcoes">
+  <button type="button" id="dAnt" aria-label="Anterior">←</button>
+  <button type="button" class="gravei" id="dGravei">Gravado ✓</button>
+  <button type="button" id="dProx" aria-label="Próximo">→</button>
+</div>
+<p class="dica">Arraste o card para o lado quando terminar de gravar.</p>
+<div class="gravados" id="dGravados"><p>Já gravados · toque para voltar</p><div class="lista" id="dLista"></div></div>
 <p class="rodape">Advocacia de Impacto · documento interno. Convites vão nos templates das bases (low ticket, 1ª edição e Sessão Estratégica); lembretes vão para quem comprou. Escrito pelo guia de voz do Guilherme (docs/26-voz-do-guilherme.md).</p>
 </div></main>
 
 <nav class="barra" aria-label="Edição"><div class="in">
+  <button type="button" id="bCards">Modo gravação</button>
   <button type="button" class="prim" id="bEditar">Editar texto</button>
   <button type="button" class="prim" id="bSalvar" hidden>Salvar</button>
   <button type="button" id="bCancelar" hidden>Cancelar</button>
@@ -190,6 +225,92 @@ Pega os números que você separou, o caderno, e deixa o celular longe. Hoje é 
       .catch(function(){ status('Não salvou. Confira a internet e tente de novo.'); })
       .then(function(){ bS.disabled = false; });
   };
+})();
+</script>
+<script>
+/* Modo gravação: um roteiro por vez, em tela cheia no celular.
+   Arrastar o card para o lado (ou "Gravado ✓") tira ele da pilha;
+   "Já gravados" traz de volta. A marcação fica neste aparelho
+   (localStorage), para quem está gravando. */
+(function(){
+  var CHAVE = 'roteiros-videos-iep:gravados';
+  var cards = Array.prototype.slice.call(document.querySelectorAll('article.cartao[data-id]'));
+  var bCards = document.getElementById('bCards'), bEditar = document.getElementById('bEditar');
+  var gravados = [];
+  try { gravados = JSON.parse(localStorage.getItem(CHAVE) || '[]'); } catch (e) {}
+  var idx = 0;
+  function guardar(){ try { localStorage.setItem(CHAVE, JSON.stringify(gravados)); } catch (e) {} }
+  function pilha(){ return cards.filter(function(c){ return gravados.indexOf(c.dataset.id) < 0; }); }
+  function $(id){ return document.getElementById(id); }
+  function pintar(){
+    var p = pilha();
+    if (idx >= p.length) idx = Math.max(0, p.length - 1);
+    cards.forEach(function(c){ c.classList.remove('atual'); c.style.transform=''; c.style.opacity=''; });
+    if (p.length) p[idx].classList.add('atual');
+    $('dPos').textContent = p.length ? idx + 1 : 0; $('dTot').textContent = p.length;
+    $('dGrav').textContent = gravados.length + (gravados.length === 1 ? ' gravado' : ' gravados');
+    $('dFim').classList.toggle('mostra', !p.length);
+    $('dAcoes').style.display = p.length ? '' : 'none';
+    var lista = $('dLista'); lista.innerHTML = '';
+    gravados.forEach(function(id){
+      var c = cards.filter(function(x){ return x.dataset.id === id; })[0]; if (!c) return;
+      var b = document.createElement('button'); b.type = 'button';
+      b.textContent = '↶ ' + c.dataset.nome + ' · ' + c.querySelector('h2').textContent;
+      b.onclick = function(){ voltar(id); };
+      lista.appendChild(b);
+    });
+    $('dGravados').classList.toggle('mostra', gravados.length > 0);
+  }
+  function marcar(dir){
+    var p = pilha(); if (!p.length) return;
+    var c = p[idx];
+    c.classList.add('voando');
+    c.style.transform = 'translateX(' + (dir * 120) + '%) rotate(' + (dir * 8) + 'deg)'; c.style.opacity = '0';
+    setTimeout(function(){ c.classList.remove('voando'); gravados.push(c.dataset.id); guardar(); pintar(); window.scrollTo(0,0); }, 260);
+  }
+  function voltar(id){
+    gravados = gravados.filter(function(x){ return x !== id; }); guardar();
+    idx = pilha().map(function(c){ return c.dataset.id; }).indexOf(id); pintar(); window.scrollTo(0,0);
+  }
+  $('dGravei').onclick = function(){ marcar(1); };
+  $('dProx').onclick = function(){ var n = pilha().length; if (n) { idx = (idx + 1) % n; pintar(); window.scrollTo(0,0); } };
+  $('dAnt').onclick = function(){ var n = pilha().length; if (n) { idx = (idx - 1 + n) % n; pintar(); window.scrollTo(0,0); } };
+  $('dVoltarFim').onclick = function(){ if (gravados.length) voltar(gravados[gravados.length - 1]); };
+
+  /* arrastar */
+  cards.forEach(function(c){
+    var x0 = null, y0 = null, dx = 0, horizontal = null;
+    c.addEventListener('pointerdown', function(e){
+      if (!document.body.classList.contains('cartoes') || document.body.classList.contains('editando')) return;
+      x0 = e.clientX; y0 = e.clientY; dx = 0; horizontal = null;
+    });
+    c.addEventListener('pointermove', function(e){
+      if (x0 === null) return;
+      var mx = e.clientX - x0, my = e.clientY - y0;
+      if (horizontal === null && (Math.abs(mx) > 8 || Math.abs(my) > 8)) { horizontal = Math.abs(mx) > Math.abs(my); if (horizontal) c.setPointerCapture(e.pointerId); }
+      if (!horizontal) return;
+      dx = mx; c.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx / 40) + 'deg)'; c.style.opacity = String(Math.max(.35, 1 - Math.abs(dx) / 400));
+    });
+    function soltar(){
+      if (x0 === null) return;
+      x0 = null;
+      if (horizontal && Math.abs(dx) > 110) marcar(dx > 0 ? 1 : -1);
+      else { c.classList.add('voando'); c.style.transform = ''; c.style.opacity = ''; setTimeout(function(){ c.classList.remove('voando'); }, 280); }
+    }
+    c.addEventListener('pointerup', soltar); c.addEventListener('pointercancel', soltar);
+  });
+
+  function modoCards(on){
+    document.body.classList.toggle('cartoes', on);
+    bCards.textContent = on ? 'Ver lista' : 'Modo gravação';
+    bEditar.hidden = on;
+    if (on) { idx = 0; pintar(); } else cards.forEach(function(c){ c.classList.remove('atual'); c.style.transform=''; c.style.opacity=''; });
+    try { localStorage.setItem(CHAVE + ':modo', on ? '1' : '0'); } catch (e) {}
+    window.scrollTo(0,0);
+  }
+  bCards.onclick = function(){ if (!document.body.classList.contains('editando')) modoCards(!document.body.classList.contains('cartoes')); };
+  var salvo = null; try { salvo = localStorage.getItem(CHAVE + ':modo'); } catch (e) {}
+  if (salvo === '1') modoCards(true);
 })();
 </script>
 </body>
