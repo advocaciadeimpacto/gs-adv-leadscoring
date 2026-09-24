@@ -68,7 +68,7 @@ module.exports = async function handler(req, res) {
          partir de hubla_faturas. Não devolve erro para a Hubla por isso. */
       try {
         await fetch(N8N_VENDA_PAGA, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'x-gs-k': k },
           body: JSON.stringify(d.venda), signal: AbortSignal.timeout(8000)
         });
       } catch (e) { /* segue */ }
