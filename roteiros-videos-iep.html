@@ -11,13 +11,13 @@
   --plano:#F6F2EB; --superficie:#FFFFFF; --superficie-2:#FBF8F3; --linha:#E8E1D6;
   --tinta:#1A1611; --tinta-2:#5C554C; --tinta-3:#8B8377;
   --ouro:#B29065; --ouro-escuro:#8F6F45; --ouro-claro:#F1E8DA;
-  --azul:#2F5E8C; --azul-claro:#E8EFF6;
+  --azul:#2F5E8C; --azul-claro:#E8EFF6; --ok:#2E6B47;
   --raio:14px; --sombra:0 1px 2px rgba(26,22,17,.04),0 6px 22px rgba(26,22,17,.045);
   --fonte:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--plano);color:var(--tinta);font-family:var(--fonte);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--plano);color:var(--tinta);font-family:var(--fonte);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;padding-bottom:84px}
 h1,h2{font-weight:650;letter-spacing:-.015em;margin:0}
 .in{max-width:760px;margin:0 auto;padding:0 16px}
 .topo{background:var(--superficie);border-bottom:1px solid var(--linha)}
@@ -25,7 +25,7 @@ h1,h2{font-weight:650;letter-spacing:-.015em;margin:0}
 .kicker{margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ouro-escuro)}
 .topo h1{font-size:clamp(25px,7vw,36px);line-height:1.12;margin:0 0 12px}
 .sub{margin:0;color:var(--tinta-2);font-size:15px}
-main .in{padding-top:20px;padding-bottom:56px}
+main .in{padding-top:20px;padding-bottom:40px}
 .regras{background:var(--ouro-claro);border-radius:12px;padding:14px 16px;margin:0 0 18px;font-size:15px}
 .regras ul{margin:6px 0 0;padding-left:20px}
 .regras li{margin:3px 0}
@@ -40,90 +40,157 @@ main .in{padding-top:20px;padding-bottom:56px}
 .rot{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);margin:14px 0 4px}
 .gancho{font-size:18px;font-weight:600;line-height:1.4;border-left:3px solid var(--ouro);padding:2px 0 2px 12px;margin:0}
 .lembrete .gancho{border-color:var(--azul)}
-.fala p{margin:0 0 8px}
+.fala{white-space:pre-line;margin:0}
 .cta{background:var(--superficie-2);border:1px solid var(--linha);border-radius:10px;padding:10px 12px;margin:0;font-weight:600}
 .rodape{font-size:12.5px;color:var(--tinta-3);margin-top:26px}
+
+/* edição */
+[data-e]{border-radius:6px;transition:background .15s, box-shadow .15s}
+body.editando [data-e]{background:#FFFDF6;box-shadow:0 0 0 1px var(--ouro);outline:none;cursor:text}
+body.editando [data-e]:focus{box-shadow:0 0 0 2px var(--ouro-escuro)}
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--linha)}
+.barra .in{display:flex;align-items:center;gap:8px;padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.barra button{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:9px 14px;border:1px solid var(--linha-forte,#D6CCBD);background:var(--superficie);color:var(--tinta);cursor:pointer}
+.barra button.prim{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.barra button[hidden]{display:none}
+.status{font-size:13px;color:var(--tinta-3);margin-left:auto;text-align:right}
+.status.ok{color:var(--ok)}
 </style>
 </head>
 <body>
 <header class="topo"><div class="in">
   <p class="kicker">Advocacia de Impacto · Imersão Escritório Previsível</p>
-  <h1>Quatro vídeos curtos para o Guilherme gravar</h1>
-  <p class="sub">Dois convites para as bases (sem preço e sem data) e dois lembretes para quem já comprou. Cada um entre 30 e 40 segundos, falando para a câmera, celular em pé.</p>
+  <h1 data-e="titulo">Quatro vídeos curtos para o Guilherme gravar</h1>
+  <p class="sub" data-e="sub">Dois convites para as bases (sem preço e sem data) e dois lembretes para quem já comprou. Cada um entre 30 e 45 segundos, falando para a câmera, celular em pé.</p>
 </div></header>
 
 <main><div class="in">
 
-<div class="regras">
-  <strong>Regras dos quatro</strong>
-  <ul>
-    <li>Não falar preço nem data (dia do mês). Só "sábado", "amanhã" ou "hoje".</li>
-    <li>O botão do template faz o trabalho: o vídeo termina mandando tocar no botão abaixo.</li>
-    <li>Falar como conversa, não como anúncio. Pode errar e seguir.</li>
-  </ul>
-</div>
+<div class="regras" data-e="regras" style="white-space:pre-line">Regras dos quatro
+• Não falar preço nem o dia do mês. Só "sábado", "amanhã" ou "hoje".
+• Convites falam com um advogado só ("você"); "contigo" só quando o Guilherme entra junto na promessa.
+• O fechamento é o dele: pergunta curta + "é só clicar aqui embaixo".
+• Lembretes são para quem já comprou: tom de imersão, "a gente", "tá?", "vamos lá".
+• Pode errar e seguir. Falar como conversa, não como anúncio.</div>
 
 <p class="secao">Convites · para as bases que ainda não compraram</p>
 
 <article class="cartao convite">
-  <div class="cab"><span class="cod">CONVITE 1</span><span class="meta">"é sábado" · ~35 s</span></div>
-  <h2>Sábado eu vou montar o seu escritório com você</h2>
+  <div class="cab"><span class="cod">CONVITE 1</span><span class="meta" data-e="c1-meta">"é sábado" · ~45 s</span></div>
+  <h2 data-e="c1-titulo">Sábado eu passo seis horas contigo</h2>
   <p class="rot">Gancho</p>
-  <p class="gancho">"Você que está na nossa lista: neste sábado eu vou passar seis horas montando o escritório com você. E eu separei uma condição especial para quem está aqui."</p>
-  <div class="fala"><p class="rot">Fala</p>
-    <p>É a Imersão Escritório Previsível, ao vivo, das dez da manhã às quatro da tarde.</p>
-    <p>Não é palestra. A gente trabalha gestão, vendas e equipe no seu escritório, com os seus números, e você sai com o plano dos próximos noventa dias escrito e com prazo.</p>
-    <p>Se hoje tudo passa pela sua mão e o mês depende de você correr atrás, é exatamente para você.</p>
-  </div>
+  <p class="gancho" data-e="c1-gancho">"Advogado, neste sábado eu vou passar seis horas contigo montando o teu escritório. E não é aulão."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="c1-fala">Sabe por que a maioria dos escritórios não cresce? Não é falta de trabalho. É porque tudo passa pela mão do dono: o contrato, o prazo, o cliente perguntando "doutor, como é que está o meu processo?". Eu sei, porque eu vivi isso.
+
+Aí você fala assim: "mas Guilherme, eu não tenho tempo de parar um sábado inteiro". É justamente por isso que você precisa parar.
+
+Por esse motivo eu abri a Imersão Escritório Previsível, das 10 às 16 horas, ao vivo. Depois de ter estruturado mais de 500 escritórios, eu vou botar a mão na massa contigo em gestão, vendas e equipe, e você sai com o plano dos próximos 90 dias escrito. E para quem está na nossa lista, eu separei uma condição especial.</p>
   <p class="rot">Fechamento</p>
-  <p class="cta">"Toca no botão aqui embaixo e garante a sua vaga com a condição da lista. Te vejo no sábado."</p>
+  <p class="cta" data-e="c1-cta">"Quer estar comigo no sábado? É só clicar aqui embaixo e garantir a sua vaga."</p>
 </article>
 
 <article class="cartao convite">
-  <div class="cab"><span class="cod">CONVITE 2</span><span class="meta">"é amanhã" · ~30 s</span></div>
-  <h2>É amanhã, e ainda dá tempo</h2>
+  <div class="cab"><span class="cod">CONVITE 2</span><span class="meta" data-e="c2-meta">"é amanhã" · ~40 s</span></div>
+  <h2 data-e="c2-titulo">É amanhã, e a sua condição ainda está aqui</h2>
   <p class="rot">Gancho</p>
-  <p class="gancho">"É amanhã. Amanhã eu passo seis horas ao vivo montando a gestão do escritório de quem estiver comigo, e a sua condição especial ainda está valendo."</p>
-  <div class="fala"><p class="rot">Fala</p>
-    <p>Das dez às quatro, ao vivo, na Imersão Escritório Previsível.</p>
-    <p>Você chega com o escritório que tem hoje e sai com as próximas ações escritas: o que fazer em gestão, em vendas e na equipe nos próximos noventa dias.</p>
-    <p>A condição da lista fecha hoje à noite. Depois disso, só no valor aberto.</p>
-  </div>
+  <p class="gancho" data-e="c2-gancho">"Advogado, é amanhã. Amanhã eu passo seis horas ao vivo contigo, e a sua condição especial ainda está aqui."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="c2-fala">Eu sei que você está pensando: "amanhã é em cima da hora". Mas me responde uma coisa: quantas vezes você deixou para organizar o escritório quando desse? Pois é. Não dá. A gente só organiza quando para para organizar.
+
+Amanhã, das 10 às 16, a gente para. Não é aulão, é mão na massa: você chega com o escritório que tem hoje e sai com as próximas ações escritas, com prazo.
+
+A condição da nossa lista fecha hoje à noite.</p>
   <p class="rot">Fechamento</p>
-  <p class="cta">"Toca no botão aqui embaixo agora, antes que feche. Amanhã a gente se vê."</p>
+  <p class="cta" data-e="c2-cta">"Quer resolver isso de uma vez por todas? É só clicar aqui embaixo agora."</p>
 </article>
 
 <p class="secao">Lembretes · para quem já comprou</p>
 
 <article class="cartao lembrete">
-  <div class="cab"><span class="cod">LEMBRETE 1</span><span class="meta">"é amanhã" · ~35 s</span></div>
-  <h2>Amanhã é o nosso dia: três coisas para preparar</h2>
+  <div class="cab"><span class="cod">LEMBRETE 1</span><span class="meta" data-e="l1-meta">"é amanhã" · ~40 s</span></div>
+  <h2 data-e="l1-titulo">Amanhã é o nosso dia: três compromissos</h2>
   <p class="rot">Gancho</p>
-  <p class="gancho">"É amanhã! Amanhã, às dez da manhã, a gente começa a Imersão. E eu quero que você chegue preparado."</p>
-  <div class="fala"><p class="rot">Fala</p>
-    <p>Três coisas para hoje.</p>
-    <p>Primeira: entra no grupo da imersão, se ainda não entrou. É por lá que sai o link da sala.</p>
-    <p>Segunda: separa os números do escritório. Quanto entrou nos últimos três meses, quantos contratos você fechou e quem faz o quê na equipe.</p>
-    <p>Terceira: bloqueia a agenda das dez às quatro. Assiste pelo computador, com caderno do lado. Quem aplica junto sai com o plano pronto.</p>
-  </div>
+  <p class="gancho" data-e="l1-gancho">"Amanhã é o nosso dia! Às dez da manhã a gente começa, e eu quero que você chegue preparado, tá?"</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="l1-fala">Então vamos lá, três compromissos.
+
+Primeiro: entra no grupo da imersão, se ainda não entrou. É por lá que sai o link da sala.
+
+Segundo: separa os números do teu escritório. Quanto entrou nos últimos três meses, quantos contratos você fechou, quem faz o quê na equipe. Sem número a gente não monta plano.
+
+Terceiro: bloqueia a agenda das 10 às 16. Computador, caderno do lado, celular longe. Eu sei que sábado é sabadão, mas quem fica até o final sai com o plano pronto.</p>
   <p class="rot">Fechamento</p>
-  <p class="cta">"O link do grupo está aqui embaixo. Até amanhã às dez."</p>
+  <p class="cta" data-e="l1-cta">"O link do grupo está aqui embaixo. Até amanhã, às dez!"</p>
 </article>
 
 <article class="cartao lembrete">
-  <div class="cab"><span class="cod">LEMBRETE 2</span><span class="meta">"é hoje" · ~25 s</span></div>
-  <h2>É hoje, começa às dez</h2>
+  <div class="cab"><span class="cod">LEMBRETE 2</span><span class="meta" data-e="l2-meta">"é hoje" · ~25 s</span></div>
+  <h2 data-e="l2-titulo">É hoje, começa às dez</h2>
   <p class="rot">Gancho</p>
-  <p class="gancho">"É hoje! Daqui a pouco, às dez da manhã, a gente começa."</p>
-  <div class="fala"><p class="rot">Fala</p>
-    <p>O link da sala está no grupo da imersão. Entra uns dez minutos antes para testar áudio e câmera.</p>
-    <p>Pega os números do escritório que você separou, um caderno, e deixa o celular longe. Hoje o dia é seu e do seu escritório.</p>
-  </div>
+  <p class="gancho" data-e="l2-gancho">"É hoje! Daqui a pouco, às dez, a gente começa."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="l2-fala">O link da sala está no grupo. Entra uns dez minutinhos antes para testar áudio e câmera. E câmera aberta, tá?
+
+Pega os números que você separou, o caderno, e deixa o celular longe. Hoje é dia de mão na massa, não é aulão.</p>
   <p class="rot">Fechamento</p>
-  <p class="cta">"Toca aqui embaixo, entra na sala e te vejo lá. Vamos juntos."</p>
+  <p class="cta" data-e="l2-cta">"É só clicar aqui embaixo e entrar na sala. Te vejo lá. Bora implementar!"</p>
 </article>
 
-<p class="rodape">Advocacia de Impacto · documento interno. Convites vão nos templates das bases (low ticket, 1ª edição e Sessão Estratégica); lembretes vão para quem comprou.</p>
+<p class="rodape">Advocacia de Impacto · documento interno. Convites vão nos templates das bases (low ticket, 1ª edição e Sessão Estratégica); lembretes vão para quem comprou. Escrito pelo guia de voz do Guilherme (docs/26-voz-do-guilherme.md).</p>
 </div></main>
+
+<nav class="barra" aria-label="Edição"><div class="in">
+  <button type="button" class="prim" id="bEditar">Editar texto</button>
+  <button type="button" class="prim" id="bSalvar" hidden>Salvar</button>
+  <button type="button" id="bCancelar" hidden>Cancelar</button>
+  <span class="status" id="status">Carregando…</span>
+</div></nav>
+
+<script>
+/* Edição direto na página.
+   Cada trecho editável tem data-e. "Salvar" grava um INSERT em
+   public.roteiros_edicoes (Supabase gerenciado) com {data-e: texto};
+   ao abrir, a página aplica a versão mais recente. Só texto puro entra
+   e sai (textContent), então ninguém injeta HTML na página dos outros.
+   Nada se perde: cada Salvar é uma linha nova, as antigas ficam. */
+(function(){
+  var SLUG = 'roteiros-videos-iep';
+  var URL = 'https://vmgyqhfesneannfqrvzg.supabase.co/rest/v1/roteiros_edicoes';
+  var KEY = 'sb_publishable_i3Uz9zvdLeXddbw-HOBP9w_mBTsi32k';
+  var H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
+  var campos = Array.prototype.slice.call(document.querySelectorAll('[data-e]'));
+  var st = document.getElementById('status');
+  var bE = document.getElementById('bEditar'), bS = document.getElementById('bSalvar'), bC = document.getElementById('bCancelar');
+  var copia = null;
+
+  function ler(){ var o = {}; campos.forEach(function(el){ o[el.getAttribute('data-e')] = el.innerText.replace(/ /g,' ').replace(/\n{3,}/g,'\n\n').trim(); }); return o; }
+  function aplicar(o){ campos.forEach(function(el){ var k = el.getAttribute('data-e'); if (typeof o[k] === 'string') el.textContent = o[k]; }); }
+  function hora(iso){ var d = new Date(iso); return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}) + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+  function status(t, ok){ st.textContent = t; st.className = 'status' + (ok ? ' ok' : ''); }
+  function modo(ed){
+    document.body.classList.toggle('editando', ed);
+    campos.forEach(function(el){ if (ed) el.setAttribute('contenteditable','plaintext-only'); else el.removeAttribute('contenteditable'); });
+    if (ed && campos[0].contentEditable !== 'plaintext-only') campos.forEach(function(el){ el.setAttribute('contenteditable','true'); });
+    bE.hidden = ed; bS.hidden = !ed; bC.hidden = !ed;
+  }
+
+  fetch(URL + '?slug=eq.' + SLUG + '&select=campos,criado_em&order=criado_em.desc&limit=1', { headers: H })
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(l){ if (l && l[0]) { aplicar(l[0].campos); status('Última edição: ' + hora(l[0].criado_em)); } else status('Versão original'); })
+    .catch(function(){ status('Sem conexão: mostrando a versão original'); });
+
+  bE.onclick = function(){ copia = ler(); modo(true); status('Toque no texto para editar'); };
+  bC.onclick = function(){ aplicar(copia); modo(false); status('Edição cancelada'); };
+  bS.onclick = function(){
+    var dados = ler(); bS.disabled = true; status('Salvando…');
+    fetch(URL, { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json', Prefer: 'return=representation' }, H), body: JSON.stringify({ slug: SLUG, campos: dados }) })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(l){ modo(false); aplicar(dados); status('Salvo ' + hora(l[0].criado_em), true); })
+      .catch(function(){ status('Não salvou. Confira a internet e tente de novo.'); })
+      .then(function(){ bS.disabled = false; });
+  };
+})();
+</script>
 </body>
 </html>
