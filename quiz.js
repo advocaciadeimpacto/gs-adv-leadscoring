@@ -191,6 +191,29 @@ async function finalizar(dadosContato) {
     respostas: res.respostas
   });
 
+  /* Entrega do material gratuito pelo WhatsApp oficial (fluxo do ZapFlow).
+     Sem await e com keepalive: o lead segue para `obrigado` na hora, e a
+     ida para outra página não cancela o envio. Falha aqui não afeta nada. */
+  try {
+    const o = origemAtual() || {};
+    fetch('https://zapflow.growthtap.com.br/api/webhook/flows/eaadc940-3d4f-4288-b164-0afe849262ec', {
+      method: 'POST',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        evento: 'resposta.criada',
+        resposta_id: data?.id || null,
+        nome: dadosContato.nome,
+        primeiro_nome: dadosContato.nome.split(/\s+/)[0],
+        email: dadosContato.email,
+        telefone: '55' + dadosContato.whatsapp,
+        classe: res.classe,
+        utm_source: o.utm_source || null,
+        utm_campaign: o.utm_campaign || null
+      })
+    }).catch(() => {});
+  } catch { /* segue sem a entrega */ }
+
   try {
     sessionStorage.setItem('adv_contexto_lead', JSON.stringify({
       resposta_id: data?.id || null,
