@@ -26,6 +26,11 @@
 
 const SUPABASE_URL = 'https://vmgyqhfesneannfqrvzg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_i3Uz9zvdLeXddbw-HOBP9w_mBTsi32k';
+/* Venda que ACABOU de virar paga vai para o n8n, uma vez por fatura: lá
+   saem o lead no Kommo e o onboarding (hoje: Pós-venda). O banco é quem
+   decide o "uma vez" (`novo_pago`), não a Hubla. */
+const N8N_VENDA_PAGA = process.env.HUBLA_VENDA_WEBHOOK_URL
+  || 'https://n8n.advocaciadeimpacto.adv.br/webhook/hubla-venda-paga';
 
 function corpoDaRequisicao(req) {
   const b = req.body;
@@ -56,7 +61,19 @@ module.exports = async function handler(req, res) {
     if (r.status === 401 || r.status === 403 || /nao autorizado/.test(txt)) return res.status(404).end();
     /* 5xx faz a Hubla reenviar — é o que queremos se o banco caiu. */
     if (!r.ok) return res.status(502).json({ ok: false, erro: txt.slice(0, 300) });
-    return res.status(200).send(txt || '{"ok":true}');
+    let d = {};
+    try { d = JSON.parse(txt); } catch { d = {}; }
+    if (d.novo_pago && d.venda) {
+      /* A venda já está gravada; se o n8n falhar, dá para reenviar a
+         partir de hubla_faturas. Não devolve erro para a Hubla por isso. */
+      try {
+        await fetch(N8N_VENDA_PAGA, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(d.venda), signal: AbortSignal.timeout(8000)
+        });
+      } catch (e) { /* segue */ }
+    }
+    return res.status(200).json({ ok: true, fatura: d.fatura || null, novo_pago: !!d.novo_pago });
   } catch (e) {
     return res.status(502).json({ ok: false, erro: e.message });
   }
