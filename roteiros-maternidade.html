@@ -4,183 +4,359 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Roteiros Maternidade · v2</title>
+<title>Roteiros Maternidade · v3</title>
 <style>
-/* Roteiros de salário-maternidade para gravar — Schumann Advogados.
-   Mesmo tema dos outros roteiros: creme, cartão branco, dourado só como
-   marca. Lido no celular, em pé, antes de gravar. */
 :root{
   color-scheme: light;
-  --plano:#F6F2EB; --superficie:#FFFFFF; --superficie-2:#FBF8F3;
-  --linha:#E8E1D6; --tinta:#1A1611; --tinta-2:#5C554C; --tinta-3:#8B8377;
+  --plano:#F6F2EB; --superficie:#FFFFFF; --superficie-2:#FBF8F3; --linha:#E8E1D6;
+  --tinta:#1A1611; --tinta-2:#5C554C; --tinta-3:#8B8377;
   --ouro:#B29065; --ouro-escuro:#8F6F45; --ouro-claro:#F1E8DA;
-  --ruim:#9A3B2E; --ruim-claro:#F8ECE9; --ok:#2E6B47; --ok-claro:#E9F3EC;
+  --azul:#2F5E8C; --azul-claro:#E8EFF6; --ok:#2E6B47;
   --raio:14px; --sombra:0 1px 2px rgba(26,22,17,.04),0 6px 22px rgba(26,22,17,.045);
-  --fonte:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --fonte:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--plano);color:var(--tinta);font-family:var(--fonte);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-weight:650;letter-spacing:-.015em;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--plano);color:var(--tinta);font-family:var(--fonte);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+h1,h2{font-weight:650;letter-spacing:-.015em;margin:0}
+.in{max-width:760px;margin:0 auto;padding:0 16px}
 .topo{background:var(--superficie);border-bottom:1px solid var(--linha)}
-.in{max-width:820px;margin:0 auto;padding:0 16px}
-.topo .in{padding-top:32px;padding-bottom:26px}
+.topo .in{padding-top:30px;padding-bottom:24px}
 .kicker{margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ouro-escuro)}
-.topo h1{font-size:clamp(26px,7vw,38px);line-height:1.12;margin:0 0 12px}
-.sub{margin:0;color:var(--tinta-2);font-size:15px;max-width:62ch}
-.data{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--linha);font-size:13px;color:var(--tinta-3)}
-.indice{position:sticky;top:0;z-index:10;background:rgba(246,242,235,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linha)}
-.indice .in{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
-.indice a{flex:0 0 auto;text-decoration:none;font-size:13px;font-weight:600;color:var(--tinta-2);background:var(--superficie);border:1px solid var(--linha);border-radius:999px;padding:6px 12px}
-main .in{padding-top:22px;padding-bottom:60px}
-.cartao{background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);box-shadow:var(--sombra);padding:20px;margin:0 0 16px}
-.cartao h2{font-size:19px;margin-bottom:10px}
-.rolagem{overflow-x:auto;margin:0 -4px}
-table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
-th,td{border-bottom:1px solid var(--linha);padding:9px 8px;text-align:left}
-th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--tinta-3);font-weight:600}
-td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-tr.destaque td{background:var(--superficie-2);font-weight:600}
-.nota{background:var(--ouro-claro);border-radius:10px;padding:12px 14px;margin:14px 0 0;font-size:15px}
-.regras{margin:0;padding-left:20px}
-.regras li{margin:6px 0}
-.roteiro{scroll-margin-top:64px}
-.roteiro .cod{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--ouro-escuro);background:var(--ouro-claro);border-radius:6px;padding:2px 8px;margin-bottom:8px}
-.bloco{margin:14px 0 0}
-.rot{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);margin:0 0 4px}
+.topo h1{font-size:clamp(25px,7vw,36px);line-height:1.12;margin:0 0 12px}
+.sub{margin:0;color:var(--tinta-2);font-size:15px}
+main .in{padding-top:20px;padding-bottom:40px}
+.regras{background:var(--ouro-claro);border-radius:12px;padding:14px 16px;margin:0 0 18px;font-size:15px}
+.regras ul{margin:6px 0 0;padding-left:20px}
+.regras li{margin:3px 0}
+.secao{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-3);margin:26px 0 10px}
+.cartao{background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);box-shadow:var(--sombra);padding:20px;margin:0 0 14px}
+.cab{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:6px}
+.cod{font-size:12px;font-weight:700;letter-spacing:.06em;border-radius:6px;padding:2px 8px}
+.convite .cod{color:var(--ouro-escuro);background:var(--ouro-claro)}
+.lembrete .cod{color:var(--azul);background:var(--azul-claro)}
+.meta{font-size:13px;color:var(--tinta-3)}
+.cartao h2{font-size:19px;margin:2px 0 12px}
+.rot{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);margin:14px 0 4px}
 .gancho{font-size:18px;font-weight:600;line-height:1.4;border-left:3px solid var(--ouro);padding:2px 0 2px 12px;margin:0}
-.fala p{margin:0 0 8px}
-.tela{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
-.tela li{font-size:13.5px;font-weight:600;background:var(--superficie-2);border:1px solid var(--linha);border-radius:8px;padding:5px 10px}
-.tela li.nao{background:var(--ruim-claro);border-color:#EBCFC9;color:var(--ruim)}
-.porque{font-size:14.5px;color:var(--tinta-2);background:var(--ok-claro);border-radius:10px;padding:10px 12px;margin:0}
-.rodape{font-size:12.5px;color:var(--tinta-3);margin-top:28px}
+.lembrete .gancho{border-color:var(--azul)}
+.fala{white-space:pre-line;margin:0}
+.cta{background:var(--superficie-2);border:1px solid var(--linha);border-radius:10px;padding:10px 12px;margin:0;font-weight:600}
+.rodape{font-size:12.5px;color:var(--tinta-3);margin-top:26px}
+
+/* edição */
+[data-e]{border-radius:6px;transition:background .15s, box-shadow .15s}
+body.editando [data-e]{background:#FFFDF6;box-shadow:0 0 0 1px var(--ouro);outline:none;cursor:text}
+body.editando [data-e]:focus{box-shadow:0 0 0 2px var(--ouro-escuro)}
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--linha)}
+.barra .in{display:flex;align-items:center;gap:8px;padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.barra button{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:9px 14px;border:1px solid var(--linha-forte,#D6CCBD);background:var(--superficie);color:var(--tinta);cursor:pointer}
+.barra button.prim{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.barra button[hidden]{display:none}
+.status{font-size:13px;color:var(--tinta-3);margin-left:auto;text-align:right}
+.status.ok{color:var(--ok)}
+
+/* modo cards (gravação) */
+.deck-topo,.deck-acoes,.deck-fim,.gravados{display:none}
+body.cartoes .topo,body.cartoes .regras,body.cartoes .secao,body.cartoes .rodape{display:none}
+body.cartoes main .in{padding-top:14px}
+body.cartoes article.cartao{display:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+body.cartoes article.cartao.atual{display:block;will-change:transform}
+body.cartoes article.cartao.voando{transition:transform .28s ease, opacity .28s ease}
+body.cartoes .gancho{font-size:21px}
+body.cartoes .fala{font-size:18px;line-height:1.6}
+body.cartoes .cta{font-size:17px}
+body.cartoes .deck-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px;font-size:14px;color:var(--tinta-3)}
+body.cartoes .deck-topo b{color:var(--tinta)}
+body.cartoes .deck-acoes{display:flex;gap:8px;margin:14px 0 0;flex-wrap:wrap}
+.deck-acoes button,.gravados button,.deck-fim button{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:10px 14px;border:1px solid #D6CCBD;background:var(--superficie);color:var(--tinta);cursor:pointer}
+.deck-acoes .gravei{flex:1;background:var(--ok);border-color:var(--ok);color:#fff}
+body.cartoes .deck-fim.mostra{display:block;text-align:center;background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);padding:28px 18px}
+.deck-fim p{margin:0 0 14px;font-size:18px;font-weight:600}
+body.cartoes .gravados.mostra{display:block;margin:18px 0 0}
+.gravados p{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-3);margin:0 0 8px}
+.gravados .lista{display:flex;gap:8px;flex-wrap:wrap}
+.gravados button{font-size:14px;padding:7px 12px;background:var(--superficie-2)}
+.dica{font-size:13px;color:var(--tinta-3);margin:10px 0 0;text-align:center}
+body.cartoes .dica{display:block}
+.dica{display:none}
+</style>
+<style>
+.dados{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 0}
+.dados th,.dados td{border-bottom:1px solid var(--linha);padding:7px 6px;text-align:left}
+.dados td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rolagem{overflow-x:auto}
+.porque{font-size:14.5px;color:var(--tinta-2);background:#E9F3EC;border-radius:10px;padding:10px 12px;margin:12px 0 0}
+.tela{font-size:14px;color:var(--tinta-2);margin:0;white-space:pre-line}
+body.cartoes .analise{display:none}
 </style>
 </head>
 <body>
 <header class="topo"><div class="in">
   <p class="kicker">Schumann Advogados · Salário-maternidade</p>
-  <h1>Roteiros novos para gravar</h1>
-  <p class="sub">Seis vídeos (AD09 a AD14). Mantêm o gancho de notícia que fez o AD01 ganhar a entrega e acrescentam um filtro falado: quem tem direito e quem não tem. Menos lead barato, mais lead que passa no quiz.</p>
-  <p class="data">23/09/2026 · dados de 09 a 23/09 · duração alvo de 30 a 45 segundos</p>
+  <h1 data-e="titulo">Roteiros v3: direto para a grávida desempregada</h1>
+  <p class="sub" data-e="sub">Cinco vídeos (AD15 a AD19). Todos abrem chamando a gestante desempregada, o público mais qualificado da campanha. O rural e o MEI entram só no meio do AD18, sem vídeo exclusivo.</p>
 </div></header>
-
-<nav class="indice" aria-label="Roteiros"><div class="in">
-  <a href="#numeros">Números</a><a href="#regras">Regras</a>
-  <a href="#ad09">AD09</a><a href="#ad10">AD10</a><a href="#ad11">AD11</a><a href="#ad12">AD12</a><a href="#ad13">AD13</a><a href="#ad14">AD14</a>
-  <a href="#subir">Como subir</a>
-</div></nav>
 
 <main><div class="in">
 
-<section class="cartao" id="numeros">
-  <h2>O que os números mostram</h2>
-  <div class="rolagem"><table>
-    <thead><tr><th>Criativo</th><th class="n">Investido</th><th class="n">Leads Meta</th><th class="n">CPL</th><th class="n">Leads no quiz</th><th class="n">Quentes</th></tr></thead>
+<div class="regras" data-e="regras" style="white-space:pre-line">O que mudou da v2 (23/09)
+• Todo gancho começa com "Se você está grávida e desempregada" (ou a variação do AD17).
+• Saíram os vídeos exclusivos de rural (AD12) e de MEI (AD11). O rural aparece dentro do AD18.
+• Continua: nunca "garantido", "sem custo" ou "grátis"; sempre "pode ter direito" e "a nossa equipe analisa o seu caso".
+• CTA sempre para o teste de 1 minuto (o quiz). 30 a 40 segundos por vídeo.</div>
+
+<section class="cartao analise">
+  <h2>Por que esse público</h2>
+  <div class="rolagem"><table class="dados">
+    <thead><tr><th>Criativo (09 a 23/09)</th><th class="n">Investido</th><th class="n">Leads</th><th class="n">CPL</th><th class="n">Quentes</th></tr></thead>
     <tbody>
-      <tr class="destaque"><td>AD01 · INSS mudou a regra</td><td class="n">R$ 755</td><td class="n">145</td><td class="n">R$ 5,21</td><td class="n">152</td><td class="n">4 (2,6%)</td></tr>
-      <tr><td>AD08 · Grávida e desempregada</td><td class="n">R$ 428</td><td class="n">16</td><td class="n">R$ 26,73</td><td class="n">16</td><td class="n">0</td></tr>
-      <tr><td>AD06 · Grávida sem carteira</td><td class="n">R$ 108</td><td class="n">3</td><td class="n">R$ 36,01</td><td class="n">3</td><td class="n">0</td></tr>
-      <tr><td>AD02 a AD07</td><td class="n">quase zero</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>AD01 · INSS mudou a regra</td><td class="n">R$ 755</td><td class="n">145</td><td class="n">R$ 5,21</td><td class="n">4 (2,6%)</td></tr>
+      <tr><td>AD08 · Grávida e desempregada</td><td class="n">R$ 428</td><td class="n">16</td><td class="n">R$ 26,73</td><td class="n">0</td></tr>
     </tbody>
   </table></div>
-  <p class="nota">O AD01 abre com <strong>notícia e fato concreto</strong> ("o INSS mudou a regra", "o Supremo derrubou"). Mas fala com todas as mães, e quase nenhuma se enquadra: só 2,6% chegam quentes. <strong>Cada lead quente sai por cerca de R$ 190.</strong></p>
+  <p class="sub" style="margin-top:10px">O AD01 traz lead barato, mas quase nenhum se enquadra. A gestante desempregada é quem mais tem chance de direito. O AD08 falava com ela, mas sem explicar o porquê (o período de graça). A v3 mantém o público do AD08 e dá a ela o motivo para acreditar.</p>
 </section>
 
-<section class="cartao" id="regras">
-  <h2>Regras de todos os roteiros</h2>
-  <ul class="regras">
-    <li>Nunca "garantido", "sem custo" ou "grátis". Sempre "pode ter direito" e "a equipe analisa o seu caso" (publicidade da advocacia).</li>
-    <li>Todo roteiro diz, em algum momento, <strong>para quem não é</strong>: CLT com licença paga pela empresa, filho com mais de 5 anos.</li>
-    <li>CTA sempre para o teste de 1 minuto (o quiz), não para "falar com advogado".</li>
-    <li>30 a 45 segundos, com texto na tela reforçando o filtro.</li>
-  </ul>
-</section>
+<p class="secao">Roteiros para gravar</p>
+<article class="cartao convite" data-id="ad15" data-nome="AD15">
+  <div class="cab"><span class="cod">AD15</span><span class="meta" data-e="ad15-meta">~35 s</span></div>
+  <h2 data-e="ad15-titulo">Grávida e desempregada: o INSS ainda te protege</h2>
+  <p class="rot">Gancho · 0 a 3 s</p>
+  <p class="gancho" data-e="ad15-gancho">"Se você está grávida e desempregada, presta atenção: você pode ter direito ao salário-maternidade, mesmo sem emprego."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="ad15-fala">Quando você sai de um emprego com carteira assinada, o INSS continua te protegendo por um tempo. Isso se chama período de graça. Em geral é de um ano depois da última contribuição, e pode chegar a três.
 
-<article class="cartao roteiro" id="ad09">
-  <span class="cod">AD09</span><h2>A regra mudou, mas não é para todo mundo</h2>
-  <div class="bloco"><p class="rot">Gancho · 0 a 3 s</p><p class="gancho">"O INSS mudou a regra do salário-maternidade. Mas presta atenção, porque isso não vale para todo mundo."</p></div>
-  <div class="bloco fala"><p class="rot">Fala</p>
-    <p>Até 2024, quem pagava o INSS por conta própria precisava de dez meses de contribuição para ter direito. O Supremo derrubou essa exigência. Hoje, essa carência não existe mais.</p>
-    <p>Isso vale para quem é MEI, autônoma, contribui por conta própria, trabalha no campo ou estava desempregada quando o bebê nasceu.</p>
-    <p>Se você tinha carteira assinada e a empresa pagou a sua licença, esse vídeo não é para você.</p>
-    <p>Agora, se o seu filho nasceu nos últimos cinco anos e você nunca recebeu, faz o teste aqui embaixo. São cinco perguntas, leva um minuto, e a nossa equipe jurídica analisa o seu caso.</p></div>
-  <div class="bloco"><p class="rot">Na tela</p><ul class="tela"><li>MEI · autônoma · desempregada · trabalhadora rural</li><li>Filho com até 5 anos</li><li class="nao">Carteira assinada com licença paga? Não é para você.</li></ul></div>
-  <div class="bloco"><p class="porque"><strong>Por que deve funcionar:</strong> mantém o gancho que ganhou a entrega e tira da frente, falando, quem não se enquadra.</p></div>
+Se o bebê nascer dentro desse prazo, quem paga o salário-maternidade é o INSS, direto para você. São cento e vinte dias de benefício.
+
+E você não precisa esperar o bebê nascer: dá para pedir a partir de vinte e oito dias antes do parto.</p>
+  <p class="rot">Na tela</p>
+  <p class="tela" data-e="ad15-tela">"Grávida e desempregada?"
+"Período de graça: até 1 ano (às vezes 3)"
+"Pode pedir 28 dias antes do parto"</p>
+  <p class="rot">Fechamento</p>
+  <p class="cta" data-e="ad15-cta">"Faz o teste aqui embaixo. São cinco perguntas, leva um minuto, e a nossa equipe analisa o seu caso."</p>
+  <p class="porque" data-e="ad15-porque">Por que deve funcionar: é o público mais qualificado da campanha, chamado pelo nome na primeira frase, e o período de graça é o motivo para ela acreditar.</p>
+</article>
+<article class="cartao convite" data-id="ad16" data-nome="AD16">
+  <div class="cab"><span class="cod">AD16</span><span class="meta" data-e="ad16-meta">~30 s</span></div>
+  <h2 data-e="ad16-titulo">"Sem carteira, não tenho direito." Não é bem assim</h2>
+  <p class="rot">Gancho · 0 a 3 s</p>
+  <p class="gancho" data-e="ad16-gancho">"Se você está grávida e desempregada, e alguém te disse que sem carteira assinada você não recebe nada: não é bem assim."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="ad16-fala">Muita gestante desempregada nem pede o salário-maternidade, porque acha que o direito acabou junto com o emprego.
+
+Só que, se você trabalhou de carteira assinada e saiu há pouco tempo, você ainda é segurada do INSS. E a segurada tem direito ao benefício, mesmo desempregada.
+
+Quem decide se o seu caso se encaixa não é o que te falaram. São as datas: quando você saiu do emprego e quando o bebê vai nascer.</p>
+  <p class="rot">Na tela</p>
+  <p class="tela" data-e="ad16-tela">"Grávida + desempregada = sem direito?"
+"Não necessariamente"
+"O que decide são as datas"</p>
+  <p class="rot">Fechamento</p>
+  <p class="cta" data-e="ad16-cta">"Faz o teste aqui embaixo, leva um minuto. A nossa equipe olha as suas datas e te diz se vale a pena pedir."</p>
+  <p class="porque" data-e="ad16-porque">Por que deve funcionar: ataca a crença que faz a gestante desistir antes de clicar, e já puxa a informação que o quiz precisa (as datas).</p>
+</article>
+<article class="cartao convite" data-id="ad17" data-nome="AD17">
+  <div class="cab"><span class="cod">AD17</span><span class="meta" data-e="ad17-meta">~35 s</span></div>
+  <h2 data-e="ad17-titulo">Saiu do emprego e descobriu a gravidez depois?</h2>
+  <p class="rot">Gancho · 0 a 3 s</p>
+  <p class="gancho" data-e="ad17-gancho">"Você saiu do emprego e descobriu que estava grávida depois? Você pode não ter perdido o seu salário-maternidade."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="ad17-fala">Pedido de demissão, fim de contrato, demissão sem justa causa: em todos esses casos, o INSS continua te protegendo por um tempo depois da saída.
+
+Em geral é um ano. Se você recebeu seguro-desemprego, pode ser mais. E se você contribuiu por mais de dez anos seguidos, mais ainda.
+
+Então, se você saiu do emprego no último ano e está grávida agora, o seu caso merece ser olhado com calma.</p>
+  <p class="rot">Na tela</p>
+  <p class="tela" data-e="ad17-tela">"Saiu do emprego no último ano?"
+"Está grávida agora?"
+"Seu caso merece ser analisado"</p>
+  <p class="rot">Fechamento</p>
+  <p class="cta" data-e="ad17-cta">"Faz o teste aqui embaixo. Em um minuto você descobre se vale a pena a nossa equipe olhar o seu caso."</p>
+  <p class="porque" data-e="ad17-porque">Por que deve funcionar: fala com a situação exata da gestante que saiu do emprego, e o recorte "no último ano" filtra quem saiu há muito tempo.</p>
+</article>
+<article class="cartao convite" data-id="ad18" data-nome="AD18">
+  <div class="cab"><span class="cod">AD18</span><span class="meta" data-e="ad18-meta">~35 s</span></div>
+  <h2 data-e="ad18-titulo">Três perguntas para a grávida desempregada</h2>
+  <p class="rot">Gancho · 0 a 3 s</p>
+  <p class="gancho" data-e="ad18-gancho">"Se você está grávida e desempregada, responde três perguntas comigo."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="ad18-fala">Primeira: você trabalhou de carteira assinada, ou pagava o INSS como MEI ou autônoma?
+
+Segunda: você parou de trabalhar ou de pagar há menos de um ano?
+
+Terceira: o bebê nasce nos próximos meses, ou nasceu há pouco tempo?
+
+Se foram três sins, você pode ter direito ao salário-maternidade pago pelo INSS. E se você trabalha no campo, com a família, também vale fazer o teste: a regra para a trabalhadora rural é outra.</p>
+  <p class="rot">Na tela</p>
+  <p class="tela" data-e="ad18-tela">As três perguntas aparecendo uma por vez, com um ✓ a cada uma.
+"Trabalhadora rural? Também faça o teste."</p>
+  <p class="rot">Fechamento</p>
+  <p class="cta" data-e="ad18-cta">"Faz o teste completo aqui embaixo, leva um minuto, e a nossa equipe analisa a sua situação."</p>
+  <p class="porque" data-e="ad18-porque">Por que deve funcionar: o próprio vídeo é a triagem, e é aqui que o rural e o MEI entram, no meio, sem vídeo exclusivo.</p>
+</article>
+<article class="cartao convite" data-id="ad19" data-nome="AD19">
+  <div class="cab"><span class="cod">AD19</span><span class="meta" data-e="ad19-meta">~30 s</span></div>
+  <h2 data-e="ad19-titulo">Grávida desempregada: o INSS negou?</h2>
+  <p class="rot">Gancho · 0 a 3 s</p>
+  <p class="gancho" data-e="ad19-gancho">"Se você está grávida e desempregada e o INSS negou o seu salário-maternidade, não desiste ainda."</p>
+  <p class="rot">Fala</p>
+  <p class="fala" data-e="ad19-fala">Muito pedido de gestante desempregada é negado por detalhe: a data de saída do emprego, o prazo que o INSS considerou, um documento que faltou.
+
+Às vezes o prazo que valia para você era maior do que o INSS contou, por causa do seguro-desemprego ou do tempo de contribuição.
+
+Se você recebeu uma negativa, guarda a carta. É ela que mostra o que dá para contestar.</p>
+  <p class="rot">Na tela</p>
+  <p class="tela" data-e="ad19-tela">"Pedido negado?"
+"Guarda a carta do INSS"
+"O prazo pode ser maior do que o INSS contou"</p>
+  <p class="rot">Fechamento</p>
+  <p class="cta" data-e="ad19-cta">"Faz o teste aqui embaixo. A nossa equipe analisa o seu caso e a carta que o INSS te mandou."</p>
+  <p class="porque" data-e="ad19-porque">Por que deve funcionar: mesma dor do AD04, que teve o maior CTR da conta (7,4%), agora recortada para a gestante desempregada.</p>
 </article>
 
-<article class="cartao roteiro" id="ad10">
-  <span class="cod">AD10</span><h2>Saí do emprego grávida. Perdi o direito?</h2>
-  <div class="bloco"><p class="rot">Gancho · 0 a 3 s</p><p class="gancho">"Você saiu do emprego e descobriu que estava grávida? Você pode não ter perdido o seu salário-maternidade."</p></div>
-  <div class="bloco fala"><p class="rot">Fala</p>
-    <p>Quando você sai de um emprego com carteira assinada, o INSS continua te protegendo por um tempo. Isso se chama período de graça. Em geral, é de um ano depois da última contribuição, e em alguns casos chega a três.</p>
-    <p>Se o bebê nasceu dentro desse prazo, quem paga o salário-maternidade é o INSS, mesmo você estando desempregada.</p>
-    <p>Muita mulher não pede porque acha que, sem emprego, não tem direito.</p>
-    <p>Se foi o seu caso e o seu filho tem até cinco anos, faz o teste aqui embaixo. Em um minuto você descobre se vale a pena a nossa equipe olhar o seu caso.</p></div>
-  <div class="bloco"><p class="rot">Na tela</p><ul class="tela"><li>Desempregada quando o bebê nasceu?</li><li>Período de graça: até 1 ano (às vezes 3)</li><li>Filho com até 5 anos</li></ul></div>
-  <div class="bloco"><p class="porque"><strong>Por que deve funcionar:</strong> o AD08 fala com a mesma mãe, mas não explica o porquê. Aqui o período de graça é o motivo para ela acreditar, e já filtra quem saiu do emprego há muito tempo.</p></div>
-</article>
-
-<article class="cartao roteiro" id="ad11">
-  <span class="cod">AD11</span><h2>MEI também tem licença-maternidade</h2>
-  <div class="bloco"><p class="rot">Gancho · 0 a 3 s</p><p class="gancho">"Você é MEI e acha que não tem licença-maternidade? Tem, e é o INSS que paga."</p></div>
-  <div class="bloco fala"><p class="rot">Fala</p>
-    <p>Quem é MEI e paga a guia todo mês contribui para o INSS. E quem contribui tem direito ao salário-maternidade: são cento e vinte dias de benefício.</p>
-    <p>Desde 2024, você não precisa mais ter dez meses de contribuição antes do parto. O Supremo derrubou essa regra.</p>
-    <p>Vale também para quem é autônoma e paga o INSS por conta própria.</p>
-    <p>O ponto é: você precisa pedir. O INSS não paga sozinho.</p>
-    <p>Se o seu filho nasceu nos últimos cinco anos e você nunca pediu, faz o teste aqui embaixo e a nossa equipe analisa o seu caso.</p></div>
-  <div class="bloco"><p class="rot">Na tela</p><ul class="tela"><li>MEI · autônoma</li><li>120 dias de benefício</li><li>Não precisa mais de 10 meses de contribuição</li></ul></div>
-  <div class="bloco"><p class="porque"><strong>Por que deve funcionar:</strong> público definido pela profissão, que se reconhece nos primeiros segundos. Quem não é MEI nem autônoma rola a tela.</p></div>
-</article>
-
-<article class="cartao roteiro" id="ad12">
-  <span class="cod">AD12</span><h2>Trabalha na roça? Pode ter direito sem ter pago o INSS</h2>
-  <div class="bloco"><p class="rot">Gancho · 0 a 3 s</p><p class="gancho">"Se você trabalha na roça, você pode ter direito ao salário-maternidade mesmo sem nunca ter pago o INSS."</p></div>
-  <div class="bloco fala"><p class="rot">Fala</p>
-    <p>A trabalhadora rural que vive da agricultura com a família é o que o INSS chama de segurada especial. Ela não precisa ter pago guia para ter direito. O que precisa é comprovar que trabalha no campo.</p>
-    <p>Isso vale também para pescadora artesanal.</p>
-    <p>Muita mulher do interior nunca pediu porque achou que só tinha direito quem tem carteira assinada.</p>
-    <p>Se você trabalha no campo e teve filho nos últimos cinco anos, faz o teste aqui embaixo. A nossa equipe analisa o seu caso e diz quais documentos servem para comprovar.</p></div>
-  <div class="bloco"><p class="rot">Na tela</p><ul class="tela"><li>Trabalhadora rural · pescadora</li><li>Não precisa ter pago o INSS</li><li>Filho com até 5 anos</li></ul></div>
-  <div class="bloco"><p class="porque"><strong>Por que deve funcionar:</strong> é o público com mais chance de ter direito, e ninguém fala com ele. Segmentar por interior e estados agrícolas ajuda.</p></div>
-</article>
-
-<article class="cartao roteiro" id="ad13">
-  <span class="cod">AD13</span><h2>Três perguntas antes de desistir do seu direito</h2>
-  <div class="bloco"><p class="rot">Gancho · 0 a 3 s</p><p class="gancho">"Responde três perguntas. Se for sim para as três, você pode ter um salário-maternidade para receber."</p></div>
-  <div class="bloco fala"><p class="rot">Fala</p>
-    <p>Primeira: o seu filho nasceu nos últimos cinco anos?</p>
-    <p>Segunda: quando ele nasceu, você era MEI, autônoma, trabalhava no campo ou estava desempregada?</p>
-    <p>Terceira: você nunca recebeu o salário-maternidade por esse filho?</p>
-    <p>Se foram três sins, você pode ter direito, e muita mulher nessa situação nunca pediu.</p>
-    <p>Se você tinha carteira assinada e recebeu a licença pela empresa, esse não é o seu caso.</p>
-    <p>Faz o teste completo aqui embaixo, leva um minuto, e a nossa equipe analisa a sua situação.</p></div>
-  <div class="bloco"><p class="rot">Na tela</p><ul class="tela"><li>As três perguntas aparecendo uma por vez, com um ✓ a cada uma</li></ul></div>
-  <div class="bloco"><p class="porque"><strong>Por que deve funcionar:</strong> o próprio vídeo é a triagem. Quem clica já passou pelas três perguntas antes de chegar ao quiz.</p></div>
-</article>
-
-<article class="cartao roteiro" id="ad14">
-  <span class="cod">AD14</span><h2>O INSS negou? Pode ter sido pela regra antiga</h2>
-  <div class="bloco"><p class="rot">Gancho · 0 a 3 s</p><p class="gancho">"O INSS negou o seu salário-maternidade por falta de carência? Essa regra caiu."</p></div>
-  <div class="bloco fala"><p class="rot">Fala</p>
-    <p>Até 2024, muitos pedidos de mulheres que pagavam o INSS por conta própria eram negados por falta de dez meses de contribuição.</p>
-    <p>O Supremo derrubou essa exigência. Quem teve o pedido negado por esse motivo pode ter uma nova chance.</p>
-    <p>Se o seu filho nasceu nos últimos cinco anos e o seu pedido foi negado por carência, faz o teste aqui embaixo. A nossa equipe analisa o seu caso e a carta que o INSS te mandou.</p></div>
-  <div class="bloco"><p class="rot">Na tela</p><ul class="tela"><li>Pedido negado por falta de carência?</li><li>A regra caiu em 2024</li></ul></div>
-  <div class="bloco"><p class="porque"><strong>Por que deve funcionar:</strong> o AD04 (pedido negado) teve o maior CTR da conta, 7,4%, mas nunca recebeu verba para mostrar se converte. Público pequeno e muito qualificado: já tentou e tem documento em mão.</p></div>
-</article>
-
-<section class="cartao" id="subir">
-  <h2>Como subir</h2>
-  <ul class="regras">
-    <li>Mesma campanha do quiz (<strong>cbo-leads-site-quiz-maternidade</strong>), num conjunto novo de teste, com os 6 roteiros.</li>
-    <li>Medir pelo <strong>lead quente do quiz</strong> (painel do grupo → Escritório → Maternidade), não pelo CPL da Meta.</li>
-    <li>Critério para escalar: custo por lead quente abaixo dos ~R$ 190 atuais do AD01.</li>
-  </ul>
-</section>
-
-<p class="rodape">Schumann Advogados · documento interno, não indexado.</p>
+<p class="rodape">Schumann Advogados · documento interno, não indexado. Medir pelo lead quente do quiz (painel do grupo → Escritório → Maternidade), não pelo CPL da Meta. Escalar o que ficar abaixo de ~R$ 190 por lead quente.</p>
 </div></main>
+
+<nav class="barra" aria-label="Edição"><div class="in">
+  <button type="button" id="bCards">Modo gravação</button>
+  <button type="button" class="prim" id="bEditar">Editar texto</button>
+  <button type="button" class="prim" id="bSalvar" hidden>Salvar</button>
+  <button type="button" id="bCancelar" hidden>Cancelar</button>
+  <span class="status" id="status">Carregando…</span>
+</div></nav>
+
+<script>
+/* Edição direto na página.
+   Cada trecho editável tem data-e. "Salvar" grava um INSERT em
+   public.roteiros_edicoes (Supabase gerenciado) com {data-e: texto};
+   ao abrir, a página aplica a versão mais recente. Só texto puro entra
+   e sai (textContent), então ninguém injeta HTML na página dos outros.
+   Nada se perde: cada Salvar é uma linha nova, as antigas ficam. */
+(function(){
+  var SLUG = 'roteiros-maternidade';
+  var URL = 'https://vmgyqhfesneannfqrvzg.supabase.co/rest/v1/roteiros_edicoes';
+  var KEY = 'sb_publishable_i3Uz9zvdLeXddbw-HOBP9w_mBTsi32k';
+  var H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
+  var campos = Array.prototype.slice.call(document.querySelectorAll('[data-e]'));
+  var st = document.getElementById('status');
+  var bE = document.getElementById('bEditar'), bS = document.getElementById('bSalvar'), bC = document.getElementById('bCancelar');
+  var copia = null;
+
+  function ler(){ var o = {}; campos.forEach(function(el){ o[el.getAttribute('data-e')] = el.innerText.replace(/ /g,' ').replace(/\n{3,}/g,'\n\n').trim(); }); return o; }
+  function aplicar(o){ campos.forEach(function(el){ var k = el.getAttribute('data-e'); if (typeof o[k] === 'string') el.textContent = o[k]; }); }
+  function hora(iso){ var d = new Date(iso); return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}) + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+  function status(t, ok){ st.textContent = t; st.className = 'status' + (ok ? ' ok' : ''); }
+  function modo(ed){
+    document.body.classList.toggle('editando', ed);
+    campos.forEach(function(el){ if (ed) el.setAttribute('contenteditable','plaintext-only'); else el.removeAttribute('contenteditable'); });
+    if (ed && campos[0].contentEditable !== 'plaintext-only') campos.forEach(function(el){ el.setAttribute('contenteditable','true'); });
+    bE.hidden = ed; bS.hidden = !ed; bC.hidden = !ed;
+  }
+
+  fetch(URL + '?slug=eq.' + SLUG + '&select=campos,criado_em&order=criado_em.desc&limit=1', { headers: H })
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(l){ if (l && l[0]) { aplicar(l[0].campos); status('Última edição: ' + hora(l[0].criado_em)); } else status('Versão original'); })
+    .catch(function(){ status('Sem conexão: mostrando a versão original'); });
+
+  bE.onclick = function(){ copia = ler(); modo(true); status('Toque no texto para editar'); };
+  bC.onclick = function(){ aplicar(copia); modo(false); status('Edição cancelada'); };
+  bS.onclick = function(){
+    var dados = ler(); bS.disabled = true; status('Salvando…');
+    fetch(URL, { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json', Prefer: 'return=representation' }, H), body: JSON.stringify({ slug: SLUG, campos: dados }) })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(l){ modo(false); aplicar(dados); status('Salvo ' + hora(l[0].criado_em), true); })
+      .catch(function(){ status('Não salvou. Confira a internet e tente de novo.'); })
+      .then(function(){ bS.disabled = false; });
+  };
+})();
+</script>
+<script>
+/* Modo gravação: um roteiro por vez, em tela cheia no celular.
+   Arrastar o card para o lado (ou "Gravado ✓") tira ele da pilha;
+   "Já gravados" traz de volta. A marcação fica neste aparelho
+   (localStorage), para quem está gravando. */
+(function(){
+  var CHAVE = 'roteiros-maternidade:gravados';
+  var cards = Array.prototype.slice.call(document.querySelectorAll('article.cartao[data-id]'));
+  var bCards = document.getElementById('bCards'), bEditar = document.getElementById('bEditar');
+  var gravados = [];
+  try { gravados = JSON.parse(localStorage.getItem(CHAVE) || '[]'); } catch (e) {}
+  var idx = 0;
+  function guardar(){ try { localStorage.setItem(CHAVE, JSON.stringify(gravados)); } catch (e) {} }
+  function pilha(){ return cards.filter(function(c){ return gravados.indexOf(c.dataset.id) < 0; }); }
+  function $(id){ return document.getElementById(id); }
+  function pintar(){
+    var p = pilha();
+    if (idx >= p.length) idx = Math.max(0, p.length - 1);
+    cards.forEach(function(c){ c.classList.remove('atual'); c.style.transform=''; c.style.opacity=''; });
+    if (p.length) p[idx].classList.add('atual');
+    $('dPos').textContent = p.length ? idx + 1 : 0; $('dTot').textContent = p.length;
+    $('dGrav').textContent = gravados.length + (gravados.length === 1 ? ' gravado' : ' gravados');
+    $('dFim').classList.toggle('mostra', !p.length);
+    $('dAcoes').style.display = p.length ? '' : 'none';
+    var lista = $('dLista'); lista.innerHTML = '';
+    gravados.forEach(function(id){
+      var c = cards.filter(function(x){ return x.dataset.id === id; })[0]; if (!c) return;
+      var b = document.createElement('button'); b.type = 'button';
+      b.textContent = '↶ ' + c.dataset.nome + ' · ' + c.querySelector('h2').textContent;
+      b.onclick = function(){ voltar(id); };
+      lista.appendChild(b);
+    });
+    $('dGravados').classList.toggle('mostra', gravados.length > 0);
+  }
+  function marcar(dir){
+    var p = pilha(); if (!p.length) return;
+    var c = p[idx];
+    c.classList.add('voando');
+    c.style.transform = 'translateX(' + (dir * 120) + '%) rotate(' + (dir * 8) + 'deg)'; c.style.opacity = '0';
+    setTimeout(function(){ c.classList.remove('voando'); gravados.push(c.dataset.id); guardar(); pintar(); window.scrollTo(0,0); }, 260);
+  }
+  function voltar(id){
+    gravados = gravados.filter(function(x){ return x !== id; }); guardar();
+    idx = pilha().map(function(c){ return c.dataset.id; }).indexOf(id); pintar(); window.scrollTo(0,0);
+  }
+  $('dGravei').onclick = function(){ marcar(1); };
+  $('dProx').onclick = function(){ var n = pilha().length; if (n) { idx = (idx + 1) % n; pintar(); window.scrollTo(0,0); } };
+  $('dAnt').onclick = function(){ var n = pilha().length; if (n) { idx = (idx - 1 + n) % n; pintar(); window.scrollTo(0,0); } };
+  $('dVoltarFim').onclick = function(){ if (gravados.length) voltar(gravados[gravados.length - 1]); };
+
+  /* arrastar */
+  cards.forEach(function(c){
+    var x0 = null, y0 = null, dx = 0, horizontal = null;
+    c.addEventListener('pointerdown', function(e){
+      if (!document.body.classList.contains('cartoes') || document.body.classList.contains('editando')) return;
+      x0 = e.clientX; y0 = e.clientY; dx = 0; horizontal = null;
+    });
+    c.addEventListener('pointermove', function(e){
+      if (x0 === null) return;
+      var mx = e.clientX - x0, my = e.clientY - y0;
+      if (horizontal === null && (Math.abs(mx) > 8 || Math.abs(my) > 8)) { horizontal = Math.abs(mx) > Math.abs(my); if (horizontal) c.setPointerCapture(e.pointerId); }
+      if (!horizontal) return;
+      dx = mx; c.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx / 40) + 'deg)'; c.style.opacity = String(Math.max(.35, 1 - Math.abs(dx) / 400));
+    });
+    function soltar(){
+      if (x0 === null) return;
+      x0 = null;
+      if (horizontal && Math.abs(dx) > 110) marcar(dx > 0 ? 1 : -1);
+      else { c.classList.add('voando'); c.style.transform = ''; c.style.opacity = ''; setTimeout(function(){ c.classList.remove('voando'); }, 280); }
+    }
+    c.addEventListener('pointerup', soltar); c.addEventListener('pointercancel', soltar);
+  });
+
+  function modoCards(on){
+    document.body.classList.toggle('cartoes', on);
+    bCards.textContent = on ? 'Ver lista' : 'Modo gravação';
+    bEditar.hidden = on;
+    if (on) { idx = 0; pintar(); } else cards.forEach(function(c){ c.classList.remove('atual'); c.style.transform=''; c.style.opacity=''; });
+    try { localStorage.setItem(CHAVE + ':modo', on ? '1' : '0'); } catch (e) {}
+    window.scrollTo(0,0);
+  }
+  bCards.onclick = function(){ if (!document.body.classList.contains('editando')) modoCards(!document.body.classList.contains('cartoes')); };
+  var salvo = null; try { salvo = localStorage.getItem(CHAVE + ':modo'); } catch (e) {}
+  if (salvo === '1') modoCards(true);
+})();
+</script>
 </body>
 </html>
