@@ -4,285 +4,381 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Plantão de dúvidas · Gestão Descomplicada | Advocacia de Impacto</title>
-<meta name="description" content="Tire suas dúvidas sobre o Gestão Descomplicada com o time da Advocacia de Impacto pelo WhatsApp.">
-<meta name="theme-color" content="#14110D">
+<meta name="description" content="Ficou com dúvida sobre o Gestão Descomplicada? Fale com um especialista da Advocacia de Impacto pelo WhatsApp, sem compromisso.">
+<meta name="theme-color" content="#01050E">
 <!-- página de fechamento da Imersão: não deve ser indexada -->
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Advocacia de Impacto">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="Plantão de dúvidas · Gestão Descomplicada">
-<meta property="og:description" content="Ficou com dúvida sobre o Gestão Descomplicada? Fala com o nosso time no WhatsApp.">
-<meta property="og:image" content="https://forms.advocaciadeimpacto.adv.br/og.png">
+<meta property="og:description" content="Fale com um especialista pelo WhatsApp, sem compromisso.">
+<meta property="og:image" content="https://forms.advocaciadeimpacto.adv.br/plantao/gd-capa.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23231b12'/><text y='23' x='16' text-anchor='middle' font-size='20' font-family='sans-serif' font-weight='bold' fill='%23d9b681'>A</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/plantao/gd-capa.webp">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2301050E'/><text y='23' x='16' text-anchor='middle' font-size='20' font-family='sans-serif' font-weight='bold' fill='%23E6C48F'>A</text></svg>">
 <style>
+/* Identidade tirada da apresentação do Canva (DAHWION3SNw):
+   fundo azul-noite quase preto, brilho âmbar no alto e azul na lateral,
+   dourado #E6C48F nos destaques, Montserrat em caixa alta nos títulos. */
 :root{
-  --bg:oklch(0.13 0.012 62);--bg-2:oklch(0.175 0.016 60);--bg-3:oklch(0.225 0.019 58);
-  --line:oklch(0.32 0.022 60);--line-soft:oklch(0.245 0.018 60);
-  --gold:oklch(0.80 0.085 78);--gold-hi:oklch(0.90 0.058 86);--gold-deep:oklch(0.60 0.078 62);--gold-dim:oklch(0.42 0.045 62);
-  --tx:oklch(0.95 0.008 72);--tx-2:oklch(0.75 0.013 68);--tx-3:oklch(0.58 0.015 64);
-  --wa:oklch(0.72 0.15 150);--wa-hi:oklch(0.80 0.14 150);
-  --chanfro:14px;--ease:cubic-bezier(0.16,1,0.3,1);
+  --noite:#01050E; --noite-2:#060B16; --noite-3:#0B1322;
+  --ambar:#3B291B; --azul-brilho:#162636;
+  --ouro:#E6C48F; --ouro-forte:#D9AE6C; --ouro-suave:rgba(230,196,143,.14);
+  --branco:#EEF3FA; --texto:#C9D1DD; --texto-2:#8F9AAB;
+  --linha:rgba(238,243,250,.10); --linha-ouro:rgba(230,196,143,.35);
+  --wa:#25D366;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{background:var(--bg);background-image:radial-gradient(ellipse 90% 60% at 12% -10%,oklch(0.26 0.040 62 / .55),transparent 60%),radial-gradient(ellipse 70% 50% at 100% 108%,oklch(0.22 0.032 58 / .45),transparent 62%);background-attachment:fixed;color:var(--tx);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
-h1,h2,h3{font-family:Sora,Inter,ui-sans-serif,system-ui,sans-serif;line-height:1.14;letter-spacing:-.02em;font-weight:600}
-.chanfro{clip-path:polygon(0 0,calc(100% - var(--chanfro)) 0,100% var(--chanfro),100% 100%,var(--chanfro) 100%,0 calc(100% - var(--chanfro)))}
-.wrap{width:100%;max-width:780px;margin:0 auto;padding:0 16px}
-@media (min-width:640px){.wrap{padding:0 24px}}
-.eyebrow{display:block;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep)}
-.topbar{border-bottom:1px solid var(--line-soft);background:oklch(0.13 0.012 62 / .82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.topbar-in{max-width:780px;margin:0 auto;padding:14px 16px;display:flex;align-items:center}
-.marca-logo{display:block;height:auto;width:150px}
+body{
+  background-color:var(--noite);
+  background-image:
+    radial-gradient(ellipse 80% 38% at 62% -4%, rgba(92,64,34,.55), transparent 70%),
+    radial-gradient(ellipse 55% 45% at -8% 34%, rgba(26,48,72,.55), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 108% 72%, rgba(22,38,54,.55), transparent 70%);
+  color:var(--texto);
+  font-family:Montserrat,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden
+}
+img{display:block;max-width:100%;height:auto}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 16px}
+@media (min-width:720px){.wrap{padding:0 32px}}
 
-section{padding:44px 0;border-bottom:1px solid var(--line-soft)}
-section:last-of-type{border-bottom:0}
-h2{font-size:clamp(24px,5.6vw,32px);margin:10px 0 14px}
-.lede{color:var(--tx-2);font-size:16.5px;max-width:58ch}
+h1,h2,h3{font-family:Montserrat,sans-serif;color:var(--branco);text-transform:uppercase;letter-spacing:.005em;line-height:1.14}
+h2{font-weight:700;font-size:clamp(24px,5.4vw,38px);margin:0 0 14px}
+h2 b,h1 b{color:var(--ouro);font-weight:800}
+.fino{font-weight:400}
+.sub-u{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+.olho{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ouro);margin-bottom:12px}
+.lede{font-size:16.5px;color:var(--texto);max-width:60ch}
+.lede b{color:var(--branco);font-weight:700}
 
-.hero{padding-top:40px}
-.hero h1{font-size:clamp(30px,7.4vw,48px);margin:12px 0 16px;max-width:18ch}
-.hero h1 em{font-style:normal;color:var(--gold)}
+/* topo */
+.topo{padding:14px 0;border-bottom:1px solid var(--linha)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topo img{width:78px}
+.topo a{font-size:13px;font-weight:600;color:var(--ouro);text-decoration:none;letter-spacing:.04em;white-space:nowrap}
 
-.cta-bloco{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
-.btn{--chanfro:12px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 26px;border:0;font-family:Sora,sans-serif;font-size:15px;font-weight:600;letter-spacing:.01em;text-decoration:none;cursor:pointer;transition:background .22s var(--ease),transform .22s var(--ease);width:100%;text-align:center}
-@media (min-width:560px){.btn{width:auto}}
-.btn:hover{transform:translate3d(0,-2px,0)}
-.btn:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
-.btn-wa{background:var(--wa);color:oklch(0.16 0.02 150)}
-.btn-wa:hover{background:var(--wa-hi)}
-.btn-ouro{background:var(--gold);color:oklch(0.16 0.020 62)}
-.btn-ouro:hover{background:var(--gold-hi)}
-.btn svg{flex:none}
-.quem{font-size:14px;color:var(--tx-2)}
-.quem b{color:var(--gold);font-weight:600}
-.quem[hidden]{display:none}
+/* abertura */
+.capa{position:relative}
+.capa img{width:100%;aspect-ratio:16/9;object-fit:cover;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+@media (min-width:900px){.capa img{aspect-ratio:21/8}}
+.abertura{padding:0 0 56px;margin-top:-6px}
+.abertura-grid{display:grid;gap:28px}
+@media (min-width:900px){.abertura-grid{grid-template-columns:1.05fr .95fr;align-items:start;gap:48px}}
+.abertura h1{font-size:clamp(27px,6.6vw,44px);font-weight:400;margin:0 0 16px}
+.abertura h1 b{font-weight:800}
+.garantias-leves{list-style:none;display:grid;gap:8px;margin-top:20px}
+.garantias-leves li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.garantias-leves svg{flex:none;margin-top:4px;color:var(--ouro)}
 
-.lista{list-style:none;display:grid;gap:12px;margin-top:22px}
-@media (min-width:640px){.lista.duas{grid-template-columns:1fr 1fr}}
-.item{background:var(--bg-2);border:1px solid var(--line-soft);padding:18px 18px 16px}
-.item h3{font-size:16.5px;margin-bottom:6px;color:var(--tx)}
-.item p{color:var(--tx-2);font-size:15px}
-.item .num{font-family:Sora,sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--gold-deep);display:block;margin-bottom:4px}
-.pilares{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;list-style:none}
-.pilares li{font-size:13.5px;color:var(--tx-2);border:1px solid var(--line);padding:6px 11px}
-.sub{font-family:Sora,sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-3);margin:30px 0 0}
+/* formulário */
+.cartao-form{background:linear-gradient(180deg,rgba(11,19,34,.92),rgba(6,11,22,.92));border:1px solid var(--linha-ouro);border-radius:14px;padding:22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+@media (min-width:720px){.cartao-form{padding:28px 26px}}
+.cartao-form h2{font-size:20px;margin-bottom:6px}
+.cartao-form .nota{font-size:14px;color:var(--texto-2);margin-bottom:18px}
+.campo{margin-bottom:14px}
+.campo label{display:block;font-size:13px;font-weight:600;color:var(--branco);margin-bottom:6px;letter-spacing:.02em}
+.campo label span{font-weight:400;color:var(--texto-2)}
+.campo input,.campo textarea{width:100%;font:inherit;font-size:16px;color:var(--branco);background:rgba(1,5,14,.7);border:1px solid var(--linha);border-radius:10px;padding:13px 14px;outline:none;transition:border-color .2s}
+.campo textarea{min-height:84px;resize:vertical}
+.campo input:focus,.campo textarea:focus{border-color:var(--ouro)}
+.campo input[aria-invalid="true"]{border-color:#E57373}
+.erro{display:block;font-size:13px;color:#F2A3A3;margin-top:6px;min-height:0}
+.btn{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;padding:16px 22px;border:0;border-radius:10px;background:linear-gradient(180deg,#EDD09F,var(--ouro-forte));color:#1A1206;font:inherit;font-size:15.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn:focus-visible{outline:2px solid var(--branco);outline-offset:3px}
+.btn[disabled]{opacity:.7;cursor:wait;transform:none}
+.sem-comp{text-align:center;font-size:13px;color:var(--texto-2);margin-top:10px}
+.quem{text-align:center;font-size:14px;color:var(--texto);margin-top:10px}
+.quem b{color:var(--ouro)}
+.quem[hidden],.sucesso[hidden],form[hidden]{display:none}
+.sucesso{text-align:center;padding:10px 0}
+.sucesso svg{margin:0 auto 12px;color:var(--wa)}
+.sucesso p{font-size:17px;color:var(--branco);font-weight:600}
+.sucesso a{display:inline-block;margin-top:12px;color:var(--ouro);font-weight:600}
 
-.bonus{display:grid;gap:12px;margin-top:22px}
-.bonus .item{display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:start}
-.bonus .tag{grid-column:1/-1;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.bonus .valor{font-family:Sora,sans-serif;font-weight:600;color:var(--gold-hi);white-space:nowrap;font-size:15px}
-.bonus .item p{grid-column:1/-1}
-.total{margin-top:14px;color:var(--tx-2);font-size:15px}
-.total b{color:var(--tx)}
+/* seções */
+section.bloco{padding:56px 0;border-top:1px solid var(--linha)}
+.centro{text-align:center}
+.centro .lede{margin:0 auto}
 
-.preco{margin-top:22px;background:var(--bg-2);border:1px solid var(--line);padding:24px 20px}
-.preco .de{color:var(--tx-3);font-size:15px}
-.preco .de s{color:var(--tx-2)}
-.preco .por{font-family:Sora,sans-serif;font-size:clamp(28px,7vw,40px);font-weight:600;line-height:1.1;margin:6px 0 4px;color:var(--gold)}
-.preco .ou{color:var(--tx-2);font-size:16px}
-.preco .ou b{color:var(--tx);font-family:Sora,sans-serif}
-.passos{list-style:none;margin-top:18px;display:grid;gap:10px;counter-reset:p}
-.passos li{counter-increment:p;display:flex;gap:12px;color:var(--tx-2);font-size:15px}
-.passos li::before{content:counter(p);flex:none;width:26px;height:26px;display:grid;place-items:center;background:var(--bg-3);color:var(--gold);font-family:Sora,sans-serif;font-size:13px;font-weight:600}
+/* Guilherme + 7 pilares */
+.pilares-grid{display:grid;gap:28px;align-items:center}
+@media (min-width:860px){.pilares-grid{grid-template-columns:.9fr 1.1fr;gap:48px}.pilares-grid .foto img{aspect-ratio:4/5}}
+.foto{border-radius:14px;overflow:hidden;position:relative}
+.foto img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:30% 20%;filter:grayscale(1) contrast(1.05)}
+.foto::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 60%,rgba(1,5,14,.85))}
+.pilares{list-style:none;display:grid;gap:8px;margin-top:20px;counter-reset:p}
+@media (min-width:560px){.pilares{grid-template-columns:1fr 1fr}}
+.pilares li{counter-increment:p;display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--linha);border-radius:10px;background:rgba(6,11,22,.6);font-size:13.5px;font-weight:600;color:var(--branco);text-transform:uppercase;letter-spacing:.02em}
+.pilares li::before{content:counter(p);flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--linha-ouro);color:var(--ouro);font-size:12px;font-weight:700}
 
-.faq{margin-top:20px;display:grid;gap:10px}
-.faq details{background:var(--bg-2);border:1px solid var(--line-soft)}
-.faq summary{cursor:pointer;list-style:none;padding:16px 44px 16px 18px;font-weight:600;position:relative;font-size:15.5px}
+/* entregas */
+.entregas{display:grid;gap:12px;margin-top:28px}
+@media (min-width:640px){.entregas{grid-template-columns:1fr 1fr}}
+@media (min-width:980px){.entregas{grid-template-columns:repeat(3,1fr)}}
+.card{background:linear-gradient(180deg,rgba(11,19,34,.85),rgba(6,11,22,.85));border:1px solid var(--linha);border-radius:14px;padding:20px 18px}
+.card .ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--ouro-suave);color:var(--ouro);margin-bottom:14px}
+.card h3{font-size:15.5px;font-weight:700;margin-bottom:4px}
+.card .sub{font-size:13.5px;font-style:italic;color:var(--ouro);margin-bottom:6px}
+.card p{font-size:14.5px;color:var(--texto)}
+.rotulo{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--texto-2);margin:40px 0 0}
+
+/* ADV MIND */
+.destaque{margin-top:28px;border:1px solid var(--linha-ouro);border-radius:14px;padding:24px 20px;background:radial-gradient(ellipse at 0% 0%,rgba(92,64,34,.35),transparent 60%),rgba(6,11,22,.8)}
+.destaque h3{font-size:19px;font-weight:800;color:var(--ouro);margin-bottom:6px}
+
+/* chamada intermediária */
+.chamada{padding:48px 0;text-align:center}
+.chamada .btn{max-width:420px;margin:22px auto 0}
+
+/* informações (discretas) */
+.info-grid{display:grid;gap:14px;margin-top:24px}
+@media (min-width:860px){.info-grid{grid-template-columns:1fr 1fr}}
+.info{border:1px solid var(--linha);border-radius:14px;padding:20px 18px;background:rgba(6,11,22,.55)}
+.info h3{font-size:14px;font-weight:700;letter-spacing:.08em;color:var(--texto);margin-bottom:12px}
+.valores{font-size:15px;color:var(--texto)}
+.valores s{color:var(--texto-2)}
+.valores .forte{display:block;font-size:22px;font-weight:700;color:var(--branco);margin:4px 0 2px}
+.bonus{list-style:none;display:grid;gap:10px}
+.bonus li{display:grid;grid-template-columns:1fr auto;gap:2px 12px;font-size:14px;color:var(--texto);padding-bottom:10px;border-bottom:1px solid var(--linha)}
+.bonus li:last-child{border-bottom:0;padding-bottom:0}
+.bonus small{grid-column:1/-1;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ouro)}
+.bonus span.v{color:var(--texto-2);white-space:nowrap}
+.miuda{font-size:13px;color:var(--texto-2);margin-top:12px}
+
+/* FAQ */
+.faq{margin-top:24px;display:grid;gap:10px;max-width:820px}
+.faq details{border:1px solid var(--linha);border-radius:12px;background:rgba(6,11,22,.6)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 46px 16px 18px;font-weight:600;color:var(--branco);position:relative;font-size:15px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";position:absolute;right:18px;top:13px;font-family:Sora,sans-serif;font-size:20px;color:var(--gold)}
+.faq summary::after{content:"+";position:absolute;right:18px;top:12px;font-size:22px;font-weight:400;color:var(--ouro)}
 .faq details[open] summary::after{content:"–"}
-.faq details p{padding:0 18px 16px;color:var(--tx-2);font-size:15px}
+.faq details p{padding:0 18px 16px;font-size:15px}
 
-.fim{text-align:left}
-footer{padding:26px 0 40px;color:var(--tx-3);font-size:12.5px;border-top:1px solid var(--line-soft)}
+footer{border-top:1px solid var(--linha);padding:28px 0 40px;text-align:center;font-size:12.5px;color:var(--texto-2)}
+footer img{width:120px;margin:0 auto 10px;}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-in">
-    <img class="marca-logo" src="/marca-impacto.webp" srcset="/marca-impacto.webp 1x, /marca-impacto@2x.webp 2x" alt="Advocacia de Impacto" width="330" height="105" decoding="async">
+<header class="topo">
+  <div class="wrap">
+    <img src="/plantao/logo-adi.webp" alt="Advocacia de Impacto" width="298" height="256" decoding="async">
+    <a href="#conversar">Falar com um especialista</a>
   </div>
 </header>
 
-<main class="wrap">
+<div class="capa">
+  <img src="/plantao/gd-capa.webp" alt="Gestão Descomplicada" width="1600" height="900" fetchpriority="high">
+</div>
 
-  <section class="hero">
-    <span class="eyebrow">Plantão de dúvidas · Imersão Escritório Previsível</span>
-    <h1>Ficou com dúvida sobre o <em>Gestão Descomplicada</em>?</h1>
-    <p class="lede">O Gestão Descomplicada é o acelerador que pega na sua mão para tirar do papel tudo o que você viu na Imersão: 12 meses com o nosso acompanhamento, ao lado de outros donos de escritório.</p>
-    <div class="cta-bloco">
-      <a class="btn btn-wa chanfro js-wa" href="https://pay.hub.la/FVcC117G25jVT3melKq4" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-        Tirar minhas dúvidas no WhatsApp
-      </a>
-      <p class="quem js-quem" hidden>Você vai falar com <b class="js-quem-nome"></b></p>
-    </div>
-  </section>
-
-  <section id="incluso">
-    <span class="eyebrow">O que está incluído</span>
-    <h2>O Sistema de Gestão 7G, aplicado no seu escritório</h2>
-    <p class="lede">Conhecer os 7 pilares é o começo. O que muda o jogo é colocar os 7 para funcionar no seu escritório, na ordem certa.</p>
-    <ul class="pilares" aria-label="Os 7 pilares">
-      <li>Gestão Financeira</li>
-      <li>Gestão do Tempo e Amadurecimento</li>
-      <li>Processos Internos e Tecnologia</li>
-      <li>Gestão Estratégica</li>
-      <li>Pessoas e Lideranças</li>
-      <li>Clientes e Inovações</li>
-      <li>Negócios e Marketing</li>
-    </ul>
-
-    <p class="sub">O passo a passo</p>
-    <ul class="lista duas">
-      <li class="item chanfro"><span class="num">01</span><h3>Plataforma</h3><p>Aulas e materiais dos 7 pilares num só lugar, por 12 meses.</p></li>
-      <li class="item chanfro"><span class="num">02</span><h3>Onboarding</h3><p>Uma reunião individual com o seu tutor logo na entrada.</p></li>
-      <li class="item chanfro"><span class="num">03</span><h3>Checklist inicial</h3><p>O raio-x de onde o seu escritório está hoje, a régua da sua evolução.</p></li>
-      <li class="item chanfro"><span class="num">04</span><h3>Ferramentas</h3><p>Modelos práticos de cada pilar para aplicar direto no escritório.</p></li>
-      <li class="item chanfro"><span class="num">05</span><h3>Plano de 12 meses</h3><p>Os 7 pilares num roteiro com começo, meio e fim, na ordem certa.</p></li>
-    </ul>
-
-    <p class="sub">O acompanhamento, de perto</p>
-    <ul class="lista duas">
-      <li class="item chanfro"><h3>Personal Tutor</h3><p>3 encontros individuais de 1 hora nos 3 primeiros meses, na realidade do seu escritório.</p></li>
-      <li class="item chanfro"><h3>Encontros mensais</h3><p>Todo mês, um encontro ao vivo sobre a fase atual do seu escritório.</p></li>
-      <li class="item chanfro"><h3>Oficinas</h3><p>Duas oficinas por mês de marketing e vendas, na prática.</p></li>
-      <li class="item chanfro"><h3>Grupo de alunos</h3><p>Um canal oficial com todos os alunos para trocar experiência e caminhar junto.</p></li>
-      <li class="item chanfro"><h3>Checkpoint final</h3><p>No fim dos 12 meses, uma revisão completa e os próximos passos.</p></li>
-      <li class="item chanfro"><h3>ADV MIND</h3><p>A metodologia dentro de uma IA, disponível a qualquer hora, para ajudar a planejar, decidir e definir os próximos passos do escritório.</p></li>
-    </ul>
-  </section>
-
-  <section id="bonus">
-    <span class="eyebrow">Bônus</span>
-    <h2>Bônus para quem fechar hoje, e maiores para quem chegar primeiro</h2>
-    <div class="bonus">
-      <div class="item chanfro">
-        <span class="tag">Para os 2 primeiros</span>
-        <h3>ImpactMind completo por 6 meses + implementação pela LeadLift</h3>
-        <span class="valor">R$ 18.000</span>
+<main>
+  <section class="abertura">
+    <div class="wrap abertura-grid">
+      <div>
+        <span class="olho">Plantão de dúvidas · Imersão Escritório Previsível</span>
+        <h1>Ficou com dúvida sobre o <b>Gestão Descomplicada</b>?</h1>
+        <p class="lede">O Gestão Descomplicada é o <b>acelerador que pega na sua mão</b> para tirar do papel tudo o que você viu na Imersão: 12 meses com o nosso acompanhamento, ao lado de outros donos de escritório.</p>
+        <ul class="garantias-leves">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8.5l4 4L14 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Uma conversa pelo WhatsApp com um especialista do nosso time, sem compromisso.</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8.5l4 4L14 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Vocês conversam sobre se o programa faz sentido para o momento do seu escritório.</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8.5l4 4L14 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>E também sobre as formas de pagamento.</li>
+        </ul>
       </div>
-      <div class="item chanfro">
-        <span class="tag">Para os 3 primeiros</span>
-        <h3>Implementação de tráfego pago pela Scale X</h3>
-        <span class="valor">R$ 4.000</span>
-        <p>30 dias de implementação de tráfego pago e análise de performance.</p>
-      </div>
-      <div class="item chanfro">
-        <span class="tag">Para os 5 primeiros</span>
-        <h3>Ingresso da Imersão Presencial Advocacia de Impacto</h3>
-        <span class="valor">R$ 1.500</span>
-        <p>Nos dias 11 e 12 de dezembro.</p>
-      </div>
-      <div class="item chanfro">
-        <span class="tag">Para quem fechar hoje</span>
-        <h3>Plataforma da mentoria Trincheira</h3>
-        <span class="valor">R$ 3.000</span>
-        <p>Todo o conteúdo de vendas e marketing da Trincheira.</p>
-      </div>
-      <div class="item chanfro">
-        <span class="tag">Para quem fechar hoje</span>
-        <h3>ImpactMind módulo RH por 3 meses com implementação pela LeadLift</h3>
-        <span class="valor">R$ 1.791</span>
+
+      <div class="cartao-form" id="conversar">
+        <form id="form" novalidate>
+          <h2>Fale com um especialista</h2>
+          <p class="nota">Deixe seu nome e WhatsApp. A gente te leva direto para a conversa.</p>
+          <div class="campo">
+            <label for="nome">Seu nome</label>
+            <input id="nome" name="nome" type="text" autocomplete="name" maxlength="120" required>
+            <span class="erro" id="erro-nome"></span>
+          </div>
+          <div class="campo">
+            <label for="whatsapp">WhatsApp com DDD</label>
+            <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="(11) 99999-9999" maxlength="20" required>
+            <span class="erro" id="erro-whatsapp"></span>
+          </div>
+          <div class="campo">
+            <label for="duvida">Sua maior dúvida <span>(opcional)</span></label>
+            <textarea id="duvida" name="duvida" maxlength="1000"></textarea>
+          </div>
+          <button class="btn" type="submit" id="enviar">Falar com um especialista</button>
+          <p class="sem-comp">Sem compromisso. É só uma conversa para tirar dúvidas.</p>
+          <p class="quem js-quem" hidden>Você vai falar com <b class="js-quem-nome"></b></p>
+        </form>
+        <div class="sucesso" id="sucesso" hidden>
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+          <p id="sucesso-texto">Pronto!</p>
+          <a id="sucesso-link" href="#" rel="noopener">Se o WhatsApp não abrir, toque aqui</a>
+        </div>
       </div>
     </div>
-    <p class="total">Somados, os bônus valem <b>R$ 28.291</b>.</p>
   </section>
 
-  <section id="investimento">
-    <span class="eyebrow">Investimento</span>
-    <h2>Quanto custa o Gestão Descomplicada</h2>
-    <div class="preco chanfro">
-      <p class="de">De <s>R$ 48.967</s> por</p>
-      <p class="por">12x de R$ 1.500</p>
-      <p class="ou">ou <b>R$ 15 mil</b> à vista</p>
-    </div>
-    <p class="sub">Como garantir a vaga</p>
-    <ol class="passos">
-      <li>Clique no botão abaixo e preencha os seus dados na página da Hubla.</li>
-      <li>Faça o Pix de compromisso de R$ 500. Ele garante a sua vaga e os seus bônus, e já faz parte do pagamento.</li>
-      <li>Depois do Pix, o nosso time de especialistas fala com você.</li>
-    </ol>
-    <div class="cta-bloco">
-      <a class="btn btn-ouro chanfro" href="https://pay.hub.la/FVcC117G25jVT3melKq4" target="_blank" rel="noopener">Garantir minha vaga com Pix de R$ 500
-        <svg width="15" height="11" viewBox="0 0 15 11" fill="none" aria-hidden="true"><path d="M1 5.5h12M9 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+  <section class="bloco">
+    <div class="wrap pilares-grid">
+      <div class="foto"><img src="/plantao/guilherme.webp" alt="Guilherme Schumann" width="912" height="1080" loading="lazy" decoding="async"></div>
+      <div>
+        <span class="olho">Sistema de Gestão 7G</span>
+        <h2>Você, como dono de escritório, precisa dominar <b>os 7 pilares</b> de um escritório de sucesso</h2>
+        <p class="lede">Por isso, o <b>Sistema de Gestão 7G</b>, prático e direto, para tirar o escritório do improviso. Conhecer os 7 pilares é o começo. O que muda o jogo é colocar os 7 para funcionar <b>na ordem certa</b>.</p>
+        <ol class="pilares">
+          <li>Gestão Financeira</li>
+          <li>Gestão do Tempo e Amadurecimento</li>
+          <li>Processos Internos e Tecnologia</li>
+          <li>Gestão Estratégica</li>
+          <li>Pessoas e Lideranças</li>
+          <li>Clientes e Inovações</li>
+          <li>Negócios e Marketing</li>
+        </ol>
+      </div>
     </div>
   </section>
 
-  <section id="duvidas">
-    <span class="eyebrow">Perguntas frequentes</span>
-    <h2>As dúvidas mais comuns</h2>
-    <div class="faq">
-      <details>
-        <summary>Para quem é o Gestão Descomplicada?</summary>
-        <p>Para o dono de escritório que está na etapa de tração e precisa tirar o escritório do improviso com os 7 pilares do Sistema de Gestão 7G. Se não tiver certeza de que é o seu momento, fala com o time no WhatsApp.</p>
-      </details>
-      <details>
-        <summary>Quanto tempo dura?</summary>
-        <p>12 meses, com acesso à plataforma durante todo o programa e um checkpoint final com revisão completa e próximos passos.</p>
-      </details>
-      <details>
-        <summary>Vou ter acompanhamento individual?</summary>
-        <p>Sim. Uma reunião individual de onboarding com o seu tutor na entrada e mais 3 encontros individuais de 1 hora com o Personal Tutor nos 3 primeiros meses. Além disso, encontros mensais ao vivo e duas oficinas por mês de marketing e vendas.</p>
-      </details>
-      <details>
-        <summary>E entre um encontro e outro?</summary>
-        <p>Você tem o ADV MIND, a metodologia dentro de uma IA disponível a qualquer hora, e o grupo oficial de alunos para trocar experiência.</p>
-      </details>
-      <details>
-        <summary>O Pix de R$ 500 é um valor a mais?</summary>
-        <p>Não. O Pix de compromisso de R$ 500 garante a sua vaga e os seus bônus, e já faz parte do pagamento.</p>
-      </details>
-      <details>
-        <summary>Tem garantia?</summary>
-        <p>Sim: resultado ou 100% do seu dinheiro de volta. Se em 12 meses você participar dos encontros mensais, aplicar as ferramentas do Sistema de Gestão 7G e comprovar que não teve resultado, o investimento é devolvido integralmente. Para os detalhes, fala com o time no WhatsApp.</p>
-      </details>
-      <details>
-        <summary>O que acontece depois do Pix?</summary>
-        <p>O nosso time de especialistas fala com você para seguir com a matrícula.</p>
-      </details>
-      <details>
-        <summary>Consigo outra forma de pagamento ou manter os bônus fechando depois?</summary>
-        <p>As condições apresentadas são 12x de R$ 1.500 ou R$ 15 mil à vista. Para qualquer outra situação, fala com o time no WhatsApp.</p>
-      </details>
+  <section class="bloco">
+    <div class="wrap">
+      <div class="centro">
+        <span class="olho">O que está incluído</span>
+        <h2 class="fino">No Gestão Descomplicada você tem o <b>passo a passo</b> para <b class="sub-u">aplicar tudo</b></h2>
+      </div>
+      <div class="entregas">
+        <div class="card"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>1. Plataforma</h3><p class="sub">Acesso durante os 12 meses</p><p>Aulas e materiais dos 7 pilares num só lugar.</p></div>
+        <div class="card"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><h3>2. Onboarding</h3><p class="sub">1 reunião inicial</p><p>Uma reunião individual com o seu tutor logo na entrada.</p></div>
+        <div class="card"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 11l2 2 4-4"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg></div><h3>3. Checklist inicial</h3><p class="sub">O ponto de partida do escritório</p><p>O raio-x de onde o seu escritório está hoje, a régua da sua evolução.</p></div>
+        <div class="card"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></div><h3>4. Ferramentas</h3><p class="sub">Materiais práticos do Sistema 7G</p><p>Modelos práticos de cada pilar para aplicar direto no escritório.</p></div>
+        <div class="card"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><h3>5. Plano de 12 meses</h3><p class="sub">Roteiro prático de evolução</p><p>Os 7 pilares num roteiro com começo, meio e fim, na ordem certa.</p></div>
+      </div>
+
+      <p class="rotulo centro">E tudo isso com o Guilherme e o time ao seu lado, de perto</p>
+      <div class="entregas">
+        <div class="card"><h3>Personal Tutor</h3><p class="sub">Ninguém aplica o Sistema 7G sozinho no começo.</p><p>3 encontros individuais de 1 hora nos 3 primeiros meses, na realidade do seu escritório.</p></div>
+        <div class="card"><h3>Encontros mensais</h3><p class="sub">Você nunca caminha um mês sem direção.</p><p>Todo mês, um encontro ao vivo sobre a fase atual do seu escritório.</p></div>
+        <div class="card"><h3>Oficinas</h3><p class="sub">Marketing e vendas, na prática.</p><p>Duas oficinas por mês de marketing e vendas.</p></div>
+        <div class="card"><h3>Grupo de alunos</h3><p class="sub">Você caminha com quem vive o mesmo momento.</p><p>Um canal oficial com todos os alunos para trocar experiência e caminhar junto.</p></div>
+        <div class="card"><h3>Checkpoint final</h3><p class="sub">A jornada não termina sem revisão.</p><p>No fim dos 12 meses, uma revisão completa e os próximos passos.</p></div>
+      </div>
+
+      <div class="destaque">
+        <span class="olho">E entre um encontro e outro?</span>
+        <h3>ADV MIND</h3>
+        <p>A metodologia dentro de uma IA, disponível a qualquer hora, para te ajudar a planejar, decidir e definir os próximos passos do seu escritório.</p>
+      </div>
     </div>
   </section>
 
-  <section class="fim">
-    <span class="eyebrow">Ainda com dúvida?</span>
-    <h2>Fala com a gente antes de decidir</h2>
-    <p class="lede">Manda a sua pergunta no WhatsApp e o nosso time responde.</p>
-    <div class="cta-bloco">
-      <a class="btn btn-wa chanfro js-wa" href="https://pay.hub.la/FVcC117G25jVT3melKq4" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-        Tirar minhas dúvidas no WhatsApp
-      </a>
-      <p class="quem js-quem" hidden>Você vai falar com <b class="js-quem-nome"></b></p>
+  <section class="bloco chamada">
+    <div class="wrap">
+      <h2 class="fino">Ainda com dúvida se <b>faz sentido</b> para o seu escritório?</h2>
+      <p class="lede" style="margin:0 auto">Um especialista do nosso time conversa com você pelo WhatsApp, inclusive sobre formas de pagamento. Sem compromisso.</p>
+      <a class="btn" href="#conversar">Falar com um especialista</a>
     </div>
   </section>
 
+  <section class="bloco">
+    <div class="wrap">
+      <span class="olho">Perguntas frequentes</span>
+      <h2>As dúvidas <b>mais comuns</b></h2>
+      <div class="faq">
+        <details>
+          <summary>Para quem é o Gestão Descomplicada?</summary>
+          <p>Para o dono de escritório na etapa de tração, que precisa tirar o escritório do improviso com os 7 pilares do Sistema de Gestão 7G. Se não tiver certeza de que é o seu momento, fala com o time no WhatsApp.</p>
+        </details>
+        <details>
+          <summary>Quanto tempo dura?</summary>
+          <p>12 meses, com acesso à plataforma durante todo o programa e um checkpoint final com revisão completa e próximos passos.</p>
+        </details>
+        <details>
+          <summary>Vou ter acompanhamento individual?</summary>
+          <p>Sim. Uma reunião individual de onboarding com o seu tutor na entrada e mais 3 encontros individuais de 1 hora com o Personal Tutor nos 3 primeiros meses. Além disso, encontros mensais ao vivo e duas oficinas por mês de marketing e vendas.</p>
+        </details>
+        <details>
+          <summary>E entre um encontro e outro?</summary>
+          <p>Você tem o ADV MIND, a metodologia dentro de uma IA disponível a qualquer hora, e o grupo oficial de alunos para trocar experiência.</p>
+        </details>
+        <details>
+          <summary>Dá para conversar sobre formas de pagamento?</summary>
+          <p>Sim. O especialista conversa com você sobre as formas de pagamento e sobre se o programa faz sentido para o momento do seu escritório.</p>
+        </details>
+        <details>
+          <summary>Tem garantia?</summary>
+          <p>Sim: resultado ou 100% do seu dinheiro de volta. Se em 12 meses você participar dos encontros mensais, aplicar as ferramentas do Sistema de Gestão 7G e comprovar que não teve resultado, o investimento é devolvido integralmente. Para os detalhes, fala com o time no WhatsApp.</p>
+        </details>
+        <details>
+          <summary>Falar com o especialista me obriga a alguma coisa?</summary>
+          <p>Não. A conversa é para tirar as suas dúvidas, sem compromisso.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <div class="wrap">
+      <span class="olho">Para sua informação</span>
+      <h2 class="fino">Investimento e <b>bônus</b></h2>
+      <div class="info-grid">
+        <div class="info">
+          <h3>Investimento</h3>
+          <p class="valores">De <s>R$ 48.967</s> por <span class="forte">12x de R$ 1.500</span> ou R$ 15 mil à vista.</p>
+          <p class="miuda">Formas de pagamento: o especialista conversa com você.</p>
+        </div>
+        <div class="info">
+          <h3>Bônus apresentados na Imersão</h3>
+          <ul class="bonus">
+            <li><small>Para os 2 primeiros</small>ImpactMind completo por 6 meses + implementação pela LeadLift<span class="v">R$ 18.000</span></li>
+            <li><small>Para os 3 primeiros</small>Implementação de tráfego pago pela Scale X<span class="v">R$ 4.000</span></li>
+            <li><small>Para os 5 primeiros</small>Ingresso da Imersão Presencial Advocacia de Impacto (11 e 12 de dezembro)<span class="v">R$ 1.500</span></li>
+            <li><small>Para quem fechar hoje</small>Plataforma da mentoria Trincheira<span class="v">R$ 3.000</span></li>
+            <li><small>Para quem fechar hoje</small>ImpactMind módulo RH por 3 meses com implementação pela LeadLift<span class="v">R$ 1.791</span></li>
+          </ul>
+          <p class="miuda">Quais bônus seguem disponíveis para você, o especialista confirma na conversa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco chamada">
+    <div class="wrap">
+      <h2 class="fino">Tire suas dúvidas <b>com calma</b></h2>
+      <p class="lede" style="margin:0 auto">Sem compromisso. A gente te leva direto para o WhatsApp de um especialista.</p>
+      <a class="btn" href="#conversar">Falar com um especialista</a>
+    </div>
+  </section>
 </main>
 
 <footer>
-  <div class="wrap">Advocacia de Impacto</div>
+  <div class="wrap">
+    <img src="/plantao/logo-adi.webp" alt="Advocacia de Impacto" width="298" height="256" loading="lazy" decoding="async">
+  </div>
 </footer>
 
 <script>
-/* Vendedores do plantão. O link de cada um é /plantao-gd?v=<chave>.
-   Preencha "whatsapp" só com dígitos, com DDI 55 + DDD (ex.: 5511999998888).
-   Enquanto estiver 'PREENCHER', a página usa o "time"; se o time também
-   estiver vazio, os botões levam para a Hubla. */
-const VENDEDORES = { ariel: {nome:'Ariel', whatsapp:'PREENCHER'}, felipe: {nome:'Felipe', whatsapp:'PREENCHER'}, antonio: {nome:'Antônio', whatsapp:'PREENCHER'}, bianca: {nome:'Bianca', whatsapp:'PREENCHER'}, jessica: {nome:'Jéssica', whatsapp:'PREENCHER'}, time: {nome:'time de especialistas', whatsapp:'PREENCHER'} };
+/* Vendedores do plantão. Link de cada um: /plantao-gd?v=<chave>.
+   whatsapp: só dígitos, 55 + DDD + número. `ativo: false` tira a pessoa
+   do sorteio e do atendimento direto (os leads dela vão para o sorteio
+   entre os ativos, com a mensagem avisando de quem veio o convite). */
+const VENDEDORES = {
+  felipe:  { nome: 'Fellipe', whatsapp: '5511963695190', ativo: true },
+  ariel:   { nome: 'Ariel',   whatsapp: '5569992422318', ativo: true },
+  antonio: { nome: 'Antônio', whatsapp: '', ativo: false, avisarConvite: true },
+  bianca:  { nome: 'Bianca',  whatsapp: '', ativo: false },
+  jessica: { nome: 'Jéssica', whatsapp: '', ativo: false },
+  time:    { nome: 'time de especialistas', whatsapp: '', ativo: false }
+};
 
 (function () {
-  var HUBLA = 'https://pay.hub.la/FVcC117G25jVT3melKq4';
+  /* Banco: Supabase gerenciado (analytics), tabela plantao_gd_leads.
+     Chave `anon`, pública por design (a mesma de obrigado.html); o RLS
+     só libera INSERT, nunca leitura. */
+  var SUPA_URL = 'https://vmgyqhfesneannfqrvzg.supabase.co';
+  var SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtZ3lxaGZlc25lYW5uZnFydnpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwNDExNjYsImV4cCI6MjEwMTYxNzE2Nn0.KnVAIL4jN-0LHvPdw2QLqsmm2vl2RuvLihoMzkxp0iY';
 
   function normalizar(s) {
     return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
@@ -291,32 +387,132 @@ const VENDEDORES = { ariel: {nome:'Ariel', whatsapp:'PREENCHER'}, felipe: {nome:
     var d = String(n || '').replace(/\D/g, '');
     return /^55\d{10,11}$/.test(d) ? d : null;
   }
-
-  var v = normalizar(new URLSearchParams(location.search).get('v'));
-  var vendedor = v && v !== 'time' && Object.prototype.hasOwnProperty.call(VENDEDORES, v) ? VENDEDORES[v] : null;
-  var numVendedor = vendedor ? numeroValido(vendedor.whatsapp) : null;
-  var numTime = numeroValido(VENDEDORES.time && VENDEDORES.time.whatsapp);
-
-  var destino, nomeExibido = null;
-  if (vendedor && numVendedor) {
-    destino = 'https://wa.me/' + numVendedor + '?text=' + encodeURIComponent('Oi, ' + vendedor.nome + '! Vim pelo convite da Imersão e fiquei com dúvidas sobre o Gestão Descomplicada. Pode me ajudar?');
-    nomeExibido = vendedor.nome;
-  } else if (numTime) {
-    destino = 'https://wa.me/' + numTime + '?text=' + encodeURIComponent('Oi! Vim da Imersão Escritório Previsível e fiquei com dúvidas sobre o Gestão Descomplicada. Pode me ajudar?');
-  } else {
-    destino = HUBLA;
-    console.warn('[plantao-gd] Nenhum WhatsApp preenchido (nem do vendedor nem do "time"). Botões apontando para a Hubla.');
+  function ativos() {
+    return Object.keys(VENDEDORES).filter(function (k) { return VENDEDORES[k].ativo && numeroValido(VENDEDORES[k].whatsapp); });
   }
 
-  document.querySelectorAll('.js-wa').forEach(function (a) { a.href = destino; });
+  var params = new URLSearchParams(location.search);
+  var vOriginal = params.get('v') || '';
+  var v = normalizar(vOriginal);
+  var origem = Object.prototype.hasOwnProperty.call(VENDEDORES, v) ? VENDEDORES[v] : null;
 
-  // "Você vai falar com <nome>" aparece quando o ?v= casa com um vendedor
-  // cadastrado, mesmo que o número dele ainda esteja por preencher.
-  if (vendedor) nomeExibido = vendedor.nome;
-  if (nomeExibido) {
-    document.querySelectorAll('.js-quem-nome').forEach(function (b) { b.textContent = nomeExibido; });
+  /* Quem atende: o próprio vendedor, se ativo; senão, sorteio 50/50 entre
+     os ativos. O sorteio fica guardado na aba para a pessoa não cair em
+     outro vendedor se recarregar a página. */
+  var chaveAtende, tipoMsg;
+  if (origem && origem.ativo && numeroValido(origem.whatsapp)) {
+    chaveAtende = v; tipoMsg = 'direto';
+  } else {
+    var lista = ativos();
+    var salvo = null;
+    try { salvo = sessionStorage.getItem('plantao_gd_sorteio'); } catch (e) {}
+    chaveAtende = lista.indexOf(salvo) >= 0 ? salvo : lista[Math.floor(Math.random() * lista.length)];
+    try { sessionStorage.setItem('plantao_gd_sorteio', chaveAtende); } catch (e) {}
+    tipoMsg = origem && origem.avisarConvite ? 'convite' : 'padrao';
+  }
+  var atende = VENDEDORES[chaveAtende];
+
+  if (tipoMsg === 'direto') {
+    document.querySelectorAll('.js-quem-nome').forEach(function (b) { b.textContent = atende.nome; });
     document.querySelectorAll('.js-quem').forEach(function (p) { p.hidden = false; });
   }
+
+  function mensagem(nome, duvida) {
+    var txt;
+    if (tipoMsg === 'direto') {
+      txt = 'Oi, ' + atende.nome + '! Sou ' + nome + ', fui convidado(a) por você para a Imersão e fiquei com dúvidas sobre o Gestão Descomplicada. Pode me ajudar?';
+    } else if (tipoMsg === 'convite') {
+      txt = 'Oi, ' + atende.nome + '! Sou ' + nome + ', fui convidado(a) pelo ' + origem.nome + ' para a Imersão e fiquei com dúvidas sobre o Gestão Descomplicada. Pode me ajudar?';
+    } else {
+      txt = 'Oi, ' + atende.nome + '! Sou ' + nome + ', vim da Imersão Escritório Previsível e fiquei com dúvidas sobre o Gestão Descomplicada. Pode me ajudar?';
+    }
+    if (duvida) txt += '\n\nMinha dúvida: ' + duvida;
+    return txt;
+  }
+
+  function utms() {
+    var o = {};
+    params.forEach(function (val, key) { if (/^utm_/i.test(key)) o[key.toLowerCase()] = val.slice(0, 200); });
+    return Object.keys(o).length ? o : null;
+  }
+
+  function gravar(registro) {
+    var ctrl = 'AbortController' in window ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, 4000);
+    return fetch(SUPA_URL + '/rest/v1/plantao_gd_leads', {
+      method: 'POST',
+      keepalive: true,
+      signal: ctrl ? ctrl.signal : undefined,
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPA_ANON,
+        Authorization: 'Bearer ' + SUPA_ANON,
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(registro)
+    }).then(function (r) {
+      if (!r.ok) console.warn('[plantao-gd] gravação recusada', r.status);
+    }).catch(function (e) {
+      console.warn('[plantao-gd] gravação falhou, seguindo para o WhatsApp', e);
+    }).finally(function () { clearTimeout(t); });
+  }
+
+  // máscara leve do telefone
+  var campoTel = document.getElementById('whatsapp');
+  campoTel.addEventListener('input', function () {
+    var d = campoTel.value.replace(/\D/g, '').slice(0, 11);
+    var f = d;
+    if (d.length > 2) f = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length > 6) f = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(d.length - 4);
+    campoTel.value = f;
+  });
+
+  var form = document.getElementById('form');
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var campoNome = document.getElementById('nome');
+    var nome = campoNome.value.trim().replace(/\s+/g, ' ');
+    var tel = campoTel.value.replace(/\D/g, '');
+    if (/^55\d{10,11}$/.test(tel)) tel = tel.slice(2);
+    var duvida = document.getElementById('duvida').value.trim();
+
+    var ok = true;
+    document.getElementById('erro-nome').textContent = '';
+    document.getElementById('erro-whatsapp').textContent = '';
+    campoNome.removeAttribute('aria-invalid'); campoTel.removeAttribute('aria-invalid');
+    if (nome.length < 2) {
+      ok = false; campoNome.setAttribute('aria-invalid', 'true');
+      document.getElementById('erro-nome').textContent = 'Escreva o seu nome.';
+    }
+    if (!/^[1-9][1-9]\d{8,9}$/.test(tel)) {
+      ok = false; campoTel.setAttribute('aria-invalid', 'true');
+      document.getElementById('erro-whatsapp').textContent = 'Confira o número: DDD + telefone, 10 ou 11 dígitos.';
+    }
+    if (!ok) return;
+
+    var botao = document.getElementById('enviar');
+    botao.disabled = true; botao.textContent = 'Enviando…';
+
+    var link = 'https://wa.me/' + atende.whatsapp + '?text=' + encodeURIComponent(mensagem(nome, duvida));
+
+    gravar({
+      nome: nome.slice(0, 120),
+      whatsapp: '55' + tel,
+      duvida: duvida ? duvida.slice(0, 1000) : null,
+      vendedor: chaveAtende,
+      vendedor_origem: vOriginal ? vOriginal.slice(0, 60) : null,
+      utm: utms(),
+      pagina: location.pathname,
+      user_agent: navigator.userAgent.slice(0, 300)
+    }).then(function () {
+      form.hidden = true;
+      document.getElementById('sucesso-texto').textContent = 'Pronto! Vamos te levar para o WhatsApp de ' + atende.nome + '.';
+      var a = document.getElementById('sucesso-link');
+      a.href = link;
+      document.getElementById('sucesso').hidden = false;
+      setTimeout(function () { location.href = link; }, 900);
+    });
+  });
 })();
 </script>
 </body>
