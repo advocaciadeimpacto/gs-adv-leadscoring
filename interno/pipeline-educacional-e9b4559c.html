@@ -1,0 +1,1983 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#01050E">
+<title>Pipeline Educacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#01050E; --amber:#3B291B; --blue:#162636;
+  --gold:#E6C48F; --gold-rgb:230,196,143;
+  --text:#EEF3FA; --muted:#9AA9BF; --dim:#66768F;
+  --card:#0B1220; --card2:#0E1728; --line:#1E2A3D; --line2:#2B3B55;
+  --panel:#060C18;
+  --c-fonte:#5B8DEF; --c-etapa:#E6C48F; --c-auto:#3CCB7F; --c-dec:#A78BFA; --c-nota:#94A3B8; --c-kpi:#F87171; --c-marco:#FFFFFF;
+  --wa:#00a884; --wa2:#25D366;
+  --orange:#F59E0B;
+  --top-h:64px;
+  --r:14px;
+  --shadow:0 10px 30px -12px rgba(0,0,0,.65), 0 2px 6px rgba(0,0,0,.35);
+  --font:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
+body{
+  background:var(--bg);
+  background-image:
+    radial-gradient(1200px 800px at 8% -10%, rgba(59,41,27,.85), transparent 60%),
+    radial-gradient(1100px 900px at 105% 110%, rgba(22,38,54,.95), transparent 60%),
+    radial-gradient(700px 500px at 60% 40%, rgba(22,38,54,.35), transparent 70%);
+  color:var(--text); font-family:var(--font); font-size:14px; line-height:1.45;
+  -webkit-font-smoothing:antialiased; -webkit-text-size-adjust:100%;
+  touch-action:manipulation;
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.125em}
+
+/* ---------- viewport / world ---------- */
+#vp{position:fixed;inset:0;overflow:hidden;cursor:default;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  background-image:radial-gradient(circle, rgba(238,243,250,.13) 1px, transparent 1.4px);background-size:24px 24px}
+#vp.arrastando,#vp.espaco{cursor:grabbing}
+#vp.espaco:not(.arrastando){cursor:grab}
+#world{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0}
+#world.moving{will-change:transform}
+#world>div,#world>svg{position:absolute;left:0;top:0}
+#l-edges{overflow:visible;pointer-events:none}
+
+/* ---------- frames ---------- */
+.frame{position:absolute;border-radius:36px;background:rgba(var(--c-rgb),.045);border:2px solid rgba(var(--c-rgb),.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.frame::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(900px 400px at 0 0, rgba(var(--c-rgb),.09), transparent 70%)}
+.frame-head{position:absolute;left:56px;top:44px;right:56px;display:flex;gap:28px;align-items:flex-start;cursor:pointer}
+.frame-num{flex:none;display:grid;place-items:center;min-width:92px;height:92px;padding:0 18px;border-radius:26px;
+  background:rgba(var(--c-rgb),.14);border:2px solid rgba(var(--c-rgb),.5);color:var(--c);font-weight:800;font-size:54px;line-height:1}
+.frame-title{margin:4px 0 0;font-size:60px;line-height:1.05;font-weight:800;letter-spacing:.01em;text-transform:uppercase;color:var(--text)}
+.frame-desc{margin:14px 0 0;font-size:24px;line-height:1.45;font-weight:500;color:var(--muted);max-width:2300px}
+.lod-far .frame-desc{display:none}
+.lod-far .frame-title{font-size:88px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lod-far .frame-head>div{min-width:0}
+.lod-far .frame-num{font-size:80px;min-width:120px;height:120px;border-radius:34px}
+.lod-far .frame-head{gap:44px}
+.lod-far .frame{border-width:6px}
+
+/* ---------- nodes ---------- */
+.node{position:absolute;display:flex;flex-direction:column;gap:12px;padding:24px 26px 22px;border-radius:22px;
+  background:linear-gradient(180deg, rgba(var(--c-rgb),.10), rgba(var(--c-rgb),0) 55%), var(--card);
+  border:1.5px solid var(--line);box-shadow:var(--shadow), inset 0 3px 0 rgba(var(--c-rgb),.85);
+  cursor:pointer;overflow:hidden;transition:border-color .15s, box-shadow .15s, opacity .2s}
+.node:hover{border-color:rgba(var(--c-rgb),.65);box-shadow:0 18px 40px -14px rgba(0,0,0,.8), 0 0 0 4px rgba(var(--c-rgb),.12), inset 0 3px 0 rgba(var(--c-rgb),.95)}
+.node.ativo{border-color:var(--c);box-shadow:0 0 0 6px rgba(var(--c-rgb),.25), var(--shadow), inset 0 3px 0 var(--c)}
+.node-head{display:flex;align-items:center;gap:12px;font-size:17px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--c)}
+.node-ico{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:rgba(var(--c-rgb),.14);border:1px solid rgba(var(--c-rgb),.35);font-size:22px;flex:none}
+.node-tipo{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-abrir{opacity:.5;font-size:22px;color:var(--muted)}
+.node:hover .node-abrir{opacity:1;color:var(--c)}
+.node-title{font-size:31px;line-height:1.15;font-weight:700;color:var(--text);letter-spacing:-.005em}
+.node-sub{font-size:21px;line-height:1.35;color:var(--muted);font-weight:500;margin-top:-4px}
+.node-resumo{font-size:20px;line-height:1.5;color:#C3CEDD;font-weight:400;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:var(--cl,8);overflow:hidden}
+.node-obs{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.node-obs li{position:relative;padding-left:22px;font-size:18.5px;line-height:1.45;color:#AFBCCD}
+.node-obs li::before{content:"";position:absolute;left:4px;top:.6em;width:7px;height:7px;border-radius:2px;background:rgba(var(--c-rgb),.8);transform:rotate(45deg)}
+.lod-far .node-obs{display:none}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;font-size:17px;font-weight:600;line-height:1.2;
+  background:rgba(238,243,250,.06);border:1px solid rgba(238,243,250,.12);color:#D5DEEA}
+.badge.b-gold{background:rgba(var(--gold-rgb),.12);border-color:rgba(var(--gold-rgb),.45);color:var(--gold)}
+.badge.b-red{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.45);color:#FCA5A5}
+.badge.b-green{background:rgba(60,203,127,.12);border-color:rgba(60,203,127,.4);color:#86EFAC}
+.node-nums{display:flex;flex-wrap:wrap;gap:10px 22px}
+.node-num b{display:block;font-size:44px;line-height:1;font-weight:800;color:var(--c);letter-spacing:-.02em}
+.node-num span{display:block;font-size:15px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:16px;color:var(--dim);font-weight:600;padding-top:4px}
+.node-foot span{display:inline-flex;align-items:center;gap:7px}
+.node-foot .i{font-size:18px}
+/* type variants */
+.t-nota{background:linear-gradient(180deg, rgba(148,163,184,.07), rgba(148,163,184,.02)), #0A101C;border-style:dashed;border-color:#2A3649;box-shadow:var(--shadow)}
+.t-nota .node-title{font-size:29px}
+.t-decisao{border-color:rgba(167,139,250,.35)}
+.t-kpi{border-color:rgba(248,113,113,.3)}
+.t-marco{border-radius:32px;border:2px solid rgba(255,255,255,.55);background:linear-gradient(120deg, rgba(255,255,255,.09), rgba(255,255,255,.02) 60%), #0C1424;
+  box-shadow:var(--shadow), 0 0 60px -20px rgba(255,255,255,.25)}
+.t-marco .node-title{font-size:38px;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.t-marco .node-sub{font-size:24px;color:var(--gold)}
+/* LOD */
+.lod-far .node{gap:16px;padding:30px}
+.lod-far .node-sub,.lod-far .badges,.lod-far .node-foot,.lod-far .node-resumo,.lod-far .node-nums,.lod-far .node-tipo,.lod-far .node-abrir{display:none}
+.lod-far .node-ico{width:64px;height:64px;font-size:34px;border-radius:18px}
+.lod-far .node-title{font-size:52px;line-height:1.08;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.lod-far .node{border-width:3px}
+
+/* edges */
+.edge path{fill:none;stroke:var(--ec);stroke-width:3;opacity:.75;transition:opacity .2s, stroke-width .2s}
+.edge.tracejado path{stroke-dasharray:10 9}
+.lod-mid .edge path{stroke-width:4.5}
+.lod-far .edge path{stroke-width:9}
+.lod-far .edge.tracejado path{stroke-dasharray:26 20}
+.edge.hl path{opacity:1;stroke-width:5}
+.edge-label{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;padding:6px 14px;border-radius:999px;font-size:17px;font-weight:600;
+  color:#DCE4EF;background:#0A1120;border:1.5px solid rgba(var(--ec-rgb),.55);box-shadow:0 4px 14px rgba(0,0,0,.45);pointer-events:none;transition:opacity .2s}
+.edge-label.hl{border-color:rgba(var(--ec-rgb),1);color:#fff}
+.lod-far .edge-label{display:none}
+
+/* search dim */
+.searching .node:not(.hit),.searching .tpl:not(.hit){opacity:.16}
+.searching .edge path,.searching .edge-label{opacity:.08}
+.node.hit,.tpl.hit .phone{box-shadow:0 0 0 5px rgba(var(--gold-rgb),.85), 0 0 60px rgba(var(--gold-rgb),.35)}
+.hit.atual{animation:pulso 1.2s ease-out 2}
+@keyframes pulso{0%{filter:brightness(1.6)}100%{filter:none}}
+
+/* ---------- WhatsApp template ---------- */
+.tpl{position:absolute;cursor:pointer;transition:opacity .2s}
+.tpl-in{width:360px;transform-origin:0 0}
+.tpl-label{margin-bottom:12px}
+.tpl-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cat{display:inline-block;padding:4px 9px;border-radius:7px;font-size:11px;font-weight:800;letter-spacing:.1em}
+.cat-marketing{background:rgba(245,158,11,.15);color:#FBBF24;border:1px solid rgba(245,158,11,.45)}
+.cat-utility{background:rgba(91,141,239,.15);color:#93B4FF;border:1px solid rgba(91,141,239,.45)}
+.cat-outra{background:rgba(148,163,184,.14);color:#CBD5E1;border:1px solid rgba(148,163,184,.4)}
+.tpl-nome{font-family:var(--mono);font-size:13px;color:var(--text);background:rgba(238,243,250,.06);padding:3px 8px;border-radius:6px;border:1px solid var(--line)}
+.tpl-meta{margin-top:7px;font-size:13px;color:var(--muted);font-weight:500}
+.tpl-meta b{color:var(--gold);font-weight:700}
+.phone{border-radius:30px;padding:8px;background:linear-gradient(160deg,#27303d,#0d1117 40%,#1b222c);border:1px solid #3a4452;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.85), 0 0 0 1px rgba(0,0,0,.6);transition:box-shadow .15s}
+.tpl:hover .phone{box-shadow:0 30px 60px -20px rgba(0,0,0,.85), 0 0 0 4px rgba(0,168,132,.35)}
+.phone-in{border-radius:23px;overflow:hidden;background:#0b141a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.wa-top{display:flex;align-items:center;gap:9px;padding:10px 12px;background:#202c33;color:#e9edef}
+.wa-back{font-size:20px;color:#aebac1;line-height:1;margin-right:-2px}
+.wa-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#01050E;
+  background:linear-gradient(135deg,#F3DDB3,#C9A262);font-family:var(--font);flex:none}
+.wa-who{min-width:0;line-height:1.2}
+.wa-who b{display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;white-space:nowrap}
+.wa-who small{display:block;font-size:11.5px;color:#8696a0}
+.wa-verif{width:14px;height:14px;flex:none}
+.wa-chat{padding:12px 10px 14px;min-height:120px;
+  background-color:#0b141a;
+  background-image:radial-gradient(rgba(255,255,255,.035) 1px, transparent 1.2px),radial-gradient(rgba(255,255,255,.025) 1px, transparent 1.2px);
+  background-size:18px 18px, 27px 27px;background-position:0 0, 9px 13px}
+.wa-day{margin:0 auto 10px;width:max-content;padding:4px 10px;border-radius:8px;background:#182229;color:#8696a0;font-size:11.5px;font-weight:500;text-transform:uppercase;letter-spacing:.02em}
+.wa-msg{position:relative;max-width:92%;border-radius:0 8px 8px 8px;background:#202c33;box-shadow:0 1px .5px rgba(11,20,26,.4)}
+.wa-msg::before{content:"";position:absolute;left:-8px;top:0;border-style:solid;border-width:0 8px 10px 0;border-color:transparent #202c33 transparent transparent}
+.wa-bubble{padding:7px 9px 6px;color:#e9edef;font-size:14.2px;line-height:1.38;word-wrap:break-word}
+.wa-h{font-weight:700;font-size:14.8px;margin-bottom:4px}
+.wa-media{display:grid;place-items:center;height:130px;border-radius:6px;margin:0 0 6px;background:linear-gradient(135deg,#2a3942,#1b262d);color:#8696a0;font-size:12px;gap:4px}
+.wa-b b{font-weight:700}
+.wa-var{color:#7fd6ff;background:rgba(83,189,235,.12);border-radius:4px;padding:0 2px}
+.wa-link{color:#53bdeb}
+.wa-fr{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:5px}
+.wa-f{font-size:12.5px;color:#8696a0}
+.wa-time{margin-left:auto;font-size:11px;color:#8696a0;white-space:nowrap}
+.wa-btns{border-top:1px solid rgba(134,150,160,.18)}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 8px;color:var(--wa);font-size:14.2px;font-weight:500;text-align:center}
+.wa-btn+.wa-btn{border-top:1px solid rgba(134,150,160,.18)}
+.wa-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wa-input{display:flex;align-items:center;gap:8px;padding:7px 8px 9px;background:#0b141a}
+.wa-in{flex:1;padding:8px 14px;border-radius:20px;background:#202c33;color:#8696a0;font-size:13px}
+.wa-mic{width:34px;height:34px;border-radius:50%;background:var(--wa);display:grid;place-items:center;color:#fff;flex:none}
+.wa-mic svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.lod-far .tpl-label{visibility:hidden}
+
+/* ---------- top bar ---------- */
+#topbar{position:fixed;left:0;right:0;top:0;z-index:30;display:flex;align-items:center;gap:18px;min-height:var(--top-h);
+  padding:10px 16px 10px 18px;padding-top:max(10px, env(safe-area-inset-top));
+  background:linear-gradient(180deg, rgba(1,5,14,.92), rgba(1,5,14,.78));backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom:1px solid rgba(30,42,61,.9)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;flex:0 0 auto;max-width:380px}
+.brand-mark{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#F3DDB3,#B8894A);
+  color:#01050E;font-weight:800;font-size:12px;letter-spacing:.02em;box-shadow:0 0 22px rgba(var(--gold-rgb),.25)}
+.brand-txt{min-width:0}
+.brand-t{margin:0;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-t em{font-style:normal;color:var(--gold)}
+.brand-s{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.tours{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;min-width:0;padding:2px;mask-image:linear-gradient(90deg,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.tours::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:999px;border:1px solid var(--line);background:rgba(11,18,32,.75);
+  color:#C9D4E3;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.chip:hover{border-color:var(--line2);color:var(--text);background:#111B2E}
+.chip.on{border-color:rgba(var(--gold-rgb),.6);color:var(--gold);background:rgba(var(--gold-rgb),.1)}
+.chip .n{font-size:10.5px;color:var(--dim);font-weight:700}
+.chip.on .n{color:var(--gold)}
+.acoes{display:flex;align-items:center;gap:8px;flex:none}
+.busca{position:relative}
+.busca input{width:230px;height:36px;border-radius:10px;border:1px solid var(--line);background:rgba(11,18,32,.85);color:var(--text);
+  padding:0 58px 0 34px;font:500 13px var(--font);outline:none;transition:border-color .15s,width .2s}
+.busca input:focus{border-color:rgba(var(--gold-rgb),.6);box-shadow:0 0 0 3px rgba(var(--gold-rgb),.12)}
+.busca input::placeholder{color:var(--dim)}
+.busca>.i{position:absolute;left:11px;top:11px;color:var(--dim);font-size:14px}
+.busca-cont{position:absolute;right:10px;top:10px;font-size:11px;color:var(--dim);font-weight:700}
+.busca-res{position:absolute;right:0;top:44px;width:340px;max-height:60vh;overflow:auto;border-radius:14px;background:#0A1120;border:1px solid var(--line2);
+  box-shadow:0 20px 50px rgba(0,0,0,.6);padding:6px;display:none}
+.busca-res.on{display:block}
+.busca-res button{display:flex;width:100%;align-items:center;gap:10px;text-align:left;border:0;background:none;border-radius:9px;padding:9px 10px;cursor:pointer}
+.busca-res button:hover,.busca-res button.sel{background:#131E33}
+.busca-res .dot{width:9px;height:9px;border-radius:3px;flex:none}
+.busca-res b{display:block;font-size:13px;font-weight:600}
+.busca-res small{display:block;font-size:11.5px;color:var(--dim)}
+.busca-res .vazio{padding:12px;color:var(--dim);font-size:13px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:rgba(11,18,32,.85);
+  color:#DCE4EF;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:border-color .15s,background .15s}
+.btn:hover{border-color:var(--line2);background:#111B2E}
+.btn.gold{border-color:rgba(var(--gold-rgb),.5);color:var(--gold);background:rgba(var(--gold-rgb),.08)}
+.btn.gold:hover{background:rgba(var(--gold-rgb),.15)}
+.btn .i{font-size:15px}
+.btn .cnt{font-size:10.5px;padding:1px 6px;border-radius:999px;background:rgba(238,243,250,.1);color:var(--muted)}
+.btn.gold .cnt{background:rgba(var(--gold-rgb),.18);color:var(--gold)}
+
+/* ---------- controls / minimap / tour nav ---------- */
+.ctl{position:fixed;left:16px;bottom:16px;bottom:max(16px, env(safe-area-inset-bottom));z-index:20;display:flex;align-items:center;gap:2px;padding:4px;border-radius:14px;
+  background:rgba(8,14,26,.9);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.ctl button{height:36px;min-width:36px;padding:0 8px;border:0;border-radius:10px;background:none;color:#C9D4E3;cursor:pointer;display:grid;place-items:center;font-size:17px}
+.ctl button:hover{background:#15213A;color:var(--text)}
+.ctl .zoom-v{font-size:12px;font-weight:700;min-width:54px;color:var(--muted)}
+.ctl .sep{width:1px;height:20px;background:var(--line);margin:0 3px}
+.ctl .avisos{color:#FBBF24;font-size:12px;font-weight:700;gap:4px;display:flex}
+#minimap{position:fixed;right:16px;bottom:16px;bottom:max(16px, env(safe-area-inset-bottom));z-index:20;border-radius:14px;padding:6px;background:rgba(8,14,26,.9);
+  border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);touch-action:none;cursor:pointer;transition:right .28s ease}
+#minimap canvas{display:block;border-radius:9px}
+#minimap .cam{position:absolute;border:1.5px solid var(--gold);background:rgba(var(--gold-rgb),.1);border-radius:3px;pointer-events:none;box-shadow:0 0 0 999px rgba(1,5,14,.0)}
+#minimap .mm-in{position:relative;overflow:hidden;border-radius:9px}
+.tournav{position:fixed;left:50%;bottom:16px;bottom:max(16px, env(safe-area-inset-bottom));transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:4px;padding:4px;border-radius:999px;
+  background:rgba(8,14,26,.9);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);max-width:calc(100vw - 32px)}
+.tournav button{border:0;background:none;cursor:pointer;color:#C9D4E3;height:34px;min-width:34px;border-radius:999px;display:grid;place-items:center;font-size:16px}
+.tournav button:hover{background:#15213A}
+.tournav .tn-nome{padding:0 10px;font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;display:block;line-height:34px}
+.tournav .tn-nome small{color:var(--gold);margin-right:6px;font-weight:800}
+body.drawer-on .tournav{left:calc((100vw - var(--dw)) / 2)}
+body.drawer-on #minimap{display:none}
+
+/* ---------- drawer ---------- */
+#drawer{position:fixed;top:0;right:0;bottom:0;z-index:40;width:var(--dw);--dw:min(560px,100vw);display:flex;flex-direction:column;
+  background:linear-gradient(180deg, rgba(var(--c-rgb,230,196,143),.08), transparent 260px), var(--panel);border-left:1px solid var(--line2);
+  box-shadow:-30px 0 60px rgba(0,0,0,.55);transform:translateX(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+body{--dw:min(560px,100vw)}
+#drawer.on{transform:none;visibility:visible}
+.dw-head{position:sticky;top:0;padding:18px 22px 16px;padding-top:max(18px, env(safe-area-inset-top));border-bottom:1px solid var(--line);background:rgba(6,12,24,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:2}
+.dw-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.dw-tipo{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--c);
+  padding:5px 10px 5px 6px;border-radius:999px;background:rgba(var(--c-rgb),.12);border:1px solid rgba(var(--c-rgb),.35)}
+.dw-tipo .ico{display:grid;place-items:center;width:22px;height:22px;border-radius:7px;background:rgba(var(--c-rgb),.2);font-size:13px}
+.dw-frame{font-size:12px;color:var(--dim);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:rgba(11,18,32,.8);display:grid;place-items:center;cursor:pointer;color:#C9D4E3;flex:none;font-size:16px}
+.icon-btn:hover{border-color:var(--line2);color:var(--text);background:#131E33}
+.dw-title:focus{outline:none}
+.dw-title{margin:0;font-size:22px;line-height:1.2;font-weight:800;color:var(--text)}
+.dw-sub{margin:6px 0 0;color:var(--muted);font-size:14px;font-weight:500}
+.dw-head .badges{margin-top:12px;gap:6px}
+.dw-head .badge{font-size:11.5px;padding:4px 10px}
+.dw-body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:6px 22px 40px;padding-bottom:max(40px, env(safe-area-inset-bottom));overscroll-behavior:contain}
+.sec{padding:18px 0 4px}
+.sec+.sec{border-top:1px solid rgba(30,42,61,.7)}
+.sec h3{margin:0 0 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.sec h3 .i{font-size:14px}
+.sec h3 .qt{color:var(--dim);font-weight:700;letter-spacing:.04em}
+.sec p{margin:0;color:#D3DCE8;font-size:14.5px;line-height:1.6}
+.lista{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.lista li{position:relative;padding-left:18px;color:#D3DCE8;font-size:14px;line-height:1.55}
+.lista li::before{content:"";position:absolute;left:3px;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--c, var(--gold));transform:rotate(45deg)}
+.obs li{padding:10px 12px 10px 38px;border-radius:10px;background:rgba(238,243,250,.035);border:1px solid rgba(30,42,61,.8)}
+.obs li::before{left:14px;top:17px;background:var(--muted)}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.num{padding:14px 14px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
+.num::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--nc)}
+.num b{display:block;font-size:26px;line-height:1.1;font-weight:800;color:var(--nc);letter-spacing:-.01em;word-break:break-word}
+.num.longo b{font-size:17px}
+.num span{display:block;margin-top:6px;font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.35}
+.autos{display:grid;gap:0;position:relative}
+.auto{position:relative;display:grid;grid-template-columns:92px minmax(0,1fr);gap:12px;padding:0 0 14px}
+.auto::before{content:"";position:absolute;left:99px;top:18px;bottom:-2px;width:1px;background:linear-gradient(var(--line2),transparent)}
+.auto:last-child::before{display:none}
+.auto-q{font-size:12px;font-weight:800;color:var(--c-auto);text-align:right;padding-top:9px;line-height:1.3;letter-spacing:.02em}
+.auto-c{position:relative;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);margin-left:14px}
+.auto-c::before{content:"";position:absolute;left:-19px;top:12px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--c-auto)}
+.auto-a{font-size:14px;color:var(--text);font-weight:500;line-height:1.45}
+.auto-m{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:7px;font-size:11.5px;font-weight:700;background:rgba(238,243,250,.06);color:#C9D4E3;border:1px solid rgba(238,243,250,.1)}
+.tag{max-width:100%;overflow-wrap:anywhere;text-align:left}
+.tag-tpl{cursor:pointer;background:rgba(0,168,132,.12);color:#5EE3B8;border-color:rgba(0,168,132,.45);font-family:var(--mono);font-weight:600}
+.tag-tpl:hover{background:rgba(0,168,132,.22)}
+.tag-tpl.faltando{background:rgba(248,113,113,.1);color:#FCA5A5;border-color:rgba(248,113,113,.4);cursor:default}
+.kv{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kv td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top;color:#D3DCE8}
+.kv tr:first-child td{border-top:0}
+.kv td:first-child{width:44%;color:var(--text);font-weight:600;background:rgba(238,243,250,.025)}
+.st{display:inline-block;margin-left:6px;font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:5px;vertical-align:1px}
+.st-novo{background:rgba(var(--gold-rgb),.15);color:var(--gold);border:1px solid rgba(var(--gold-rgb),.45)}
+.st-ajustar{background:rgba(245,158,11,.14);color:#FDBA74;border:1px solid rgba(249,115,22,.5)}
+.st-existe{background:rgba(148,163,184,.12);color:#AEB9C8;border:1px solid rgba(148,163,184,.35)}
+.saidas{display:grid;gap:8px}
+.saida{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:13.5px;color:#D3DCE8}
+.dest{display:inline-flex;align-items:center;gap:7px;max-width:230px;padding:6px 10px;border-radius:9px;border:1px solid rgba(var(--dc-rgb),.45);background:rgba(var(--dc-rgb),.1);
+  color:var(--text);font-size:12.5px;font-weight:700;cursor:pointer;text-align:left}
+.dest:hover{background:rgba(var(--dc-rgb),.2)}
+.dest span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dest .i{color:rgb(var(--dc-rgb))}
+.dest.sem{cursor:default;opacity:.8}
+.info2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info{padding:12px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.info small{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.info b{display:block;margin-top:5px;font-size:14.5px;font-weight:700;color:var(--text)}
+.conex{display:flex;flex-wrap:wrap;gap:6px}
+
+/* ---------- modal ---------- */
+#modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:max(20px, env(safe-area-inset-top)) 16px 20px;background:rgba(1,5,14,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#modal.on{display:flex;animation:fade .18s ease}
+@keyframes fade{from{opacity:0}}
+.mbox{position:relative;width:min(1180px,100%);max-height:100%;display:flex;flex-direction:column;border-radius:20px;background:var(--panel);border:1px solid var(--line2);box-shadow:0 40px 90px rgba(0,0,0,.7);overflow:hidden}
+.mbox.estreita{width:min(820px,100%)}
+.m-head{display:flex;align-items:flex-start;gap:14px;padding:20px 22px 16px;border-bottom:1px solid var(--line);background:radial-gradient(600px 200px at 0 0, rgba(59,41,27,.6), transparent)}
+.m-head h2{margin:0;font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.m-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.m-head .icon-btn{margin-left:auto}
+.m-body{overflow:auto;padding:18px 22px 26px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.filtros{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tab{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tab th{position:sticky;top:-18px;background:#0A1222;text-align:left;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:800;padding:10px 12px;border-bottom:1px solid var(--line2);z-index:1}
+.tab td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top;color:#D3DCE8;line-height:1.5}
+.tab tr:hover td{background:rgba(238,243,250,.02)}
+.tab td.nome{font-weight:700;color:var(--text);min-width:150px}
+.tab td.idk{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.tab .st{margin:0}
+.tab tr.row-novo td:first-child{box-shadow:inset 3px 0 0 var(--gold)}
+.tab tr.row-ajustar td:first-child{box-shadow:inset 3px 0 0 var(--orange)}
+.tab tr.row-existe td:first-child{box-shadow:inset 3px 0 0 #475569}
+.muds{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.mud{padding:18px;border-radius:16px;background:var(--card);border:1px solid var(--line);position:relative}
+.mud-n{position:absolute;right:16px;top:14px;font-size:32px;font-weight:800;color:rgba(var(--gold-rgb),.2);line-height:1}
+.mud h4{margin:0 0 12px;padding-right:44px;font-size:15.5px;line-height:1.35;font-weight:800;color:var(--text)}
+.mud dl{margin:0;display:grid;gap:10px}
+.mud dt{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px}
+.mud dt.imp{color:var(--gold)}
+.mud dd{margin:3px 0 0;font-size:13.5px;line-height:1.55;color:#D3DCE8}
+.mud dd.imp{color:var(--text);font-weight:600}
+.tplm{display:grid;grid-template-columns:380px 1fr;gap:26px;align-items:start}
+.tplm .phone{max-width:380px}
+.tplm dl{margin:0;display:grid;gap:14px}
+.tplm dt{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.tplm dd{margin:4px 0 0;font-size:14px;color:#D3DCE8;line-height:1.55}
+.m-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.help-k{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:13.5px;color:#D3DCE8;align-items:center}
+kbd{font-family:var(--mono);font-size:11.5px;padding:3px 7px;border-radius:6px;border:1px solid var(--line2);background:#0E1728;color:var(--text);white-space:nowrap}
+.aviso-l li{font-family:var(--mono);font-size:12.5px}
+
+/* loader / erro */
+#loader{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg);transition:opacity .35s}
+#loader.fora{opacity:0;pointer-events:none}
+#loader .l{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:24px;max-width:620px}
+#loader .spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(var(--gold-rgb),.2);border-top-color:var(--gold);animation:gira 1s linear infinite}
+#loader.erro .spin{display:none}
+#loader pre{text-transform:none;letter-spacing:0;white-space:pre-wrap;text-align:left;color:#FCA5A5;font:12.5px/1.5 var(--mono);background:#0A1120;border:1px solid var(--line2);border-radius:12px;padding:14px}
+@keyframes gira{to{transform:rotate(360deg)}}
+#toast{position:fixed;left:50%;top:84px;transform:translate(-50%,-10px);z-index:70;padding:9px 16px;border-radius:999px;background:#0E1728;border:1px solid var(--line2);font-size:12.5px;font-weight:600;opacity:0;pointer-events:none;transition:.2s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){ .busca input{width:170px} .btn .lbl-l{display:none} }
+@media (max-width:900px){
+  :root{--top-h:106px}
+  #topbar{flex-wrap:wrap;gap:8px 10px;padding:8px 12px;padding-top:max(8px, env(safe-area-inset-top))}
+  .brand{flex:1 1 0;max-width:none}
+  .brand-s{display:none}
+  .tours{order:3;flex:1 1 100%;margin:0 -12px;padding:0 12px 2px}
+  .acoes{gap:6px}
+  .busca{position:static}
+  .busca input{width:38px;padding:0 0 0 30px;color:transparent;cursor:pointer}
+  .busca input::placeholder{color:transparent}
+  .busca input:focus,.busca.cheia input{position:absolute;left:12px;right:12px;top:max(8px, env(safe-area-inset-top));width:auto;z-index:3;padding:0 12px 0 34px;color:var(--text);background:#0A1120}
+  .busca input:focus::placeholder{color:var(--dim)}
+  .busca>.i{pointer-events:none;left:auto;top:auto;margin:11px 0 0 11px;z-index:4;position:absolute}
+  .btn .cnt{display:none}
+  .btn{width:38px;padding:0;justify-content:center}
+  .auto{grid-template-columns:62px minmax(0,1fr);gap:8px}
+  .auto::before{left:69px}
+  .dw-head,.dw-body{padding-left:16px;padding-right:16px}
+  .busca-cont{display:none}
+  .busca-res{position:fixed;left:12px;right:12px;width:auto;top:calc(var(--top-h) + 4px)}
+  .btn{padding:0 10px}
+  .btn .lbl{display:none}
+  #minimap{display:none}
+  .tplm{grid-template-columns:1fr}
+  .tplm .phone{margin:0 auto}
+  .info2{grid-template-columns:1fr}
+  .tab thead{display:none}
+  .tab,.tab tbody,.tab tr,.tab td{display:block;width:100%}
+  .tab tr{padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--card)}
+  .tab tr.row-novo{border-left:3px solid var(--gold)} .tab tr.row-ajustar{border-left:3px solid var(--orange)} .tab tr.row-existe{border-left:3px solid #475569}
+  .tab tr td:first-child{box-shadow:none!important}
+  .tab td{border:0;padding:3px 0}
+  .tab td[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+  .tab td.nome{font-size:15px}
+  .muds{grid-template-columns:1fr}
+  .m-head{padding:16px}
+  .m-body{padding:14px 16px 22px}
+  .tournav{bottom:max(12px, env(safe-area-inset-bottom))}
+  .tournav .tn-nome{max-width:46vw}
+  .ctl{left:auto;right:12px;bottom:auto;top:calc(var(--top-h) + 10px);flex-direction:column;border-radius:14px}
+  .ctl .sep{width:20px;height:1px;margin:3px 0}
+  .ctl .zoom-v,.ctl .hide-m{display:none}
+  body.drawer-on .tournav{left:50%}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+</style>
+</head>
+<body>
+<header id="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">AI</div>
+    <div class="brand-txt"><h1 class="brand-t" id="t-titulo">Pipeline</h1><div class="brand-s" id="t-sub"></div></div>
+  </div>
+  <nav class="tours" id="tours" aria-label="Tours do quadro"></nav>
+  <div class="acoes">
+    <div class="busca" role="search">
+      <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="busca" type="search" placeholder="Buscar no quadro" autocomplete="off" aria-label="Buscar etapas, automações e templates" aria-controls="busca-res">
+      <span class="busca-cont" id="busca-cont"></span>
+      <div class="busca-res" id="busca-res" role="listbox"></div>
+    </div>
+    <button class="btn" id="b-campos" type="button"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg><span class="lbl">Campos</span><span class="cnt" id="n-campos"></span></button>
+    <button class="btn gold" id="b-mud" type="button"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l2.4 5.4L20 9.3l-4.2 3.9 1.1 5.8L12 16.2 7.1 19l1.1-5.8L4 9.3l5.6-.9z"/></svg><span class="lbl">Mudanças<span class="lbl-l"> propostas</span></span><span class="cnt" id="n-mud"></span></button>
+  </div>
+</header>
+
+<main id="vp" aria-label="Quadro do pipeline. Arraste para mover, use a roda ou pinça para aproximar.">
+  <div id="world" class="lod-near">
+    <div id="l-frames"></div>
+    <svg id="l-edges" width="1" height="1" aria-hidden="true"><defs id="markers"></defs><g id="edges-g"></g></svg>
+    <div id="l-nodes"></div>
+    <div id="l-labels" aria-hidden="true"></div>
+    <div id="l-tpls"></div>
+  </div>
+</main>
+
+<div class="ctl" role="toolbar" aria-label="Zoom">
+  <button type="button" id="z-menos" aria-label="Afastar" title="Afastar (−)"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+  <button type="button" class="zoom-v" id="z-val" title="Zoom 100%">100%</button>
+  <button type="button" id="z-mais" aria-label="Aproximar" title="Aproximar (+)"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+  <span class="sep"></span>
+  <button type="button" id="z-fit" aria-label="Ajustar tudo" title="Ajustar tudo (0)"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  <button type="button" id="b-full" class="hide-m" aria-label="Tela cheia" title="Tela cheia (F)"><svg class="i" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
+  <button type="button" id="b-help" aria-label="Atalhos" title="Atalhos (?)"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.3M12 17h.01"/></svg></button>
+  <button type="button" id="b-avisos" class="avisos" hidden title="Avisos dos dados"></button>
+</div>
+
+<div id="minimap" aria-label="Minimapa: clique ou arraste para mover a câmera"><div class="mm-in"><canvas id="mm"></canvas><div class="cam" id="mm-cam"></div></div></div>
+
+<div class="tournav" id="tournav" hidden>
+  <button type="button" id="tn-prev" aria-label="Tour anterior (←)"><svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button type="button" class="tn-nome" id="tn-nome"></button>
+  <button type="button" id="tn-next" aria-label="Próximo tour (→)"><svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+</div>
+
+<aside id="drawer" role="dialog" aria-modal="false" aria-labelledby="dw-title" tabindex="-1"></aside>
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="loader"><div class="l"><div class="spin"></div><div id="loader-msg">Carregando o quadro…</div></div></div>
+
+<script>
+/* ================================================================
+   Motor do quadro (canvas infinito) — lê window.MAPA
+   ================================================================ */
+(function(){
+'use strict';
+
+var TIPOS = {
+  fonte:     {rot:'Fonte de lead', cor:'#5B8DEF'},
+  etapa:     {rot:'Etapa',         cor:'#E6C48F'},
+  automacao: {rot:'Automação',     cor:'#3CCB7F'},
+  decisao:   {rot:'Decisão',       cor:'#A78BFA'},
+  nota:      {rot:'Nota',          cor:'#94A3B8'},
+  kpi:       {rot:'Indicador',     cor:'#F87171'},
+  marco:     {rot:'Marco',         cor:'#FFFFFF'}
+};
+var W_PADRAO = {fonte:420, etapa:420, automacao:440, decisao:400, nota:520, kpi:420, marco:600};
+var FRAME_CORES = ['#E6C48F','#5B8DEF','#3CCB7F','#A78BFA','#F87171','#94A3B8'];
+var ZMIN = 0.04, ZMAX = 3;
+var TPL_W = 480, TPL_BASE = 360; // largura padrão no quadro; o cartão é desenhado em 360 e escalado
+
+function sv(p){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>'; }
+var ICO = {
+  fonte: sv('<path d="M6 3v7a6 6 0 0 0 12 0V3"/><path d="M6 7h4M14 7h4"/>'),
+  etapa: sv('<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/>'),
+  automacao: sv('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'),
+  decisao: sv('<path d="M12 2.8 21.2 12 12 21.2 2.8 12z"/><path d="M10 10a2 2 0 1 1 2.8 1.8c-.5.3-.8.7-.8 1.2M12 15.6h.01"/>'),
+  nota: sv('<path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8.5 12h7M8.5 16h4.5"/>'),
+  kpi: sv('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'),
+  marco: sv('<path d="M5 21V4M5 4h12l-2.5 4.5L17 13H5"/>'),
+  x: sv('<path d="M18 6 6 18M6 6l12 12"/>'),
+  link: sv('<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>'),
+  seta: sv('<path d="M5 12h14M13 6l6 6-6 6"/>'),
+  alvo: sv('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>'),
+  relogio: sv('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
+  user: sv('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+  entra: sv('<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/>'),
+  campos: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>'),
+  saida: sv('<path d="M16 3h5v5M21 3l-8 8"/><path d="M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/>'),
+  info: sv('<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/>'),
+  alerta: sv('<path d="M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
+  msg: sv('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
+  voltar: sv('<path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/>'),
+  mapa: sv('<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>'),
+  chat: sv('<path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.5A8.4 8.4 0 1 1 21 11.5z"/>')
+};
+var WA_EXT = '<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+var WA_REPLY = '<svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v4"/></svg>';
+var WA_VERIF = '<svg class="wa-verif" viewBox="0 0 24 24"><path fill="#00a884" d="M12 1.5l2.6 1.9 3.2-.1 1 3 2.6 1.9-1 3.1 1 3.1-2.6 1.9-1 3-3.2-.1L12 22.5l-2.6-1.9-3.2.1-1-3L2.6 15.8l1-3.1-1-3.1 2.6-1.9 1-3 3.2.1z"/><path d="m8 12.3 2.7 2.6L16.2 9.4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var WA_MIC = '<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
+
+/* ---------- utilidades ---------- */
+function $(s, r){ return (r||document).querySelector(s); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function arr(a){ return Array.isArray(a) ? a : (a==null || a==='' ? [] : [a]); }
+function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+function num(v, d){ v = parseFloat(v); return isFinite(v) ? v : d; }
+function norm(s){ s = String(s==null?'':s); try{ s = s.normalize('NFD'); }catch(_){} return s.replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+function rgb(hex){
+  var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(hex||'').trim()); if(!m) return null;
+  var x = m[1]; if(x.length===3) x = x.split('').map(function(c){return c+c;}).join('');
+  var n = parseInt(x,16); return ((n>>16)&255)+','+((n>>8)&255)+','+(n&255);
+}
+function corVars(cor, fallback){ var c = rgb(cor) ? cor : fallback; return '--c:'+c+';--c-rgb:'+rgb(c); }
+function toast(msg){ var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove('on'); }, 1800); }
+function setHash(h){ try{ history.replaceState(null, '', h ? '#'+h : location.pathname + location.search); }catch(_){ } }
+
+/* Formatação do WhatsApp: *negrito* _itálico_ ~riscado~ ```mono``` {{variável}} e links */
+function wa(txt){
+  var tokens = [];
+  function tk(html){ tokens.push(html); return '\u0001'+(tokens.length-1)+'\u0002'; }
+  var s = esc(txt);
+  s = s.replace(/```([\s\S]+?)```/g, function(_,x){ return tk('<code>'+x+'</code>'); });
+  s = s.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function(_,x){ return tk('<span class="wa-var">{{'+x+'}}</span>'); });
+  s = s.replace(/(https?:\/\/[^\s<]+)/g, function(_,x){ return tk('<span class="wa-link">'+x+'</span>'); });
+  s = s.replace(/\*([^*\n]+?)\*/g, '<b>$1</b>');
+  s = s.replace(/(^|[\s(>])_([^_\n]+?)_(?=[\s.,!?;:)<]|$)/gm, '$1<i>$2</i>');
+  s = s.replace(/(^|[\s(>])~([^~\n]+?)~(?=[\s.,!?;:)<]|$)/gm, '$1<s>$2</s>');
+  s = s.replace(/\n/g, '<br>');
+  return s.replace(/\u0001(\d+)\u0002/g, function(_,i){ return tokens[+i]; });
+}
+
+/* ---------- estado ---------- */
+var M, vp, world, cam = {x:0, y:0, z:1}, VW = 0, VH = 0, raf = 0, lod = 'near';
+var itens = {};          // id -> {kind:'node'|'tpl'|'frame', d, el, x, y, w, h}
+var porTitulo = {};      // título/nome normalizado -> id
+var avisos = [];
+var bounds = {x:0,y:0,w:1000,h:1000};
+var edgesEls = [];       // {d, path, label, de, para}
+var tourAtual = -1;
+var drawerAberto = null, focoAntes = null;
+
+function aviso(msg){ avisos.push(msg); }
+
+/* ---------- normalização dos dados ---------- */
+function normalizar(raw){
+  var m = raw || {};
+  m.meta = m.meta || {};
+  ['frames','nodes','edges','templates','campos','mudancas','tours'].forEach(function(k){ m[k] = arr(m[k]); });
+  var vistos = {};
+  function registra(id, kind){ if(!id){ aviso(kind+' sem id'); return false; } if(vistos[id]){ aviso('id duplicado: "'+id+'"'); return false; } vistos[id] = kind; return true; }
+
+  m.frames.forEach(function(f, i){ f.id = f.id || ('frame-'+i); registra(f.id, 'frame'); f._cor = rgb(f.cor) ? f.cor : FRAME_CORES[i % FRAME_CORES.length]; });
+  var fr = {}; m.frames.forEach(function(f){ fr[f.id] = f; });
+
+  var cont = {};
+  m.nodes.forEach(function(n, i){
+    n.id = n.id || ('node-'+i); registra(n.id, 'node');
+    if(!TIPOS[n.tipo]){ aviso('node "'+n.id+'": tipo desconhecido "'+n.tipo+'" (usei "nota")'); n.tipo = 'nota'; }
+    if(n.frame && !fr[n.frame]) aviso('node "'+n.id+'": frame "'+n.frame+'" não existe');
+    n.badges = arr(n.badges);
+    n.detalhes = n.detalhes || {};
+    var d = n.detalhes;
+    ['entra','automacoes','campos','saidas','numeros','observacoes'].forEach(function(k){ d[k] = arr(d[k]); });
+    n.w = num(n.w, W_PADRAO[n.tipo]); n.h = num(n.h, 0);
+    if(n.x == null || n.y == null){
+      var f = fr[n.frame]; var k = cont[n.frame||''] = (cont[n.frame||'']||0) + 1;
+      var bx = f ? f.x + 80 : 0, by = f ? f.y + 260 : 0;
+      n.x = bx + ((k-1) % 4) * (n.w + 80); n.y = by + Math.floor((k-1)/4) * 360;
+      n._auto = true; aviso('node "'+n.id+'": sem x/y, posicionei automaticamente');
+    }
+    n.x = num(n.x,0); n.y = num(n.y,0);
+  });
+  m.templates.forEach(function(t, i){
+    t.id = t.id || ('tpl-'+i); registra(t.id, 'template');
+    t.botoes = arr(t.botoes); t.w = num(t.w, TPL_W);
+  });
+  // coordenadas dos nodes: relativas ao frame (padrão) ou absolutas — detecta pela maioria
+  var rel = 0, abs = 0;
+  function dentro(f, x, y){ return x >= f.x && y >= f.y && x < f.x + f.w && y < f.y + f.h; }
+  m.nodes.forEach(function(n){
+    var f = fr[n.frame]; if(!f || f.w == null || n._auto) return;
+    var fx = num(f.x,0), fy = num(f.y,0), ff = {x:fx, y:fy, w:num(f.w,0), h:num(f.h,0)};
+    if(dentro(ff, fx+n.x, fy+n.y)) rel++; if(dentro(ff, n.x, n.y)) abs++;
+  });
+  var modo = m.meta.coordenadas === 'absolutas' ? 'abs' : m.meta.coordenadas === 'relativas' ? 'rel' : (rel >= abs ? 'rel' : 'abs');
+  m._coord = modo;
+  if(modo === 'rel') m.nodes.forEach(function(n){ var f = fr[n.frame]; if(f && !n._auto){ n.x += num(f.x,0); n.y += num(f.y,0); } });
+  // frames sem tamanho: envolve os nodes
+  m.frames.forEach(function(f){
+    if(f.w && f.h && f.x != null && f.y != null){ f.x=num(f.x,0); f.y=num(f.y,0); f.w=num(f.w,1000); f.h=num(f.h,800); return; }
+    var ns = m.nodes.filter(function(n){ return n.frame === f.id; });
+    if(!ns.length){ f.x=num(f.x,0); f.y=num(f.y,0); f.w=num(f.w,1200); f.h=num(f.h,800); return; }
+    var x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+    ns.forEach(function(n){ x0=Math.min(x0,n.x); y0=Math.min(y0,n.y); x1=Math.max(x1,n.x+n.w); y1=Math.max(y1,n.y+(n.h||260)); });
+    f.x = x0-80; f.y = y0-260; f.w = x1-x0+160; f.h = y1-y0+340;
+  });
+  m.edges.forEach(function(e){ e.estilo = e.estilo === 'tracejado' ? 'tracejado' : 'solido'; });
+  m.tours.forEach(function(t, i){ t.nome = t.nome || ('Tour '+(i+1)); t.x = num(t.x,0); t.y = num(t.y,0); t.zoom = num(t.zoom,1); });
+  return m;
+}
+
+function resolver(ref){
+  if(ref == null || ref === '') return null;
+  if(itens[ref]) return itens[ref];
+  var id = porTitulo[norm(ref).trim()];
+  return id ? itens[id] : null;
+}
+
+function validar(){
+  M.edges.forEach(function(e, i){
+    if(!resolver(e.de)) aviso('edge #'+(i+1)+': origem "'+e.de+'" não existe');
+    if(!resolver(e.para)) aviso('edge #'+(i+1)+': destino "'+e.para+'" não existe');
+  });
+  M.nodes.forEach(function(n){
+    n.detalhes.saidas.forEach(function(s){ if(s.destino && !resolver(s.destino)) aviso('node "'+n.id+'": saída para "'+s.destino+'" não encontrada'); });
+    n.detalhes.automacoes.forEach(function(a){ if(a.template && !tplDe(a.template)) aviso('node "'+n.id+'": template "'+a.template+'" não encontrado'); });
+  });
+}
+function tplDe(ref){ var it = resolver(ref); return it && it.kind === 'tpl' ? it : null; }
+
+/* ---------- render: frames / nodes / templates ---------- */
+function renderFrames(){
+  var html = '';
+  M.frames.forEach(function(f){
+    var mt = /^\s*(\d+)\s*[.)·\-–—:]\s*(.+)$/.exec(f.titulo || '');
+    html += '<section class="frame" data-frame="'+esc(f.id)+'" style="left:'+f.x+'px;top:'+f.y+'px;width:'+f.w+'px;height:'+f.h+'px;'+corVars(f._cor,'#E6C48F')+'">'+
+      '<header class="frame-head" data-id="'+esc(f.id)+'" title="Clique para enquadrar">'+
+        (mt ? '<span class="frame-num">'+esc(mt[1])+'</span>' : '')+
+        '<div><h2 class="frame-title">'+esc(mt ? mt[2] : f.titulo)+'</h2>'+(f.descricao ? '<p class="frame-desc">'+esc(f.descricao)+'</p>' : '')+'</div>'+
+      '</header></section>';
+  });
+  $('#l-frames').innerHTML = html;
+  M.frames.forEach(function(f){
+    var el = $('#l-frames [data-frame="'+cssEsc(f.id)+'"]');
+    itens[f.id] = {kind:'frame', d:f, el:el, x:f.x, y:f.y, w:f.w, h:f.h};
+    porTitulo[norm(f.titulo).trim()] = porTitulo[norm(f.titulo).trim()] || f.id;
+  });
+}
+function cssEsc(s){ return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/["\\]/g,'\\$&'); }
+
+function classeBadge(b){
+  var s = norm(b);
+  if(/(^|\s)(novo|nova|criar|proposta)(\s|$)/.test(s)) return ' b-gold';
+  if(/alerta|risco|atencao|parad|sem resposta|0%|esquecid|vermelh/.test(s)) return ' b-red';
+  if(/automat|zapflow|n8n/.test(s)) return ' b-green';
+  return '';
+}
+function badgesHTML(bs){ return bs.length ? '<div class="badges">'+bs.map(function(b){ return '<span class="badge'+classeBadge(b)+'">'+esc(b)+'</span>'; }).join('')+'</div>' : ''; }
+
+function renderNodes(){
+  var frag = document.createDocumentFragment();
+  M.nodes.forEach(function(n){
+    var t = TIPOS[n.tipo], d = n.detalhes;
+    var el = document.createElement('div');
+    el.className = 'node t-'+n.tipo;
+    el.dataset.id = n.id;
+    el.tabIndex = 0;
+    el.setAttribute('role','button');
+    el.setAttribute('aria-label', t.rot+': '+(n.titulo||'')+(n.subtitulo ? ' — '+n.subtitulo : '')+'. Abrir detalhes');
+    el.style.cssText = 'left:'+n.x+'px;top:'+n.y+'px;width:'+n.w+'px;'+(n.h ? 'min-height:'+n.h+'px;' : '')+corVars(n.cor, t.cor);
+    var h = '<div class="node-head"><span class="node-ico">'+ICO[n.tipo]+'</span><span class="node-tipo">'+esc(t.rot)+'</span><span class="node-abrir">'+ICO.seta+'</span></div>'+
+            '<div class="node-title">'+esc(n.titulo)+'</div>'+
+            (n.subtitulo ? '<div class="node-sub">'+esc(n.subtitulo)+'</div>' : '');
+    if(n.tipo === 'kpi' && d.numeros.length){
+      h += '<div class="node-nums">'+d.numeros.slice(0, n.w >= 700 ? 4 : 2).map(function(x){
+        var v = String(x.valor==null?'':x.valor); if(v.length > 12) return '';
+        return '<div class="node-num"><b>'+esc(v)+'</b><span>'+esc(x.rotulo)+'</span></div>'; }).join('')+'</div>';
+    }
+    if(d.resumo) h += '<div class="node-resumo opc">'+esc(d.resumo)+'</div>';
+    if(n.tipo === 'nota' && d.observacoes.length) h += '<ul class="node-obs opc">'+d.observacoes.map(function(o){ return '<li>'+esc(o)+'</li>'; }).join('')+'</ul>';
+    h += badgesHTML(n.badges);
+    var foot = [];
+    if(d.automacoes.length) foot.push('<span>'+ICO.automacao+d.automacoes.length+' automaç'+(d.automacoes.length>1?'ões':'ão')+'</span>');
+    if(d.sla) foot.push('<span>'+ICO.relogio+esc(d.sla)+'</span>');
+    if(d.responsavel) foot.push('<span>'+ICO.user+esc(d.responsavel)+'</span>');
+    if(foot.length) h += '<div class="node-foot">'+foot.join('')+'</div>';
+    el.innerHTML = h;
+    frag.appendChild(el);
+    itens[n.id] = {kind:'node', d:n, el:el, x:n.x, y:n.y, w:n.w, h:n.h||200};
+    if(n.titulo) porTitulo[norm(n.titulo).trim()] = porTitulo[norm(n.titulo).trim()] || n.id;
+  });
+  $('#l-nodes').appendChild(frag);
+}
+
+function catInfo(c){
+  var s = norm(c);
+  if(s.indexOf('market') === 0) return {cls:'cat-marketing', txt:'MARKETING'};
+  if(s.indexOf('util') === 0) return {cls:'cat-utility', txt:'UTILITY'};
+  return {cls:'cat-outra', txt: String(c||'—').toUpperCase()};
+}
+function remetente(){ return M.meta.remetente || 'Advocacia de Impacto'; }
+function iniciais(){ return (M.meta.iniciais || remetente().split(/\s+/).filter(function(w){ return w.length > 2; }).map(function(w){ return w[0]; }).join('').slice(0,2) || 'AI').toUpperCase(); }
+
+function phoneHTML(t){
+  var cab = t.cabecalho ? String(t.cabecalho) : '';
+  var media = /^\s*\[(imagem|image|video|vídeo|documento|document|pdf)[^\]]*\]\s*/i.exec(cab);
+  var cabHTML = '';
+  if(media){
+    cabHTML = '<div class="wa-media">'+sv('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>')+'<span>'+esc(media[0].replace(/[\[\]]/g,'').trim())+'</span></div>';
+    cab = cab.slice(media[0].length);
+  }
+  if(cab) cabHTML += '<div class="wa-h">'+wa(cab)+'</div>';
+  var btns = t.botoes.map(function(b){
+    return '<div class="wa-btn">'+(b.tipo === 'url' ? WA_EXT : WA_REPLY)+'<span>'+esc(b.texto)+'</span></div>';
+  }).join('');
+  return '<div class="phone"><div class="phone-in">'+
+    '<div class="wa-top"><span class="wa-back">‹</span><span class="wa-av">'+esc(iniciais())+'</span><div class="wa-who"><b>'+esc(remetente())+WA_VERIF+'</b><small>Conta comercial</small></div></div>'+
+    '<div class="wa-chat"><div class="wa-day">Hoje</div>'+
+      '<div class="wa-msg"><div class="wa-bubble">'+cabHTML+'<div class="wa-b">'+wa(t.corpo)+'</div>'+
+        '<div class="wa-fr">'+(t.rodape ? '<span class="wa-f">'+esc(t.rodape)+'</span>' : '')+'<span class="wa-time">'+esc(t.hora || '10:42')+'</span></div></div>'+
+        (btns ? '<div class="wa-btns">'+btns+'</div>' : '')+
+      '</div></div>'+
+    '<div class="wa-input"><span class="wa-in">Mensagem</span><span class="wa-mic">'+WA_MIC+'</span></div>'+
+  '</div></div>';
+}
+function tplLabelHTML(t){
+  var c = catInfo(t.categoria);
+  var meta = [t.etapa ? esc(t.etapa) : '', t.momento ? '<b>'+esc(t.momento)+'</b>' : ''].filter(Boolean).join(' · ');
+  return '<div class="tpl-label"><div class="tpl-row"><span class="cat '+c.cls+'">'+c.txt+'</span><code class="tpl-nome">'+esc(t.nome || t.id)+'</code></div>'+
+    (meta ? '<div class="tpl-meta">'+meta+'</div>' : '')+'</div>';
+}
+function renderTemplates(){
+  var frag = document.createDocumentFragment();
+  var semPos = [];
+  M.templates.forEach(function(t){
+    var el = document.createElement('div');
+    el.className = 'tpl'; el.dataset.id = t.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.setAttribute('aria-label', 'Template de WhatsApp '+(t.nome||t.id)+'. Abrir prévia');
+    el.innerHTML = '<div class="tpl-in" style="transform:scale('+(t.w/TPL_BASE)+')">'+tplLabelHTML(t) + phoneHTML(t)+'</div>';
+    if(t.x == null || t.y == null) semPos.push(t);
+    el.style.width = t.w+'px';
+    frag.appendChild(el);
+    itens[t.id] = {kind:'tpl', d:t, el:el, x:num(t.x,0), y:num(t.y,0), w:t.w, h:600};
+    if(t.nome) porTitulo[norm(t.nome).trim()] = porTitulo[norm(t.nome).trim()] || t.id;
+  });
+  $('#l-tpls').appendChild(frag);
+  if(semPos.length){
+    var b = limites(true); var x = b.x, y = b.y + b.h + 200;
+    semPos.forEach(function(t, i){ var it = itens[t.id]; it.x = x + i*(TPL_W+60); it.y = y; });
+    aviso(semPos.length+' template(s) sem x/y: coloquei abaixo do quadro');
+  }
+  M.templates.forEach(function(t){ var it = itens[t.id]; it.el.style.left = it.x+'px'; it.el.style.top = it.y+'px'; });
+}
+
+/* mede alturas reais (texto) e fixa, para setas e LOD não mexerem no layout */
+function medir(){
+  Object.keys(itens).forEach(function(id){
+    var it = itens[id]; if(it.kind === 'frame') return;
+    it.el.style.height = '';
+    var h = it.kind === 'tpl' ? Math.ceil(it.el.firstChild.offsetHeight * it.w / TPL_BASE) : it.el.offsetHeight;
+    // conteúdo opcional (resumo, observações) só aparece se couber no h pedido
+    if(it.kind === 'node' && it.d.h && h > it.d.h){
+      var obs = it.el.querySelector('.node-obs'), res = it.el.querySelector('.node-resumo');
+      if(obs){ obs.remove(); h = it.el.offsetHeight; }
+      for(var cl = 7; res && h > it.d.h && cl >= 2; cl--){ res.style.setProperty('--cl', cl); h = it.el.offsetHeight; }
+      if(res && h > it.d.h){ res.remove(); h = it.el.offsetHeight; }
+    }
+    it.h = Math.max(h, it.kind === 'node' ? (it.d.h || 0) : 0);
+    it.el.style.height = it.h+'px';
+  });
+  checarSobreposicao();
+}
+function checarSobreposicao(){
+  var lst = Object.keys(itens).map(function(k){ return itens[k]; }).filter(function(i){ return i.kind !== 'frame'; });
+  for(var i=0;i<lst.length;i++) for(var j=i+1;j<lst.length;j++){
+    var a = lst[i], b = lst[j];
+    if(a.x < b.x+b.w && b.x < a.x+a.w && a.y < b.y+b.h && b.y < a.y+a.h) aviso('sobreposição: "'+a.d.id+'" e "'+b.d.id+'"');
+  }
+  M.nodes.forEach(function(n){
+    var f = itens[n.frame], it = itens[n.id]; if(!f || f.kind !== 'frame') return;
+    if(it.x < f.x || it.y < f.y || it.x+it.w > f.x+f.w || it.y+it.h > f.y+f.h) aviso('node "'+n.id+'" sai do frame "'+n.frame+'"');
+  });
+  M.templates.forEach(function(t){
+    var it = itens[t.id];
+    M.frames.forEach(function(f){
+      var ins = it.x >= f.x && it.x < f.x+f.w && it.y >= f.y && it.y < f.y+f.h;
+      if(ins && it.y+it.h > f.y+f.h) aviso('template "'+t.id+'" passa da borda de baixo do frame "'+f.id+'" ('+Math.round(it.y+it.h-(f.y+f.h))+'px)');
+    });
+  });
+}
+
+function limites(semTpl){
+  var x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+  Object.keys(itens).forEach(function(k){
+    var it = itens[k]; if(semTpl && it.kind === 'tpl') return;
+    x0=Math.min(x0,it.x); y0=Math.min(y0,it.y); x1=Math.max(x1,it.x+it.w); y1=Math.max(y1,it.y+it.h);
+  });
+  if(!isFinite(x0)) return {x:0,y:0,w:1000,h:800};
+  return {x:x0,y:y0,w:x1-x0,h:y1-y0};
+}
+
+/* ---------- setas ---------- */
+function renderEdges(){
+  var g = $('#edges-g'), defs = $('#markers'), labels = $('#l-labels');
+  var cores = {}, gh = '', lh = '';
+  edgesEls = [];
+  var pares = {};
+  M.edges.forEach(function(e){ var a = resolver(e.de), b = resolver(e.para); if(a && b) pares[a.d.id+'>'+b.d.id] = 1; });
+  M.edges.forEach(function(e, i){
+    var a = resolver(e.de), b = resolver(e.para); if(!a || !b) return;
+    var cor = rgb(e.cor) ? e.cor : (e.estilo === 'tracejado' ? '#3CCB7F' : '#7F93B2');
+    var mid = 'm'+rgb(cor).replace(/,/g,'-'); cores[mid] = cor;
+    var lado = pares[a.d.id+'>'+b.d.id] && pares[b.d.id+'>'+a.d.id] ? (a.d.id < b.d.id ? 1 : -1) : 0;
+    var pts = rotaEdge(a, b, lado);
+    var p1 = pts[0], c1 = pts[1], c2 = pts[2], p2 = pts[3];
+    var d = 'M'+p1[0]+','+p1[1]+' C'+c1[0]+','+c1[1]+' '+c2[0]+','+c2[1]+' '+p2[0]+','+p2[1];
+    // rótulo: ponto do meio, ou o mais próximo dele que não caia em cima de um cartão
+    var lw = String(e.rotulo||'').length*10+36, mx, my;
+    var ts = [.5,.42,.58,.34,.66,.26,.74,.18,.82];
+    for(var ti=0; ti<ts.length; ti++){
+      var q = bez(pts, ts[ti]); if(ti === 0){ mx = q[0]; my = q[1]; }
+      if(!livre(q[0]-lw/2-6, q[1]-20, lw+12, 40)) continue;
+      mx = q[0]; my = q[1]; break;
+    }
+    gh += '<g class="edge '+e.estilo+'" data-e="'+i+'" style="--ec:'+cor+'"><path d="'+d+'" marker-end="url(#'+mid+')"/></g>';
+    var vert = Math.abs(p2[1]-p1[1]) > Math.abs(p2[0]-p1[0]);
+    var tr = !lado ? '' : vert ? (lado > 0 ? 'transform:translate(8px,-50%);' : 'transform:translate(calc(-100% - 8px),-50%);')
+                               : (lado > 0 ? 'transform:translate(-50%,6px);' : 'transform:translate(-50%,calc(-100% - 6px));');
+    if(e.rotulo) lh += '<div class="edge-label" data-e="'+i+'" style="left:'+mx+'px;top:'+my+'px;'+tr+'--ec-rgb:'+rgb(cor)+'">'+esc(e.rotulo)+'</div>';
+    edgesEls.push({i:i, de:a.d.id, para:b.d.id});
+  });
+  var dh = '';
+  Object.keys(cores).forEach(function(id){
+    dh += '<marker id="'+id+'" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 L2.5,5 z" fill="'+cores[id]+'"/></marker>';
+  });
+  defs.innerHTML = dh; g.innerHTML = gh; labels.innerHTML = lh;
+}
+/* Escolhe a rota da seta: reta entre os lados mais próximos; se passar por cima de outro cartão,
+   tenta um arco por cima ou por baixo. 'lado' desloca setas de ida e volta entre o mesmo par. */
+function rotaEdge(a, b, lado){
+  var off = lado * 22;
+  var acx=a.x+a.w/2, acy=a.y+a.h/2, bcx=b.x+b.w/2, bcy=b.y+b.h/2, dx=bcx-acx, dy=bcy-acy, k;
+  var sepX = Math.max(b.x-(a.x+a.w), a.x-(b.x+b.w)), sepY = Math.max(b.y-(a.y+a.h), a.y-(b.y+b.h));
+  var cands = [];
+  if(sepX >= sepY){
+    var s = dx >= 0 ? 1 : -1, p1 = [s>0 ? a.x+a.w : a.x, acy+off], p2 = [s>0 ? b.x-6 : b.x+b.w+6, bcy+off];
+    k = Math.max(60, Math.abs(p2[0]-p1[0])*.5);
+    cands.push([p1, [p1[0]+s*k, p1[1]], [p2[0]-s*k, p2[1]], p2]);
+  } else {
+    var t = dy >= 0 ? 1 : -1, q1 = [acx+off, t>0 ? a.y+a.h : a.y], q2 = [bcx+off, t>0 ? b.y-6 : b.y+b.h+6];
+    k = Math.max(60, Math.abs(q2[1]-q1[1])*.5);
+    cands.push([q1, [q1[0], q1[1]+t*k], [q2[0], q2[1]-t*k], q2]);
+  }
+  var H = clamp(70 + Math.abs(dx)*.05, 90, 220);
+  var top = Math.min(a.y, b.y), bot = Math.max(a.y+a.h, b.y+b.h);
+  var ax = acx + (dx >= 0 ? a.w*.2 : -a.w*.2), bx = bcx - (dx >= 0 ? b.w*.2 : -b.w*.2);
+  cands.push([[ax, a.y], [ax, top-H], [bx, top-H], [bx, b.y-6]]);
+  cands.push([[ax, a.y+a.h], [ax, bot+H], [bx, bot+H], [bx, b.y+b.h+6]]);
+  var melhor = null, mh = Infinity;
+  for(var c=0;c<cands.length;c++){
+    var hits = colisoes(cands[c], a, b) + (c ? .5 : 0);
+    if(hits < mh){ mh = hits; melhor = cands[c]; }
+    if(hits === 0) break;
+  }
+  return melhor;
+}
+function bez(P, t){ var u = 1-t; return [u*u*u*P[0][0]+3*u*u*t*P[1][0]+3*u*t*t*P[2][0]+t*t*t*P[3][0], u*u*u*P[0][1]+3*u*u*t*P[1][1]+3*u*t*t*P[2][1]+t*t*t*P[3][1]]; }
+function livre(x, y, w, h){
+  for(var k in itens){ var it = itens[k]; if(it.kind === 'frame') continue;
+    if(x < it.x+it.w && it.x < x+w && y < it.y+it.h && it.y < y+h) return false; }
+  return true;
+}
+function colisoes(P, a, b){
+  var n = 0, marcados = {};
+  for(var i=1;i<24;i++){
+    var t = i/24, u = 1-t;
+    var x = u*u*u*P[0][0] + 3*u*u*t*P[1][0] + 3*u*t*t*P[2][0] + t*t*t*P[3][0];
+    var y = u*u*u*P[0][1] + 3*u*u*t*P[1][1] + 3*u*t*t*P[2][1] + t*t*t*P[3][1];
+    for(var k in itens){
+      var it = itens[k]; if(it.kind === 'frame' || it === a || it === b || marcados[k]) continue;
+      if(x > it.x-8 && x < it.x+it.w+8 && y > it.y-8 && y < it.y+it.h+8){ marcados[k] = 1; n++; }
+    }
+  }
+  return n;
+}
+function destacarEdges(id, on){
+  edgesEls.forEach(function(e){
+    if(e.de !== id && e.para !== id) return;
+    var g = $('#edges-g [data-e="'+e.i+'"]'), l = $('#l-labels [data-e="'+e.i+'"]');
+    if(g) g.classList.toggle('hl', on); if(l) l.classList.toggle('hl', on);
+  });
+}
+
+/* ---------- câmera ---------- */
+function topH(){ return $('#topbar').offsetHeight; }
+function area(){
+  var dw = (drawerAberto && VW >= 900) ? $('#drawer').offsetWidth : 0;
+  var th = topH(), bot = VW < 900 ? 64 : 0;
+  return {x:0, y:th, w:VW-dw, h:VH-th-bot};
+}
+function aplicar(){
+  raf = 0;
+  world.style.transform = 'translate('+cam.x+'px,'+cam.y+'px) scale('+cam.z+')';
+  var s = 24*cam.z; while(s < 12) s *= 4; while(s > 96) s /= 4;
+  vp.style.backgroundSize = s+'px '+s+'px';
+  vp.style.backgroundPosition = (cam.x % s)+'px '+(cam.y % s)+'px';
+  var n = cam.z < 0.2 ? 'far' : cam.z < 0.45 ? 'mid' : 'near';
+  if(n !== lod){ world.classList.remove('lod-'+lod); world.classList.add('lod-'+n); lod = n; }
+  $('#z-val').textContent = Math.round(cam.z*100)+'%';
+  minimapCam();
+}
+function agenda(){ if(!raf) raf = requestAnimationFrame(aplicar); }
+var movT;
+function mexendo(){ if(!world.classList.contains('moving')) world.classList.add('moving'); clearTimeout(movT); movT = setTimeout(function(){ world.classList.remove('moving'); }, 160); }
+function zoomEm(sx, sy, f){
+  var nz = clamp(cam.z*f, ZMIN, ZMAX), k = nz/cam.z;
+  cam.x = sx - (sx-cam.x)*k; cam.y = sy - (sy-cam.y)*k; cam.z = nz;
+  mexendo(); agenda();
+}
+function centro(){ var a = area(); return {x:(a.x+a.w/2-cam.x)/cam.z, y:(a.y+a.h/2-cam.y)/cam.z}; }
+function setCentro(cx, cy, z){ var a = area(); cam.z = z; cam.x = a.x+a.w/2-cx*z; cam.y = a.y+a.h/2-cy*z; }
+var anim = 0;
+function paraAnim(){ if(anim){ cancelAnimationFrame(anim); anim = 0; } }
+function voar(wx, wy, z, dur){
+  paraAnim();
+  z = clamp(z, ZMIN, ZMAX);
+  var c0 = centro(), z0 = cam.z, t0 = performance.now(), a = area();
+  dur = dur == null ? 800 : dur;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) dur = 0;
+  var dist = Math.hypot(wx-c0.x, wy-c0.y) * Math.min(z0, z) / Math.max(a.w, 1);
+  var bump = clamp((dist-0.6)*0.18, 0, 0.55);
+  if(!dur){ setCentro(wx, wy, z); mexendo(); agenda(); return; }
+  function passo(now){
+    var t = clamp((now-t0)/dur, 0, 1);
+    var e = t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    var zz = Math.exp(Math.log(z0) + (Math.log(z)-Math.log(z0))*e) * (1 - bump*Math.sin(Math.PI*e));
+    setCentro(c0.x+(wx-c0.x)*e, c0.y+(wy-c0.y)*e, zz);
+    mexendo(); aplicar();
+    anim = t < 1 ? requestAnimationFrame(passo) : 0;
+  }
+  anim = requestAnimationFrame(passo);
+}
+function enquadrar(r, pad, dur, zmax){
+  var a = area(); pad = pad == null ? 60 : pad;
+  var z = Math.min((a.w-2*pad)/Math.max(r.w,1), (a.h-2*pad)/Math.max(r.h,1));
+  voar(r.x+r.w/2, r.y+r.h/2, Math.min(z, zmax || ZMAX), dur);
+}
+function ajustarTudo(dur){ enquadrar(bounds, VW < 600 ? 16 : 50, dur); }
+function visivel(it){
+  var a = area(), sx = it.x*cam.z+cam.x, sy = it.y*cam.z+cam.y;
+  return sx >= a.x && sy >= a.y && sx+it.w*cam.z <= a.x+a.w && sy+it.h*cam.z <= a.y+a.h;
+}
+function focar(it, zmin){
+  var a = area();
+  var zFit = Math.min((a.w-80)/it.w, (a.h-80)/it.h);
+  var z = clamp(Math.max(cam.z, zmin || 0.5), 0.2, Math.min(1.1, zFit));
+  voar(it.x+it.w/2, it.y+it.h/2, z);
+}
+
+/* ---------- interação: ponteiro, roda, pinça, teclado ---------- */
+var ptrs = new Map(), gst = null, espaco = false, gestoSafari = null;
+function dist2(p){ return Math.hypot(p[0].x-p[1].x, p[0].y-p[1].y); }
+function meio(p){ return {x:(p[0].x+p[1].x)/2, y:(p[0].y+p[1].y)/2}; }
+function vpXY(e){ var r = vp.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+
+function ligarInteracao(){
+  vp.addEventListener('pointerdown', function(e){
+    if(e.pointerType === 'mouse' && e.button !== 0 && e.button !== 1) return;
+    paraAnim();
+    var p = vpXY(e);
+    ptrs.set(e.pointerId, p);
+    try{ vp.setPointerCapture(e.pointerId); }catch(_){}
+    if(ptrs.size === 1){
+      gst = {modo:'pan', sx:p.x, sy:p.y, cx:cam.x, cy:cam.y, alvo:e.target, moveu:false, botao:e.button};
+    } else if(ptrs.size === 2){
+      var ps = Array.from(ptrs.values());
+      gst = {modo:'pinca', d0:dist2(ps), m0:meio(ps), c0:{x:cam.x, y:cam.y, z:cam.z}, moveu:true};
+    }
+    if(e.button === 1) e.preventDefault();
+  });
+  vp.addEventListener('pointermove', function(e){
+    if(!ptrs.has(e.pointerId) || !gst) return;
+    var p = vpXY(e); ptrs.set(e.pointerId, p);
+    if(gst.modo === 'pan'){
+      var dx = p.x-gst.sx, dy = p.y-gst.sy;
+      if(!gst.moveu && Math.hypot(dx,dy) > (e.pointerType === 'touch' ? 8 : 4)){ gst.moveu = true; vp.classList.add('arrastando'); }
+      if(gst.moveu){ cam.x = gst.cx+dx; cam.y = gst.cy+dy; mexendo(); agenda(); }
+    } else if(gst.modo === 'pinca' && ptrs.size >= 2){
+      var ps = Array.from(ptrs.values()).slice(0,2), d = dist2(ps), m = meio(ps);
+      var z = clamp(gst.c0.z * d / Math.max(gst.d0,1), ZMIN, ZMAX);
+      var wx = (gst.m0.x-gst.c0.x)/gst.c0.z, wy = (gst.m0.y-gst.c0.y)/gst.c0.z;
+      cam.z = z; cam.x = m.x - wx*z; cam.y = m.y - wy*z; mexendo(); agenda();
+    }
+  });
+  function fim(e){
+    if(!ptrs.has(e.pointerId)) return;
+    ptrs.delete(e.pointerId);
+    if(gst && gst.modo === 'pan' && !gst.moveu && e.type === 'pointerup' && !espaco && gst.botao === 0) ativar(gst.alvo);
+    if(ptrs.size === 1){ var p = Array.from(ptrs.values())[0]; gst = {modo:'pan', sx:p.x, sy:p.y, cx:cam.x, cy:cam.y, moveu:true}; }
+    else if(ptrs.size === 0){ gst = null; vp.classList.remove('arrastando'); }
+  }
+  vp.addEventListener('pointerup', fim);
+  vp.addEventListener('pointercancel', fim);
+  vp.addEventListener('lostpointercapture', function(e){ if(ptrs.has(e.pointerId) && e.pointerType !== 'touch') fim(e); });
+  vp.addEventListener('contextmenu', function(e){ if(gst && gst.moveu) e.preventDefault(); });
+  vp.addEventListener('scroll', function(){ vp.scrollTop = 0; vp.scrollLeft = 0; });
+
+  vp.addEventListener('wheel', function(e){
+    e.preventDefault(); paraAnim();
+    var p = vpXY(e), dx = e.deltaX, dy = e.deltaY;
+    if(e.deltaMode === 1){ dx *= 18; dy *= 18; } else if(e.deltaMode === 2){ dx *= VW; dy *= VH; }
+    if(e.ctrlKey || e.metaKey){
+      if(gestoSafari) return;
+      zoomEm(p.x, p.y, Math.exp(-clamp(dy,-60,60) * 0.0105));
+    } else if(ehRodaMouse(e)){
+      if(e.shiftKey){ cam.x -= dy; mexendo(); agenda(); }
+      else zoomEm(p.x, p.y, Math.exp(-clamp(dy,-240,240) * 0.0017));
+    } else {
+      cam.x -= dx; cam.y -= dy; mexendo(); agenda();
+    }
+  }, {passive:false});
+  // pinça de trackpad no Safari (desktop)
+  vp.addEventListener('gesturestart', function(e){ e.preventDefault(); if(ptrs.size) return; gestoSafari = {z:cam.z}; });
+  vp.addEventListener('gesturechange', function(e){ e.preventDefault(); if(!gestoSafari || ptrs.size) return; var p = vpXY(e); zoomEm(p.x, p.y, (gestoSafari.z*e.scale)/cam.z); });
+  vp.addEventListener('gestureend', function(e){ e.preventDefault(); gestoSafari = null; });
+  document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+  // bloqueia o zoom da página (Ctrl+roda) fora do quadro
+  document.addEventListener('wheel', function(e){ if((e.ctrlKey || e.metaKey) && !vp.contains(e.target)) e.preventDefault(); }, {passive:false});
+
+  world.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target.closest('[data-id]'); if(!el) return;
+    e.preventDefault(); ativar(el);
+  });
+  world.addEventListener('focusin', function(e){
+    vp.scrollTop = 0; vp.scrollLeft = 0;
+    if(ptrs.size) return;
+    var el = e.target.closest('[data-id]'); if(!el) return;
+    var it = itens[el.dataset.id]; if(it && !visivel(it)) focar(it, 0.45);
+  });
+  world.addEventListener('pointerover', function(e){
+    var el = e.target.closest('.node,.tpl'); if(el) destacarEdges(el.dataset.id, true);
+  });
+  world.addEventListener('pointerout', function(e){
+    var el = e.target.closest('.node,.tpl'); if(el && !el.contains(e.relatedTarget)) destacarEdges(el.dataset.id, false);
+  });
+
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName||'').toLowerCase(), digitando = tag === 'input' || tag === 'textarea';
+    if(e.key === 'Escape'){
+      if($('#busca-res').classList.contains('on') || (digitando && $('#busca').value)){ limparBusca(); $('#busca').blur(); return; }
+      if($('#modal').classList.contains('on')){ fecharModal(); return; }
+      if(drawerAberto){ fecharDrawer(); return; }
+      if(buscaQ){ limparBusca(); return; }
+      return;
+    }
+    if(digitando || e.metaKey || e.ctrlKey || e.altKey) return;
+    if($('#modal').classList.contains('on')) return;
+    if(e.key === ' ' && !espaco && !/button/i.test(tag)){ espaco = true; vp.classList.add('espaco'); e.preventDefault(); return; }
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); proxTour(1); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); proxTour(-1); }
+    else if(e.key === 'f' || e.key === 'F'){ telaCheia(); }
+    else if(e.key === '+' || e.key === '='){ zoomCentro(1.25); }
+    else if(e.key === '-' || e.key === '_'){ zoomCentro(0.8); }
+    else if(e.key === '0'){ ajustarTudo(); }
+    else if(e.key === '1'){ var c = centro(); voar(c.x, c.y, 1, 400); }
+    else if(e.key === '/'){ e.preventDefault(); $('#busca').focus(); }
+    else if(e.key === '?'){ ajuda(); }
+  });
+  document.addEventListener('keyup', function(e){ if(e.key === ' '){ espaco = false; vp.classList.remove('espaco'); } });
+  window.addEventListener('blur', function(){ espaco = false; vp.classList.remove('espaco'); });
+}
+function ehRodaMouse(e){
+  if(e.deltaMode !== 0) return true;
+  if(e.deltaX !== 0) return false;
+  var w = e.wheelDeltaY;
+  if(w != null && w !== 0 && Math.abs(w) % 120 === 0 && Math.abs(e.deltaY) >= 40) return true;
+  return false;
+}
+function zoomCentro(f){ paraAnim(); var a = area(); zoomEm(a.x+a.w/2, a.y+a.h/2, f); }
+function telaCheia(){
+  var d = document, el = d.documentElement;
+  if(d.fullscreenElement || d.webkitFullscreenElement){ (d.exitFullscreen || d.webkitExitFullscreen).call(d); return; }
+  var fn = el.requestFullscreen || el.webkitRequestFullscreen;
+  if(fn) try{ var r = fn.call(el); if(r && r.catch) r.catch(function(){ toast('Tela cheia indisponível aqui'); }); }catch(_){ toast('Tela cheia indisponível aqui'); }
+  else toast('Tela cheia indisponível neste navegador');
+}
+
+function ativar(alvo){
+  if(!alvo || !alvo.closest) return;
+  var el = alvo.closest('[data-id]'); if(!el) return;
+  var it = itens[el.dataset.id]; if(!it) return;
+  if(it.kind === 'node') abrirNode(it.d.id);
+  else if(it.kind === 'tpl') abrirTemplate(it.d.id);
+  else if(it.kind === 'frame') enquadrar(it, 40);
+}
+function irPara(ref){
+  var it = resolver(ref); if(!it) return;
+  if(it.kind === 'node') abrirNode(it.d.id);
+  else if(it.kind === 'tpl'){ fecharModal(); fecharDrawer(); focar(it, 0.7); pulso(it.el); }
+  else { fecharDrawer(); enquadrar(it, 40); }
+}
+function pulso(el){ el.classList.remove('hit','atual'); void el.offsetWidth; el.classList.add('hit','atual'); setTimeout(function(){ if(!buscaQ) el.classList.remove('hit'); el.classList.remove('atual'); }, 2400); }
+
+/* ---------- minimapa ---------- */
+var mm = {s:1, ox:0, oy:0, w:0, h:0};
+function desenharMinimapa(){
+  var cv = $('#mm'), dpr = window.devicePixelRatio || 1;
+  var B = {x:bounds.x-200, y:bounds.y-200, w:bounds.w+400, h:bounds.h+400};
+  var maxW = VW < 1200 ? 160 : 200, maxH = VW < 1200 ? 110 : 140;
+  var s = Math.min(maxW/B.w, maxH/B.h);
+  mm = {s:s, ox:B.x, oy:B.y, w:Math.round(B.w*s), h:Math.round(B.h*s)};
+  cv.style.width = mm.w+'px'; cv.style.height = mm.h+'px';
+  cv.width = Math.round(mm.w*dpr); cv.height = Math.round(mm.h*dpr);
+  var c = cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0);
+  c.fillStyle = '#050B17'; c.fillRect(0,0,mm.w,mm.h);
+  function R(x,y,w,h){ return [(x-mm.ox)*s, (y-mm.oy)*s, Math.max(w*s,1.5), Math.max(h*s,1.5)]; }
+  M.frames.forEach(function(f){
+    var r = R(f.x,f.y,f.w,f.h), rg = rgb(f._cor);
+    c.fillStyle = 'rgba('+rg+',.10)'; c.fillRect(r[0],r[1],r[2],r[3]);
+    c.strokeStyle = 'rgba('+rg+',.45)'; c.lineWidth = 1; c.strokeRect(r[0]+.5,r[1]+.5,r[2]-1,r[3]-1);
+  });
+  Object.keys(itens).forEach(function(k){
+    var it = itens[k]; if(it.kind === 'frame') return;
+    var r = R(it.x,it.y,it.w,it.h);
+    c.fillStyle = it.kind === 'tpl' ? 'rgba(0,168,132,.85)' : (rgb(it.d.cor) ? it.d.cor : TIPOS[it.d.tipo].cor);
+    c.globalAlpha = it.kind === 'tpl' ? .8 : .9; c.fillRect(r[0],r[1],r[2],r[3]); c.globalAlpha = 1;
+  });
+  minimapCam();
+}
+function minimapCam(){
+  if(!mm.w) return;
+  var el = $('#mm-cam');
+  var x = (-cam.x/cam.z - mm.ox)*mm.s, y = (-cam.y/cam.z - mm.oy)*mm.s, w = VW/cam.z*mm.s, h = VH/cam.z*mm.s;
+  el.style.transform = 'translate('+x+'px,'+y+'px)'; el.style.width = w+'px'; el.style.height = h+'px';
+}
+function ligarMinimapa(){
+  var box = $('#minimap'), arr_ = false;
+  function mover(e, suave){
+    var r = $('#mm').getBoundingClientRect();
+    var wx = (e.clientX - r.left)/mm.s + mm.ox, wy = (e.clientY - r.top)/mm.s + mm.oy;
+    var a = area();
+    if(suave) voar(wx, wy, cam.z, 450);
+    else { paraAnim(); cam.x = a.x + a.w/2 - wx*cam.z; cam.y = a.y + a.h/2 - wy*cam.z; mexendo(); agenda(); }
+  }
+  box.addEventListener('pointerdown', function(e){ arr_ = true; try{ box.setPointerCapture(e.pointerId); }catch(_){} mover(e, false); e.preventDefault(); });
+  box.addEventListener('pointermove', function(e){ if(arr_) mover(e, false); });
+  box.addEventListener('pointerup', function(){ arr_ = false; });
+  box.addEventListener('pointercancel', function(){ arr_ = false; });
+  box.addEventListener('wheel', function(e){ e.preventDefault(); zoomCentro(Math.exp(-clamp(e.deltaY,-100,100)*0.004)); }, {passive:false});
+}
+
+/* ---------- tours ---------- */
+function renderTours(){
+  var nav = $('#tours');
+  nav.innerHTML = M.tours.map(function(t, i){
+    return '<button type="button" class="chip" data-tour="'+i+'" title="Tour '+(i+1)+' (←/→)"><span class="n">'+(i+1)+'</span>'+esc(t.nome)+'</button>';
+  }).join('');
+  nav.addEventListener('click', function(e){ var b = e.target.closest('[data-tour]'); if(b) irTour(+b.dataset.tour); });
+  nav.addEventListener('wheel', function(e){ if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ nav.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive:false});
+  var tn = $('#tournav');
+  if(M.tours.length){ tn.hidden = false; atualizaTourNav(); }
+  $('#tn-prev').onclick = function(){ proxTour(-1); };
+  $('#tn-next').onclick = function(){ proxTour(1); };
+  $('#tn-nome').onclick = function(){ if(tourAtual >= 0) irTour(tourAtual); else proxTour(1); };
+}
+function irTour(i, dur){
+  var t = M.tours[i]; if(!t) return;
+  tourAtual = i;
+  fecharDrawer(true); fecharModal();
+  var a = area(), z = t.zoom;
+  // o zoom do tour foi pensado para 1440×900; em telas menores reduz na mesma proporção
+  var ref = Math.min(a.w/1440, a.h/836); if(ref < 1) z = z*Math.max(ref, 0.25);
+  voar(t.x, t.y, z, dur);
+  atualizaTourNav();
+  setHash('tour='+(i+1));
+}
+function proxTour(d){
+  if(!M.tours.length) return;
+  var i = tourAtual < 0 ? (d > 0 ? 0 : M.tours.length-1) : (tourAtual + d + M.tours.length) % M.tours.length;
+  irTour(i);
+}
+function atualizaTourNav(){
+  Array.prototype.forEach.call(document.querySelectorAll('#tours .chip'), function(c){ c.classList.toggle('on', +c.dataset.tour === tourAtual); });
+  var on = $('#tours .chip.on'); if(on && on.scrollIntoView) try{ on.scrollIntoView({block:'nearest', inline:'nearest'}); }catch(_){}
+  var t = M.tours[tourAtual];
+  $('#tn-nome').innerHTML = t ? '<small>'+(tourAtual+1)+'/'+M.tours.length+'</small>'+esc(t.nome) : '<small>'+M.tours.length+'</small>Tours';
+}
+
+/* ---------- painel lateral (drawer) ---------- */
+function sec(icone, titulo, corpo, qt){
+  return '<section class="sec"><h3>'+icone+esc(titulo)+(qt ? ' <span class="qt">'+qt+'</span>' : '')+'</h3>'+corpo+'</section>';
+}
+function campoStatus(nome){
+  var n = norm(nome).trim();
+  for(var i=0;i<M.campos.length;i++) if(norm(M.campos[i].nome).trim() === n) return M.campos[i].status;
+  return null;
+}
+function destinoHTML(ref){
+  var it = resolver(ref);
+  if(!it) return '<span class="dest sem" style="--dc-rgb:148,163,184">'+ICO.alvo+'<span>'+esc(ref||'—')+'</span></span>';
+  var cor = it.kind === 'node' ? (rgb(it.d.cor) ? it.d.cor : TIPOS[it.d.tipo].cor) : it.kind === 'tpl' ? '#00a884' : it.d._cor;
+  var nome = it.kind === 'tpl' ? (it.d.nome || it.d.id) : it.d.titulo;
+  var ico = it.kind === 'node' ? ICO[it.d.tipo] : it.kind === 'tpl' ? ICO.chat : ICO.mapa;
+  return '<button type="button" class="dest" data-go="'+esc(it.d.id)+'" style="--dc-rgb:'+rgb(cor)+'" title="Ir para '+esc(nome)+'">'+ico+'<span>'+esc(nome)+'</span></button>';
+}
+function tplChip(ref){
+  if(!ref) return '';
+  var it = tplDe(ref);
+  if(!it) return '<span class="tag tag-tpl faltando" title="Template não encontrado nos dados">'+esc(ref)+'</span>';
+  return '<button type="button" class="tag tag-tpl" data-tpl="'+esc(it.d.id)+'" title="Ver prévia do template">'+ICO.chat+esc(it.d.nome || it.d.id)+'</button>';
+}
+function drawerHTML(n){
+  var t = TIPOS[n.tipo], d = n.detalhes, f = itens[n.frame];
+  var h = '<header class="dw-head"><div class="dw-top">'+
+      '<span class="dw-tipo"><span class="ico">'+ICO[n.tipo]+'</span>'+esc(t.rot)+'</span>'+
+      '<span class="dw-frame">'+(f ? esc(f.d.titulo) : '')+'</span>'+
+      '<button type="button" class="icon-btn" data-acao="link" aria-label="Copiar link direto" title="Copiar link">'+ICO.link+'</button>'+
+      '<button type="button" class="icon-btn" data-acao="fechar" aria-label="Fechar painel (Esc)" title="Fechar (Esc)">'+ICO.x+'</button>'+
+    '</div><h2 class="dw-title" id="dw-title" tabindex="-1">'+esc(n.titulo)+'</h2>'+
+    (n.subtitulo ? '<p class="dw-sub">'+esc(n.subtitulo)+'</p>' : '')+badgesHTML(n.badges)+'</header><div class="dw-body">';
+  var ncor = n.tipo === 'kpi' ? '#F87171' : '#E6C48F';
+  if(d.numeros.length) h += sec(ICO.kpi, 'Números', '<div class="nums">'+d.numeros.map(function(x){
+      var v = String(x.valor==null?'':x.valor);
+      return '<div class="num'+(v.length > 10 ? ' longo' : '')+'" style="--nc:'+ncor+'"><b>'+esc(v)+'</b><span>'+esc(x.rotulo)+'</span></div>'; }).join('')+'</div>');
+  if(d.resumo) h += sec(ICO.info, 'Resumo', '<p>'+esc(d.resumo)+'</p>');
+  if(d.entra.length) h += sec(ICO.entra, 'Como o lead entra', '<ul class="lista">'+d.entra.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>');
+  if(d.automacoes.length) h += sec(ICO.automacao, 'Automações', '<div class="autos">'+d.automacoes.map(function(a){
+      return '<div class="auto"><div class="auto-q">'+esc(a.quando)+'</div><div class="auto-c"><div class="auto-a">'+esc(a.acao)+'</div>'+
+        ((a.canal || a.template) ? '<div class="auto-m">'+(a.canal ? '<span class="tag">'+esc(a.canal)+'</span>' : '')+tplChip(a.template)+'</div>' : '')+'</div></div>';
+    }).join('')+'</div>', d.automacoes.length);
+  if(d.campos.length) h += sec(ICO.campos, 'Campos preenchidos', '<table class="kv">'+d.campos.map(function(c){
+      var st = campoStatus(c.campo);
+      return '<tr><td>'+esc(c.campo)+(st ? '<span class="st st-'+esc(st)+'">'+esc(st)+'</span>' : '')+'</td><td>'+esc(c.valor)+'</td></tr>'; }).join('')+'</table>');
+  if(d.saidas.length) h += sec(ICO.saida, 'Saídas', '<div class="saidas">'+d.saidas.map(function(s){
+      return '<div class="saida"><span>'+esc(s.condicao)+'</span>'+destinoHTML(s.destino)+'</div>'; }).join('')+'</div>');
+  if(d.sla || d.responsavel) h += sec(ICO.relogio, 'Prazo e responsável', '<div class="info2">'+
+      (d.sla ? '<div class="info"><small>'+ICO.relogio+'SLA</small><b>'+esc(d.sla)+'</b></div>' : '')+
+      (d.responsavel ? '<div class="info"><small>'+ICO.user+'Responsável</small><b>'+esc(d.responsavel)+'</b></div>' : '')+'</div>');
+  if(d.observacoes.length) h += sec(ICO.nota, 'Observações', '<ul class="lista obs">'+d.observacoes.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>');
+  var vem = M.edges.filter(function(e){ var b = resolver(e.para); return b && b.d.id === n.id; });
+  var vai = M.edges.filter(function(e){ var a = resolver(e.de); return a && a.d.id === n.id; });
+  if(vem.length || vai.length){
+    var c = '';
+    if(vem.length) c += '<p style="font-size:12px;color:var(--dim);font-weight:700;margin:0 0 8px">CHEGA DE</p><div class="conex" style="margin-bottom:12px">'+vem.map(function(e){ return destinoHTML(e.de); }).join('')+'</div>';
+    if(vai.length) c += '<p style="font-size:12px;color:var(--dim);font-weight:700;margin:0 0 8px">SEGUE PARA</p><div class="conex">'+vai.map(function(e){ return destinoHTML(e.para); }).join('')+'</div>';
+    h += sec(ICO.mapa, 'Conexões no quadro', c);
+  }
+  return h + '</div>';
+}
+function abrirNode(id, semVoo){
+  var it = itens[id]; if(!it || it.kind !== 'node') return;
+  var dw = $('#drawer'), n = it.d, cor = rgb(n.cor) ? n.cor : TIPOS[n.tipo].cor;
+  if(!drawerAberto) focoAntes = document.activeElement;
+  if(drawerAberto && itens[drawerAberto]) itens[drawerAberto].el.classList.remove('ativo');
+  drawerAberto = id;
+  it.el.classList.add('ativo');
+  dw.setAttribute('style', corVars(cor, '#E6C48F'));
+  dw.innerHTML = drawerHTML(n);
+  dw.classList.add('on'); document.body.classList.add('drawer-on');
+  dw.querySelector('.dw-body').scrollTop = 0;
+  setHash('node='+encodeURIComponent(id));
+  if(!semVoo) focar(it, 0.5);
+  setTimeout(function(){ var t = $('#dw-title'); if(t) try{ t.focus({preventScroll:true}); }catch(_){ t.focus(); } }, 60);
+}
+function fecharDrawer(silencioso){
+  if(!drawerAberto) return;
+  var it = itens[drawerAberto]; if(it) it.el.classList.remove('ativo');
+  drawerAberto = null;
+  $('#drawer').classList.remove('on'); document.body.classList.remove('drawer-on');
+  if(!silencioso){ setHash(''); if(focoAntes && focoAntes.focus) try{ focoAntes.focus({preventScroll:true}); }catch(_){} }
+}
+function ligarDrawer(){
+  $('#drawer').addEventListener('click', function(e){
+    var b = e.target.closest('[data-acao],[data-go],[data-tpl]'); if(!b) return;
+    if(b.dataset.acao === 'fechar') fecharDrawer();
+    else if(b.dataset.acao === 'link') copiarLink('node='+encodeURIComponent(drawerAberto));
+    else if(b.dataset.go) irPara(b.dataset.go);
+    else if(b.dataset.tpl) abrirTemplate(b.dataset.tpl, true);
+  });
+}
+function copiarLink(h){
+  var url = location.href.split('#')[0] + '#' + h;
+  var ok = function(){ toast('Link copiado'); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, function(){ prompt('Copie o link:', url); });
+  else prompt('Copie o link:', url);
+}
+
+/* ---------- modal (templates, campos, mudanças, ajuda) ---------- */
+var modalFoco = null;
+function abrirModal(html, estreita){
+  var m = $('#modal');
+  if(!m.classList.contains('on')) modalFoco = document.activeElement;
+  m.innerHTML = '<div class="mbox'+(estreita ? ' estreita' : '')+'">'+html+'</div>';
+  m.classList.add('on');
+  setTimeout(function(){ var b = m.querySelector('[data-acao="fechar"]'); if(b) b.focus(); }, 30);
+}
+function fecharModal(){
+  var m = $('#modal'); if(!m.classList.contains('on')) return;
+  m.classList.remove('on'); m.innerHTML = '';
+  if(modalFoco && modalFoco.focus) try{ modalFoco.focus({preventScroll:true}); }catch(_){}
+}
+function cabecalhoModal(titulo, sub){
+  return '<header class="m-head"><div><h2 id="m-title">'+titulo+'</h2>'+(sub ? '<p>'+sub+'</p>' : '')+'</div>'+
+    '<button type="button" class="icon-btn" data-acao="fechar" aria-label="Fechar (Esc)">'+ICO.x+'</button></header>';
+}
+function abrirTemplate(id, doDrawer){
+  var it = tplDe(id); if(!it) return;
+  var t = it.d, c = catInfo(t.categoria);
+  var usos = M.nodes.filter(function(n){ return n.detalhes.automacoes.some(function(a){ var x = tplDe(a.template); return x && x.d.id === t.id; }); });
+  var etapa = resolver(t.etapa);
+  var h = cabecalhoModal('<span class="cat '+c.cls+'" style="vertical-align:3px;margin-right:8px">'+c.txt+'</span>'+esc(t.nome || t.id), [t.etapa, t.momento].filter(Boolean).map(esc).join(' · '))+
+    '<div class="m-body"><div class="tplm">'+phoneHTML(t)+'<dl>'+
+      '<div><dt>Nome técnico</dt><dd><code class="tpl-nome">'+esc(t.nome || t.id)+'</code></dd></div>'+
+      (t.etapa ? '<div><dt>Etapa</dt><dd>'+(etapa && etapa.kind !== 'tpl' ? destinoHTML(t.etapa) : esc(t.etapa))+'</dd></div>' : '')+
+      (t.momento ? '<div><dt>Momento</dt><dd>'+esc(t.momento)+'</dd></div>' : '')+
+      '<div><dt>Categoria</dt><dd>'+esc(c.txt)+'</dd></div>'+
+      (t.botoes.length ? '<div><dt>Botões</dt><dd>'+t.botoes.map(function(b){ return '<span class="tag" style="margin:0 6px 6px 0">'+(b.tipo === 'url' ? 'Link' : 'Resposta rápida')+': '+esc(b.texto)+'</span>'; }).join('')+'</dd></div>' : '')+
+      (t.observacao ? '<div><dt>Observação</dt><dd>'+esc(t.observacao)+'</dd></div>' : '')+
+      (usos.length ? '<div><dt>Usado em</dt><dd class="conex">'+usos.map(function(n){ return destinoHTML(n.id); }).join('')+'</dd></div>' : '')+
+    '</dl></div><div class="m-acoes"><button type="button" class="btn gold" data-ver="'+esc(t.id)+'">'+ICO.alvo+'Ver no quadro</button>'+
+    '<button type="button" class="btn" data-acao="link-tpl" data-id="'+esc(t.id)+'">'+ICO.link+'Copiar link</button></div></div>';
+  abrirModal(h, true);
+}
+function abrirCampos(filtro){
+  filtro = filtro || 'todos';
+  var cont = {novo:0, ajustar:0, existe:0};
+  M.campos.forEach(function(c){ if(cont[c.status] != null) cont[c.status]++; });
+  var lista = M.campos.filter(function(c){ return filtro === 'todos' || c.status === filtro; });
+  var fb = function(k, rot, n){ return '<button type="button" class="chip'+(filtro === k ? ' on' : '')+'" data-filtro="'+k+'">'+rot+' <span class="n">'+n+'</span></button>'; };
+  var h = cabecalhoModal('Campos do Kommo', M.campos.length+' campos · '+cont.novo+' novos, '+cont.ajustar+' para ajustar, '+cont.existe+' já existem')+
+    '<div class="m-body"><div class="filtros">'+fb('todos','Todos',M.campos.length)+fb('novo','Novos',cont.novo)+fb('ajustar','Ajustar',cont.ajustar)+fb('existe','Já existem',cont.existe)+'</div>'+
+    '<table class="tab"><thead><tr><th>Campo</th><th>ID no Kommo</th><th>Status</th><th>Preenche quando</th><th>Quem</th><th>Valores</th></tr></thead><tbody>'+
+    lista.map(function(c){
+      var st = c.status || 'existe';
+      return '<tr class="row-'+esc(st)+'"><td class="nome">'+esc(c.nome)+'</td><td class="idk" data-l="ID no Kommo">'+esc(c.id_kommo || '—')+'</td>'+
+        '<td data-l="Status"><span class="st st-'+esc(st)+'">'+esc(st === 'existe' ? 'existe' : st)+'</span></td>'+
+        '<td data-l="Preenche quando">'+esc(c.preenche_quando)+'</td><td data-l="Quem">'+esc(c.quem)+'</td><td data-l="Valores">'+esc(Array.isArray(c.valores) ? c.valores.join(' · ') : c.valores)+'</td></tr>';
+    }).join('')+'</tbody></table></div>';
+  abrirModal(h);
+}
+function abrirMudancas(){
+  var h = cabecalhoModal('Mudanças propostas', M.mudancas.length+' mudanças em relação ao funil de hoje')+
+    '<div class="m-body"><div class="muds">'+M.mudancas.map(function(m, i){
+      return '<article class="mud"><span class="mud-n">'+String(i+1).padStart(2,'0')+'</span><h4>'+esc(m.titulo)+'</h4><dl>'+
+        (m.porque ? '<div><dt>'+ICO.info+'Por quê</dt><dd>'+esc(m.porque)+'</dd></div>' : '')+
+        (m.como ? '<div><dt>'+ICO.automacao+'Como</dt><dd>'+esc(m.como)+'</dd></div>' : '')+
+        (m.impacto ? '<div><dt class="imp">'+ICO.kpi+'Impacto</dt><dd class="imp">'+esc(m.impacto)+'</dd></div>' : '')+
+      '</dl></article>';
+    }).join('')+'</div></div>';
+  abrirModal(h);
+}
+function ajuda(){
+  var k = function(a, b){ return '<span>'+a+'</span><span>'+b+'</span>'; };
+  abrirModal(cabecalhoModal('Como navegar', esc(M.meta.autor || ''))+'<div class="m-body"><div class="help-k">'+
+    k('<kbd>arrastar</kbd> ou <kbd>espaço</kbd>+arrastar', 'mover o quadro')+
+    k('<kbd>roda</kbd> · <kbd>Ctrl</kbd>+roda · pinça', 'zoom no ponteiro')+
+    k('dois dedos no trackpad', 'mover')+
+    k('<kbd>←</kbd> <kbd>→</kbd>', 'tour anterior / próximo (modo apresentação)')+
+    k('<kbd>F</kbd>', 'tela cheia')+
+    k('<kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> <kbd>1</kbd>', 'aproximar, afastar, ajustar tudo, 100%')+
+    k('<kbd>/</kbd>', 'buscar (Enter vai ao próximo resultado)')+
+    k('<kbd>Esc</kbd>', 'fechar painel / limpar busca')+
+    k('clique no título de uma área', 'enquadrar a área')+
+    k('<kbd>#node=ID</kbd> · <kbd>#tour=N</kbd>', 'link direto para um cartão ou tour')+
+    '</div>'+(M.meta.data ? '<p style="margin-top:18px;color:var(--dim);font-size:12.5px">Atualizado em '+esc(M.meta.data)+'</p>' : '')+'</div>', true);
+}
+function abrirAvisos(){
+  abrirModal(cabecalhoModal('Avisos dos dados', avisos.length+' pontos para revisar no dados.js')+
+    '<div class="m-body"><ul class="lista aviso-l">'+avisos.map(function(a){ return '<li>'+esc(a)+'</li>'; }).join('')+'</ul></div>', true);
+}
+function ligarModal(){
+  var m = $('#modal');
+  m.addEventListener('click', function(e){
+    if(e.target === m){ fecharModal(); return; }
+    var b = e.target.closest('[data-acao],[data-go],[data-ver],[data-filtro]'); if(!b) return;
+    if(b.dataset.acao === 'fechar') fecharModal();
+    else if(b.dataset.acao === 'link-tpl') copiarLink('node='+encodeURIComponent(b.dataset.id));
+    else if(b.dataset.filtro) abrirCampos(b.dataset.filtro);
+    else if(b.dataset.ver){ var it = itens[b.dataset.ver]; fecharModal(); fecharDrawer(true); focar(it, 0.7); pulso(it.el); }
+    else if(b.dataset.go){ fecharModal(); irPara(b.dataset.go); }
+  });
+  m.addEventListener('keydown', function(e){
+    if(e.key !== 'Tab') return;
+    var f = m.querySelectorAll('button,[href],input,[tabindex]:not([tabindex="-1"])'); if(!f.length) return;
+    var a = f[0], z = f[f.length-1];
+    if(e.shiftKey && document.activeElement === a){ e.preventDefault(); z.focus(); }
+    else if(!e.shiftKey && document.activeElement === z){ e.preventDefault(); a.focus(); }
+  });
+  $('#b-campos').onclick = function(){ abrirCampos(); };
+  $('#b-mud').onclick = abrirMudancas;
+  $('#b-help').onclick = ajuda;
+  $('#b-avisos').onclick = abrirAvisos;
+  $('#z-mais').onclick = function(){ zoomCentro(1.25); };
+  $('#z-menos').onclick = function(){ zoomCentro(0.8); };
+  $('#z-val').onclick = function(){ var c = centro(); voar(c.x, c.y, 1, 400); };
+  $('#z-fit').onclick = function(){ ajustarTudo(); };
+  $('#b-full').onclick = telaCheia;
+}
+
+/* ---------- busca ---------- */
+var buscaQ = '', buscaRes = [], buscaI = -1, buscaT = 0, buscaVoo = 0;
+function textoBusca(it){
+  var d = it.d;
+  if(it.kind === 'tpl') return [d.nome, d.id, d.etapa, d.momento, d.categoria, d.cabecalho, d.corpo, d.rodape, d.observacao].concat(d.botoes.map(function(b){ return b.texto; })).join(' ');
+  var x = d.detalhes;
+  return [d.titulo, d.subtitulo, d.id, d.badges.join(' '), x.resumo, x.sla, x.responsavel, x.entra.join(' '), x.observacoes.join(' '),
+    x.automacoes.map(function(a){ return [a.quando,a.acao,a.canal,a.template].join(' '); }).join(' '),
+    x.campos.map(function(c){ return c.campo+' '+c.valor; }).join(' '),
+    x.saidas.map(function(s){ return s.condicao; }).join(' ')].join(' ');
+}
+function buscar(q){
+  buscaQ = norm(q).trim();
+  Array.prototype.forEach.call(document.querySelectorAll('.hit'), function(el){ el.classList.remove('hit','atual'); });
+  var res = $('#busca-res');
+  if(!buscaQ){ world.classList.remove('searching'); buscaRes = []; buscaI = -1; $('#busca-cont').textContent = ''; res.classList.remove('on'); res.innerHTML = ''; return; }
+  var termos = buscaQ.split(/\s+/);
+  buscaRes = [];
+  Object.keys(itens).forEach(function(k){
+    var it = itens[k]; if(it.kind === 'frame') return;
+    if(!it._txt) it._txt = norm(textoBusca(it));
+    if(!termos.every(function(t){ return it._txt.indexOf(t) >= 0; })) return;
+    var tit = norm(it.kind === 'tpl' ? it.d.nome : it.d.titulo);
+    buscaRes.push({it:it, s:(tit.indexOf(buscaQ) >= 0 ? 2 : 0) + (tit.indexOf(termos[0]) === 0 ? 1 : 0)});
+  });
+  buscaRes.sort(function(a,b){ return b.s - a.s || a.it.y - b.it.y || a.it.x - b.it.x; });
+  buscaRes = buscaRes.map(function(r){ return r.it; });
+  world.classList.add('searching');
+  buscaRes.forEach(function(it){ it.el.classList.add('hit'); });
+  buscaI = -1;
+  $('#busca-cont').textContent = buscaRes.length ? buscaRes.length+'' : '0';
+  res.innerHTML = buscaRes.length ? buscaRes.slice(0, 30).map(function(it, i){
+    var cor = it.kind === 'tpl' ? '#00a884' : (rgb(it.d.cor) ? it.d.cor : TIPOS[it.d.tipo].cor);
+    var tit = it.kind === 'tpl' ? (it.d.nome || it.d.id) : it.d.titulo;
+    var sub = it.kind === 'tpl' ? 'Template · '+(it.d.momento || it.d.etapa || '') : TIPOS[it.d.tipo].rot+(itens[it.d.frame] ? ' · '+itens[it.d.frame].d.titulo : '');
+    return '<button type="button" role="option" data-i="'+i+'"><span class="dot" style="background:'+cor+'"></span><span><b>'+esc(tit)+'</b><small>'+esc(sub)+'</small></span></button>';
+  }).join('') : '<div class="vazio">Nada encontrado para “'+esc(q)+'”.</div>';
+  res.classList.add('on');
+}
+function irResultado(i, abrir){
+  if(!buscaRes.length) return;
+  buscaI = (i + buscaRes.length) % buscaRes.length;
+  var it = buscaRes[buscaI];
+  Array.prototype.forEach.call(document.querySelectorAll('#busca-res button'), function(b){ b.classList.toggle('sel', +b.dataset.i === buscaI); });
+  $('#busca-cont').textContent = (buscaI+1)+'/'+buscaRes.length;
+  if(abrir && it.kind === 'node'){ abrirNode(it.d.id); return; }
+  if(abrir && it.kind === 'tpl'){ fecharDrawer(true); focar(it, 0.7); pulso(it.el); return; }
+  fecharDrawer(true);
+  focar(it, 0.45); it.el.classList.remove('atual'); void it.el.offsetWidth; it.el.classList.add('atual');
+}
+function limparBusca(){ $('#busca').value = ''; buscar(''); }
+function ligarBusca(){
+  var inp = $('#busca'), res = $('#busca-res');
+  inp.addEventListener('input', function(){
+    clearTimeout(buscaT); clearTimeout(buscaVoo);
+    buscaT = setTimeout(function(){ buscar(inp.value); }, 90);
+    buscaVoo = setTimeout(function(){ if(buscaRes.length) irResultado(0); }, 520);
+  });
+  inp.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); clearTimeout(buscaVoo); if(buscaQ !== norm(inp.value).trim()) buscar(inp.value); irResultado(buscaI + (e.shiftKey ? -1 : 1)); }
+    else if(e.key === 'ArrowDown'){ e.preventDefault(); irResultado(buscaI + 1); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); irResultado(buscaI - 1); }
+  });
+  inp.addEventListener('focus', function(){ if(buscaQ) res.classList.add('on'); });
+  res.addEventListener('mousedown', function(e){ e.preventDefault(); });
+  res.addEventListener('click', function(e){ var b = e.target.closest('[data-i]'); if(!b) return; res.classList.remove('on'); inp.blur(); irResultado(+b.dataset.i, true); });
+  document.addEventListener('pointerdown', function(e){ if(!e.target.closest('.busca')) res.classList.remove('on'); });
+}
+
+/* ---------- rotas (#node=ID, #tour=N) ---------- */
+function rota(inicial){
+  var h = decodeURIComponent((location.hash || '').slice(1));
+  var m;
+  if((m = /^node=(.+)$/.exec(h))){
+    var it = itens[m[1]] || resolver(m[1]);
+    if(it){
+      if(it.kind === 'node'){ if(inicial){ abrirNode(it.d.id, true); focar(it, 0.5); } else abrirNode(it.d.id); return true; }
+      if(it.kind === 'tpl'){ focar(it, 0.7); abrirTemplate(it.d.id); return true; }
+      if(it.kind === 'frame'){ enquadrar(it, 40); return true; }
+    }
+  } else if((m = /^tour=(\d+)$/.exec(h))){
+    var i = +m[1]-1; if(M.tours[i]){ irTour(i, inicial ? 0 : undefined); return true; }
+  }
+  return false;
+}
+
+/* ---------- boot ---------- */
+function tamanho(){ VW = vp.clientWidth; VH = vp.clientHeight; }
+function erro(msg){
+  var l = $('#loader'); l.classList.add('erro');
+  $('#loader-msg').innerHTML = msg;
+}
+var iniciado = false;
+function boot(fonte){
+  if(iniciado) return; iniciado = true;
+  vp = $('#vp'); world = $('#world');
+  if(!window.MAPA || typeof window.MAPA !== 'object'){
+    erro('Não encontrei <b>window.MAPA</b>.<pre>Verifique se o arquivo dados.js está na mesma pasta do index.html e se não tem erro de sintaxe\n(rode:  node --check dados.js).\n'+(window.__mapaErro ? '\nErro: '+esc(window.__mapaErro) : '')+'</pre>');
+    return;
+  }
+  try{
+    M = normalizar(window.MAPA);
+    document.title = M.meta.titulo || 'Pipeline';
+    var tt = esc(M.meta.titulo || 'Pipeline').replace(/·\s*(.+)$/, '· <em>$1</em>');
+    $('#t-titulo').innerHTML = tt;
+    $('#t-sub').textContent = [M.meta.subtitulo, M.meta.data].filter(Boolean).join(' · ');
+    $('#t-sub').title = [M.meta.subtitulo, M.meta.autor, M.meta.data].filter(Boolean).join(' · ');
+    $('#n-campos').textContent = M.campos.length || '';
+    $('#n-mud').textContent = M.mudancas.length || '';
+    if(!M.campos.length) $('#b-campos').hidden = true;
+    if(!M.mudancas.length) $('#b-mud').hidden = true;
+    renderFrames(); renderNodes(); renderTemplates();
+    tamanho();
+    ligarInteracao(); ligarMinimapa(); ligarDrawer(); ligarModal(); ligarBusca(); renderTours();
+    var fontesProntas = (document.fonts && document.fonts.ready) ? Promise.race([document.fonts.ready, new Promise(function(r){ setTimeout(r, 2500); })]) : Promise.resolve();
+    fontesProntas.then(function(){
+      medir(); validar(); renderEdges();
+      bounds = limites(); desenharMinimapa();
+      if(!rota(true)){ ajustarTudo(0); }
+      aplicar();
+      if(avisos.length){
+        var b = $('#b-avisos'); b.hidden = false; b.innerHTML = ICO.alerta+avisos.length;
+        console.warn('[mapa] '+avisos.length+' aviso(s) nos dados:\n - '+avisos.join('\n - '));
+      }
+      console.info('[mapa] carregado de '+(fonte || 'dados embutidos')+': '+M.frames.length+' frames, '+M.nodes.length+' nodes, '+M.edges.length+' setas, '+M.templates.length+' templates');
+      $('#loader').classList.add('fora');
+      setTimeout(function(){ $('#loader').style.display = 'none'; }, 400);
+    });
+  }catch(err){
+    console.error(err);
+    erro('Erro ao montar o quadro.<pre>'+esc(err && err.stack || err)+'</pre>');
+  }
+  window.addEventListener('resize', function(){
+    var c = centro(); tamanho(); setCentro(c.x, c.y, cam.z); agenda();
+  });
+  window.addEventListener('hashchange', function(){ rota(false); });
+}
+window.__mapaBoot = boot;
+window.__mapaApi = { voar:voar, irTour:irTour, abrirNode:abrirNode, abrirCampos:abrirCampos, abrirMudancas:abrirMudancas, abrirTemplate:abrirTemplate, cam:cam, avisos:function(){ return avisos; }, itens:function(){ return itens; } };
+})();
+</script>
+<!--DADOS:INICIO-->
+<script>
+/* dados.js embutido pelo build.py */
+/* Conteúdo do mapa do pipeline comercial do educacional (Advocacia de Impacto).
+   Dados do Kommo lidos em 29/09/2026 (só leitura, API v4, conta educacionalmentoria).
+   Nenhum dado de lead aqui: só contagens. */
+window.MAPA = {
+  meta: {
+    titulo: 'Pipeline comercial · Educacional',
+    subtitulo: 'Proposta de volta para o Kommo: AI - Pré-venda (SDR) → AI - Closer, com automações pelo ZapFlow',
+    data: '29/09/2026',
+    autor: 'Advocacia de Impacto · rascunho para apresentar ao Guilherme'
+  },
+
+  /* ------------------------------------------------------------------ FRAMES */
+  frames: [
+    { id: 'f-hoje', titulo: '0 · Como está hoje', descricao: 'Números do Kommo em 29/09. O funil atual (AI - Comercial) foi desenhado para migrar ao ImpactMind, que ainda não tem API. Resultado: metade dos leads parada em "Sem resposta" e quase nenhum campo preenchido.', x: 0, y: 0, w: 1900, h: 1500, cor: '#F87171' },
+    { id: 'f-fontes', titulo: '1 · De onde vêm os leads', descricao: 'Todas as entradas do educacional. Hoje cada uma chega com uma tag diferente e sem o campo Funil; na proposta todas preenchem Origem, Funil, Produto de interesse e UTM na hora em que entram.', x: 0, y: 1650, w: 1900, h: 2750, cor: '#5B8DEF' },
+    { id: 'f-pre', titulo: '2 · AI - Pré-venda (SDR)', descricao: 'Do primeiro contato até a reunião agendada. A abertura e os follow-ups saem sozinhos pelo ZapFlow; a SDR só entra quando o lead responde. Quando a reunião acontece, o lead passa para o Closer.', x: 2200, y: 0, w: 3700, h: 2700, cor: '#E6C48F' },
+    { id: 'f-closer', titulo: '3 · AI - Closer', descricao: 'Da reunião ao contrato. Também recebe lead que o próprio closer resgatou e agendou (campo "Agendado por = Closer"), sem passar pela SDR.', x: 6200, y: 0, w: 3300, h: 2700, cor: '#A78BFA' },
+    { id: 'f-pos', titulo: '4 · Depois do fechamento e recuperação', descricao: 'Ganhou: onboarding do produto. Perdeu ou não respondeu: entra em recuperação com 30, 60 e 90 dias e, se responder, volta para a Pré-venda.', x: 6200, y: 2950, w: 3300, h: 1450, cor: '#3CCB7F' },
+    { id: 'f-motor', titulo: '5 · Como a automação funciona', descricao: 'O Kommo continua sendo a fonte da verdade da etapa. O n8n escuta a mudança de etapa e liga o fluxo certo no ZapFlow; a resposta do lead volta para o Kommo e para a cadência na hora.', x: 0, y: 4650, w: 1900, h: 1500, cor: '#3CCB7F' },
+    { id: 'f-tpl', titulo: '6 · Rascunho dos templates', descricao: 'Inspirados nas ativações do G4: abertura curta com o nome, voz do Guilherme, botão de resposta rápida (qualquer resposta abre a janela de 24h) e a opção "Sair", que já está ligada ao opt-out do ZapFlow. Todos assinados pela Advocacia de Impacto.', x: 2200, y: 2950, w: 3700, h: 3200, cor: '#E6C48F' }
+  ],
+
+  /* ------------------------------------------------------------------ NODES */
+  nodes: [
+    /* ===== 0 · HOJE ===== */
+    { id: 'k-comercial', frame: 'f-hoje', tipo: 'kpi', titulo: 'AI - Comercial', subtitulo: 'pipeline principal hoje', x: 80, y: 240, w: 520, h: 230,
+      badges: ['1.120 leads', '826 abertos'],
+      detalhes: { resumo: 'Pipeline criado para a transição ao ImpactMind. Recebe Sessão Estratégica, Isca e low ticket desde agosto.',
+        numeros: [ { rotulo: 'Sem resposta', valor: '569' }, { rotulo: 'Lead engajado', valor: '166' }, { rotulo: 'Reunião agendada', valor: '37' }, { rotulo: 'Qualificado', valor: '2' }, { rotulo: 'No-show', valor: '1' }, { rotulo: 'Venda ganha', valor: '10' }, { rotulo: 'Venda perdida', valor: '284' } ],
+        observacoes: [ 'Metade dos abertos está parada em "Sem resposta" (569).', '"Qualificado" e "No-show" quase não são usados: o lead pula de Engajado direto para Reunião Agendada.', 'Responsável dos abertos: Jessica 580, Bianca 101, Gabriel 86, closers 54.' ] } },
+    { id: 'k-pre', frame: 'f-hoje', tipo: 'kpi', titulo: 'AI - Pré - Venda (antigo)', subtitulo: 'parado desde agosto', x: 700, y: 240, w: 520, h: 230,
+      badges: ['2.046 leads', '~1.050 parados nos Follows'],
+      detalhes: { resumo: 'O funil antigo das SDRs, que vamos reativar. Só 10 leads novos em setembro.',
+        numeros: [ { rotulo: 'Follow 1 a 7', valor: '264 · 411 · 179 · 82 · 59 · 54 · 0' }, { rotulo: 'Conversas de WhatsApp esquecidas na entrada', valor: '51' }, { rotulo: 'Agendado', valor: '27' } ],
+        observacoes: [ 'Os 7 Follows eram manuais: o lead só andava se alguém movesse.', 'Antes de reativar, esses ~1.050 leads precisam ir para "Recuperação" com uma tag de legado, senão a SDR abre o funil e vê mil cards velhos.' ] } },
+    { id: 'k-closer', frame: 'f-hoje', tipo: 'kpi', titulo: 'AI - Closer', subtitulo: 'legado Black / ADV15K', x: 1320, y: 240, w: 500, h: 230,
+      badges: ['72 abertos', '73 ganhos'],
+      detalhes: { resumo: 'Funil dos closers (Ariel, Antônio e Fellipe). 1.983 perdidos, a maior parte da campanha Black/ADV15K.', numeros: [ { rotulo: 'Contato inicial', valor: '30' }, { rotulo: 'Reunião agendada', valor: '5' }, { rotulo: 'Follow 1 a 7', valor: '36' } ] } },
+    { id: 'k-campos', frame: 'f-hoje', tipo: 'kpi', titulo: 'Campos quase vazios', subtitulo: '200 leads mais recentes do AI - Comercial', x: 80, y: 640, w: 860, h: 330,
+      badges: ['Origem 91%', 'Closer 3,5%', 'Data da reunião 3,5%', 'Produto 0,5%', 'Faturamento 0%'],
+      detalhes: { resumo: 'O time guia o lead pelas etapas, mas quase não preenche os campos. Sem eles não dá para saber qual funil vende, quanto cada canal custa por reunião nem qual closer converte mais.',
+        numeros: [ { rotulo: 'Origem', valor: '91%' }, { rotulo: 'SDR responsável', valor: '91%' }, { rotulo: 'utm_campaign', valor: '47%' }, { rotulo: 'Closer responsável', valor: '3,5%' }, { rotulo: 'Data da reunião', valor: '3,5%' }, { rotulo: 'Produto vendido', valor: '0,5%' }, { rotulo: 'Lead Score / Faturamento', valor: '0%' } ],
+        observacoes: [ 'O campo Origem vem "Funil Isca" até em lead da Sessão Estratégica direta, então hoje ele não separa os funis.', 'Não existe campo "Funil" nem "Agendado por".' ] } },
+    { id: 'k-tpl', frame: 'f-hoje', tipo: 'kpi', titulo: 'Templates sem dono', subtitulo: '252 no Kommo, 0 de no-show', x: 1040, y: 640, w: 780, h: 330,
+      badges: ['252 templates', 'muitos repetidos', 'sem no-show'],
+      detalhes: { resumo: 'Existem várias cadências antigas (D1–D7 de maio, d2–d7 de agosto com 5 cópias cada, isc, lt, fun3), mas nenhuma roda sozinha e nenhuma cobre no-show ou follow-up do closer.',
+        observacoes: [ 'A API do Kommo não mostra se o template foi aprovado pela Meta.', 'Aproveitamos as melhores ideias das cadências antigas nos rascunhos do quadro 6.' ] } },
+    { id: 'k-decisao', frame: 'f-hoje', tipo: 'marco', titulo: 'Decisão', subtitulo: 'voltar tudo para o Kommo', x: 80, y: 1100, w: 1740, h: 330,
+      badges: ['ImpactMind sem API', 'Kommo = fonte da verdade', 'ZapFlow = mensagens'],
+      detalhes: { resumo: 'O ImpactMind ainda não tem API nem MCP, e passar o comercial para lá faria perder performance. A proposta: o comercial volta para o Kommo em dois pipelines que já existem (AI - Pré-venda e AI - Closer), e as mensagens automáticas passam a sair pelo ZapFlow, na linha oficial do educacional.',
+        observacoes: [ 'O AI - Comercial deixa de receber lead novo e vira histórico.', 'As 4 mensagens automáticas prioritárias: abertura, follow-up do SDR, lembrete de reunião e follow-up do closer.' ] } },
+
+    /* ===== 1 · FONTES ===== */
+    { id: 's-sessao', frame: 'f-fontes', tipo: 'fonte', titulo: 'Sessão Estratégica', subtitulo: 'Meta Ads [SESSÃO ESTRATÉGICA] → quiz', x: 80, y: 260, w: 820, h: 230,
+      badges: ['Funil = Sessão Estratégica', 'quiz + agenda'],
+      detalhes: { resumo: 'Campanhas [SESSÃO ESTRATÉGICA] na conta educacional levam ao quiz do site. O lead responde, recebe a pasta de materiais pelo WhatsApp e escolhe um horário na agenda.',
+        entra: [ 'forms.advocaciadeimpacto.adv.br → n8n "adv-impacto-forms" → Kommo', 'Hoje: AI - Comercial, entrada, tag "Novo Forms", responsável Jessica.', 'Proposta: AI - Pré-venda › Entrada.' ],
+        campos: [ { campo: 'Funil', valor: 'Sessão Estratégica' }, { campo: 'Origem', valor: 'Tráfego Meta' }, { campo: 'UTMs', valor: 'campanha, conjunto e anúncio' }, { campo: 'Faturamento do escritório', valor: 'resposta do quiz' }, { campo: 'Lead Score', valor: 'nota do quiz (A a D)' } ],
+        observacoes: [ 'Se o lead já escolheu horário no quiz, entra direto em "Reunião agendada" com "Agendado por = Automático (site)".' ] } },
+    { id: 's-isca', frame: 'f-fontes', tipo: 'fonte', titulo: 'Isca (material gratuito)', subtitulo: 'Meta Ads [ISCA] → mesmo formulário', x: 1000, y: 260, w: 820, h: 230,
+      badges: ['Funil = Isca', 'diferença é a campanha'],
+      detalhes: { resumo: 'Mesmo formulário da Sessão, mas vindo de campanha [ISCA]. O que separa os dois é a UTM da campanha, não o formulário.',
+        entra: [ 'Mesmo caminho da Sessão.', 'Hoje a tag Isca/Sessão é posta por um robô a cada 10 minutos (n8n lkGhhtmOgXVWOjbb).', 'Proposta: o próprio n8n de entrada já grava Funil = Isca pela UTM, na hora.' ],
+        campos: [ { campo: 'Funil', valor: 'Isca' }, { campo: 'Produto de interesse', valor: 'Sessão / acompanhamento' } ] } },
+    { id: 's-lt', frame: 'f-fontes', tipo: 'fonte', titulo: 'Low tickets (Hubla)', subtitulo: 'Guia R$ 47 · Kit 90 Dias · Pós-venda · ImpactMind RH', x: 80, y: 600, w: 820, h: 260,
+      badges: ['Funil = Low ticket', 'tag do produto + order bump'],
+      detalhes: { resumo: 'Cada compra paga na Hubla chega por webhook e cria ou atualiza o lead. Comprador de low ticket é o público mais quente para a Sessão.',
+        entra: [ 'Hubla → forms.../api/hubla → n8n "[GS] Hubla · venda paga → Kommo".', 'Tags LOW TICKET + produto + "Order bump: X".', 'Recompra: novo lead ligado ao mesmo contato.', 'Imersão (IEP) e Kit do Advogado que Vende não entram aqui.' ],
+        campos: [ { campo: 'Funil', valor: 'Low ticket' }, { campo: 'Produto de interesse', valor: 'produto comprado' }, { campo: 'Origem', valor: 'Low Ticket' } ],
+        observacoes: [ 'Conferir: o CHANGELOG diz que Guia e Kit estão desligados no fluxo da Hubla, mas o código local está ligado.' ] } },
+    { id: 's-iep', frame: 'f-fontes', tipo: 'fonte', titulo: 'Imersão (IEP)', subtitulo: 'compradores e convidados', x: 1000, y: 600, w: 820, h: 260,
+      badges: ['entra só depois do pitch', 'Funil = Imersão'],
+      detalhes: { resumo: 'Quem comprou a imersão não entra no comercial antes do evento. Depois do pitch, quem demonstra interesse (Pix de compromisso ou plantão de dúvidas) entra na Pré-venda.',
+        entra: [ 'Pix de compromisso do Gestão Descomplicada → planilha "Leads do Pix" (hoje) → proposta: também no Kommo.', 'Plantão de dúvidas (/plantao-gd) → banco + planilha → proposta: também no Kommo, já com o vendedor do convite.' ],
+        campos: [ { campo: 'Funil', valor: 'Imersão · pós-pitch' }, { campo: 'Produto de interesse', valor: 'Gestão Descomplicada' }, { campo: 'Vendedor do convite', valor: 'Ariel / Felipe / Antônio' } ] } },
+    { id: 's-wpp', frame: 'f-fontes', tipo: 'fonte', titulo: 'WhatsApp que chega sozinho', subtitulo: 'anúncio de mensagem, bio, indicação', x: 80, y: 970, w: 820, h: 230,
+      badges: ['51 esquecidos no Pré-venda', 'Funil = WhatsApp'],
+      detalhes: { resumo: 'Conversas que chegam pelo WhatsApp do Kommo ficam na entrada sem ninguém triar. Hoje há 51 no Pré-venda (desde julho) e 3 no Comercial.',
+        entra: [ 'Canal WhatsApp do Kommo (Lite e WABA).', 'Proposta: toda conversa nova vira lead na Entrada da Pré-venda com tarefa para a SDR em 5 minutos (horário comercial).' ],
+        campos: [ { campo: 'Funil', valor: 'WhatsApp direto' }, { campo: 'Origem', valor: 'Bio Instagram / Indicação / anúncio (pelo ctwa)' } ] } },
+    { id: 's-base', frame: 'f-fontes', tipo: 'fonte', titulo: 'Base de alunos (upsell)', subtitulo: 'Trincheira → Gestão Descomplicada → Gestão de Impacto', x: 1000, y: 970, w: 820, h: 230,
+      badges: ['Funil = Base', 'degrau acima'],
+      detalhes: { resumo: 'Aluno de Trincheira pode subir para o Gestão Descomplicada, e aluno do Gestão Descomplicada para o próximo degrau. Hoje isso é feito à mão pelos closers.',
+        entra: [ 'Tags ht-trincheira e ht-gestao-descomplicada no ZapFlow.', 'Proposta: disparo trimestral de ativação; quem responde vira lead na Pré-venda com Funil = Base.' ] } },
+    { id: 's-social', frame: 'f-fontes', tipo: 'fonte', titulo: 'Social selling e indicação', subtitulo: 'trabalho ativo do time', x: 80, y: 1310, w: 1740, h: 200,
+      badges: ['criado à mão', 'Funil = Social selling / Indicação'],
+      detalhes: { resumo: 'Leads que a SDR ou o closer buscam ativamente (Instagram, eventos, indicação de aluno). Entram criados à mão e precisam do Funil preenchido na criação para não sumirem das métricas.' } },
+    { id: 's-regra', frame: 'f-fontes', tipo: 'nota', titulo: 'Regra de entrada única', subtitulo: 'vale para todas as fontes', x: 80, y: 1620, w: 1740, h: 520,
+      badges: ['sem duplicar lead', 'telefone com +55', 'sempre preenche Funil'],
+      detalhes: { resumo: 'Toda fonte passa pelo mesmo n8n de entrada antes de chegar no Kommo. Ele procura o contato por telefone e e-mail; se existe lead aberto, só acrescenta tag e nota; se não existe, cria na Entrada da Pré-venda com os campos preenchidos.',
+        observacoes: [ 'Telefone no Kommo sempre com "+" (senão a integração não casa o contato).', 'Lead no Kommo não pode ser apagado pela API: teste vira "Venda perdida" renomeado.', 'O SalesBot move o lead sozinho em menos de 1 segundo; as regras do bot e do n8n não podem competir pela mesma etapa.' ] } },
+    { id: 's-agenda', frame: 'f-fontes', tipo: 'nota', titulo: 'Agendamento pelo site', subtitulo: 'hoje vira só uma nota no lead', x: 80, y: 2250, w: 1740, h: 400,
+      badges: ['ajustar', 'Data da reunião', 'Agendado por'],
+      detalhes: { resumo: 'Quando o lead escolhe o horário no site, o n8n hoje só escreve uma nota. Proposta: mover para "Reunião agendada", preencher Data da reunião, Closer responsável e "Agendado por = Automático (site)", e disparar os lembretes.' } },
+
+    /* ===== 2 · PRÉ-VENDA ===== */
+    { id: 'p-entrada', frame: 'f-pre', tipo: 'etapa', titulo: '1. Entrada', subtitulo: 'lead acabou de chegar', x: 80, y: 360, w: 420, h: 250,
+      badges: ['automático', 'SLA 0 min'],
+      detalhes: { resumo: 'Etapa de passagem: o lead fica aqui só o tempo de o n8n preencher os campos e mandar a abertura.',
+        entra: [ 'Todas as fontes do quadro 1.' ],
+        automacoes: [ { quando: 'Assim que entra', acao: 'Preenche Funil, Origem, UTM, Produto de interesse, SDR da vez (roleta Jessica/Bianca)', canal: 'n8n → Kommo', template: '' }, { quando: 'Assim que entra', acao: 'Manda a mensagem de abertura certa para o funil', canal: 'ZapFlow · linha oficial', template: 't-ab-sessao' }, { quando: 'Depois de enviar', acao: 'Move para "Abertura enviada"', canal: 'n8n → Kommo', template: '' } ],
+        saidas: [ { condicao: 'Abertura enviada', destino: 'p-abertura' }, { condicao: 'Já chegou com horário marcado', destino: 'p-agendada' } ],
+        responsavel: 'Automação' } },
+    { id: 'p-abertura', frame: 'f-pre', tipo: 'etapa', titulo: '2. Abertura enviada', subtitulo: 'esperando a primeira resposta', x: 680, y: 360, w: 420, h: 250,
+      badges: ['mensagem de abertura', 'espera 24h'],
+      detalhes: { resumo: 'A mensagem mais importante do funil. Cada funil tem a sua abertura, sempre com botão de resposta rápida.',
+        automacoes: [ { quando: 'D0, na entrada · Sessão', acao: 'Abertura da Sessão Estratégica', canal: 'ZapFlow', template: 't-ab-sessao' }, { quando: 'D0, na entrada · Isca', acao: 'Entrega do material + convite para conversar', canal: 'ZapFlow', template: 't-ab-isca' }, { quando: 'D0 + 2h · Low ticket', acao: 'Boas-vindas ao produto + oferta de ajuda', canal: 'ZapFlow', template: 't-ab-lt' }, { quando: 'Respondeu (qualquer botão ou texto)', acao: 'Para a cadência e move para "Respondeu"', canal: 'ZapFlow → n8n → Kommo', template: '' }, { quando: '24h sem resposta', acao: 'Move para "Cadência automática"', canal: 'ZapFlow → n8n → Kommo', template: '' } ],
+        saidas: [ { condicao: 'Respondeu', destino: 'p-respondeu' }, { condicao: '24h sem resposta', destino: 'p-cadencia' }, { condicao: 'Tocou em "Sair"', destino: 'p-perdido' } ],
+        responsavel: 'Automação' } },
+    { id: 'p-cadencia', frame: 'f-pre', tipo: 'automacao', titulo: '3. Cadência automática', subtitulo: 'follow-up do SDR · D+1 a D+7', x: 1280, y: 360, w: 460, h: 250,
+      badges: ['follow-up do SDR', '4 mensagens', 'para na 1ª resposta'],
+      detalhes: { resumo: 'Troca os 7 "Follow" manuais do funil antigo por UMA etapa. O ZapFlow controla o tempo, e o campo "Passo da cadência" mostra em qual mensagem o lead está. A SDR não precisa mover card nenhum.',
+        automacoes: [ { quando: 'D+1', acao: '"Conseguiu ver minha mensagem?"', canal: 'ZapFlow', template: 't-fu1' }, { quando: 'D+2', acao: 'Pergunta de dor com 3 botões', canal: 'ZapFlow', template: 't-fu2' }, { quando: 'D+4', acao: '"Posso ser direto?" + convite de 30 min', canal: 'ZapFlow', template: 't-fu3' }, { quando: 'D+7', acao: 'Encerramento educado com botão para retomar', canal: 'ZapFlow', template: 't-fu4' }, { quando: 'Qualquer resposta', acao: 'Para a cadência, move para "Respondeu" e cria tarefa para a SDR', canal: 'ZapFlow → n8n → Kommo', template: '' }, { quando: 'D+8 sem resposta', acao: 'Move para "Sem resposta"', canal: 'n8n → Kommo', template: '' } ],
+        campos: [ { campo: 'Passo da cadência', valor: 'FU1 … FU4' } ],
+        saidas: [ { condicao: 'Respondeu', destino: 'p-respondeu' }, { condicao: 'D+8 sem resposta', destino: 'p-semresposta' }, { condicao: '"Sair"', destino: 'p-perdido' } ],
+        observacoes: [ 'Horário de envio: dias úteis entre 9h e 19h, nunca de madrugada.', 'Se o lead responder por ligação ou e-mail, a SDR move à mão e a cadência para sozinha.' ],
+        responsavel: 'Automação' } },
+    { id: 'p-respondeu', frame: 'f-pre', tipo: 'etapa', titulo: '4. Respondeu', subtitulo: 'a SDR assume a conversa', x: 1920, y: 360, w: 420, h: 250,
+      badges: ['SLA 5 min', 'tarefa automática'],
+      detalhes: { resumo: 'O lead respondeu. A partir daqui é gente falando com gente: a SDR tem 5 minutos no horário comercial para puxar a conversa.',
+        automacoes: [ { quando: 'Ao entrar', acao: 'Cria tarefa "Responder lead" para a SDR responsável, prazo 5 min', canal: 'n8n → Kommo', template: '' }, { quando: '2h sem a SDR responder', acao: 'Avisa o grupo comercial', canal: 'n8n → WhatsApp interno', template: '' } ],
+        saidas: [ { condicao: 'Tem perfil (escritório em operação, faturamento na faixa)', destino: 'p-qualificado' }, { condicao: 'Sem perfil', destino: 'p-perdido' }, { condicao: 'Parou de responder por 3 dias', destino: 'p-cadencia' } ],
+        responsavel: 'SDR (Jessica / Bianca)' } },
+    { id: 'p-qualificado', frame: 'f-pre', tipo: 'etapa', titulo: '5. Qualificado', subtitulo: 'tem perfil, falta marcar', x: 2520, y: 360, w: 420, h: 250,
+      badges: ['preenche Faturamento', 'preenche Qualificado? = Sim'],
+      detalhes: { resumo: 'Lead com perfil. A SDR oferece horários e marca a reunião.',
+        campos: [ { campo: 'Qualificado?', valor: 'Sim' }, { campo: 'Faturamento do escritório', valor: 'faixa informada' } ],
+        automacoes: [ { quando: '2 dias sem agendar', acao: 'Mensagem com os próximos horários livres', canal: 'SDR (texto livre, janela aberta) ou ZapFlow', template: 't-fu3' } ],
+        saidas: [ { condicao: 'Marcou', destino: 'p-agendada' }, { condicao: 'Esfriou', destino: 'p-cadencia' } ],
+        responsavel: 'SDR' } },
+    { id: 'p-agendada', frame: 'f-pre', tipo: 'etapa', titulo: '6. Reunião agendada', subtitulo: 'lembretes automáticos', x: 3120, y: 360, w: 460, h: 250,
+      badges: ['lembrete de reunião', 'D-1 · 2h antes · 10 min'],
+      detalhes: { resumo: 'Reunião marcada pela SDR, pelo site ou pelo closer. Os lembretes saem sozinhos e o lead confirma com um toque.',
+        campos: [ { campo: 'Data da reunião', valor: 'data e hora' }, { campo: 'Closer responsável', valor: 'roleta ou escolhido' }, { campo: 'Agendado por', valor: 'SDR / Closer / Automático (site)' } ],
+        automacoes: [ { quando: 'Na hora do agendamento', acao: 'Confirmação com data, hora e nome do closer', canal: 'ZapFlow', template: 't-lem-conf' }, { quando: 'D-1 às 18h', acao: 'Pede confirmação: [Confirmo] [Preciso remarcar]', canal: 'ZapFlow', template: 't-lem-d1' }, { quando: '2h antes', acao: 'Link da sala', canal: 'ZapFlow', template: 't-lem-2h' }, { quando: '10 min antes', acao: '"O closer já está na sala"', canal: 'ZapFlow', template: 't-lem-10' }, { quando: 'Tocou em "Preciso remarcar"', acao: 'Tarefa para a SDR remarcar hoje', canal: 'n8n → Kommo', template: '' } ],
+        saidas: [ { condicao: 'Closer marcou "realizada"', destino: 'c-realizada' }, { condicao: 'Não apareceu (15 min)', destino: 'p-noshow' } ],
+        responsavel: 'SDR até a reunião; closer depois' } },
+    { id: 'p-noshow', frame: 'f-pre', tipo: 'etapa', titulo: '7. No-show', subtitulo: 'reagendamento automático', x: 3120, y: 800, w: 460, h: 230,
+      badges: ['2 tentativas', 'depois volta à cadência'],
+      detalhes: { resumo: 'Hoje não existe template de no-show. Proposta: mensagem 15 minutos depois e outra no dia seguinte, sempre com botão para remarcar.',
+        automacoes: [ { quando: '+15 min', acao: '"Sentimos sua falta" + [Remarcar]', canal: 'ZapFlow', template: 't-noshow' }, { quando: '+1 dia sem remarcar', acao: 'Segunda tentativa + tarefa para a SDR ligar', canal: 'ZapFlow + tarefa', template: 't-fu1' } ],
+        saidas: [ { condicao: 'Remarcou', destino: 'p-agendada' }, { condicao: '3 dias sem resposta', destino: 'p-semresposta' } ],
+        responsavel: 'SDR' } },
+    { id: 'p-semresposta', frame: 'f-pre', tipo: 'etapa', titulo: '8. Sem resposta', subtitulo: 'acabou a cadência', x: 1280, y: 800, w: 460, h: 230,
+      badges: ['nutrição mensal', 'não conta como perdido'],
+      detalhes: { resumo: 'Fim da cadência sem resposta. O lead não é perdido: entra na recuperação de 30, 60 e 90 dias.',
+        saidas: [ { condicao: '30 dias depois', destino: 'r-recupera' } ] } },
+    { id: 'p-perdido', frame: 'f-pre', tipo: 'etapa', titulo: '9. Perdido na pré-venda', subtitulo: 'sem perfil ou pediu para sair', x: 1920, y: 800, w: 420, h: 230,
+      badges: ['Motivo de perda obrigatório'],
+      detalhes: { resumo: 'Lead fora de perfil, que pediu para sair ou que já é aluno. O motivo é obrigatório para saber o que ajustar no anúncio.',
+        campos: [ { campo: 'Motivo de perda', valor: 'Sem perfil / Sem dinheiro / Já é aluno / Pediu para sair / Outro' } ],
+        automacoes: [ { quando: 'Tocou em "Sair"', acao: 'Tag de opt-out no ZapFlow e no Kommo; nenhuma mensagem automática nunca mais', canal: 'ZapFlow → n8n → Kommo', template: '' } ] } },
+    { id: 'p-passa', frame: 'f-pre', tipo: 'marco', titulo: 'Passagem para o Closer', subtitulo: 'reunião realizada', x: 80, y: 1180, w: 3500, h: 200,
+      badges: ['o card muda de pipeline', 'SDR continua no campo SDR responsável'],
+      detalhes: { resumo: 'Quando o closer marca a reunião como realizada, o lead sai da Pré-venda e entra no AI - Closer. O campo "SDR responsável" continua preenchido para a SDR receber pela reunião feita.' } },
+    { id: 'p-sla', frame: 'f-pre', tipo: 'nota', titulo: 'O que a SDR faz e o que a máquina faz', subtitulo: '', x: 80, y: 1520, w: 1700, h: 560,
+      badges: ['máquina: abertura, follow-up, lembretes, no-show', 'SDR: conversa, qualifica, agenda'],
+      detalhes: { resumo: 'A SDR não move card para frente na cadência, não manda follow-up à mão e não lembra de reunião. Ela só entra quando o lead responde, e o painel mostra quem respondeu e está esperando.',
+        observacoes: [ 'Meta de tempo de resposta: 5 minutos em horário comercial.', 'Roleta entre Jessica e Bianca continua no SalesBot "Distribuição Pré venda".' ] } },
+    { id: 'p-legado', frame: 'f-pre', tipo: 'nota', titulo: 'Limpeza antes de ligar', subtitulo: '~1.050 leads parados nos Follows', x: 1880, y: 1520, w: 1700, h: 560,
+      badges: ['tag legado-ago26', 'vão para Recuperação'],
+      detalhes: { resumo: 'O AI - Pré - Venda tem ~1.050 leads parados nos Follows 1 a 7 desde agosto e 51 conversas esquecidas. Antes de reativar, todos vão para a recuperação com a tag "legado-ago26" e recebem UMA mensagem de reativação; quem responder volta para "Respondeu".',
+        observacoes: [ 'Os 7 estágios "Follow" são apagados e substituídos por "Cadência automática".', 'Os 569 "Sem resposta" do AI - Comercial passam pelo mesmo processo.' ] } },
+    { id: 'p-trincheira', frame: 'f-pre', tipo: 'nota', titulo: 'E o "AI - Trincheira"?', subtitulo: 'pipeline novo, 0 leads', x: 80, y: 2180, w: 3500, h: 440,
+      badges: ['decidir'],
+      detalhes: { resumo: 'Existe um pipeline "AI - Trincheira" criado com 15 etapas e nenhum lead. Sugestão: não criar um pipeline por produto. O produto vai no campo "Produto de interesse" e o funil é o mesmo; assim o time olha um lugar só.' } },
+
+    /* ===== 3 · CLOSER ===== */
+    { id: 'c-agendada', frame: 'f-closer', tipo: 'etapa', titulo: '1. Reunião agendada pelo closer', subtitulo: 'lead que o closer resgatou', x: 80, y: 360, w: 460, h: 260,
+      badges: ['Agendado por = Closer', 'mesmos lembretes'],
+      detalhes: { resumo: 'Às vezes o closer faz o pipeline completo: resgata um lead antigo e marca a própria reunião. Ele cria o lead aqui, preenche "Agendado por = Closer", e os lembretes da reunião saem do mesmo jeito que na Pré-venda.',
+        campos: [ { campo: 'Agendado por', valor: 'Closer' }, { campo: 'Data da reunião', valor: 'data e hora' }, { campo: 'Funil', valor: 'de onde veio o resgate' } ],
+        automacoes: [ { quando: 'Igual à Pré-venda', acao: 'Confirmação, D-1, 2h e 10 min', canal: 'ZapFlow', template: 't-lem-d1' } ],
+        saidas: [ { condicao: 'Realizada', destino: 'c-realizada' }, { condicao: 'No-show', destino: 'p-noshow' } ],
+        responsavel: 'Closer (Ariel / Antônio / Fellipe)' } },
+    { id: 'c-realizada', frame: 'f-closer', tipo: 'etapa', titulo: '2. Reunião realizada', subtitulo: 'closer registra o resultado', x: 720, y: 360, w: 460, h: 260,
+      badges: ['preenche Data de comparecimento', 'transcrição'],
+      detalhes: { resumo: 'O closer marca como realizada logo depois da call e escolhe o próximo passo.',
+        campos: [ { campo: 'Data de comparecimento', valor: 'automático' }, { campo: 'Link da transcrição', valor: 'da gravação' }, { campo: 'Produto de interesse', valor: 'confirmado na call' } ],
+        automacoes: [ { quando: '1h depois', acao: 'Mensagem de agradecimento + [Tenho uma dúvida] [Quero avançar]', canal: 'ZapFlow', template: 't-cl-pos' } ],
+        saidas: [ { condicao: 'Mandou proposta', destino: 'c-negociacao' }, { condicao: 'Fechou na call', destino: 'c-ganho' }, { condicao: 'Sem fit', destino: 'c-perdido' } ],
+        responsavel: 'Closer' } },
+    { id: 'c-negociacao', frame: 'f-closer', tipo: 'etapa', titulo: '3. Proposta / negociação', subtitulo: 'follow-up do closer', x: 1360, y: 360, w: 500, h: 260,
+      badges: ['follow-up do closer', 'D+1 · D+3 · D+5 · D+7'],
+      detalhes: { resumo: 'Proposta enviada. A cadência do closer sai sozinha e para quando o lead responde; o closer só entra na conversa.',
+        automacoes: [ { quando: 'D+1', acao: '"Conseguiu olhar a proposta com calma?"', canal: 'ZapFlow', template: 't-cl-fu1' }, { quando: 'D+3', acao: 'Resultado de um aluno parecido', canal: 'ZapFlow', template: 't-cl-fu2' }, { quando: 'D+5', acao: 'Prazo da condição', canal: 'ZapFlow', template: 't-cl-fu3' }, { quando: 'D+7', acao: 'Encerramento com porta aberta', canal: 'ZapFlow', template: 't-cl-fu4' }, { quando: 'Respondeu', acao: 'Para a cadência + tarefa para o closer', canal: 'ZapFlow → n8n → Kommo', template: '' } ],
+        saidas: [ { condicao: 'Aceitou', destino: 'c-contrato' }, { condicao: 'D+8 sem resposta ou recusou', destino: 'c-perdido' } ],
+        responsavel: 'Closer' } },
+    { id: 'c-contrato', frame: 'f-closer', tipo: 'etapa', titulo: '4. Contrato / pagamento', subtitulo: 'aguardando assinatura e Pix', x: 2040, y: 360, w: 460, h: 260,
+      badges: ['Data de assinatura', 'Data de pagamento'],
+      detalhes: { resumo: 'Contrato enviado. A venda paga na Hubla move o lead sozinho para "Venda ganha".',
+        automacoes: [ { quando: 'Pagamento na Hubla', acao: 'Move para Venda ganha, preenche Produto vendido e Data de pagamento', canal: 'Hubla → n8n → Kommo', template: '' }, { quando: '2 dias sem assinar', acao: 'Lembrete do contrato', canal: 'Closer ou ZapFlow', template: '' } ],
+        saidas: [ { condicao: 'Pagou', destino: 'c-ganho' } ],
+        responsavel: 'Closer' } },
+    { id: 'c-ganho', frame: 'f-closer', tipo: 'etapa', titulo: '5. Venda ganha', subtitulo: 'passa para o onboarding', x: 2680, y: 360, w: 420, h: 260,
+      badges: ['Produto vendido', 'valor'],
+      detalhes: { resumo: 'Fechou. Produto vendido e valor preenchidos pelo pagamento. O aluno entra no onboarding do produto (quadro 4).',
+        saidas: [ { condicao: 'Onboarding', destino: 'r-onboarding' } ] } },
+    { id: 'c-perdido', frame: 'f-closer', tipo: 'etapa', titulo: '6. Venda perdida', subtitulo: 'motivo obrigatório', x: 1360, y: 800, w: 500, h: 230,
+      badges: ['Motivo de perda', 'recuperação 30/60/90'],
+      detalhes: { resumo: 'Perdeu. O motivo é obrigatório e o lead entra na recuperação.',
+        campos: [ { campo: 'Motivo de perda', valor: 'Preço / Momento / Concorrente / Sem retorno / Outro' } ],
+        saidas: [ { condicao: '30 dias depois', destino: 'r-recupera' } ] } },
+    { id: 'c-roleta', frame: 'f-closer', tipo: 'nota', titulo: 'Quem pega cada reunião', subtitulo: 'roleta de closers', x: 80, y: 1180, w: 1500, h: 500,
+      badges: ['Roleta Closer (SalesBot)', 'Antônio fora = pula'],
+      detalhes: { resumo: 'A roleta de closers já existe no Kommo (SalesBot "Roleta Closer"). Proposta: quando um closer estiver fora, como o Antônio agora, ele sai da roleta e os leads dele vão para os outros com uma nota dizendo de quem era o lead.',
+        observacoes: [ 'Mesma regra que usamos no plantão de dúvidas do Gestão Descomplicada.' ] } },
+    { id: 'c-metricas', frame: 'f-closer', tipo: 'nota', titulo: 'O que passa a dar para medir', subtitulo: 'com os campos preenchidos', x: 1700, y: 1180, w: 1500, h: 500,
+      badges: ['reunião por funil', 'conversão por closer', 'custo por venda'],
+      detalhes: { resumo: 'Com Funil, UTM, Agendado por, Data da reunião e Produto vendido preenchidos, o painel do grupo mostra: quantas reuniões cada funil gera, a taxa de comparecimento, a conversão por closer e o custo de mídia por venda de cada campanha.' } },
+
+    /* ===== 4 · PÓS / RECUPERAÇÃO ===== */
+    { id: 'r-onboarding', frame: 'f-pos', tipo: 'etapa', titulo: 'Onboarding do aluno', subtitulo: 'pipeline do produto', x: 80, y: 220, w: 900, h: 260,
+      badges: ['GD / GI / FJ / TR Alunos'],
+      detalhes: { resumo: 'Venda ganha cria o card no pipeline de alunos do produto (já existem: GD, GI, FJ, TR Alunos) e dispara a mensagem de boas-vindas do produto.' } },
+    { id: 'r-recupera', frame: 'f-pos', tipo: 'automacao', titulo: 'Recuperação 30 · 60 · 90 dias', subtitulo: 'quem não respondeu ou perdeu', x: 1100, y: 220, w: 900, h: 260,
+      badges: ['1 mensagem por mês', 'responder = volta para Pré-venda'],
+      detalhes: { resumo: 'Uma mensagem por mês, curta, na voz do Guilherme. Quem responder volta para "Respondeu" na Pré-venda, com a SDR da vez.',
+        automacoes: [ { quando: '+30 dias', acao: '"Como estão as coisas por aí?"', canal: 'ZapFlow', template: 't-rec30' }, { quando: '+60 e +90 dias', acao: 'Convite para a próxima imersão ou aula ao vivo', canal: 'ZapFlow', template: '' }, { quando: 'Respondeu', acao: 'Volta para "Respondeu" na Pré-venda', canal: 'n8n → Kommo', template: '' } ],
+        saidas: [ { condicao: 'Respondeu', destino: 'p-respondeu' } ] } },
+    { id: 'r-optout', frame: 'f-pos', tipo: 'nota', titulo: 'Opt-out vale para tudo', subtitulo: '"Sair" em qualquer template', x: 2120, y: 220, w: 1060, h: 260,
+      badges: ['tag iep9-opt-out', 'Kommo + ZapFlow'],
+      detalhes: { resumo: 'Tocar em "Sair" em qualquer mensagem marca o contato no ZapFlow e no Kommo e tira de toda automação. O fluxo de opt-out do ZapFlow já existe; falta levar a marca para o Kommo.' } },
+
+    /* ===== 5 · MOTOR ===== */
+    { id: 'm-kommo', frame: 'f-motor', tipo: 'fonte', titulo: 'Kommo', subtitulo: 'etapa e campos (fonte da verdade)', x: 80, y: 220, w: 520, h: 220, badges: ['webhook de mudança de etapa'],
+      detalhes: { resumo: 'Onde o time trabalha. Toda mudança de etapa manda um aviso (webhook) para o n8n.' } },
+    { id: 'm-n8n', frame: 'f-motor', tipo: 'automacao', titulo: 'n8n · roteador', subtitulo: 'traduz etapa em fluxo', x: 700, y: 220, w: 520, h: 220, badges: ['1 workflow só', 'sem corrida com o SalesBot'],
+      detalhes: { resumo: 'Recebe a mudança de etapa, põe a tag do fluxo certo no contato do ZapFlow (por exemplo "kommo-pre-entrada") e grava a resposta do lead de volta no Kommo.',
+        observacoes: [ 'As regras de etapa do SalesBot que hoje mandam mensagem precisam ser desligadas nas etapas que o ZapFlow assumir, para o lead não receber duas mensagens.' ] } },
+    { id: 'm-zap', frame: 'f-motor', tipo: 'automacao', titulo: 'ZapFlow', subtitulo: 'templates + tempo + resposta', x: 1320, y: 220, w: 500, h: 220, badges: ['linha oficial do educacional', 'cadências com espera'],
+      detalhes: { resumo: 'Manda os templates na hora certa (esperas de D+1, D+2…), para na primeira resposta e avisa o n8n. Já é onde rodam o onboarding da imersão, o material gratuito da Sessão e o opt-out.' } },
+    { id: 'm-volta', frame: 'f-motor', tipo: 'nota', titulo: 'O ciclo', subtitulo: '', x: 80, y: 560, w: 1740, h: 760,
+      badges: ['Kommo muda etapa → n8n → ZapFlow manda', 'lead responde → ZapFlow → n8n → Kommo move + tarefa'],
+      detalhes: { resumo: 'Exemplo: lead da Sessão entra → Kommo "Entrada" → n8n preenche campos e marca "kommo-pre-abertura" no ZapFlow → ZapFlow manda a abertura e espera 24h → sem resposta, manda o FU1 → o lead toca em "Sim" → ZapFlow avisa o n8n → n8n move para "Respondeu" e cria a tarefa da SDR.',
+        observacoes: [ 'Linha: a oficial do educacional (a mesma da imersão). A linha nova 95503-9004 pode virar a principal quando o pagamento for regularizado.', 'Qualidade da linha: marketing em excesso derrubou a nota para vermelho em 25/09. Por isso lembretes e confirmações vão como UTILIDADE, e a cadência respeita horário e limite de 1 mensagem por dia.' ] } }
+  ],
+
+  /* ------------------------------------------------------------------ EDGES */
+  edges: [
+    { de: 's-sessao', para: 'p-entrada', rotulo: 'quiz', estilo: 'solido' },
+    { de: 's-isca', para: 'p-entrada', rotulo: 'quiz [ISCA]', estilo: 'solido' },
+    { de: 's-lt', para: 'p-entrada', rotulo: 'Hubla', estilo: 'solido' },
+    { de: 's-iep', para: 'p-entrada', rotulo: 'pós-pitch', estilo: 'solido' },
+    { de: 's-wpp', para: 'p-entrada', rotulo: 'WhatsApp', estilo: 'solido' },
+    { de: 's-base', para: 'p-entrada', rotulo: 'ativação', estilo: 'tracejado' },
+    { de: 'p-entrada', para: 'p-abertura', rotulo: 'abertura', estilo: 'tracejado', cor: '#3CCB7F' },
+    { de: 'p-abertura', para: 'p-cadencia', rotulo: '24h sem resposta', estilo: 'tracejado', cor: '#3CCB7F' },
+    { de: 'p-abertura', para: 'p-respondeu', rotulo: 'respondeu', estilo: 'solido' },
+    { de: 'p-cadencia', para: 'p-respondeu', rotulo: 'respondeu', estilo: 'solido' },
+    { de: 'p-cadencia', para: 'p-semresposta', rotulo: 'D+8', estilo: 'tracejado', cor: '#3CCB7F' },
+    { de: 'p-respondeu', para: 'p-qualificado', rotulo: 'tem perfil', estilo: 'solido' },
+    { de: 'p-respondeu', para: 'p-perdido', rotulo: 'sem perfil', estilo: 'solido' },
+    { de: 'p-qualificado', para: 'p-agendada', rotulo: 'marcou', estilo: 'solido' },
+    { de: 'p-entrada', para: 'p-agendada', rotulo: 'já veio com horário', estilo: 'tracejado' },
+    { de: 'p-agendada', para: 'p-noshow', rotulo: 'não apareceu', estilo: 'tracejado', cor: '#F87171' },
+    { de: 'p-noshow', para: 'p-agendada', rotulo: 'remarcou', estilo: 'solido' },
+    { de: 'p-agendada', para: 'c-realizada', rotulo: 'realizada', estilo: 'solido', cor: '#E6C48F' },
+    { de: 'c-agendada', para: 'c-realizada', rotulo: 'realizada', estilo: 'solido' },
+    { de: 'c-realizada', para: 'c-negociacao', rotulo: 'proposta', estilo: 'solido' },
+    { de: 'c-realizada', para: 'c-ganho', rotulo: 'fechou na call', estilo: 'solido' },
+    { de: 'c-negociacao', para: 'c-contrato', rotulo: 'aceitou', estilo: 'solido' },
+    { de: 'c-negociacao', para: 'c-perdido', rotulo: 'D+8 / recusou', estilo: 'tracejado', cor: '#F87171' },
+    { de: 'c-contrato', para: 'c-ganho', rotulo: 'pagou (Hubla)', estilo: 'tracejado', cor: '#3CCB7F' },
+    { de: 'c-ganho', para: 'r-onboarding', rotulo: 'onboarding', estilo: 'solido' },
+    { de: 'c-perdido', para: 'r-recupera', rotulo: '+30 dias', estilo: 'tracejado' },
+    { de: 'p-semresposta', para: 'r-recupera', rotulo: '+30 dias', estilo: 'tracejado' },
+    { de: 'r-recupera', para: 'p-respondeu', rotulo: 'respondeu', estilo: 'solido', cor: '#3CCB7F' },
+    { de: 'm-kommo', para: 'm-n8n', rotulo: 'mudou etapa', estilo: 'solido' },
+    { de: 'm-n8n', para: 'm-zap', rotulo: 'liga o fluxo', estilo: 'solido' },
+    { de: 'm-zap', para: 'm-n8n', rotulo: 'lead respondeu', estilo: 'tracejado', cor: '#3CCB7F' }
+  ],
+
+  /* ------------------------------------------------------------------ TEMPLATES */
+  templates: [
+    { id: 't-ab-sessao', nome: 'pre_abertura_sessao', etapa: 'Pré-venda · Abertura', momento: 'D0 · assim que entra', categoria: 'MARKETING', x: 2310, y: 3210,
+      cabecalho: 'Sua Sessão Estratégica',
+      corpo: 'Oi, {{1}}! Aqui é o Guilherme Schumann.\n\nRecebi o seu pedido de Sessão Estratégica e quero que ela seja útil de verdade para o seu escritório.\n\nPosso te fazer duas perguntas rápidas por aqui para preparar a nossa conversa?',
+      botoes: [ { tipo: 'resposta', texto: 'Sim, pode perguntar' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'A mais importante do funil. Qualquer toque abre a janela de 24h e a SDR assume com texto livre.' },
+    { id: 't-ab-isca', nome: 'pre_abertura_isca', etapa: 'Pré-venda · Abertura', momento: 'D0 · assim que entra', categoria: 'MARKETING', x: 2910, y: 3210,
+      cabecalho: 'Seu material chegou',
+      corpo: 'Oi, {{1}}! O material que você pediu está no botão abaixo.\n\nMuita gente baixa e não aplica. Se quiser, alguém do meu time te ajuda a transformar isso num plano para o seu escritório, numa conversa de 30 minutos.\n\nQuer que eu reserve um horário?',
+      botoes: [ { tipo: 'url', texto: 'Abrir o material' }, { tipo: 'resposta', texto: 'Quero conversar' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Substitui os antigos isc_v3/isc_v5. Entrega o que foi prometido primeiro, depois convida.' },
+    { id: 't-ab-lt', nome: 'pre_abertura_lowticket', etapa: 'Pré-venda · Abertura', momento: 'D0 + 2h após a compra', categoria: 'MARKETING', x: 3510, y: 3210,
+      cabecalho: 'Obrigado pela confiança',
+      corpo: 'Oi, {{1}}! Vi que você adquiriu o {{2}}. Obrigado pela confiança.\n\nPara ele sair do papel, meu time pode te ajudar a aplicar no seu escritório, sem custo, numa conversa rápida.\n\nPosso te explicar como funciona?',
+      botoes: [ { tipo: 'resposta', texto: 'Sim' }, { tipo: 'resposta', texto: 'Agora não' } ], rodape: 'Advocacia de Impacto',
+      observacao: '{{2}} = produto comprado (Guia de Contratação, Kit 90 Dias…). Não repete a entrega do material, que já sai no onboarding do produto.' },
+    { id: 't-fu1', nome: 'pre_followup_1', etapa: 'Pré-venda · Cadência', momento: 'D+1 sem resposta', categoria: 'MARKETING', x: 4110, y: 3210,
+      cabecalho: '',
+      corpo: 'Conseguiu ver minha mensagem, {{1}}?\n\nSeu escritório está entre os que estamos olhando para a próxima turma de acompanhamento.\n\nQuer saber como funciona?',
+      botoes: [ { tipo: 'resposta', texto: 'Sim' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Padrão G4 "Conseguiu ver minha mensagem?": curtíssimo, um botão. Também serve de 2ª tentativa no no-show.' },
+    { id: 't-fu2', nome: 'pre_followup_2', etapa: 'Pré-venda · Cadência', momento: 'D+2', categoria: 'MARKETING', x: 4710, y: 3210,
+      cabecalho: 'Uma pergunta rápida',
+      corpo: 'Oi, {{1}}. Para eu entender se faz sentido a gente conversar:\n\nhoje o que mais trava o crescimento do seu escritório?\n\nEnvie "Sair" se não quiser mais receber mensagens como essa.',
+      botoes: [ { tipo: 'resposta', texto: 'Captação de clientes' }, { tipo: 'resposta', texto: 'Gestão e equipe' }, { tipo: 'resposta', texto: 'Financeiro' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'O botão tocado já vai para a SDR como a dor principal (e pode preencher um campo).' },
+    { id: 't-fu3', nome: 'pre_followup_3', etapa: 'Pré-venda · Cadência', momento: 'D+4', categoria: 'MARKETING', x: 5310, y: 3210,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}, posso ser direto? Aqui é o Guilherme.\n\nA maioria dos advogados que deixa a estruturação para depois continua crescendo no improviso: atende, vende, apaga incêndio. Quanto mais cresce assim, mais difícil fica organizar.\n\nSe isso é prioridade agora, separo 30 minutos do meu time para olhar o seu cenário.',
+      botoes: [ { tipo: 'resposta', texto: 'Quero os 30 minutos' }, { tipo: 'resposta', texto: 'Agora não' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Aproveita o D5 "Maioria dos ADV" da cadência de maio, na voz do fundador (padrão G4 "Tallis aqui").' },
+    { id: 't-fu4', nome: 'pre_followup_4_encerramento', etapa: 'Pré-venda · Cadência', momento: 'D+7', categoria: 'MARKETING', x: 2310, y: 4310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}. Vou encerrar por aqui para não te incomodar.\n\nSe estruturar o escritório voltar a ser prioridade, é só tocar no botão abaixo que a gente retoma de onde parou.',
+      botoes: [ { tipo: 'resposta', texto: 'Quero retomar' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'O "encerramento" costuma ser a mensagem que mais gera resposta da cadência.' },
+    { id: 't-lem-conf', nome: 'reuniao_confirmacao', etapa: 'Reunião agendada', momento: 'na hora do agendamento', categoria: 'UTILITY', x: 2910, y: 4310,
+      cabecalho: 'Reunião confirmada',
+      corpo: 'Oi, {{1}}! Sua conversa com {{2}}, da Advocacia de Impacto, está marcada para {{3}}.\n\nNo dia você recebe o link por aqui. Se precisar mudar o horário, é só tocar no botão abaixo.',
+      botoes: [ { tipo: 'resposta', texto: 'Preciso remarcar' } ], rodape: 'Advocacia de Impacto',
+      observacao: '{{2}} = closer; {{3}} = "quinta, 02/10, às 15h". UTILIDADE: não conta como marketing.' },
+    { id: 't-lem-d1', nome: 'reuniao_lembrete_d1', etapa: 'Reunião agendada', momento: 'D-1 às 18h', categoria: 'UTILITY', x: 3510, y: 4310,
+      cabecalho: 'Sua reunião é amanhã',
+      corpo: 'Oi, {{1}}. Confirmando a sua conversa com {{2}} amanhã, {{3}}.\n\nSeparamos esse horário só para você. Você confirma presença?',
+      botoes: [ { tipo: 'resposta', texto: 'Confirmo' }, { tipo: 'resposta', texto: 'Preciso remarcar' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Substitui o "Confirmação de reunião" do Kommo, que era mandado à mão no dia.' },
+    { id: 't-lem-2h', nome: 'reuniao_link_2h', etapa: 'Reunião agendada', momento: '2h antes', categoria: 'UTILITY', x: 4110, y: 4310,
+      cabecalho: 'Hoje às {{2}}',
+      corpo: 'Oi, {{1}}! Daqui a pouco é a sua conversa com {{3}}.\n\nO link da sala está no botão abaixo. Se puder, entre pelo computador, com câmera.',
+      botoes: [ { tipo: 'url', texto: 'Entrar na reunião' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Botão com link dinâmico da reunião (Meet/Zoom do closer).' },
+    { id: 't-lem-10', nome: 'reuniao_sala_aberta', etapa: 'Reunião agendada', momento: '10 min antes', categoria: 'UTILITY', x: 4710, y: 4310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}. {{2}} já está na sala te esperando.\n\nÉ só tocar no botão para entrar.',
+      botoes: [ { tipo: 'url', texto: 'Entrar agora' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Mesma lógica da "sala aberta" da imersão, que teve boa leitura.' },
+    { id: 't-noshow', nome: 'reuniao_noshow', etapa: 'No-show', momento: '15 min depois do horário', categoria: 'UTILITY', x: 5310, y: 4310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}. Sentimos a sua falta na conversa de hoje.\n\nImprevistos acontecem. Quer escolher um novo horário?',
+      botoes: [ { tipo: 'resposta', texto: 'Remarcar' }, { tipo: 'resposta', texto: 'Não tenho mais interesse' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Não existe hoje, nem no Kommo nem no ZapFlow.' },
+    { id: 't-cl-pos', nome: 'closer_pos_reuniao', etapa: 'Closer · Reunião realizada', momento: '1h depois da call', categoria: 'UTILITY', x: 2310, y: 5310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}! Obrigado pela conversa de hoje com {{2}}.\n\nFicou alguma dúvida sobre o que conversamos?',
+      botoes: [ { tipo: 'resposta', texto: 'Tenho uma dúvida' }, { tipo: 'resposta', texto: 'Quero avançar' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Abre a janela de 24h para o closer mandar a proposta em texto livre.' },
+    { id: 't-cl-fu1', nome: 'closer_followup_1', etapa: 'Closer · Negociação', momento: 'D+1', categoria: 'MARKETING', x: 2910, y: 5310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}. Conseguiu olhar a proposta com calma?\n\nSe quiser, eu te ligo 10 minutos para tirar qualquer dúvida.',
+      botoes: [ { tipo: 'resposta', texto: 'Tenho dúvidas' }, { tipo: 'resposta', texto: 'Quero fechar' }, { tipo: 'resposta', texto: 'Preciso de tempo' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Follow-up do closer, pedido junto com os do SDR.' },
+    { id: 't-cl-fu2', nome: 'closer_followup_2', etapa: 'Closer · Negociação', momento: 'D+3', categoria: 'MARKETING', x: 3510, y: 5310,
+      cabecalho: 'Um caso parecido com o seu',
+      corpo: 'Oi, {{1}}. Lembrei de você ao ver o resultado de um aluno com um escritório parecido com o seu: {{2}}.\n\nQuer que eu te conte como ele fez?',
+      botoes: [ { tipo: 'resposta', texto: 'Quero saber' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto',
+      observacao: '{{2}} = um resultado curto e real (ex.: "saiu de 3 para 11 contratos por mês em 90 dias"). Precisamos de 3 ou 4 casos aprovados pelo Guilherme.' },
+    { id: 't-cl-fu3', nome: 'closer_followup_3', etapa: 'Closer · Negociação', momento: 'D+5', categoria: 'MARKETING', x: 4110, y: 5310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}. As condições que conversamos valem até {{2}}.\n\nSe fizer sentido para o seu escritório, consigo segurar a sua vaga até lá.',
+      botoes: [ { tipo: 'resposta', texto: 'Quero garantir' }, { tipo: 'resposta', texto: 'Falar com o closer' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Só usar se houver prazo real. Prazo inventado queima a confiança.' },
+    { id: 't-cl-fu4', nome: 'closer_followup_4_encerramento', etapa: 'Closer · Negociação', momento: 'D+7', categoria: 'MARKETING', x: 4710, y: 5310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}. Vou deixar a proposta em aberto e parar de te chamar por aqui.\n\nQuando for o momento, é só tocar no botão que retomamos de onde paramos.',
+      botoes: [ { tipo: 'resposta', texto: 'Quero retomar' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto', observacao: '' },
+    { id: 't-rec30', nome: 'recuperacao_30d', etapa: 'Recuperação', momento: '+30 dias', categoria: 'MARKETING', x: 5310, y: 5310,
+      cabecalho: '',
+      corpo: 'Oi, {{1}}, aqui é o Guilherme.\n\nHá um tempo a gente conversou sobre o seu escritório. Como estão as coisas por aí?',
+      botoes: [ { tipo: 'resposta', texto: 'Tudo bem' }, { tipo: 'resposta', texto: 'Quero retomar' }, { tipo: 'resposta', texto: 'Sair' } ], rodape: 'Advocacia de Impacto',
+      observacao: 'Também serve para reativar os ~1.050 leads parados do Pré-venda antigo (uma vez só).' }
+  ],
+
+  /* ------------------------------------------------------------------ CAMPOS */
+  campos: [
+    { nome: 'Funil', id_kommo: '— (criar)', status: 'novo', preenche_quando: 'Na entrada, pelo n8n', quem: 'Automação', valores: 'Sessão Estratégica · Isca · Low ticket · Imersão pós-pitch · WhatsApp direto · Base de alunos · Social selling · Indicação' },
+    { nome: 'Origem', id_kommo: '3885547', status: 'ajustar', preenche_quando: 'Na entrada, pela UTM e pelo canal', quem: 'Automação', valores: 'Hoje vem "Funil Isca" em quase tudo; passa a ser o canal: Tráfego Meta, Tráfego Google, Bio Instagram, Indicação, Prospecção de base, Low Ticket, Lançamento' },
+    { nome: 'Produto de interesse', id_kommo: '— (criar)', status: 'novo', preenche_quando: 'Na entrada; o closer confirma na call', quem: 'Automação + Closer', valores: 'Trincheira · Gestão Descomplicada · Gestão de Impacto · Impactus · Implementação' },
+    { nome: 'UTMs (campanha, conjunto, anúncio)', id_kommo: '342667–342685', status: 'ajustar', preenche_quando: 'Na entrada', quem: 'Automação', valores: 'Hoje 47–53% preenchido; meta 100% para lead de anúncio' },
+    { nome: 'SDR responsável', id_kommo: '3885539', status: 'existe', preenche_quando: 'Na entrada, pela roleta', quem: 'SalesBot', valores: 'Jessica · Bianca' },
+    { nome: 'Closer responsável', id_kommo: '3885541', status: 'ajustar', preenche_quando: 'No agendamento', quem: 'Roleta / quem agendou', valores: 'Ariel · Antônio · Fellipe (hoje 3,5%)' },
+    { nome: 'Agendado por', id_kommo: '— (criar)', status: 'novo', preenche_quando: 'No agendamento', quem: 'Quem agendou', valores: 'SDR · Closer · Automático (site)' },
+    { nome: 'Data da reunião', id_kommo: '3883657', status: 'ajustar', preenche_quando: 'No agendamento (hoje o site só escreve nota)', quem: 'Automação / SDR', valores: 'data e hora (hoje 3,5%)' },
+    { nome: 'Passo da cadência', id_kommo: '— (criar)', status: 'novo', preenche_quando: 'A cada mensagem da cadência', quem: 'Automação', valores: 'Abertura · FU1 · FU2 · FU3 · FU4 · Closer FU1…FU4' },
+    { nome: 'Qualificado? / Faturamento', id_kommo: '3885543 / 3885545', status: 'ajustar', preenche_quando: 'Quiz (faturamento) e SDR (qualificado)', quem: 'Automação + SDR', valores: 'Hoje 3,5% e 0%' },
+    { nome: 'Lead Score', id_kommo: '3885959', status: 'ajustar', preenche_quando: 'Na entrada, pela nota do quiz', quem: 'Automação', valores: 'A · B · C · D (hoje 0%)' },
+    { nome: 'Motivo de perda', id_kommo: '— (criar)', status: 'novo', preenche_quando: 'Ao marcar perdido (obrigatório)', quem: 'SDR / Closer', valores: 'Sem perfil · Preço · Momento · Concorrente · Sem retorno · Pediu para sair · Já é aluno' },
+    { nome: 'Vendedor do convite', id_kommo: '— (criar)', status: 'novo', preenche_quando: 'Na entrada, quando o lead veio por convite de um vendedor', quem: 'Automação', valores: 'Ariel · Felipe · Antônio · Bianca · Jéssica' },
+    { nome: 'Opt-out WhatsApp', id_kommo: '— (criar, ou tag)', status: 'novo', preenche_quando: 'Quando toca em "Sair"', quem: 'Automação', valores: 'Sim / Não' },
+    { nome: 'Produto vendido · Datas de pagamento e assinatura', id_kommo: '3885537 · 3883627 · 3883625', status: 'ajustar', preenche_quando: 'Pagamento na Hubla', quem: 'Automação', valores: 'Hoje 0,5%' }
+  ],
+
+  /* ------------------------------------------------------------------ MUDANÇAS */
+  mudancas: [
+    { titulo: 'Trocar os 7 "Follow" por uma "Cadência automática"', porque: 'Os Follows eram manuais e ~1.050 leads ficaram parados neles.', como: 'Uma etapa só; o ZapFlow controla o tempo e o campo "Passo da cadência" mostra onde o lead está.', impacto: 'A SDR para de mover card e só trabalha lead que respondeu.' },
+    { titulo: 'Criar o campo "Agendado por"', porque: 'O closer às vezes resgata e agenda sozinho, e hoje isso some das métricas da SDR.', como: 'Campo SDR / Closer / Automático, e uma etapa "Reunião agendada pelo closer" no AI - Closer com os mesmos lembretes.', impacto: 'Dá para pagar e medir SDR e closer de forma justa.' },
+    { titulo: 'Criar o campo "Funil" e corrigir "Origem"', porque: 'Origem vem "Funil Isca" até em lead da Sessão direta; não dá para saber qual funil vende.', como: 'O n8n de entrada grava Funil (pela UTM/fonte) e Origem (canal) na hora.', impacto: 'Custo por reunião e por venda de cada funil no painel.' },
+    { titulo: 'Criar a etapa e o template de No-show', porque: 'Não existe nenhum; o no-show hoje simplesmente some.', como: 'Mensagem 15 min depois + segunda tentativa no dia seguinte, com botão de remarcar.', impacto: 'Recupera parte das reuniões perdidas sem esforço do time.' },
+    { titulo: 'Agendamento do site move o card', porque: 'Hoje só vira nota; a Data da reunião fica vazia (3,5%).', como: 'O n8n move para "Reunião agendada", preenche Data, Closer e Agendado por e dispara os lembretes.', impacto: 'Lembretes automáticos para 100% das reuniões.' },
+    { titulo: 'Limpar o legado antes de ligar', porque: '~1.050 leads parados no Pré-venda e 569 "Sem resposta" no Comercial.', como: 'Tudo para Recuperação com a tag "legado-ago26" e UMA mensagem de reativação.', impacto: 'O funil abre limpo e ainda recupera quem responder.' },
+    { titulo: 'Um pipeline para todos os produtos', porque: 'Existe um "AI - Trincheira" vazio; um pipeline por produto espalha o time.', como: 'Produto vai no campo "Produto de interesse"; o funil é o mesmo.', impacto: 'Um lugar só para olhar e comparar.' },
+    { titulo: 'Desligar mensagens do SalesBot nas etapas do ZapFlow', porque: 'O SalesBot move e manda sozinho; os dois juntos mandariam mensagem duplicada.', como: 'Revisar as regras de etapa dos bots "Distribuição" e "Tarefas SDR" na interface.', impacto: 'Nenhum lead recebe duas mensagens.' }
+  ],
+
+  /* ------------------------------------------------------------------ TOURS */
+  tours: [
+    { nome: 'Visão geral', x: 4750, y: 3075, zoom: 0.12 },
+    { nome: '0 · Hoje', x: 950, y: 760, zoom: 0.5 },
+    { nome: '1 · Fontes', x: 950, y: 3025, zoom: 0.27 },
+    { nome: '2 · Pré-venda', x: 4050, y: 1350, zoom: 0.27 },
+    { nome: '3 · Closer', x: 7850, y: 1000, zoom: 0.36 },
+    { nome: '4 · Pós e recuperação', x: 7850, y: 3675, zoom: 0.45 },
+    { nome: '5 · Como funciona', x: 950, y: 5400, zoom: 0.5 },
+    { nome: '6 · Templates', x: 4050, y: 4050, zoom: 0.36 }
+  ]
+};
+
+</script>
+<script>window.__mapaBoot('dados.js (embutido)');</script>
+<!--DADOS:FIM-->
+</body>
+</html>
