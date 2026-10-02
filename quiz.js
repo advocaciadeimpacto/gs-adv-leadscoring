@@ -214,6 +214,30 @@ async function finalizar(dadosContato) {
     }).catch(() => {});
   } catch { /* segue sem a entrega */ }
 
+  /* Origem do lead no ZapFlow (n8n "[GS] Quiz da Sessão → ZapFlow (origem)"):
+     tag sessao-estrategica/isca e funil + UTMs, só em contato sem origem.
+     Mesmo formato do dispararWebhook (no-cors + text/plain, sem preflight). */
+  try {
+    const o = origemAtual() || {};
+    fetch('https://n8n.advocaciadeimpacto.adv.br/webhook/quiz-zapflow-origem', {
+      method: 'POST',
+      mode: 'no-cors',
+      keepalive: true,
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        resposta_id: data?.id || null,
+        nome: dadosContato.nome,
+        email: dadosContato.email,
+        telefone: '55' + dadosContato.whatsapp,
+        utm_source: o.utm_source || null,
+        utm_medium: o.utm_medium || null,
+        utm_campaign: o.utm_campaign || null,
+        utm_content: o.utm_content || null,
+        utm_term: o.utm_term || null
+      })
+    }).catch(() => {});
+  } catch { /* segue sem a origem */ }
+
   try {
     sessionStorage.setItem('adv_contexto_lead', JSON.stringify({
       resposta_id: data?.id || null,
