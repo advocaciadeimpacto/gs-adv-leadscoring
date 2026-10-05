@@ -215,7 +215,8 @@ async function finalizar(dadosContato) {
   } catch { /* segue sem a entrega */ }
 
   /* Origem do lead no ZapFlow (n8n "[GS] Quiz da Sessão → ZapFlow (origem)"):
-     tag sessao-estrategica/isca e funil + UTMs, só em contato sem origem.
+     tag sessao-estrategica/isca e funil + UTMs, só em contato sem origem;
+     score, classe e degrau viram lead_score/lead_classe/lead_degrau, sempre.
      Mesmo formato do dispararWebhook (no-cors + text/plain, sem preflight). */
   try {
     const o = origemAtual() || {};
@@ -233,7 +234,10 @@ async function finalizar(dadosContato) {
         utm_medium: o.utm_medium || null,
         utm_campaign: o.utm_campaign || null,
         utm_content: o.utm_content || null,
-        utm_term: o.utm_term || null
+        utm_term: o.utm_term || null,
+        score: res.total,
+        classe: res.classe,
+        degrau: res.degrau
       })
     }).catch(() => {});
   } catch { /* segue sem a origem */ }
