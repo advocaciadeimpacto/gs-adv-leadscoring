@@ -1,9 +1,11 @@
 /* Recebe a pesquisa de quem comprou os produtos low ticket
    (pesquisa-lowticket.html, Pós-Venda e ImpactMind RH).
    ------------------------------------------------------------------
-   Faz duas coisas, nesta ordem:
+   Faz três coisas, nesta ordem:
      1. POST no webhook do n8n, com a mensagem do WhatsApp já montada
-        aqui — o n8n só entrega;
+        aqui — o n8n só entrega; e outro POST (13/10/2026) para o n8n
+        "[GS] Site → ZapFlow", que registra a pesquisa no contato do
+        ZapFlow do educacional (nota e, se já existia, tag reinscrito);
      2. INSERT em public.pesquisa_lowticket, no Supabase GERENCIADO
         (vmgyqhfesneannfqrvzg), que é onde moram as tabelas de pesquisa.
         A chave é a publicável: a tabela só aceita INSERT (RLS + grant),
@@ -29,6 +31,7 @@ const SUPABASE_URL = 'https://vmgyqhfesneannfqrvzg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_i3Uz9zvdLeXddbw-HOBP9w_mBTsi32k';
 const WEBHOOK = process.env.PESQUISA_LOWTICKET_WEBHOOK_URL
   || 'https://n8n.advocaciadeimpacto.adv.br/webhook/lowticket-pesquisa';
+const ZAPFLOW_WEBHOOK = 'https://n8n.advocaciadeimpacto.adv.br/webhook/site-zapflow';
 
 /* Mesma lista do scoring-lowticket.js e do CHECK da tabela. Os três
    precisam concordar; qualquer produto novo entra nos três. */
@@ -124,6 +127,24 @@ module.exports = async function handler(req, res) {
   } catch (e) {
     console.error('[pesquisa-lowticket] webhook falhou:', e?.message || e);
     webhookStatus = 0;
+  }
+
+  // 1b) ZapFlow do educacional (n8n "[GS] Site → ZapFlow"): nota com o resultado
+  // e, se o contato já existia, tag reinscrito + tarefa para o dono. Falha aqui
+  // não muda a resposta para quem respondeu.
+  try {
+    await fetch(ZAPFLOW_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        evento: 'pesquisa_lowticket', produto, produto_nome: PRODUTOS[produto],
+        classe: linha.classe, score: linha.score, sla: txt(d.sla, 80), lead,
+        mensagem: mensagem(linha, lead, txt(d.sla, 80), linha.leitura)
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+  } catch (e) {
+    console.error('[pesquisa-lowticket] ZapFlow falhou:', e?.message || e);
   }
 
   // 2) tabela

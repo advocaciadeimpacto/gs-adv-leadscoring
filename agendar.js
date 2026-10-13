@@ -221,6 +221,28 @@ function telaDados() {
       formulario: data.origem
     });
 
+    /* Dia e hora escolhidos → Data da reunião do contato no ZapFlow do
+       educacional (n8n "[GS] Site → ZapFlow"), que dispara a confirmação e os
+       lembretes do fluxo de Agendamento. Mesmo formato do quiz.js (no-cors +
+       text/plain, sem preflight); falha aqui não afeta o agendamento. */
+    try {
+      fetch('https://n8n.advocaciadeimpacto.adv.br/webhook/site-zapflow', {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          evento: 'agendamento.criado',
+          agendamento_id: data.id,
+          inicio: data.inicio,
+          fim: data.fim,
+          closer_id: closerId,
+          resposta_id: contexto?.resposta_id || null,
+          lead: { nome, email, whatsapp }
+        })
+      }).catch(() => {});
+    } catch { /* segue sem o ZapFlow */ }
+
     /* Só aqui, depois de o banco aceitar a reserva. Agendamento que
        falhou por horário tomado não é conversão e não pode entrar na
        otimização como se fosse. */
